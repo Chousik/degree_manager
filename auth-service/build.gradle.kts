@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.3.10"
+	id("org.springframework.boot") version "3.4.4"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -22,6 +22,11 @@ configurations {
 repositories {
 	mavenCentral()
 }
+configurations.all {
+	resolutionStrategy {
+		force("com.thoughtworks.xstream:xstream:1.4.21")
+	}
+}
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -37,11 +42,12 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
-	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.4")
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.1")
+	implementation("io.micrometer:micrometer-registry-prometheus")
+	implementation("com.thoughtworks.xstream:xstream:1.4.21")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
-	implementation("org.springframework.cloud:spring-cloud-starter-config:4.1.1")
-	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
-	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	// https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
+	implementation("com.auth0:java-jwt:4.4.0")
 }
 
 tasks.withType<Test> {

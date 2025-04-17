@@ -25,6 +25,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-loadbalancer
+    implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer:4.2.1")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 }

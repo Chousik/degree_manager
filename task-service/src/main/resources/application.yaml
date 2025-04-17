@@ -1,6 +1,7 @@
 spring:
+  security.oauth2.resource server.jwt.public-key-location: classpath:keys/jwt.pub
   application:
-    name: auth-service
+    name: task-service
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -12,7 +13,7 @@ spring:
       ddl-auto: update
     open-in-view: false
 server:
-  port: 8071
+  port: 8072
 eureka:
   client:
     register-with-eureka: true

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/multi-microservice-app.iml" filepath="$PROJECT_DIR$/multi-microservice-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/task-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" />
     </modules>
   </component>
 </project>

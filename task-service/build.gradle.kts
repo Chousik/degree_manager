@@ -40,6 +40,9 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-config:4.1.1")
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+	implementation("io.micrometer:micrometer-registry-prometheus")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 }
 
 tasks.withType<Test> {

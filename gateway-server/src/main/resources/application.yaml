@@ -1,4 +1,5 @@
 spring:
+  security.oauth2.resource server.jwt.public-key-location: classpath:keys/jwt.pub
   application:
     name: gateway-server
   cloud:
@@ -6,14 +7,32 @@ spring:
       discovery:
         locator:
           enabled: true
-      routes:
-        - id: auth-service-route
-          uri: lb://auth-service
-          predicates:
-            - Path=/api/auth/**
-        - id: task-service-route
-          uri: lb://task-service
-          predicates:
-            - Path=/api/tasks/**
+          lower-case-service-id: true
+management:
+  metrics.tags.application: ${spring.application.name}
+  endpoint:
+    gateway:
+      access: unrestricted
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,gateway,health,info
+#      routes:
+#        - id: auth-service-route
+#          uri: lb://auth-service
+#          predicates:
+#            - Path=/api/auth/**
+#        - id: task-service-route
+#          uri: lb://task-service
+#          predicates:
+#            - Path=/api/tasks/**
 server:
   port: 8080
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    prefer-ip-address: true
