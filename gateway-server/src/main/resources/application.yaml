@@ -1,5 +1,17 @@
 spring:
-  security.oauth2.resource server.jwt.public-key-location: classpath:keys/jwt.pub
+  security:
+    oauth2:
+      client:
+        registration:
+          auth-server:
+            client-id: gateway-server
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            scope: openid,tasks.read
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          auth-server:
+            issuer-uri: http://auth-service:8071
   application:
     name: gateway-server
   cloud:

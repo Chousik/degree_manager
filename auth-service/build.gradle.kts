@@ -18,7 +18,6 @@ configurations {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
 }
-
 repositories {
 	mavenCentral()
 }
@@ -30,10 +29,9 @@ configurations.all {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.4.4")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-web:3.4.4")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
@@ -42,12 +40,13 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
-	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.1")
+//	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.1")
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("com.thoughtworks.xstream:xstream:1.4.21")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
 	// https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
-	implementation("com.auth0:java-jwt:4.4.0")
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server
+//	implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.4.2")
 }
 
 tasks.withType<Test> {

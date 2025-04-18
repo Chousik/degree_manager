@@ -1,0 +1,148 @@
+package ru.chousik.web.authservice.config;
+
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import ru.chousik.web.authservice.repository.UserRepository;
+import ru.chousik.web.authservice.security.AuthUserDetailsManager;
+
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
+import java.util.List;
+import java.util.UUID;
+
+@Configuration
+@EnableWebSecurity
+public class SKIP {
+
+    // ❶ Фильтр‑цепочка только для эндпоинтов OAuth2/OIDC
+    @Bean
+    @Order(0)
+    SecurityFilterChain asSecurity(HttpSecurity http) throws Exception {
+
+        var authServer = OAuth2AuthorizationServerConfigurer.authorizationServer()
+                .oidc(Customizer.withDefaults());
+
+        http
+                .securityMatcher(authServer.getEndpointsMatcher())
+                .with(authServer, Customizer.withDefaults())
+                .csrf(csrf -> csrf.ignoringRequestMatchers(authServer.getEndpointsMatcher()))
+                .oauth2ResourceServer(rs -> rs.jwt(Customizer.withDefaults()))   // ✔ без deprecations
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(
+                        new LoginUrlAuthenticationEntryPoint("/login")));
+
+        return http.build();
+    }
+
+    // ❷ Фильтр‑цепочка для «обычных» эндпоинтов (H2‑console, actuator и т.д.)
+    @Bean
+    @Order(1)
+    SecurityFilterChain appSecurity(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(a -> a.anyRequest().permitAll())   // пока открыто
+                .formLogin(Customizer.withDefaults());
+        return http.build();
+    }
+    @Bean
+    CommandLineRunner showChains(List<SecurityFilterChain> chains) {
+        return args -> chains.forEach(c -> System.out.println("CHAIN → " + c));
+    }
+    // ❸ Хранилище клиентов (In‑Memory; замените на JDBC при необходимости)
+    @Bean
+    RegisteredClientRepository registeredClientRepository(PasswordEncoder encoder) {
+
+        RegisteredClient gateway = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("gateway-server")
+                .clientSecret(encoder.encode("secret"))
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .redirectUri("http://localhost:8080/login/oauth2/code/gateway")  // Spring Cloud Gateway
+                .scope(OidcScopes.OPENID)
+                .scope("tasks.read")
+                .scope("tasks.write")
+                .tokenSettings(TokenSettings.builder()
+                        .accessTokenTimeToLive(Duration.ofMinutes(15))
+                        .build())
+                .build();
+
+        return new InMemoryRegisteredClientRepository(gateway);
+    }
+
+    // ❹ JWK‑набор (RSA ключ генерируется при старте)
+    @Bean
+    JWKSource<SecurityContext> jwkSource() {
+        RSAKey rsa = generateRsa();
+        return (selector, ctx) -> selector.select(new JWKSet(rsa));
+    }
+
+    // ❺ Настройки сервера (замена ProviderSettings)
+    @Bean
+    AuthorizationServerSettings authorizationServerSettings() {
+        return AuthorizationServerSettings.builder()
+                .issuer("http://localhost:8071")   // порт auth‑service
+                .build();
+    }
+
+    /* --- util ------------------------------------------------------------ */
+
+    private static RSAKey generateRsa() {
+        KeyPairGenerator g;
+        try { g = KeyPairGenerator.getInstance("RSA"); g.initialize(2048); }
+        catch (Exception e) { throw new IllegalStateException(e); }
+        KeyPair kp = g.generateKeyPair();
+        return new RSAKey.Builder((RSAPublicKey) kp.getPublic())
+                .privateKey((RSAPrivateKey) kp.getPrivate())
+                .keyID(UUID.randomUUID().toString())
+                .build();
+    }
+
+    @Bean
+    public UserDetailsManager userDetailsManager(UserRepository userRepository){
+        return new AuthUserDetailsManager(userRepository);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
+        return config.getAuthenticationManager();
+    }
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+}
