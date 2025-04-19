@@ -1,32 +1,32 @@
 <template>
   <div class="flex h-screen">
-    <div class="w-1/4 p-4 bg-gray-100 rounded-l-lg">
-      <h2 class="text-sm mb-4">
+    <div class="w-1/5 p-4 bg-[#f9f9fa] rounded-l-lg">
+      <h2 class="text-xl mb-4">
         Веб приложение для помощи сотрудникам кафедр в систематизации информации...
       </h2>
-      <p class="text-xs mb-1"><b>Автор:</b> Мироненко Дарья Андреевна</p>
-      <p class="text-xs mb-1"><b>Год:</b> 2025</p>
-      <p class="text-xs"><b>Научный руководитель:</b><br />Путиница Елена Валентиновна</p>
+      <p class="text-xl mb-1"><b>Автор:</b> Мироненко Дарья Андреевна</p>
+      <p class="text-xl mb-1"><b>Год:</b> 2025</p>
+      <p class="text-xl"><b>Научный руководитель:</b><br />Путиница Елена Валентиновна</p>
+      <router-link
+          to="/works"
+          class="bg-black ml-2 text-white text-center text-4xl py-2 mb-4 w-1/12 absolute bottom-0 rounded hover:bg-gray-600 transition"
+      >Назад</router-link>
+      <a
+          :href="pdfUrl"
+          download
+          class="bg-indigo-600 text-white text-center text-4xl px-4 py-2 mb-4 w-1/12 absolute bottom-0 left-56 rounded hover:bg-indigo-700 transition"
+      >Скачать</a>
     </div>
-
-    <div class="w-3/4 bg-white p-4 flex flex-col items-center">
-      <img
-          alt="Превью работы"
-          class="max-w-full max-h-[90vh] border"
-      />
-      <div class="mt-4 flex gap-4">
-        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">Скачать</button>
-        <router-link
-            to="/works"
-            class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-400"
-        >Назад</router-link>
-        <button class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-          Вперёд
-        </button>
-      </div>
+    <div class="w-4/5 bg-white  flex flex-col items-center">
+        <iframe
+            :src="pdfUrl"
+            class="w-full h-full"
+            frameborder="0"
+        ></iframe>
     </div>
   </div>
 </template>
 
 <script setup>
+const pdfUrl = '/Силаев Захар ВычМат (1).pdf'
 </script>

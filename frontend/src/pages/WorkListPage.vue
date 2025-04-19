@@ -1,23 +1,9 @@
 <template>
-  <div class="flex h-screen">
-    <aside class="w-1/4 bg-white p-4 rounded-l-lg shadow-md">
-      <h2 class="text-xl font-bold mb-6">МЕНЮ</h2>
-      <nav>
-        <ul>
-          <li class="mb-4 flex items-center space-x-2">
-            <span>📁</span>
-            <router-link to="/upload" class="hover:underline">Загрузить работу</router-link>
-          </li>
-          <li class="mb-4 flex items-center space-x-2">
-            <span>📄</span>
-            <router-link to="/works" class="hover:underline">Список работ</router-link>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-
-    <section class="w-3/4 bg-[#cbd3fc] p-4 overflow-y-auto">
+  <div class="flex h-screen bg-[#C9D7FF]">
+    <sideBar />
+    <section class="w-4/5  p-4 overflow-y-auto">
       <input
+          v-model="searchQuery"
           type="text"
           placeholder="Поиск по работам"
           class="w-full p-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -25,9 +11,9 @@
       <h3 class="text-sm text-indigo-800 underline cursor-pointer mb-2">Фильтровать</h3>
 
       <div
-          v-for="(work, index) in works"
+          v-for="(work, index) in filteredWorks"
           :key="index"
-          class="bg-[#aeb5f5] p-4 rounded-lg mb-2"
+            class="bg-[#7862BD3B] p-4 rounded-lg mb-2"
       >
         <p class="font-medium mb-2">{{ work.title }}</p>
         <p class="text-sm mb-1">Автор: {{ work.author }}, {{ work.year }}</p>
@@ -49,7 +35,9 @@
 </template>
 
 <script setup>
-const works = [
+import { ref, computed } from 'vue'
+import sideBar from "../components/SideBar.vue"
+const works = ref([
   {
     title: 'Веб приложение для помощи сотрудникам кафедр в систематизации информации о выпускных квалификационных работах обучающихся',
     author: 'Мироненко Дарья Андреевна',
@@ -68,5 +56,11 @@ const works = [
     year: '',
     supervisor: '',
   },
-];
+]);
+const searchQuery = ref('')
+const filteredWorks = computed(() =>
+    works.value.filter(work =>
+        work.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+)
 </script>

@@ -1,27 +1,26 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Login from "@/components/loginform.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import Login from './pages/LoginPage.vue'
+import WorkList from './pages/WorkListPage.vue'
+import WorkPreview from './pages/WorkPreviewPage.vue'
 
 const routes = [
-    { path: '/login', component: Login }
-];
+    { path: '/', redirect: '/login' },
+    { path: '/login', component: Login },
+    { path: '/works', component: WorkList },
+    { path: '/preview', component: WorkPreview},
+]
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
-});
+})
 
-router.beforeEach((to, from, next) => {
-    const token = localStorage.getItem('jwtToken');
+// router.beforeEach((to, from, next) => {
+//     const token = localStorage.getItem('jwtToken')
+//     if (to.meta.requiresAuth && !token) {
+//         return next('/login')
+//     }
+//     next()
+// })
 
-    if (token && to.path === '/login') {
-        return next('/main');
-    }
-
-    if (to.meta.requiresAuth && !token) {
-        return next('/');
-    }
-    next();
-});
-
-
-export default router;
+export default router

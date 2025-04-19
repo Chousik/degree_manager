@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#a2aace] from-50% ...">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#C9D7FF] from-50% ...">
     <div class="bg-white p-8 rounded-lg shadow-md w-auto h-auto border border-gray-300">
       <div class="grid grid-cols-[50px_1fr] mb-6">
         <img src="/favicon.png" class="h-11 place-self-center">
@@ -40,11 +40,8 @@
   </div>
 </template>
 
-<script >
+<script setup>
 import {ref} from 'vue'
-export default {
-  name: 'Login',
-}
 const login = ref('')
 const password = ref('')
 
