@@ -42,32 +42,32 @@ import java.util.UUID;
 @Configuration
 public class AuthorizationServerConfig {
     //На время теста отрубил
-//    @Bean
-//    public UserDetailsManager userDetailsManager(DataSource dataSource){
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
     @Bean
-    public UserDetailsService uds() {
-        var uds = new InMemoryUserDetailsManager();
-
-        var u = User.withUsername("chousik")
-                .password("chousik")
-                .authorities("read")
-                .build();
-
-        uds.createUser(u);
-
-        return uds;
+    public UserDetailsManager userDetailsManager(DataSource dataSource){
+        return new JdbcUserDetailsManager(dataSource);
     }
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
+//    @Bean
+//    public UserDetailsService uds() {
+//        var uds = new InMemoryUserDetailsManager();
+//
+//        var u = User.withUsername("chousik")
+//                .password("chousik")
+//                .authorities("read")
+//                .build();
+//
+//        uds.createUser(u);
+//
+//        return uds;
+//    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }
     @Bean
     @Order(0)
     public SecurityFilterChain asFilterChain(HttpSecurity http)
