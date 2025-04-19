@@ -142,15 +142,16 @@ public class AuthorizationServerConfig {
         }
         return jdbcRegisteredClientRepository;
     }
+    //#TODO Сделать более оптимально, щас думаю пиздец
     @Bean
     @Transactional
     public JWKSource<SecurityContext> jwkSource(JwkRepository jwkRepository,
                                                 final @Value("${jwk.name}") String JWK_ID)
-            throws NoSuchAlgorithmException, ParseException {
+            throws NoSuchAlgorithmException {
         RSAKey rsaKey;
         Optional<JwkEntity> jwkEntityOptional = jwkRepository.getJwkEntitiesById(JWK_ID);
         if (jwkEntityOptional.isPresent()){
-            rsaKey = RSAKey.parse(jwkEntityOptional.get().getJwkJson());
+            rsaKey = jwkEntityOptional.get().getRsaKey();
         } else {
             KeyPairGenerator keyPairGenerator
                     = KeyPairGenerator.getInstance("RSA");
@@ -162,7 +163,8 @@ public class AuthorizationServerConfig {
                     .privateKey(privateKey)
                     .keyID(UUID.randomUUID().toString())
                     .build();
-            JwkEntity entity = new JwkEntity(JWK_ID, rsaKey.toJSONObject().toString());
+            System.out.println(rsaKey.toJSONString());
+            JwkEntity entity = new JwkEntity(JWK_ID, rsaKey);
             jwkRepository.save(entity);
         }
         JWKSet jwkSet = new JWKSet(rsaKey);

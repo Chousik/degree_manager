@@ -1,9 +1,7 @@
 package ru.chousik.web.authservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import com.nimbusds.jose.jwk.RSAKey;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,6 +15,5 @@ import lombok.experimental.FieldDefaults;
 public class JwkEntity {
     @Id
     String id;
-    @Lob
-    String jwkJson;
+    RSAKey rsaKey;
 }
