@@ -25,22 +25,21 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-cache")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+//	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+//	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
-	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.4")
+//	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.4")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
-	implementation("org.springframework.cloud:spring-cloud-starter-config:4.1.1")
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
-	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
-	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:1.4.3")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.4.4")
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 }

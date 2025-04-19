@@ -51,6 +51,7 @@
 //
 //        var authServer = OAuth2AuthorizationServerConfigurer.authorizationServer()
 //                .oidc(Customizer.withDefaults());
+
 //
 //        http
 //                .securityMatcher(authServer.getEndpointsMatcher())
