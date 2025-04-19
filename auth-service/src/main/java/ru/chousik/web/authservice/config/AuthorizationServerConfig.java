@@ -5,9 +5,13 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -23,6 +27,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
@@ -36,6 +41,8 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import ru.chousik.web.authservice.entity.JwkEntity;
+import ru.chousik.web.authservice.repository.JwkRepository;
 
 import javax.sql.DataSource;
 import java.security.KeyPair;
@@ -43,7 +50,10 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.text.ParseException;
 import java.time.Duration;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Configuration
@@ -110,36 +120,51 @@ public class AuthorizationServerConfig {
         return http.build();
     }
     @Bean
-    public RegisteredClientRepository registeredClientRepository(PasswordEncoder passwordEncoder) {
-        RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
-        .clientId("client")
-                .clientSecret(passwordEncoder.encode("secret"))
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("https://www.manning.com/authorized")
-                .scope(OidcScopes.OPENID)
-                .scope("offline_access")
-                .tokenSettings(TokenSettings.builder()
-                        .accessTokenTimeToLive(Duration.ofMinutes(30))
-                        .refreshTokenTimeToLive(Duration.ofDays(7))
-                        .reuseRefreshTokens(true)
-                        .build())
-                .build();
-        return new InMemoryRegisteredClientRepository(client);
+    public RegisteredClientRepository registeredClientRepository(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
+        JdbcRegisteredClientRepository jdbcRegisteredClientRepository =
+                new JdbcRegisteredClientRepository(jdbcTemplate);
+        if (Objects.isNull(jdbcRegisteredClientRepository.findByClientId("client"))) {
+            RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
+                    .clientId("client")
+                    .clientSecret(passwordEncoder.encode("secret"))
+                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                    .redirectUri("https://www.manning.com/authorized")
+                    .scope(OidcScopes.OPENID)
+                    .scope("offline_access")
+                    .tokenSettings(TokenSettings.builder()
+                            .accessTokenTimeToLive(Duration.ofMinutes(30))
+                            .refreshTokenTimeToLive(Duration.ofDays(7))
+                            .reuseRefreshTokens(true)
+                            .build())
+                    .build();
+            jdbcRegisteredClientRepository.save(client);
+        }
+        return jdbcRegisteredClientRepository;
     }
     @Bean
-    public JWKSource<SecurityContext> jwkSource()
-            throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator
-                = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        RSAKey rsaKey = new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
-                .build();
+    @Transactional
+    public JWKSource<SecurityContext> jwkSource(JwkRepository jwkRepository,
+                                                final @Value("${jwk.name}") String JWK_ID)
+            throws NoSuchAlgorithmException, ParseException {
+        RSAKey rsaKey;
+        Optional<JwkEntity> jwkEntityOptional = jwkRepository.getJwkEntitiesById(JWK_ID);
+        if (jwkEntityOptional.isPresent()){
+            rsaKey = RSAKey.parse(jwkEntityOptional.get().getJwkJson());
+        } else {
+            KeyPairGenerator keyPairGenerator
+                    = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+            RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+            rsaKey = new RSAKey.Builder(publicKey)
+                    .privateKey(privateKey)
+                    .keyID(UUID.randomUUID().toString())
+                    .build();
+            JwkEntity entity = new JwkEntity(JWK_ID, rsaKey.toJSONObject().toString());
+            jwkRepository.save(entity);
+        }
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }
@@ -163,6 +188,7 @@ public class AuthorizationServerConfig {
             }
         };
     }
+
     @Bean
     @Order(1)
     public SecurityFilterChain registerSecurity(HttpSecurity http,

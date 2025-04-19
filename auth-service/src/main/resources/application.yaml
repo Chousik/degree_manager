@@ -13,9 +13,13 @@ spring:
     open-in-view: false
   sql:
     init:
+      schema-locations:
+        - classpath:initial/*.sql
       mode: always
 server:
   port: 8071
+jwk:
+  name: "master"
 #eureka:
 #  client:
 #    register-with-eureka: true
