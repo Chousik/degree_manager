@@ -1,17 +1,5 @@
+keySetURI: http://localhost:8071/oauth2/jwks
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          auth-server:
-            client-id: gateway-server
-            client-secret: secret
-            authorization-grant-type: authorization_code
-            scope: openid,tasks.read
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-        provider:
-          auth-server:
-            issuer-uri: http://auth-service:8071
   application:
     name: gateway-server
   cloud:
@@ -40,11 +28,11 @@ management:
 #            - Path=/api/tasks/**
 server:
   port: 8080
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8070/eureka/
-  instance:
-    prefer-ip-address: true
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8070/eureka/
+#  instance:
+#    prefer-ip-address: true
