@@ -11,16 +11,27 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
+  sql:
+    init:
+      schema-locations:
+        - classpath:initial/*.sql
+      mode: always
 server:
   port: 8071
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8070/eureka/
-  instance:
-    prefer-ip-address: true
-management:
-  endpoints.web.exposure.include: prometheus,health,info
-  metrics.tags.application: ${spring.application.name}
+jwk:
+  name: "master"
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8070/eureka/
+#  instance:
+#    prefer-ip-address: true
+#management:
+#  endpoints.web.exposure.include: prometheus,health,info
+#  metrics.tags.application: ${spring.application.name}
+#logging:
+#  level:
+#    org.springframework.security.web.FilterChainProxy: DEBUG
+#    org.springframework.security: DEBUG
