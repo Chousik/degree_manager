@@ -48,7 +48,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server
 	implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.4.2")
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
 }
 
 tasks.withType<Test> {

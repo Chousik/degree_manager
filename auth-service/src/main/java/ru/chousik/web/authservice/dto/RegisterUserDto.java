@@ -1,6 +1,7 @@
 package ru.chousik.web.authservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -10,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 public class RegisterUserDto {
     @NotBlank(message = "Username is required")
     String username;
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "New password is required")
+    @Size(min = 8, message = "Password need minimum 8 character")
     String password;
 }
