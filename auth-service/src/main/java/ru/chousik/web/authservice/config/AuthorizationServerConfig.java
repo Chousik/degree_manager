@@ -111,7 +111,9 @@ public class AuthorizationServerConfig {
         http.formLogin(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(
-                c -> c.anyRequest().authenticated());
+                c -> c
+                        .requestMatchers("/swagger-ui*/**").permitAll()
+                        .anyRequest().authenticated());
         return http.build();
     }
     @Bean
