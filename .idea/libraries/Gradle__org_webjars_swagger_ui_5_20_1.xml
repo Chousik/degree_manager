@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.webjars:swagger-ui:5.20.1" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.webjars" artifactId="swagger-ui" version="5.20.1" baseVersion="5.20.1" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars/swagger-ui/5.20.1/cedf7971d2dc4ea4948ac379cc33ea5a8666172b/swagger-ui-5.20.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

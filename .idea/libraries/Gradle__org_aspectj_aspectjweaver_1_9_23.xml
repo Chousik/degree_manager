@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.aspectj:aspectjweaver:1.9.23" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.aspectj" artifactId="aspectjweaver" version="1.9.23" baseVersion="1.9.23" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.23/5b2fd88a62b334f51ac7d002b57dfccd68b22724/aspectjweaver-1.9.23.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
