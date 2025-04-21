@@ -33,7 +33,7 @@ public class AccountController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create users by Admin")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully creater"),
+            @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "User already exist"),
             @ApiResponse(responseCode = "403", description = "You need Admin role"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")

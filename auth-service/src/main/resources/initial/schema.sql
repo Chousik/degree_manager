@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS authorities (
                                            authority VARCHAR(50) NOT NULL,
                                            CONSTRAINT fk_username FOREIGN KEY(username) REFERENCES users(username)
 );
-CREATE UNIQUE INDEX ix_auth_username ON authorities (username, authority);
+CREATE UNIQUE INDEX IF NOT EXISTS ix_auth_username ON authorities (username, authority);
