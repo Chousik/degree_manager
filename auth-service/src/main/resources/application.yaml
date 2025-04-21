@@ -18,6 +18,9 @@ spring:
       mode: always
 server:
   port: 8071
+  servlet:
+    session:
+      timeout: 1m
 jwk:
   name: "master"
 #eureka:
