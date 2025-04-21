@@ -47,6 +47,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server
 	implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.4.2")
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 }
 
 tasks.withType<Test> {
