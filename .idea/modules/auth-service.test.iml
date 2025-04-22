@@ -13,6 +13,9 @@
     <content url="file://$MODULE_DIR$/../../auth-service/src/test">
       <sourceFolder url="file://$MODULE_DIR$/../../auth-service/src/test/java" isTestSource="true" />
     </content>
+    <content url="file://$MODULE_DIR$/../../auth-service/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../auth-service/src/test/java" isTestSource="true" />
+    </content>
     <orderEntry type="jdk" jdkName="corretto-17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="auth-service.main" />

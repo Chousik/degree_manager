@@ -91,4 +91,24 @@ public class AccountController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/{username}/setadmin")
+    @Operation(summary = "Add role Admin to user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Role added successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "403", description = "You need Admin role")
+    })
+    public ResponseEntity<?> setAdmin(
+            @Parameter(description = "Username to grant admin role")
+            @PathVariable String username) {
+        try {
+            accountService.addAdminRole(username);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 }
