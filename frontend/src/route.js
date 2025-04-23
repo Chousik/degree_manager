@@ -1,16 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/store/auth'  // Импорт хранилища аутентификации
 import Login from './pages/LoginPage.vue'
 import WorkList from './pages/WorkListPage.vue'
 import WorkPreview from './pages/WorkPreviewPage.vue'
 import AdminPanel from "@/pages/AdminPanel.vue";
+import AuthorizedPage from './pages/AuthorizedPage.vue'
 
 const routes = [
     { path: '/', redirect: '/login' },
     { path: '/login', component: Login },
     { path: '/works', component: WorkList },
-    { path: '/preview', component: WorkPreview},
-    { path: '/admin', component: AdminPanel}
+    { path: '/preview', component: WorkPreview },
+    { path: '/admin', component: AdminPanel },
+    { path: '/auth-callback', component: AuthorizedPage } // ← Добавили сюда
 ]
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -18,11 +22,13 @@ const router = createRouter({
 })
 
 // router.beforeEach((to, from, next) => {
-//     const token = localStorage.getItem('jwtToken')
-//     if (to.meta.requiresAuth && !token) {
-//         return next('/login')
+//     const authStore = useAuthStore()
+//
+//     if (!authStore.isAuthenticated && to.path !== '/login') {
+//         next('/login')
+//     } else {
+//         next()
 //     }
-//     next()
 // })
 
 export default router

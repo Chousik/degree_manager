@@ -39,8 +39,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	testImplementation ("org.junit.jupiter:junit-jupiter-api:5.8.2")
+	testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
-//	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.1")
+	//	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.1")
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("com.thoughtworks.xstream:xstream:1.4.21")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
