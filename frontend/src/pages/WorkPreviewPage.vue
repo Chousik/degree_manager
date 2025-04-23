@@ -6,7 +6,7 @@
       </h2>
       <p class="text-xl mb-1"><b>Автор:</b> Мироненко Дарья Андреевна</p>
       <p class="text-xl mb-1"><b>Год:</b> 2025</p>
-      <p class="text-xl"><b>Научный руководитель:</b><br />Путиница Елена Валентиновна</p>
+      <p class="text-xl"><b>Научный руководитель:</b><br />Путинцева Елена Валентиновна</p>
       <router-link
           to="/works"
           class="bg-black ml-2 text-white text-center text-4xl py-2 mb-4 w-1/12 absolute bottom-0 rounded hover:bg-gray-600 transition"
