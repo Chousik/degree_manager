@@ -11,6 +11,10 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
+
 @Configuration
 public class AuthorizationServerConfig {
     @Bean
@@ -59,7 +63,15 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
         http.formLogin(Customizer.withDefaults())
-            .csrf(AbstractHttpConfigurer::disable);
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configurationSource(request -> {
+                var config = new CorsConfiguration();
+                config.setAllowedOrigins(List.of("http://localhost:5173"));
+                config.setAllowedMethods(List.of("POST", "GET", "OPTIONS"));
+                config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+                config.setAllowCredentials(true);
+                return config;
+            }));
         http.authorizeHttpRequests(
                 c -> c
                         .requestMatchers("/swagger-ui*/**").permitAll()
