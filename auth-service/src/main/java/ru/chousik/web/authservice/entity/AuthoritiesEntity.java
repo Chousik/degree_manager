@@ -8,28 +8,23 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
-@Entity
-@Table(name = "teachers")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class TeacherEntity {
+@Entity
+@Table(name = "authorities")
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AuthoritiesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Size(max = 50)
-    @NotNull
-    String name;
+    @OneToOne
+    @JoinColumn(name = "username")
+    UserEntity user;
 
     @Size(max = 50)
     @NotNull
-    String surname;
-
-    @Column(name = "middle_name")
-    @Size(max = 50)
-    @NotNull
-    String middleName;
+    String authority;
 }
