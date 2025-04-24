@@ -22,7 +22,7 @@ public class ToolsConfig {
         if (!jdbcUserDetailsManager.userExists("chousik2")) {
             jdbcUserDetailsManager.createUser(User.withUsername("chousik")
                     .password(passwordEncoder().encode("chousik"))
-                    .roles("ADMIN", "USER")
+                    .roles("ADMIN")
                     .build());
         }
         if (!jdbcUserDetailsManager.userExists("hipeoplea")) {
