@@ -14,11 +14,25 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
 @Configuration
 public class AuthorizationServerConfig {
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        var config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+        config.setAllowCredentials(true);
+
+        var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
     @Bean
     @Order(0)
     public SecurityFilterChain asFilterChain(HttpSecurity http)
@@ -65,14 +79,7 @@ public class AuthorizationServerConfig {
             throws Exception {
         http.formLogin(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
-            .cors(cors -> cors.configurationSource(request -> {
-                var config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("http://localhost:5173"));
-                config.setAllowedMethods(List.of("POST", "GET", "OPTIONS"));
-                config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
-                config.setAllowCredentials(true);
-                return config;
-            })).exceptionHandling(ex -> ex
+            .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
                 .formLogin(form -> form
@@ -91,4 +98,5 @@ public class AuthorizationServerConfig {
                 );
         return http.build();
     }
+
 }
