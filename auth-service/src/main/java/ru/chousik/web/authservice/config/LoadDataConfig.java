@@ -18,16 +18,11 @@ import java.util.UUID;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class LoadDataConfig {
     TeacherRepository teacherRepository;
     UserRepository userRepository;
     AuthoritiesRepository authoritiesRepository;
-    public LoadDataConfig(TeacherRepository teacherRepository, UserRepository userRepository, AuthoritiesRepository authoritiesRepository) {
-        this.teacherRepository = teacherRepository;
-        this.userRepository = userRepository;
-        this.authoritiesRepository = authoritiesRepository;
-
-    }
     @PostConstruct
     public void initial(){
         if (userRepository.getUserEntitiesByUsername("chousik").isEmpty()){
