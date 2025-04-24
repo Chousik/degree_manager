@@ -63,7 +63,6 @@ public class Oauth2Config {
         return jdbcRegisteredClientRepository;
     }
 
-    //#TODO Сделать более оптимально, щас думаю пиздец
     @Bean
     @Transactional
     public JWKSource<SecurityContext> jwkSource(JwkRepository jwkRepository,
@@ -84,7 +83,6 @@ public class Oauth2Config {
                     .privateKey(privateKey)
                     .keyID(UUID.randomUUID().toString())
                     .build();
-            System.out.println(rsaKey.toJSONString());
             JwkEntity entity = new JwkEntity(JWK_ID, rsaKey);
             jwkRepository.save(entity);
         }

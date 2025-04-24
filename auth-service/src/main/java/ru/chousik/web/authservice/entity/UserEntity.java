@@ -23,6 +23,6 @@ public class UserEntity {
     Boolean enabled;
 
     @OneToOne
-    @JoinColumn(name = "id", unique = true)
+    @JoinColumn(name = "teacher_id", unique = true)
     TeacherEntity teacher;
 }
