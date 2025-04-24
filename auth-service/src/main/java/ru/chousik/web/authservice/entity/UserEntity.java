@@ -1,22 +1,31 @@
 package ru.chousik.web.authservice.entity;
 
-import com.nimbusds.jose.jwk.RSAKey;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.UUID;
+
 @Entity
-@Table(name = "jwk_story")
+@Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class JwkEntity {
+public class UserEntity {
     @Id
-    String id;
+    String username;
 
     @NotNull
-    RSAKey rsaKey;
+    String password;
+
+    @NotNull
+    Boolean enabled;
+
+    @OneToOne
+    @JoinColumn(name = "id", unique = true)
+    TeacherEntity teacher;
 }

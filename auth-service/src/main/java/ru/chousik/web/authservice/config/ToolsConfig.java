@@ -19,7 +19,7 @@ public class ToolsConfig {
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        if (!jdbcUserDetailsManager.userExists("chousik")) {
+        if (!jdbcUserDetailsManager.userExists("chousik2")) {
             jdbcUserDetailsManager.createUser(User.withUsername("chousik")
                     .password(passwordEncoder().encode("chousik"))
                     .roles("ADMIN")
