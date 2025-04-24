@@ -27,7 +27,7 @@
             v-if="menuOpen"
             class="absolute right-0 mt-2 bg-white rounded-lg shadow-lg p-4 space-y-2">
           <p>{{username}}</p>
-          <a href="/login" class="block hover:underline">Выход</a>
+          <a href="/login" @click="logout" class="block hover:underline">Выход</a>
         </div>
       </div>
     </header>
@@ -69,7 +69,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import {useRouter} from "vue-router";
 
+
+const router = useRouter();
 const username = "adminka"
 
 const menuOpen = ref(false)
@@ -89,4 +92,10 @@ const filteredTeachers = computed(() => {
       t.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 })
+
+function logout() {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  router.push('/login')
+}
 </script>

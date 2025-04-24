@@ -106,10 +106,8 @@ function handleClickOutside(event) {
 }
 
 function logout() {
-  console.log(1)
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
-  console.log(2)
   router.push('/login')
 }
 </script>

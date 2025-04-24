@@ -4,6 +4,7 @@ import WorkList from './pages/WorkListPage.vue'
 import WorkPreview from './pages/WorkPreviewPage.vue'
 import AdminPanel from './pages/AdminPanel.vue'
 import AuthorizedPage from './pages/AuthorizedPage.vue'
+import {jwtDecode} from "jwt-decode";
 
 const routes = [
     { path: '/', redirect: '/login' },
@@ -23,13 +24,33 @@ router.beforeEach((to, from, next) => {
     const publicPages = ['/login', '/auth-callback']
     const accessToken = localStorage.getItem('access_token')
 
-    if (to.path === '/login' && accessToken) {
-        next('/works')
-    } else if (!publicPages.includes(to.path) && !accessToken) {
-        next('/login')
+    if (accessToken && typeof accessToken === 'string') {
+        try {
+            const decoded = jwtDecode(accessToken);
+
+            const isAdmin = decoded.roles.includes('ROLE_ADMIN');
+
+            if (to.path === '/admin' && !isAdmin) {
+                next('/works');
+            }
+            else if (to.path !== '/admin' && isAdmin) {
+                next('/admin');
+            }
+            else {
+                next();
+            }
+        } catch (error) {
+            console.error('Error decoding JWT:', error);
+            next('/login');
+        }
     } else {
-        next()
+        if (publicPages.includes(to.path)) {
+            next();
+        } else {
+            next('/login');
+        }
     }
 })
+
 
 export default router
