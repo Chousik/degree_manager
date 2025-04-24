@@ -4,6 +4,7 @@ import WorkList from './pages/WorkListPage.vue'
 import WorkPreview from './pages/WorkPreviewPage.vue'
 import AdminPanel from './pages/AdminPanel.vue'
 import AuthorizedPage from './pages/AuthorizedPage.vue'
+import UploadPage from "@/pages/UploadPage.vue";
 import {jwtDecode} from "jwt-decode";
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
     { path: '/auth-callback', component: AuthorizedPage },
     { path: '/works', component: WorkList },
     { path: '/preview', component: WorkPreview },
+    { path: '/upload', component: UploadPage},
     { path: '/admin', component: AdminPanel }
 ]
 
@@ -34,7 +36,7 @@ router.beforeEach((to, from, next) => {
                 next('/works');
             }
             else if (to.path !== '/admin' && isAdmin) {
-                next('/admin');
+                next();
             }
             else {
                 next();

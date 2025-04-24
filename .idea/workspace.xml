@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="router for roles">
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="added &quot;/upload&quot;">
       <change afterPath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/route.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -351,7 +354,7 @@
       <workItem from="1745435118662" duration="324000" />
       <workItem from="1745450958022" duration="6236000" />
       <workItem from="1745462658325" duration="31000" />
-      <workItem from="1745462838097" duration="14764000" />
+      <workItem from="1745462838097" duration="22682000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
@@ -401,7 +404,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745517064822</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added &quot;/upload&quot;">
+      <option name="closed" value="true" />
+      <created>1745520249865</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745520249865</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -435,7 +446,8 @@
     <MESSAGE value="merge conflicts" />
     <MESSAGE value="logout and router" />
     <MESSAGE value="router for roles" />
-    <option name="LAST_COMMIT_MESSAGE" value="router for roles" />
+    <MESSAGE value="added &quot;/upload&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="added &quot;/upload&quot;" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
