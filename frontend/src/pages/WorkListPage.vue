@@ -1,6 +1,6 @@
 <script setup>
 import {ref, computed, watchEffect} from 'vue'
-
+import {useRouter} from "vue-router";
 
 const usname = "Путинцева Елена"
 const currentYear = new Date().getFullYear()
@@ -14,6 +14,7 @@ const selectedSupervisor = ref('')
 const selectedAuthor = ref('')
 const showSupervisorSuggestions = ref(false)
 const showAuthorSuggestions = ref(false)
+const router = useRouter();
 
 const works = ref([
   {
@@ -73,21 +74,18 @@ const filteredWorks = computed(() => {
   })
 })
 
-// Выбор автора
 function selectAuthor(author) {
   selectedAuthor.value = author
   filterAuthorInput.value = author
   showAuthorSuggestions.value = false
 }
 
-// Выбор научного руководителя
 function selectSupervisor(name) {
   selectedSupervisor.value = name
   filterSupervisorInput.value = name
   showSupervisorSuggestions.value = false
 }
 
-// Сброс фильтров
 function resetFilters() {
   searchQuery.value = ''
   selectedYear.value = ''
@@ -97,7 +95,6 @@ function resetFilters() {
   filterAuthorInput.value = ''
 }
 
-// Добавляем обработку клика вне инпута
 function handleClickOutside(event) {
   if (
       !event.target.closest('.relative') && // Фильтры по автору и научному руководителю
@@ -106,6 +103,14 @@ function handleClickOutside(event) {
     showSupervisorSuggestions.value = false
     showAuthorSuggestions.value = false
   }
+}
+
+function logout() {
+  console.log(1)
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  console.log(2)
+  router.push('/login')
 }
 </script>
 
@@ -196,7 +201,9 @@ function handleClickOutside(event) {
 
         <div class="flex items-center space-x-2 absolute bottom-0 left-0 shadow-inner rounded-br-2xl w-1/5">
           <p class="pt-5 text-4xl mt-auto pb-5 px-5">{{ usname }}</p>
-          <router-link to="/"><img src="../icons/exit.png" alt="icon" class="h-12 px-3"></router-link>
+          <button @click="logout" class="bg-transparent border-none">
+            <img src="../icons/exit.png" alt="icon" class="h-12 px-3">
+          </button>
         </div>
       </nav>
     </aside>

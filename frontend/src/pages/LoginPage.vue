@@ -47,7 +47,6 @@ const password = ref('');
 
 async function handleSubmit() {
   try {
-    // 1. Отправляем логин/пароль (получаем куки)
     const loginResponse = await fetch('http://localhost:8071/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -55,15 +54,13 @@ async function handleSubmit() {
         username: login.value,
         password: password.value,
       }),
-      credentials: 'include' // Важно для сохранения кук
+      credentials: 'include'
     });
 
-    // 2. Генерируем PKCE параметры
     const codeVerifier = generateCodeVerifier();
     const codeChallenge = await generateCodeChallenge(codeVerifier);
     sessionStorage.setItem('pkce_code_verifier', codeVerifier);
 
-    // 3. Формируем URL для OAuth авторизации
     const authUrl = new URL('http://localhost:8071/oauth2/authorize');
     authUrl.searchParams.append('response_type', 'code');
     authUrl.searchParams.append('client_id', 'client');
@@ -72,7 +69,6 @@ async function handleSubmit() {
     authUrl.searchParams.append('code_challenge_method', 'S256');
     authUrl.searchParams.append('scope', 'openid');
 
-    // 4. Перенаправляем пользователя на OAuth endpoint
     window.location.href = authUrl.toString();
 
   } catch (error) {
@@ -81,31 +77,6 @@ async function handleSubmit() {
   }
 }
 
-
-async function initOAuthFlow() {
-  // Генерация PKCE параметров
-  const codeVerifier = generateCodeVerifier();
-  const codeChallenge = await generateCodeChallenge(codeVerifier);
-  sessionStorage.setItem('pkce_code_verifier', codeVerifier);
-
-  // Формирование OAuth URL
-  const authUrl = new URL('http://localhost:8071/oauth2/authorize');
-  const params = {
-    response_type: 'code',
-    client_id: 'client',
-    redirect_uri: 'http://localhost:5173/',
-    code_challenge: codeChallenge,
-    code_challenge_method: 'S256',
-    scope: 'openid'
-  };
-
-  Object.entries(params).forEach(([key, val]) => {
-    authUrl.searchParams.append(key, val);
-  });
-
-  // Перенаправление
-  window.location.href = authUrl.toString();
-}
 function generateCodeVerifier() {
   const array = new Uint8Array(32);
   window.crypto.getRandomValues(array);
