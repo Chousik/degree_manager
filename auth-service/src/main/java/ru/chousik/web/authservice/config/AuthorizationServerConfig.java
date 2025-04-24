@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -84,12 +83,8 @@ public class AuthorizationServerConfig {
                 )
                 .formLogin(form -> form
                         .loginProcessingUrl("/login")          // обрабатываем POST /login
-                        .successHandler((req, res, auth) -> {
-                            res.setStatus(HttpStatus.OK.value());
-                        })
-                        .failureHandler((req, res, exception) -> {
-                            res.setStatus(HttpStatus.UNAUTHORIZED.value());
-                        })
+                        .successHandler((req, res, auth) -> res.setStatus(HttpStatus.OK.value()))
+                        .failureHandler((req, res, exception) -> res.setStatus(HttpStatus.UNAUTHORIZED.value()))
                         .permitAll()
                 )
                 .authorizeHttpRequests(auth -> auth
