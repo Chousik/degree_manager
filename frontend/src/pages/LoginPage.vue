@@ -58,10 +58,6 @@ async function handleSubmit() {
       credentials: 'include' // Важно для сохранения кук
     });
 
-    if (!loginResponse.redirected) {
-      throw new Error('Ошибка входа: неверные учетные данные');
-    }
-
     // 2. Генерируем PKCE параметры
     const codeVerifier = generateCodeVerifier();
     const codeChallenge = await generateCodeChallenge(codeVerifier);
@@ -71,7 +67,7 @@ async function handleSubmit() {
     const authUrl = new URL('http://localhost:8071/oauth2/authorize');
     authUrl.searchParams.append('response_type', 'code');
     authUrl.searchParams.append('client_id', 'client');
-    authUrl.searchParams.append('redirect_uri', 'http://localhost:5173/');
+    authUrl.searchParams.append('redirect_uri', 'http://localhost:5173/auth-callback');
     authUrl.searchParams.append('code_challenge', codeChallenge);
     authUrl.searchParams.append('code_challenge_method', 'S256');
     authUrl.searchParams.append('scope', 'openid');

@@ -49,7 +49,7 @@ public class Oauth2Config {
                     .clientSecret(passwordEncoder.encode("secret"))
                     .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                     .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                    .redirectUri("https://www.manning.com/authorized")
+                    .redirectUri("http://localhost:5173/auth-callback")
                     .scope(OidcScopes.OPENID)
                     .scope("offline_access")
                     .tokenSettings(TokenSettings.builder()
