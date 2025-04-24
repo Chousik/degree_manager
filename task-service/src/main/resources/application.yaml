@@ -7,16 +7,16 @@ spring:
 #          issuer-uri: http://auth-service:8071
   application:
     name: task-service
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    username: postgres
-#    password: postgres
-#    url: jdbc:postgresql://localhost:5432/task_app
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    open-in-view: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/task_app
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
 server:
   port: 8080
 #eureka:

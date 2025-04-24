@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-server.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-server.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/multi-microservice-app.iml" filepath="$PROJECT_DIR$/multi-microservice-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/task-service.iml" filepath="$PROJECT_DIR$/.idea/modules/task-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/task-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/task-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/task-service.test.iml" />
     </modules>
