@@ -1,0 +1,48 @@
+package ru.chousik.web.authservice.config;
+
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.PostConstruct;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Service;
+import ru.chousik.web.authservice.entity.AuthoritiesEntity;
+import ru.chousik.web.authservice.entity.TeacherEntity;
+import ru.chousik.web.authservice.entity.UserEntity;
+import ru.chousik.web.authservice.repository.AuthoritiesRepository;
+import ru.chousik.web.authservice.repository.TeacherRepository;
+import ru.chousik.web.authservice.repository.UserRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class LoadDataConfig {
+    TeacherRepository teacherRepository;
+    UserRepository userRepository;
+    AuthoritiesRepository authoritiesRepository;
+    public LoadDataConfig(TeacherRepository teacherRepository, UserRepository userRepository, AuthoritiesRepository authoritiesRepository) {
+        this.teacherRepository = teacherRepository;
+        this.userRepository = userRepository;
+        this.authoritiesRepository = authoritiesRepository;
+
+    }
+    @PostConstruct
+    public void initial(){
+        if (userRepository.getUserEntitiesByUsername("chousik").isEmpty()){
+        TeacherEntity teacher = new TeacherEntity(
+                "Захар",
+                "Силаев",
+                "Алексеевич");
+        teacherRepository.save(teacher);
+
+        UserEntity user = new UserEntity("chousik", "chousik",
+                true, teacher);
+        userRepository.save(user);
+
+        authoritiesRepository.save(new AuthoritiesEntity(user,
+                "ROLE_ADMIN"));
+            }
+    }
+}

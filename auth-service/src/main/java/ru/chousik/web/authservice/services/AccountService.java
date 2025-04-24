@@ -1,4 +1,4 @@
-package ru.chousik.web.authservice.security;
+package ru.chousik.web.authservice.services;
 
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;

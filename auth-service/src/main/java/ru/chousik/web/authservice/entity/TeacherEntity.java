@@ -11,7 +11,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "teachers")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -32,4 +31,12 @@ public class TeacherEntity {
     @Size(max = 50)
     @NotNull
     String middleName;
+
+    public TeacherEntity(String name,
+                         String surname,
+                         String middleName){
+        this.name = name;
+        this.surname = surname;
+        this.middleName = middleName;
+    }
 }

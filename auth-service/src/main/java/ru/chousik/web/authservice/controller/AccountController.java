@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.chousik.web.authservice.dto.AdminChangePasswordDto;
 import ru.chousik.web.authservice.dto.ChangePasswordDto;
 import ru.chousik.web.authservice.dto.RegisterUserDto;
-import ru.chousik.web.authservice.security.AccountService;
+import ru.chousik.web.authservice.services.AccountService;
 
 import java.util.Map;
 
