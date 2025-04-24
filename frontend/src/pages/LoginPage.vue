@@ -71,7 +71,7 @@ async function handleSubmit() {
     const authUrl = new URL('http://localhost:8071/oauth2/authorize');
     authUrl.searchParams.append('response_type', 'code');
     authUrl.searchParams.append('client_id', 'client');
-    authUrl.searchParams.append('redirect_uri', 'https://www.manning.com/authorized');
+    authUrl.searchParams.append('redirect_uri', 'http://localhost:5173/');
     authUrl.searchParams.append('code_challenge', codeChallenge);
     authUrl.searchParams.append('code_challenge_method', 'S256');
     authUrl.searchParams.append('scope', 'openid');
@@ -97,7 +97,7 @@ async function initOAuthFlow() {
   const params = {
     response_type: 'code',
     client_id: 'client',
-    redirect_uri: 'https://www.manning.com/authorized',
+    redirect_uri: 'http://localhost:5173/',
     code_challenge: codeChallenge,
     code_challenge_method: 'S256',
     scope: 'openid'
