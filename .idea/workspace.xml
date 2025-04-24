@@ -4,76 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="logout and router">
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="router for roles">
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.bin/vite" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.bin/vite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/async.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/async.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/async.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/async.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/counter.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/counter.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/counter.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/counter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/get-array.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/get-array.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/get-array.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/get-array.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/group-files.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/group-files.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/group-files.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/group-files.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/invoke-callback.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/invoke-callback.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/invoke-callback.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/invoke-callback.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/is-recursive-symlink.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/is-recursive-symlink.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/is-recursive-symlink.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/is-recursive-symlink.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/join-path.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/join-path.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/join-path.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/join-path.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-directory.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-directory.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-directory.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-directory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-file.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-file.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-file.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/push-file.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/resolve-symlink.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/resolve-symlink.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/resolve-symlink.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/resolve-symlink.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/walk-directory.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/walk-directory.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/walk-directory.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/functions/walk-directory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/queue.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/queue.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/queue.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/queue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/sync.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/sync.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/sync.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/sync.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/walker.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/walker.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/walker.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/api/walker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/api-builder.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/api-builder.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/api-builder.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/api-builder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/builder/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/optimizer.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/optimizer.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/optimizer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/optimizer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/types.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/types.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/types.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/utils.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/utils.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/dist/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/fdir/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/fdir/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.d.mts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.d.mts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/dist/index.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/tinyglobby/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/vite/dist/node/chunks/dep-C8joxBaX.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/vite/dist/node/chunks/dep-Cjqet4Sp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/vite/dist/node/chunks/dep-DG3BLbPj.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/vite/dist/node/cli.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/vite/dist/node/cli.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/vite/dist/node/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/vite/dist/node/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/vite/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/vite/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/route.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -418,7 +351,7 @@
       <workItem from="1745435118662" duration="324000" />
       <workItem from="1745450958022" duration="6236000" />
       <workItem from="1745462658325" duration="31000" />
-      <workItem from="1745462838097" duration="11993000" />
+      <workItem from="1745462838097" duration="14764000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
@@ -460,7 +393,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745513735196</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="router for roles">
+      <option name="closed" value="true" />
+      <created>1745517064822</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745517064822</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -493,7 +434,8 @@
     <MESSAGE value="wait for cors" />
     <MESSAGE value="merge conflicts" />
     <MESSAGE value="logout and router" />
-    <option name="LAST_COMMIT_MESSAGE" value="logout and router" />
+    <MESSAGE value="router for roles" />
+    <option name="LAST_COMMIT_MESSAGE" value="router for roles" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
