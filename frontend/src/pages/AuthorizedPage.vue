@@ -19,7 +19,6 @@ onMounted(async () => {
   }
 
   try {
-    // Обмен кода на токен
     const response = await fetch('http://localhost:8071/oauth2/token', {
       method: 'POST',
       headers: {
@@ -29,19 +28,29 @@ onMounted(async () => {
       body: new URLSearchParams({
         grant_type: 'authorization_code',
         code,
-        redirect_uri: 'http://localhost:8080/auth-callback',
-        code_verifier: codeVerifier
-      })
+        redirect_uri: 'http://localhost:5173/auth-callback',
+        code_verifier: codeVerifier,
+        client_id: 'client'
+      }),
+      credentials: 'include'
     });
 
-    if (!response.ok) throw new Error('Ошибка получения токена');
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || 'Ошибка получения токена');
+    }
 
     const tokens = await response.json();
+
     localStorage.setItem('access_token', tokens.access_token);
+    localStorage.setItem('refresh_token', tokens.refresh_token || '');
     sessionStorage.removeItem('pkce_code_verifier');
-    router.push('/');
+
+    router.push('/works');
+
   } catch (error) {
     console.error('Ошибка:', error);
+    alert('Ошибка аутентификации: ' + error.message);
     router.push('/login');
   }
 });
