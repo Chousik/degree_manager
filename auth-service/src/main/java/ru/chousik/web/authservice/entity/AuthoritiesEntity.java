@@ -12,7 +12,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "authorities")
-@AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthoritiesEntity {
@@ -27,4 +26,9 @@ public class AuthoritiesEntity {
     @Size(max = 50)
     @NotNull
     String authority;
+
+    public AuthoritiesEntity(UserEntity user, String authority) {
+        this.user = user;
+        this.authority = authority;
+    }
 }
