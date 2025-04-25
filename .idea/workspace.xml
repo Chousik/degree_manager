@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="added &quot;/upload&quot;">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" afterDir="false" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="design end">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/ToolsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/ToolsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/route.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +73,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="e2a069b0339070c0fd58b31e99f28bb1448a8046" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -141,8 +144,8 @@
     "Repository.Attach.Sources": "false",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "451",
-    "RequestMappingsPanelWidth1": "451",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -150,7 +153,7 @@
     "Spring Boot.EurekaServerApplication.executor": "Run",
     "Spring Boot.GatewayServerApplication.executor": "Run",
     "Spring Boot.TaskServiceApplication.executor": "Run",
-    "git-widget-placeholder": "e2a069b0",
+    "git-widget-placeholder": "front",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/chousik/IdeaProjects/multi-microservice-app/auth-service/src/main/java/ru/chousik/web/authservice",
     "node.js.detected.package.eslint": "true",
@@ -206,7 +209,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
+  <component name="RunManager" selected="Docker.docker-compose.yml.db: Compose Deployment">
     <configuration name="gateway-server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -228,14 +231,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
       <method v="2" />
-    </configuration>
-    <configuration name="All in auth-service (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="auth-service" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="All in auth-service (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="auth-service" />
@@ -295,10 +290,23 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <configuration name="docker-compose.yml.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="db" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Gradle.gateway-server [build]" />
-      <item itemvalue="JUnit.All in auth-service (1)" />
       <item itemvalue="JUnit.All in auth-service (2)" />
       <item itemvalue="JUnit.All in auth-service (3)" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
@@ -308,11 +316,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="JUnit.All in auth-service (3)" />
         <item itemvalue="JUnit.All in auth-service (2)" />
         <item itemvalue="Gradle.gateway-server [build]" />
-        <item itemvalue="JUnit.All in auth-service (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -411,7 +419,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745520249865</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="design end">
+      <option name="closed" value="true" />
+      <created>1745570485145</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745570485145</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,7 +462,9 @@
     <MESSAGE value="logout and router" />
     <MESSAGE value="router for roles" />
     <MESSAGE value="added &quot;/upload&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="added &quot;/upload&quot;" />
+    <MESSAGE value="end design" />
+    <MESSAGE value="design end" />
+    <option name="LAST_COMMIT_MESSAGE" value="design end" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

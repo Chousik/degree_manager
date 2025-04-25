@@ -25,6 +25,12 @@ public class ToolsConfig {
                     .roles("ADMIN")
                     .build());
         }
+        if (!jdbcUserDetailsManager.userExists("hipeoplea")) {
+            jdbcUserDetailsManager.createUser(User.withUsername("hipeoplea")
+                    .password(passwordEncoder().encode("hipeoplea"))
+                    .roles("USER")
+                    .build());
+        }
         return jdbcUserDetailsManager;
     }
 
