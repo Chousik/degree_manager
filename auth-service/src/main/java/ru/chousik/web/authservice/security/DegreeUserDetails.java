@@ -11,8 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.chousik.web.authservice.entity.AuthoritiesEntity;
 import ru.chousik.web.authservice.entity.UserEntity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.stream.LangCollectors.collect;
 
 @JsonTypeName("ru.chousik.web.authservice.security.DegreeUserDetails")
 @JsonTypeInfo(
@@ -31,9 +35,10 @@ public class DegreeUserDetails implements UserDetails {
     List<AuthoritiesEntity> authoritiesEntities;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority > tmp = authoritiesEntities.stream().map(AuthoritiesEntity::getAuthority)
-                .map(SimpleGrantedAuthority::new).toList();
-        return new java.util.ArrayList<>(tmp);
+        return authoritiesEntities.stream()
+                .map(AuthoritiesEntity::getAuthority)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
