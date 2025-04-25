@@ -31,7 +31,8 @@ public class LoadDataConfig {
         TeacherEntity teacher = new TeacherEntity(
                 "Захар",
                 "Силаев",
-                "Алексеевич");
+                "Алексеевич",
+                "магистр йода");
         teacherRepository.save(teacher);
 
         UserEntity user = new UserEntity("chousik", passwordEncoder.encode("chousik"),

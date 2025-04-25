@@ -40,11 +40,18 @@ public class TeacherEntity {
     @NotNull
     String middleName;
 
+    @Column(name = "academic_status")
+    @Size(max = 50)
+    @NotNull
+    String academicStatus;
+
     public TeacherEntity(String name,
                          String surname,
-                         String middleName){
+                         String middleName,
+                         String academicStatus){
         this.name = name;
         this.surname = surname;
         this.middleName = middleName;
+        this.academicStatus = academicStatus;
     }
 }
