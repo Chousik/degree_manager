@@ -88,6 +88,7 @@ public class AuthorizationServerConfig {
                         .permitAll()
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("v3/**").permitAll()
                         .requestMatchers("/swagger-ui*/**").permitAll()
                         .anyRequest().authenticated()
                 );
