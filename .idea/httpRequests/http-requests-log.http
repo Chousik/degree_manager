@@ -1,3 +1,42 @@
+GET http://127.0.0.1:8080/teacher
+Authorization: Bearer eyJraWQiOiI4MWQzNmZjYi02MzAzLTRiNzUtOTIwZC1lYTNjNDRiYTIzNDciLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjaG91c2lrIiwiYXVkIjoiY2xpZW50IiwibmJmIjoxNzQ1NTczMDA3LCJzY29wZSI6WyJvcGVuaWQiXSwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwNzEiLCJleHAiOjE3NDU1NzQ4MDcsImlhdCI6MTc0NTU3MzAwNywianRpIjoiOTliMTU1N2UtNzU3Yi00MGIyLWFlMzMtMTIyMzk3MjQxMmUzIn0.jl3g0PykKysKU2naUeb1ERSmnsTYsyIdnZNlMmWHOzqDukM7srvgXg9j27bMv-P2j9WEkJe8lZylI-73QQlFYk_qe3906E60Cf-Aa5SqUNE2kTCO-bGX9HuVPiKl29SkI751bCutVH9lhmYseBclwXFo7XoxzU8bzIxsMeYZYkATwin_lfYznuFWGTC7fNy7ltKRewc-jC8E4HPr4LB7Hh1zMmN6ssS-ck-eIxFr3XAmjQyot3nmQo7Gxx4gJAy5RqHiR4ujBbqYEr5ai2ISvMxvTWLyKdggF4IWAuCrpah3-4che3uAAo7IYdMAC4m-4jLg5F_l4j2zUDjSj2l0rQ
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=ECC52FA5316D42D5A5695B00362A54C5
+
+<> 2025-04-25T122618.200.json
+
+###
+
+GET http://127.0.0.1:8080/student
+Authorization: Bearer eyJraWQiOiI4MWQzNmZjYi02MzAzLTRiNzUtOTIwZC1lYTNjNDRiYTIzNDciLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjaG91c2lrIiwiYXVkIjoiY2xpZW50IiwibmJmIjoxNzQ1NTczMDA3LCJzY29wZSI6WyJvcGVuaWQiXSwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwNzEiLCJleHAiOjE3NDU1NzQ4MDcsImlhdCI6MTc0NTU3MzAwNywianRpIjoiOTliMTU1N2UtNzU3Yi00MGIyLWFlMzMtMTIyMzk3MjQxMmUzIn0.jl3g0PykKysKU2naUeb1ERSmnsTYsyIdnZNlMmWHOzqDukM7srvgXg9j27bMv-P2j9WEkJe8lZylI-73QQlFYk_qe3906E60Cf-Aa5SqUNE2kTCO-bGX9HuVPiKl29SkI751bCutVH9lhmYseBclwXFo7XoxzU8bzIxsMeYZYkATwin_lfYznuFWGTC7fNy7ltKRewc-jC8E4HPr4LB7Hh1zMmN6ssS-ck-eIxFr3XAmjQyot3nmQo7Gxx4gJAy5RqHiR4ujBbqYEr5ai2ISvMxvTWLyKdggF4IWAuCrpah3-4che3uAAo7IYdMAC4m-4jLg5F_l4j2zUDjSj2l0rQ
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=ECC52FA5316D42D5A5695B00362A54C5
+
+<> 2025-04-25T122557.200.json
+
+###
+
+GET http://127.0.0.1:8080/student
+Authorization: Bearer eyJraWQiOiI4MWQzNmZjYi02MzAzLTRiNzUtOTIwZC1lYTNjNDRiYTIzNDciLCJhbGciOiJSUzI1NiJ9
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=ECC52FA5316D42D5A5695B00362A54C5
+
+###
+
+GET http://127.0.0.1:8071/actuator/health
+Accept: application/vnd.spring-boot.actuator.v3+json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Cookie: JSESSIONID=DD51289F9C0032FF94132B95207EAC89
+
+###
+
 GET http://127.0.0.1:8071/v3/api-docs
 Accept: application/json
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3

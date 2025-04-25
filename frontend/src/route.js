@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
                 next('/works');
             }
             else if (to.path !== '/admin' && isAdmin) {
-                next();
+                next('/admin');
             }
             else {
                 next();

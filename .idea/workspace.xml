@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="router for roles">
-      <change afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/config/LoadDataConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/dto/WorkDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/entity/StudentEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/entity/WorkEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/repository/StudentRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/repository/TeacherRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/repository/WorkRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/auth-service.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/auth-service.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/task-service.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/task-service.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/task-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/controller/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/controller/WorkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/task-service/src/main/resources/application.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="router for roles" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -142,6 +124,7 @@
     &quot;Gradle.auth-service [dependencyManagement].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.gateway-server [build].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.gateway-server [clean].executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.AuthServiceApplication | #2.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.GatewayServerApplication | #1.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.TaskServiceApplication | #1.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.TaskServiceApplication | Hello with Bearer.executor&quot;: &quot;Run&quot;,
@@ -248,35 +231,11 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="gateway-server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/gateway-server" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
+    <configuration name="AuthServiceApplication | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/AuthServiceApplication.http" executionIdentifier="#2" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="All in auth-service (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="auth-service" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="TaskServiceApplication | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/TaskServiceApplication.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
     </configuration>
     <configuration name="All in auth-service (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="auth-service" />
@@ -331,8 +290,8 @@
     <list>
       <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Gradle.AuthServiceApplicationTests" />
-      <item itemvalue="Gradle.gateway-server [build]" />
-      <item itemvalue="JUnit.All in auth-service (2)" />
+      <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
+      <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
       <item itemvalue="JUnit.All in auth-service (3)" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication" />
@@ -341,11 +300,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
+        <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
         <item itemvalue="Gradle.AuthServiceApplicationTests" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="JUnit.All in auth-service (3)" />
-        <item itemvalue="JUnit.All in auth-service (2)" />
-        <item itemvalue="Gradle.gateway-server [build]" />
       </list>
     </recent_temporary>
   </component>

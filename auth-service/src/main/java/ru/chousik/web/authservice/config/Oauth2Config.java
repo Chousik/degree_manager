@@ -33,9 +33,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Configuration
 public class Oauth2Config {
@@ -106,7 +108,7 @@ public class Oauth2Config {
                 Authentication principal = context.getPrincipal();
                 var roles = principal.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
-                        .toList();
+                        .collect(Collectors.toCollection(ArrayList::new));
                 context.getClaims().claim("roles", roles);
             }
         };
