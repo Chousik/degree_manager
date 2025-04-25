@@ -1,3 +1,11 @@
+GET http://127.0.0.1:8071/actuator/health
+Accept: application/vnd.spring-boot.actuator.v3+json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Cookie: JSESSIONID=DD51289F9C0032FF94132B95207EAC89
+
+###
+
 GET http://127.0.0.1:8071/v3/api-docs
 Accept: application/json
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3

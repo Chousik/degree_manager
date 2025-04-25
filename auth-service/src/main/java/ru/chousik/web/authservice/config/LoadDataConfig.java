@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.chousik.web.authservice.entity.AuthoritiesEntity;
 import ru.chousik.web.authservice.entity.TeacherEntity;
@@ -23,6 +24,7 @@ public class LoadDataConfig {
     TeacherRepository teacherRepository;
     UserRepository userRepository;
     AuthoritiesRepository authoritiesRepository;
+    PasswordEncoder passwordEncoder;
     @PostConstruct
     public void initial(){
         if (userRepository.getUserEntitiesByUsername("chousik").isEmpty()){
@@ -32,7 +34,7 @@ public class LoadDataConfig {
                 "Алексеевич");
         teacherRepository.save(teacher);
 
-        UserEntity user = new UserEntity("chousik", "chousik",
+        UserEntity user = new UserEntity("chousik", passwordEncoder.encode("chousik"),
                 true, teacher);
         userRepository.save(user);
 

@@ -1,5 +1,7 @@
 package ru.chousik.web.authservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,6 +16,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonTypeName("ru.chousik.web.authservice.entity.TeacherEntity")
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@class"
+)
 public class TeacherEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

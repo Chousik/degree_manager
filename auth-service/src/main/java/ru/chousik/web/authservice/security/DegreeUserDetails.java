@@ -1,7 +1,10 @@
 package ru.chousik.web.authservice.security;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,9 +15,18 @@ import ru.chousik.web.authservice.entity.UserEntity;
 import java.util.Collection;
 import java.util.List;
 
-
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
+@JsonTypeName("ru.chousik.web.authservice.security.DegreeUserDetails")
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@class"
+)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties(value = { "authorities", "authoritiesEntities" }, ignoreUnknown = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class DegreeUserDetails implements UserDetails {
     UserEntity user;
     List<AuthoritiesEntity> authoritiesEntities;
@@ -23,17 +35,14 @@ public class DegreeUserDetails implements UserDetails {
         return authoritiesEntities.stream().map(AuthoritiesEntity::getAuthority)
                 .map(SimpleGrantedAuthority::new).toList();
     }
-
     @Override
     public String getPassword() {
         return user.getPassword();
     }
-
     @Override
     public String getUsername() {
         return user.getUsername();
     }
-
     @Override
     public boolean isEnabled() {
         return user.getEnabled();
