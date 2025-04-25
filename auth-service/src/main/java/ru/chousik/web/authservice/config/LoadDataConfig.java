@@ -42,5 +42,20 @@ public class LoadDataConfig {
         authoritiesRepository.save(new AuthoritiesEntity(user,
                 "ROLE_ADMIN"));
             }
+        if (userRepository.getUserEntitiesByUsername("hipeoplea").isEmpty()){
+            TeacherEntity teacher = new TeacherEntity(
+                    "Елена",
+                    "Путинцева",
+                    "Валентиновна",
+                    "пук пук");
+            teacherRepository.save(teacher);
+
+            UserEntity user = new UserEntity("hipeoplea", passwordEncoder.encode("hipeoplea"),
+                    true, teacher);
+            userRepository.save(user);
+
+            authoritiesRepository.save(new AuthoritiesEntity(user,
+                    "ROLE_USER"));
+        }
     }
 }
