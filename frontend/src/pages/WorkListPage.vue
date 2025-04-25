@@ -167,6 +167,7 @@
 import { ref, computed } from 'vue'
 import { useWorksStore } from '@/store/auth'
 
+const usname = "Путинцева Елена"
 const worksStore = useWorksStore()
 const searchQuery = ref('')
 const selectedYear = ref('')
