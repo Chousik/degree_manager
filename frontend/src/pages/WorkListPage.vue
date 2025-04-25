@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import {useStudentsStore} from "@/store/studentStore.js";
 
 const router = useRouter()
 const usname = "Путинцева Елена"
@@ -16,6 +17,12 @@ const selectedSupervisor = ref('')
 const selectedAuthor = ref('')
 const showSupervisorSuggestions = ref(false)
 const showAuthorSuggestions = ref(false)
+const studentsStore = useStudentsStore()
+
+
+onMounted(async () => {
+  await studentsStore.fetchStudents()
+})
 
 const works = ref([
   {

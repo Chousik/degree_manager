@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="design end">
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="2users">
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/diploma.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/students.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/teachers.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/studentStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/ToolsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/ToolsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +72,7 @@
         <option value="HTML File" />
         <option value="Class" />
         <option value="Vue Composition API Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -155,7 +159,7 @@
     "Spring Boot.TaskServiceApplication.executor": "Run",
     "git-widget-placeholder": "front",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/chousik/IdeaProjects/multi-microservice-app/auth-service/src/main/java/ru/chousik/web/authservice",
+    "last_opened_file_path": "C:/Users/chenqing/IdeaProjects/degree_manager/frontend/src/assets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -183,11 +187,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\src\assets" />
       <recent name="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice" />
       <recent name="$PROJECT_DIR$/.idea/modules" />
       <recent name="$PROJECT_DIR$/.idea" />
       <recent name="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice" />
-      <recent name="$PROJECT_DIR$/auth-service/src/main/resources/initial" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/auth-service/src/main/resources/initial" />
@@ -427,7 +431,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745570485145</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="2users">
+      <option name="closed" value="true" />
+      <created>1745571052977</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1745571052977</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -464,7 +476,8 @@
     <MESSAGE value="added &quot;/upload&quot;" />
     <MESSAGE value="end design" />
     <MESSAGE value="design end" />
-    <option name="LAST_COMMIT_MESSAGE" value="design end" />
+    <MESSAGE value="2users" />
+    <option name="LAST_COMMIT_MESSAGE" value="2users" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
