@@ -1,0 +1,77 @@
+[
+  {
+    "name": "user1",
+    "password": "password1",
+    "teacher": "Путинцева Елена Валентиновна"
+  },
+  {
+    "name": "user2",
+    "password": "password2",
+    "teacher": "Адаскин Анатолий Матвеевич"
+  },
+  {
+    "name": "user3",
+    "password": "password3",
+    "teacher": "Албычаков Аркадий Андреевич"
+  },
+  {
+    "name": "user4",
+    "password": "password4",
+    "teacher": "Александров Сергей Алексеевич"
+  },
+  {
+    "name": "user5",
+    "password": "password5",
+    "teacher": "Алепко Андрей Владимирович"
+  },
+  {
+    "name": "user6",
+    "password": "password6",
+    "teacher": "Алешин Василий Иванович"
+  },
+  {
+    "name": "user7",
+    "password": "password7",
+    "teacher": "Алешин Сергей Викторович"
+  },
+  {
+    "name": "user8",
+    "password": "password8",
+    "teacher": "Алфарви Исса"
+  },
+  {
+    "name": "user9",
+    "password": "password9",
+    "teacher": "Андреев Виктор Павлович"
+  },
+  {
+    "name": "user10",
+    "password": "password10",
+    "teacher": "Андреев Владимир Николаевич"
+  },
+  {
+    "name": "user11",
+    "password": "password11",
+    "teacher": "Аристархов Павел Владимирович"
+  },
+  {
+    "name": "user12",
+    "password": "password12",
+    "teacher": "Артемьева Мария Сергеевна"
+  },
+  {
+    "name": "user13",
+    "password": "password13",
+    "teacher": "Асадуллаева Екатерина Романовна"
+  },
+  {
+    "name": "user14",
+    "password": "password14",
+    "teacher": "Афонин Вячеслав Леонидович"
+  },
+  {
+    "name": "user15",
+    "password": "password15",
+    "teacher": "Афонина Елена Вячеславовна"
+  }
+]

@@ -1,0 +1,136 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "last_name": "Абдуллаев",
+      "first_name": "Асадбек",
+      "middle_name": "Шобайдулла угли"
+    },
+    {
+      "id": 2,
+      "last_name": "Ашуров",
+      "first_name": "Мехроджиддин",
+      "middle_name": "Махкамджонович"
+    },
+    {
+      "id": 3,
+      "last_name": "Бернев",
+      "first_name": "Владимир",
+      "middle_name": "Владимирович"
+    },
+    {
+      "id": 4,
+      "last_name": "Брюшенцов",
+      "first_name": "Кирилл",
+      "middle_name": "Викторович"
+    },
+    {
+      "id": 5,
+      "last_name": "Герасимов",
+      "first_name": "Дмитрий",
+      "middle_name": "Семёнович"
+    },
+    {
+      "id": 6,
+      "last_name": "Грибанов",
+      "first_name": "Александр",
+      "middle_name": "Дмитриевич"
+    },
+    {
+      "id": 7,
+      "last_name": "Дулев",
+      "first_name": "Владислав",
+      "middle_name": "Вадимович"
+    },
+    {
+      "id": 8,
+      "last_name": "Куимов",
+      "first_name": "Алексей",
+      "middle_name": "Константинович"
+    },
+    {
+      "id": 9,
+      "last_name": "Курашев",
+      "first_name": "Бекжахон",
+      "middle_name": "Махсуд угли"
+    },
+    {
+      "id": 10,
+      "last_name": "Лебедева",
+      "first_name": "Альбина",
+      "middle_name": "Борисовна"
+    },
+    {
+      "id": 11,
+      "last_name": "Лушников",
+      "first_name": "Платон",
+      "middle_name": "Александрович"
+    },
+    {
+      "id": 12,
+      "last_name": "Марковец",
+      "first_name": "Дарья",
+      "middle_name": "Сергеевна"
+    },
+    {
+      "id": 13,
+      "last_name": "Мартынов",
+      "first_name": "Никита",
+      "middle_name": "Денисович"
+    },
+    {
+      "id": 14,
+      "last_name": "Мироненко",
+      "first_name": "Дарья",
+      "middle_name": "Андреевна"
+    },
+    {
+      "id": 15,
+      "last_name": "Орлов",
+      "first_name": "Максим",
+      "middle_name": "Павлович"
+    },
+    {
+      "id": 16,
+      "last_name": "Савилов",
+      "first_name": "Игорь",
+      "middle_name": "Олегович"
+    },
+    {
+      "id": 17,
+      "last_name": "Санталов",
+      "first_name": "Михаил",
+      "middle_name": "Дмитриевич"
+    },
+    {
+      "id": 18,
+      "last_name": "Семиноженко",
+      "first_name": "Семен",
+      "middle_name": "Витальевич"
+    },
+    {
+      "id": 19,
+      "last_name": "Тимошин",
+      "first_name": "Иван",
+      "middle_name": "Сергеевич"
+    },
+    {
+      "id": 20,
+      "last_name": "Усов",
+      "first_name": "Александр",
+      "middle_name": "Максимович"
+    },
+    {
+      "id": 21,
+      "last_name": "Хохлов",
+      "first_name": "Дмитрий",
+      "middle_name": "Сергеевич"
+    },
+    {
+      "id": 22,
+      "last_name": "Шилов",
+      "first_name": "Дмитрий",
+      "middle_name": "Юрьевич"
+    }
+  ]
+}
