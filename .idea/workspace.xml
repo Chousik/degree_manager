@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="router for roles" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="router for roles">
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/entity/TeacherEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/entity/TeacherEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/security/DegreeUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/security/DegreeUserDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice/controller/StudentController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -234,13 +242,8 @@
     <configuration name="AuthServiceApplication | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/AuthServiceApplication.http" executionIdentifier="#2" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="All in auth-service (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="auth-service" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="TaskServiceApplication | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/TaskServiceApplication.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
     </configuration>
     <configuration name="All in auth-service (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="auth-service" />
@@ -295,8 +298,8 @@
     <list>
       <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Gradle.AuthServiceApplicationTests" />
+      <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
       <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
-      <item itemvalue="JUnit.All in auth-service (2)" />
       <item itemvalue="JUnit.All in auth-service (3)" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication" />
@@ -305,11 +308,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
         <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
         <item itemvalue="Gradle.AuthServiceApplicationTests" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="JUnit.All in auth-service (3)" />
-        <item itemvalue="JUnit.All in auth-service (2)" />
       </list>
     </recent_temporary>
   </component>

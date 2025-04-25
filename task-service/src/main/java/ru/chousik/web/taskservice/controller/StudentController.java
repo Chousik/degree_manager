@@ -12,7 +12,7 @@ import ru.chousik.web.taskservice.repository.StudentRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping("/teacher")
+@RequestMapping("/student")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class StudentController {
