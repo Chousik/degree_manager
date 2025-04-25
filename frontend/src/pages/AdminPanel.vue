@@ -86,7 +86,7 @@
       <input
           type="text"
           v-model="searchQuery"
-          placeholder="Поиск по преподавателям"
+          placeholder="Поиск по пользователям"
           class="w-full py-3 px-5 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
       />
     </div>
@@ -94,12 +94,12 @@
     <!-- Список пользователей -->
     <div class="space-y-4">
       <div
-          v-for="(user, index) in users"
+          v-for="(user, index) in filteredUsers"
           :key="index"
           class="bg-[#B3B8F5] p-4 rounded-2xl shadow-md"
       >
         <p class="text-lg font-medium">
-          {{ user.teacher }} <span v-if="user.isAdmin" class="text-green-500">(Admin)</span>
+           {{ user.teacher }} <span v-if="user.isAdmin" class="text-green-500">(Admin)</span>
         </p>
         <div class="mt-2 flex flex-wrap gap-2">
           <button @click="changePassword(user)" class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
@@ -121,8 +121,10 @@
 import { ref, computed, onMounted } from 'vue'
 import teachersData from '@/assets/teachers.json'
 import usersData from '@/assets/users.json'
+import { useRouter } from 'vue-router'
 
-const username = 'adminka'
+const router = useRouter()
+const username = 'Администратор'
 
 const menuOpen = ref(false)
 const toggleMenu = () => (menuOpen.value = !menuOpen.value)
@@ -135,6 +137,13 @@ const filteredTeachers = computed(() =>
     teachers.value.filter(t => {
       const fullName = `${t.full_name}`.toLowerCase()
       return fullName.includes(searchQuery.value.toLowerCase())
+    })
+)
+
+const filteredUsers = computed(() =>
+    users.value.filter(u => {
+      const name = u.teacher.toLowerCase()
+      return name.includes(searchQuery.value.toLowerCase())
     })
 )
 
@@ -212,6 +221,10 @@ function fetchTeachers() {
     academic_status: t.academic_status
   }))
 }
-
+function logout() {
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('access_token')
+  router.push('/login')
+}
 onMounted(fetchTeachers)
 </script>
