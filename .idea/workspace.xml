@@ -4,10 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="router for roles">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/task-service.main.iml" afterDir="false" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="Full admin panelv2">
+      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломГрибанов.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломМироненко.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСавилов.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСанталов.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/Силаев Захар ВычМат (1).pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/auth.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +165,7 @@
     "Spring Boot.TaskServiceApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/chousik/IdeaProjects/multi-microservice-app/auth-service/src/main/java/ru/chousik/web/authservice",
+    "last_opened_file_path": "C:/Users/chenqing/IdeaProjects/degree_manager/frontend/public/diplomas",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -186,16 +193,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
       <recent name="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice" />
       <recent name="$PROJECT_DIR$/.idea/modules" />
       <recent name="$PROJECT_DIR$/.idea" />
       <recent name="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice" />
-      <recent name="$PROJECT_DIR$/auth-service/src/main/resources/initial" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public" />
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\src\assets\diplomas" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\src\assets" />
       <recent name="$PROJECT_DIR$/auth-service/src/main/resources/initial" />
-      <recent name="$PROJECT_DIR$/auth-service/src/main/resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="ru.chousik.web.taskservice.repository" />
@@ -413,7 +422,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745580649402</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Full admin panelv2">
+      <option name="closed" value="true" />
+      <created>1745581686825</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745581686825</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -468,7 +485,8 @@
     <MESSAGE value="logout and router" />
     <MESSAGE value="router for roles" />
     <MESSAGE value="Full admin panel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Full admin panel" />
+    <MESSAGE value="Full admin panelv2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Full admin panelv2" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

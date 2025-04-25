@@ -1,135 +1,3 @@
-<script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const usname = "Путинцева Елена"
-const currentYear = new Date().getFullYear()
-const yearOptions = Array.from({ length: 6 }, (_, i) => currentYear - i)
-const selectedYear = ref('')
-const mobileMenuOpen = ref(false)
-
-const searchQuery = ref('')
-const filterSupervisorInput = ref('')
-const filterAuthorInput = ref('')
-const selectedSupervisor = ref('')
-const selectedAuthor = ref('')
-const showSupervisorSuggestions = ref(false)
-const showAuthorSuggestions = ref(false)
-
-const works = ref([
-  {
-    title: 'Веб приложение для помощи сотрудникам кафедр в систематизации информации о выпускных квалификационных работах обучающихся',
-    author: 'Мироненко Дарья Андреевна',
-    year: 2025,
-    supervisor: 'Путинцева Елена Валентиновна',
-    progress: 75,
-    status: 'На проверке'
-  },
-  {
-    title: 'Разработка параметрической управляющей программы...',
-    author: 'Иванов Сергей Петрович',
-    year: 2023,
-    supervisor: 'Иванов Иван Иванович',
-    progress: 100,
-    status: 'Проверено'
-  },
-  {
-    title: 'Разработка системы управления',
-    author: 'Сидорова Анна Викторовна',
-    year: 2021,
-    supervisor: 'Петров Пётр Петрович',
-    progress: 30,
-    status: 'В работе'
-  },
-])
-
-const circleRadius = 40
-const circumference = 2 * Math.PI * circleRadius
-
-const getStrokeDashoffset = (progress) => {
-  return circumference - (progress / 100) * circumference
-}
-
-const uniqueAuthors = computed(() => {
-  const names = works.value.map(w => w.author).filter(name => name)
-  return names.length ? [...new Set(names)] : []
-})
-
-const uniqueSupervisors = computed(() => {
-  const names = works.value.map(w => w.supervisor).filter(name => name)
-  return names.length ? [...new Set(names)] : []
-})
-
-const filteredAuthors = computed(() => {
-  return uniqueAuthors.value.filter(author =>
-      author.toLowerCase().includes(filterAuthorInput.value.toLowerCase())
-  )
-})
-
-const filteredSupervisors = computed(() => {
-  return uniqueSupervisors.value.filter(supervisor =>
-      supervisor.toLowerCase().includes(filterSupervisorInput.value.toLowerCase())
-  )
-})
-
-const filteredWorks = computed(() => {
-  return works.value.filter(work => {
-    const matchesTitle = work.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-    const matchesYear = selectedYear.value ? work.year === parseInt(selectedYear.value) : true
-    const matchesSupervisor = selectedSupervisor.value
-        ? work.supervisor.toLowerCase().includes(selectedSupervisor.value.toLowerCase())
-        : true
-    const matchesAuthor = selectedAuthor.value
-        ? work.author.toLowerCase().includes(selectedAuthor.value.toLowerCase())
-        : true
-
-    return matchesTitle && matchesYear && matchesSupervisor && matchesAuthor
-  })
-})
-
-function selectAuthor(author) {
-  selectedAuthor.value = author
-  filterAuthorInput.value = author
-  showAuthorSuggestions.value = false
-}
-
-function selectSupervisor(name) {
-  selectedSupervisor.value = name
-  filterSupervisorInput.value = name
-  showSupervisorSuggestions.value = false
-}
-
-function resetFilters() {
-  searchQuery.value = ''
-  selectedYear.value = ''
-  selectedSupervisor.value = ''
-  selectedAuthor.value = ''
-  filterSupervisorInput.value = ''
-  filterAuthorInput.value = ''
-}
-
-function handleClickOutside(event) {
-  if (
-      !event.target.closest('.relative') &&
-      !event.target.closest('input')
-  ) {
-    showSupervisorSuggestions.value = false
-    showAuthorSuggestions.value = false
-  }
-}
-
-function closeMenu() {
-  mobileMenuOpen.value = false
-}
-
-function logout() {
-  localStorage.removeItem('refresh_token');
-  localStorage.removeItem('access_token')
-  router.push('/login')
-}
-</script>
-
 <template>
   <div class="min-h-screen bg-[#C9D7FF]" @click="handleClickOutside">
     <main class="flex h-screen flex-col lg:flex-row">
@@ -224,13 +92,13 @@ function logout() {
           </nav>
         </div>
 
-          <!-- Пользователь и выход -->
-          <div class="flex justify-between items-center pt-4 border-t border-gray-300 mt-auto">
-            <p class="text-xl lg:text-2xl">{{ usname }}</p>
-            <button @click="logout" class="bg-transparent border-none">
-              <img src="../icons/exit.png" alt="icon" class="h-10 lg:h-12">
-            </button>
-          </div>
+        <!-- Пользователь и выход -->
+        <div class="flex justify-between items-center pt-4 border-t border-gray-300 mt-auto">
+          <p class="text-xl lg:text-2xl">{{ usname }}</p>
+          <button @click="logout" class="bg-transparent border-none">
+            <img src="../icons/exit.png" alt="icon" class="h-10 lg:h-12">
+          </button>
+        </div>
       </aside>
 
       <section class="w-full lg:w-3/4 p-4 overflow-y-auto">
@@ -251,10 +119,12 @@ function logout() {
             <p class="text-sm mb-1">Автор: {{ work.author }}, {{ work.year }}</p>
             <p class="text-sm">Научный руководитель: {{ work.supervisor }}</p>
             <div class="mt-2 flex flex-wrap gap-2">
-              <router-link to="/preview" class="px-4 py-1 bg-gray-200 rounded hover:bg-gray-300">
+              <router-link :to="`/preview/${work.link}`" class="px-4 py-1 bg-gray-200 rounded hover:bg-gray-300">
                 Просмотр
               </router-link>
-              <button class="px-4 py-1 bg-gray-700 text-white rounded hover:bg-black">Скачать</button>
+              <a :href="`${work.link}.pdf`" download class="px-4 py-1 bg-black text-white rounded hover:bg-gray-300">
+                Скачать
+              </a>
             </div>
           </div>
 
@@ -292,3 +162,98 @@ function logout() {
     </main>
   </div>
 </template>
+
+<script setup>
+import { ref, computed } from 'vue'
+import { useWorksStore } from '@/store/auth'
+
+const worksStore = useWorksStore()
+const searchQuery = ref('')
+const selectedYear = ref('')
+const selectedSupervisor = ref('')
+const selectedAuthor = ref('')
+const filterAuthorInput = ref('')
+const filterSupervisorInput = ref('')
+const showSupervisorSuggestions = ref(false)
+const showAuthorSuggestions = ref(false)
+
+const currentYear = new Date().getFullYear()
+const yearOptions = Array.from({ length: 6 }, (_, i) => currentYear - i)
+
+const circleRadius = 40
+const circumference = 2 * Math.PI * circleRadius
+
+const getStrokeDashoffset = (progress) => {
+  return circumference - (progress / 100) * circumference
+}
+
+const uniqueAuthors = computed(() => {
+  const names = worksStore.works.map(w => w.author).filter(name => name)
+  return names.length ? [...new Set(names)] : []
+})
+
+const uniqueSupervisors = computed(() => {
+  const names = worksStore.works.map(w => w.supervisor).filter(name => name)
+  return names.length ? [...new Set(names)] : []
+})
+
+const filteredAuthors = computed(() => {
+  return uniqueAuthors.value.filter(author =>
+      author.toLowerCase().includes(filterAuthorInput.value.toLowerCase())
+  )
+})
+
+const filteredSupervisors = computed(() => {
+  return uniqueSupervisors.value.filter(supervisor =>
+      supervisor.toLowerCase().includes(filterSupervisorInput.value.toLowerCase())
+  )
+})
+
+const filteredWorks = computed(() => {
+  return worksStore.works.filter(work => {
+    const matchesTitle = work.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const matchesYear = selectedYear.value ? work.year === parseInt(selectedYear.value) : true
+    const matchesSupervisor = selectedSupervisor.value
+        ? work.supervisor.toLowerCase().includes(selectedSupervisor.value.toLowerCase())
+        : true
+    const matchesAuthor = selectedAuthor.value
+        ? work.author.toLowerCase().includes(selectedAuthor.value.toLowerCase())
+        : true
+
+    return matchesTitle && matchesYear && matchesSupervisor && matchesAuthor
+  })
+})
+
+function selectAuthor(author) {
+  selectedAuthor.value = author
+  filterAuthorInput.value = author
+  showAuthorSuggestions.value = false
+}
+
+function selectSupervisor(name) {
+  selectedSupervisor.value = name
+  filterSupervisorInput.value = name
+  showSupervisorSuggestions.value = false
+}
+
+function resetFilters() {
+  searchQuery.value = ''
+  selectedYear.value = ''
+  selectedSupervisor.value = ''
+  selectedAuthor.value = ''
+  filterSupervisorInput.value = ''
+  filterAuthorInput.value = ''
+}
+
+function handleClickOutside(event) {
+  if (
+      !event.target.closest('.relative') &&
+      !event.target.closest('input')
+  ) {
+    showSupervisorSuggestions.value = false
+    showAuthorSuggestions.value = false
+  }
+}
+
+
+</script>

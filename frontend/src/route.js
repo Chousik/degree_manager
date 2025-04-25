@@ -12,7 +12,10 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/auth-callback', component: AuthorizedPage },
     { path: '/works', component: WorkList },
-    { path: '/preview', component: WorkPreview },
+    {
+        path: '/preview/:title',
+        component: WorkPreview // Укажите путь к компоненту
+    },
     { path: '/upload', component: UploadPage},
     { path: '/admin', component: AdminPanel }
 ]
