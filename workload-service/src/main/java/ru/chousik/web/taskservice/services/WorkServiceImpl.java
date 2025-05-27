@@ -34,9 +34,11 @@ public class WorkServiceImpl implements WorkService {
     private WorkDTO mapToDTO(WorkEntity work){
         StudentDTO student = studentClient.getStudentById(work.getStudentId());
         WorkDTO workDTO = modelMapper.map(work, WorkDTO.class);
-        workDTO.setAuthor(String.join(" ", List.of(student.getName(),
-                student.getMiddleName(),
-                student.getSurname())));
+        workDTO.setAuthor(String.join(" ",
+                List.of(
+                        student.getName(),
+                        student.getMiddleName(),
+                        student.getSurname())));
         return workDTO;
     }
 }
