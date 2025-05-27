@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -30,7 +32,6 @@ public class UserEntity {
     @NotNull
     Boolean enabled;
 
-    @OneToOne
-    @JoinColumn(name = "id", unique = true)
-    TeacherEntity teacher;
+    @NotNull
+    UUID teacher_id;
 }
