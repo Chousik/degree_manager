@@ -2,6 +2,9 @@ package ru.chousik.web.taskservice.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -10,13 +13,10 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Component;
 
 @Component
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class FeignClientInterceptor implements RequestInterceptor {
-
-    private final OAuth2AuthorizedClientService clientService;
-
-    public FeignClientInterceptor(OAuth2AuthorizedClientService clientService) {
-        this.clientService = clientService;
-    }
+    OAuth2AuthorizedClientService clientService;
 
     @Override
     public void apply(RequestTemplate template) {

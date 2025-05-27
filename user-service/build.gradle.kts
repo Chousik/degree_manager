@@ -31,7 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
+	/*implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")*/
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
@@ -41,6 +41,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation("ru.chousik.web:common:1.0-SNAPSHOT")
 }
 
 dependencyManagement {

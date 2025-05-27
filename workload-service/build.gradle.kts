@@ -48,6 +48,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client:3.4.4")
+	implementation("ru.chousik.web:common:1.0-SNAPSHOT")
 }
 
 tasks.withType<Test> {
