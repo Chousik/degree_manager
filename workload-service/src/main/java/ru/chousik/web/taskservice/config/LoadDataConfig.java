@@ -9,7 +9,6 @@ import ru.chousik.web.taskservice.entity.TeacherEntity;
 import ru.chousik.web.taskservice.entity.StudentEntity;
 import ru.chousik.web.taskservice.repository.StudentRepository;
 import ru.chousik.web.taskservice.repository.TeacherRepository;
-import ru.chousik.web.taskservice.repository.WorkRepository;
 
 import java.util.Optional;
 
@@ -18,7 +17,6 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LoadDataConfig {
     StudentRepository studentRepository;
-    WorkRepository workRepository;
     TeacherRepository teacherRepository;
 
     //#todo тут Логику добавления Маш
