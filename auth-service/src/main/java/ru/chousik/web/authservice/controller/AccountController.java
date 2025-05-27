@@ -18,6 +18,7 @@ import ru.chousik.web.authservice.dto.AdminChangePasswordDto;
 import ru.chousik.web.authservice.dto.ChangePasswordDto;
 import ru.chousik.web.authservice.dto.RegisterUserDto;
 import ru.chousik.web.authservice.services.AccountService;
+import ru.chousik.web.authservice.services.AccountServiceImpl;
 
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class AccountController {
-    AccountService accountService;
+    AccountService accountServiceImpl;
 
 
 
@@ -43,7 +44,7 @@ public class AccountController {
     description = "dto with username and password")
             @RequestBody @Valid RegisterUserDto dto){
         try {
-            accountService.register(dto);
+            accountServiceImpl.register(dto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -63,7 +64,7 @@ public class AccountController {
             @Parameter(name = "oldPassword") @RequestBody
             @Valid ChangePasswordDto dto){
         try {
-            accountService.changeOwnPassword(userDetails.getUsername(), dto);
+            accountServiceImpl.changeOwnPassword(userDetails.getUsername(), dto);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -85,7 +86,7 @@ public class AccountController {
             @Parameter(description = "New password")
             @RequestBody @Valid AdminChangePasswordDto dto) {
         try {
-            accountService.changeUserPassword(username, dto);
+            accountServiceImpl.changeUserPassword(username, dto);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -105,7 +106,7 @@ public class AccountController {
             @Parameter(description = "Username to grant admin role")
             @PathVariable String username) {
         try {
-            accountService.addAdminRole(username);
+            accountServiceImpl.addAdminRole(username);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

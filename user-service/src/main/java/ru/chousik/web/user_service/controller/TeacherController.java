@@ -6,8 +6,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.chousik.web.taskservice.entity.TeacherEntity;
-import ru.chousik.web.taskservice.repository.TeacherRepository;
+import ru.chousik.web.dto.TeacherDTO;
+import ru.chousik.web.user_service.repository.TeacherRepository;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class TeacherController {
     TeacherRepository teacherRepository;
 
     @GetMapping
-    List<TeacherEntity> getTeacher(){
+    List<TeacherDTO> getTeacher(){
         return teacherRepository.findAll();
     }
 }
