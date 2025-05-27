@@ -44,6 +44,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.4.4")
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client:3.4.4")
 }
 
 tasks.withType<Test> {

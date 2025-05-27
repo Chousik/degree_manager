@@ -1,12 +1,16 @@
 package ru.chousik.web.authservice.services;
 
-import ru.chousik.web.authservice.dto.AdminChangePasswordDto;
-import ru.chousik.web.authservice.dto.ChangePasswordDto;
-import ru.chousik.web.authservice.dto.RegisterUserDto;
+import ru.chousik.web.authservice.dto.AdminChangePasswordDTO;
+import ru.chousik.web.authservice.dto.ChangePasswordDTO;
+import ru.chousik.web.authservice.dto.RegisterUserDTO;
+import ru.chousik.web.authservice.dto.UserDTO;
+
+import java.util.List;
 
 public interface AccountService {
-    void register(RegisterUserDto dto);
-    void changeOwnPassword(String username, ChangePasswordDto dto);
-    void changeUserPassword(String username, AdminChangePasswordDto dto);
+    void register(RegisterUserDTO dto);
+    void changeOwnPassword(String username, ChangePasswordDTO dto);
+    void changeUserPassword(String username, AdminChangePasswordDTO dto);
     void addAdminRole(String username);
+    List<UserDTO> getUsers();
 }

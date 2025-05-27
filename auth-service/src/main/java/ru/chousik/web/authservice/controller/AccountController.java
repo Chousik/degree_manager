@@ -14,12 +14,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import ru.chousik.web.authservice.dto.AdminChangePasswordDto;
-import ru.chousik.web.authservice.dto.ChangePasswordDto;
-import ru.chousik.web.authservice.dto.RegisterUserDto;
+import ru.chousik.web.authservice.dto.AdminChangePasswordDTO;
+import ru.chousik.web.authservice.dto.ChangePasswordDTO;
+import ru.chousik.web.authservice.dto.RegisterUserDTO;
+import ru.chousik.web.authservice.dto.UserDTO;
 import ru.chousik.web.authservice.services.AccountService;
-import ru.chousik.web.authservice.services.AccountServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,7 +43,7 @@ public class AccountController {
     })
     public ResponseEntity<?> register(@Parameter(name = "username&password",
     description = "dto with username and password")
-            @RequestBody @Valid RegisterUserDto dto){
+            @RequestBody @Valid RegisterUserDTO dto){
         try {
             accountServiceImpl.register(dto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -62,7 +63,7 @@ public class AccountController {
     public ResponseEntity<?> changeOwnPassword(
             @AuthenticationPrincipal UserDetails userDetails,
             @Parameter(name = "oldPassword") @RequestBody
-            @Valid ChangePasswordDto dto){
+            @Valid ChangePasswordDTO dto){
         try {
             accountServiceImpl.changeOwnPassword(userDetails.getUsername(), dto);
             return ResponseEntity.noContent().build();
@@ -84,7 +85,7 @@ public class AccountController {
             @Parameter(description = "Username to change password for")
             @PathVariable String username,
             @Parameter(description = "New password")
-            @RequestBody @Valid AdminChangePasswordDto dto) {
+            @RequestBody @Valid AdminChangePasswordDTO dto) {
         try {
             accountServiceImpl.changeUserPassword(username, dto);
             return ResponseEntity.noContent().build();
@@ -112,5 +113,10 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", e.getMessage()));
         }
+    }
+
+    @GetMapping
+    public List<UserDTO> getUsers(){
+        return accountServiceImpl.getUsers();
     }
 }

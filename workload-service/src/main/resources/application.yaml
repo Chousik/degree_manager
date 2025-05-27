@@ -18,7 +18,9 @@ spring:
       ddl-auto: update
     open-in-view: false
 server:
-  port: 8080
+  port: 8084
+user-service:
+  url: http://localhost:8085
 #eureka:
 #  client:
 #    register-with-eureka: true

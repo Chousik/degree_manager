@@ -32,11 +32,11 @@ public class WorkEntity {
     @NotNull
     Integer year;
 
-    @OneToOne
-    @JoinColumn(name = "teacher_id")
-    TeacherEntity teacher;
+    @Column(name = "teacher_id")
+    @NotNull
+    UUID teacherId;
 
-    @OneToOne
-    @JoinColumn(name = "student_id")
-    StudentEntity studentEntity;
+    @Column(name = "student_id")
+    @NotNull
+    UUID studentId;
 }

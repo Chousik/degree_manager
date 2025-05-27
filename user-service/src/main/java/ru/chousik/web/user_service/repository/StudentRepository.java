@@ -9,4 +9,5 @@ import java.util.UUID;
 @Repository
 public interface StudentRepository extends JpaRepository<StudentEntity,
         UUID> {
+    StudentEntity getStudentEntityByUuid(UUID uuid);
 }
