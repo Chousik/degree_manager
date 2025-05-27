@@ -8,22 +8,19 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.36/5a30490a6e14977d97d9c73c924c1f1b5311ea95/lombok-1.18.36.jar" />
         </processorPath>
-        <module name="task-service.main" />
+        <module name="auth-service.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="auth-service" target="17" />
-      <module name="auth-service.main" target="17" />
-      <module name="auth-service.test" target="17" />
-      <module name="eureka-server" target="17" />
-      <module name="eureka-server.main" target="17" />
-      <module name="eureka-server.test" target="17" />
-      <module name="gateway-server" target="17" />
-      <module name="gateway-server.main" target="17" />
-      <module name="gateway-server.test" target="17" />
-      <module name="task-service" target="17" />
+      <module name="ru.chousik.web.user-service.main" target="17" />
+      <module name="ru.chousik.web.user-service.test" target="17" />
+      <module name="ru.chousik.web.user_service.main" target="17" />
+      <module name="ru.chousik.web.user_service.test" target="17" />
       <module name="task-service.main" target="17" />
       <module name="task-service.test" target="17" />
+      <module name="user_service" target="17" />
+      <module name="user_service.main" target="17" />
+      <module name="user_service.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
