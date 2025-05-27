@@ -165,9 +165,14 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useWorksStore } from '@/store/auth'
+import { useWorksStore } from '@/store/works.js'
+import { useAuthStore } from '@/store/auth'
+import { useRouter } from 'vue-router';
 
-const usname = "Путинцева Елена"
+
+const router = useRouter();
+const authStore = useAuthStore()
+const usname = authStore.userInfo.sub
 const worksStore = useWorksStore()
 const searchQuery = ref('')
 const selectedYear = ref('')
@@ -256,5 +261,11 @@ function handleClickOutside(event) {
   }
 }
 
+const logout = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  authStore.clearAuth()
+  router.push('/login')
+};
 
 </script>

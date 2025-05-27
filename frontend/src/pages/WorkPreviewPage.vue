@@ -60,7 +60,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { useWorksStore } from '@/store/auth'
+import { useWorksStore } from '@/store/works.js'
 import { ref } from 'vue' // Подключаем ref для создания реактивного состояния
 
 const route = useRoute()

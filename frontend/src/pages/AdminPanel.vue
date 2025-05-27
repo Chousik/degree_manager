@@ -22,7 +22,6 @@
       </div>
     </header>
 
-    <!-- Кнопка и форма добавления -->
     <div class="mb-6 text-right">
       <button
           @click="showAddForm = !showAddForm"
@@ -117,50 +116,47 @@
   </div>
 </template>
 
-<script setup>
+<<script setup>
 import { ref, computed, onMounted } from 'vue'
-import teachersData from '@/assets/teachers.json'
-import usersData from '@/assets/users.json'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/store/auth'
+import { useDataStore } from '@/store/dataStore'
 
+const authStore = useAuthStore()
+const dataStore = useDataStore()
 const router = useRouter()
-const username = 'Администратор'
 
+const username = authStore.userInfo.sub
+
+// Меню
 const menuOpen = ref(false)
 const toggleMenu = () => (menuOpen.value = !menuOpen.value)
+function logout() {
+  authStore.clearAuth()
+  router.push('/login')
+}
 
+// Поиск пользователей
 const searchQuery = ref('')
-const teachers = ref(teachersData)
-const users = ref(usersData)
-
-const filteredTeachers = computed(() =>
-    teachers.value.filter(t => {
-      const fullName = `${t.full_name}`.toLowerCase()
-      return fullName.includes(searchQuery.value.toLowerCase())
-    })
-)
-
 const filteredUsers = computed(() =>
-    users.value.filter(u => {
-      const name = u.teacher.toLowerCase()
-      return name.includes(searchQuery.value.toLowerCase())
-    })
-)
-
-const showAddForm = ref(false)
-const teacherOptions = ref([])
-const selectedTeacher = ref(null)
-const teacherSearch = ref('')
-const filteredTeacherOptions = computed(() =>
-    teacherOptions.value.filter(t =>
-        `${t.full_name} ${t.academic_status}`.toLowerCase().includes(teacherSearch.value.toLowerCase())
+    dataStore.users.filter(u =>
+        u.teacher.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
 )
 
+const showAddForm = ref(false)
+const teacherSearch = ref('')
+const selectedTeacher = ref(null)
 const newLogin = ref('')
 const newPassword = ref('')
 const addUserError = ref('')
 const showSuggestions = ref(false)
+
+const filteredTeacherOptions = computed(() =>
+    dataStore.teachers.filter(t =>
+        `${t.full_name} ${t.academic_status}`.toLowerCase().includes(teacherSearch.value.toLowerCase())
+    )
+)
 
 function selectTeacher(teacher) {
   selectedTeacher.value = teacher
@@ -177,11 +173,11 @@ function addUser() {
   const newUser = {
     name: newLogin.value,
     password: newPassword.value,
-    teacher: selectedTeacher.value.full_name
+    teacher: selectedTeacher.value.full_name,
+    isAdmin: false
   }
 
-  // Добавляем нового пользователя в локальный список
-  users.value.push(newUser)
+  dataStore.users.push(newUser)
 
   addUserError.value = ''
   alert('Пользователь добавлен')
@@ -193,9 +189,9 @@ function addUser() {
 }
 
 function changePassword(user) {
-  const newPassword = prompt('Введите новый пароль для пользователя', user.password)
-  if (newPassword) {
-    user.password = newPassword
+  const newPass = prompt('Введите новый пароль для пользователя', user.password)
+  if (newPass) {
+    user.password = newPass
     alert('Пароль изменен')
   }
 }
@@ -203,7 +199,7 @@ function changePassword(user) {
 function deleteUser(index) {
   const confirmDelete = confirm('Вы уверены, что хотите удалить этого пользователя?')
   if (confirmDelete) {
-    users.value.splice(index, 1)
+    dataStore.users.splice(index, 1)
     alert('Пользователь удален')
   }
 }
@@ -213,18 +209,8 @@ function makeAdmin(user) {
   alert(user.isAdmin ? 'Пользователь стал администратором' : 'Пользователь больше не администратор')
 }
 
-function fetchTeachers() {
-  teachers.value = teachersData
-  teacherOptions.value = teachersData.map(t => ({
-    id: t.id,
-    full_name: t.full_name,
-    academic_status: t.academic_status
-  }))
-}
-function logout() {
-  localStorage.removeItem('refresh_token');
-  localStorage.removeItem('access_token')
-  router.push('/login')
-}
-onMounted(fetchTeachers)
+onMounted(() => {
+  dataStore.fetchUsers()
+  dataStore.fetchTeachers()
+})
 </script>

@@ -4,13 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="Full admin panelv2">
-      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломГрибанов.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломМироненко.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСавилов.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСанталов.pdf" afterDir="false" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/insert_teachers.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/dataStore.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/works.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/Силаев Захар ВычМат (1).pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/jwt-decode.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/jwt-decode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/jwt-decode.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/jwt-decode.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/pinia.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue-router.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/vue.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/teachers.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/teachers.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AuthorizedPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AuthorizedPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/route.js" afterDir="false" />
@@ -77,6 +90,7 @@
         <option value="Vue Composition API Component" />
         <option value="com.intellij.jpb.JpaEntity" />
         <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -165,7 +179,7 @@
     &quot;Spring Boot.TaskServiceApplication.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/chenqing/IdeaProjects/degree_manager/frontend/public/diplomas&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/chenqing/IdeaProjects/degree_manager/auth-service/src/main/resources/initial&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -183,6 +197,9 @@
     &quot;DatabaseDriversLRU&quot;: [
       &quot;postgresql&quot;
     ],
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;
+    ],
     &quot;vue.recent.templates&quot;: [
       &quot;Vue Composition API Component&quot;
     ]
@@ -193,18 +210,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\auth-service\src\main\resources\initial" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
       <recent name="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice" />
       <recent name="$PROJECT_DIR$/.idea/modules" />
       <recent name="$PROJECT_DIR$/.idea" />
-      <recent name="$PROJECT_DIR$/task-service/src/main/java/ru/chousik/web/taskservice" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\auth-service\src\main" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\src\assets\diplomas" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\src\assets" />
-      <recent name="$PROJECT_DIR$/auth-service/src/main/resources/initial" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="ru.chousik.web.taskservice.repository" />
@@ -309,8 +326,8 @@
     <list>
       <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Gradle.AuthServiceApplicationTests" />
-      <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
       <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
+      <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
       <item itemvalue="JUnit.All in auth-service (3)" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication" />
@@ -365,6 +382,12 @@
       <workItem from="1745450958022" duration="6236000" />
       <workItem from="1745462658325" duration="31000" />
       <workItem from="1745462838097" duration="14764000" />
+      <workItem from="1745907145877" duration="3413000" />
+      <workItem from="1746187189611" duration="35000" />
+      <workItem from="1746187261235" duration="47000" />
+      <workItem from="1747764615826" duration="4814000" />
+      <workItem from="1747817189543" duration="8373000" />
+      <workItem from="1748077242165" duration="14042000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
@@ -430,7 +453,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745581686825</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="forgotten usname">
+      <option name="closed" value="true" />
+      <created>1745587949033</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1745587949033</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,19 +492,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -486,7 +505,8 @@
     <MESSAGE value="router for roles" />
     <MESSAGE value="Full admin panel" />
     <MESSAGE value="Full admin panelv2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Full admin panelv2" />
+    <MESSAGE value="forgotten usname" />
+    <option name="LAST_COMMIT_MESSAGE" value="forgotten usname" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

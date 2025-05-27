@@ -5,7 +5,9 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/store/auth';
 
+const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
 
@@ -14,7 +16,7 @@ onMounted(async () => {
   const codeVerifier = sessionStorage.getItem('pkce_code_verifier');
 
   if (!code || !codeVerifier) {
-    router.push('/login');
+    await router.push('/login');
     return;
   }
 
@@ -42,16 +44,15 @@ onMounted(async () => {
 
     const tokens = await response.json();
 
-    localStorage.setItem('access_token', tokens.access_token);
-    localStorage.setItem('refresh_token', tokens.refresh_token || '');
+    authStore.setTokens(tokens.access_token , tokens.refresh_token || '');
     sessionStorage.removeItem('pkce_code_verifier');
 
-    router.push('/works');
+    await router.push('/works');
 
   } catch (error) {
     console.error('Ошибка:', error);
     alert('Ошибка аутентификации: ' + error.message);
-    router.push('/login');
+    await router.push('/login');
   }
 });
 </script>

@@ -1,0 +1,2 @@
+export * from "/home/runner/work/pinia-plugin-persistedstate/pinia-plugin-persistedstate/src/module.js";
+export { default } from "/home/runner/work/pinia-plugin-persistedstate/pinia-plugin-persistedstate/src/module.js";

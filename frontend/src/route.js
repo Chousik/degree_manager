@@ -6,6 +6,7 @@ import AdminPanel from './pages/AdminPanel.vue'
 import AuthorizedPage from './pages/AuthorizedPage.vue'
 import UploadPage from "@/pages/UploadPage.vue";
 import {jwtDecode} from "jwt-decode";
+import { useAuthStore } from '@/store/auth';
 
 const routes = [
     { path: '/', redirect: '/login' },
@@ -14,7 +15,7 @@ const routes = [
     { path: '/works', component: WorkList },
     {
         path: '/preview/:title',
-        component: WorkPreview // Укажите путь к компоненту
+        component: WorkPreview
     },
     { path: '/upload', component: UploadPage},
     { path: '/admin', component: AdminPanel }
@@ -26,26 +27,28 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/login', '/auth-callback']
-    const accessToken = localStorage.getItem('access_token')
+    const authStore = useAuthStore();
+    const publicPages = ['/login', '/auth-callback'];
+    const accessToken = authStore.accessToken;
 
-    if (accessToken && typeof accessToken === 'string') {
+    if (accessToken) {
         try {
-            const decoded = jwtDecode(accessToken);
-
-            const isAdmin = decoded.roles.includes('ROLE_ADMIN');
+            if (!authStore.userInfo) {
+                authStore.userInfo = jwtDecode(accessToken);
+            }
+            console.log(authStore.userInfo)
+            const isAdmin = authStore.userInfo.roles?.includes('ROLE_ADMIN');
 
             if (to.path === '/admin' && !isAdmin) {
                 next('/works');
-            }
-            else if (to.path !== '/admin' && isAdmin) {
+            } else if (to.path !== '/admin' && isAdmin) {
                 next('/admin');
-            }
-            else {
+            } else {
                 next();
             }
-        } catch (error) {
-            console.error('Error decoding JWT:', error);
+        } catch (e) {
+            console.error('Ошибка при декодировании токена', e);
+            authStore.logout();
             next('/login');
         }
     } else {
@@ -55,7 +58,8 @@ router.beforeEach((to, from, next) => {
             next('/login');
         }
     }
-})
+});
+
 
 
 export default router
