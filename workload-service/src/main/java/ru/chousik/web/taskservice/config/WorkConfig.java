@@ -1,5 +1,6 @@
 package ru.chousik.web.taskservice.config;
 
+import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -62,5 +65,16 @@ public class WorkConfig {
                 c -> c.anyRequest().authenticated()
         );
         return http.build();
+    }
+
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth instanceof BearerTokenAuthentication bearerTokenAuth) {
+                String token = bearerTokenAuth.getToken().getTokenValue();
+                requestTemplate.header("Authorization", "Bearer " + token);
+            }
+        };
     }
 }
