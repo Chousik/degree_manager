@@ -1,4 +1,7 @@
 keySetURI: http://localhost:8071/oauth2/jwks
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 spring:
   #  security:
   #    oauth2:
