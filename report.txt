@@ -1,0 +1,20 @@
+./auth-service/src/main/java/ru/chousik/web/authservice/AuthServiceApplication.java:7:	UseUtilityClass:	This utility class has a non-private constructor
+./auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java:3:	UnnecessaryImport:	Unused import 'io.swagger.v3.oas.annotations.Operation'
+./auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java:18:	UnnecessaryImport:	Unused import 'java.util.UUID'
+./auth-service/src/main/java/ru/chousik/web/authservice/config/Oauth2Config.java:71:	FormalParameterNamingConventions:	The final method parameter name 'JWK_ID' doesn't match '[a-z][a-zA-Z0-9]*'
+./auth-service/src/main/java/ru/chousik/web/authservice/controller/AccountController.java:16:	UnnecessaryImport:	Unused import 'org.springframework.web.bind.annotation.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/controller/AccountController.java:38:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+./auth-service/src/main/java/ru/chousik/web/authservice/controller/AccountController.java:58:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+./auth-service/src/main/java/ru/chousik/web/authservice/controller/AccountController.java:79:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+./auth-service/src/main/java/ru/chousik/web/authservice/controller/AccountController.java:101:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/AuthoritiesEntity.java:3:	UnnecessaryImport:	Unused import 'jakarta.persistence.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/AuthoritiesEntity.java:6:	UnnecessaryImport:	Unused import 'lombok.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/JwkEntity.java:4:	UnnecessaryImport:	Unused import 'jakarta.persistence.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/JwkEntity.java:6:	UnnecessaryImport:	Unused import 'lombok.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/TeacherEntity.java:5:	UnnecessaryImport:	Unused import 'jakarta.persistence.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/TeacherEntity.java:8:	UnnecessaryImport:	Unused import 'lombok.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/UserEntity.java:5:	UnnecessaryImport:	Unused import 'jakarta.persistence.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/entity/UserEntity.java:7:	UnnecessaryImport:	Unused import 'lombok.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/security/DegreeUserDetails.java:6:	UnnecessaryImport:	Unused import 'lombok.*'
+./auth-service/src/main/java/ru/chousik/web/authservice/security/DegreeUserDetails.java:19:	UnnecessaryImport:	Unused static import 'org.apache.commons.lang3.stream.LangCollectors.collect'
+./auth-service/src/test/java/ru/chousik/web/authservice/AuthServiceApplicationTests.java:10:	UncommentedEmptyMethodBody:	Document empty method body
