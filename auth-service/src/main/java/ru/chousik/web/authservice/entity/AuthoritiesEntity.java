@@ -31,4 +31,9 @@ public class AuthoritiesEntity {
         this.user = user;
         this.authority = authority;
     }
+
+    @Override
+    public String toString() {
+        return authority;
+    }
 }
