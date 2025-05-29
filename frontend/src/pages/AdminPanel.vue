@@ -97,8 +97,10 @@
           :key="index"
           class="bg-[#B3B8F5] p-4 rounded-2xl shadow-md"
       >
-        <p class="text-lg font-medium">
-           {{ user.teacher }} <span v-if="user.isAdmin" class="text-green-500">(Admin)</span>
+        <p class="text-lg font-semibold">{{ user.userId }}</p>
+        <p class="text-base">
+          {{ user.surname }} {{ user.name }} {{ user.middleName }} — {{ user.academicStatus }}
+          <span v-if="user.isAdmin" class="text-green-500">(Admin)</span>
         </p>
         <div class="mt-2 flex flex-wrap gap-2">
           <button @click="changePassword(user)" class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
@@ -112,11 +114,12 @@
           </button>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
-<<script setup>
+<script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
@@ -128,7 +131,6 @@ const router = useRouter()
 
 const username = authStore.userInfo.sub
 
-// Меню
 const menuOpen = ref(false)
 const toggleMenu = () => (menuOpen.value = !menuOpen.value)
 function logout() {
@@ -136,13 +138,14 @@ function logout() {
   router.push('/login')
 }
 
-// Поиск пользователей
 const searchQuery = ref('')
+console.log(dataStore.users)
 const filteredUsers = computed(() =>
     dataStore.users.filter(u =>
-        u.teacher.toLowerCase().includes(searchQuery.value.toLowerCase())
+        `${u.surname} ${u.name} ${u.middleName}`.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
 )
+
 
 const showAddForm = ref(false)
 const teacherSearch = ref('')
@@ -210,7 +213,7 @@ function makeAdmin(user) {
 }
 
 onMounted(() => {
-  dataStore.fetchUsers()
-  dataStore.fetchTeachers()
+  dataStore.fetchUsers(authStore.accessToken)
+  dataStore.fetchTeachers(authStore.accessToken)
 })
 </script>
