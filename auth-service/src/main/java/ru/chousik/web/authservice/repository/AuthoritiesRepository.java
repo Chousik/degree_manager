@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface AuthoritiesRepository extends JpaRepository<AuthoritiesEntity, String> {
     List<AuthoritiesEntity> getAuthoritiesEntityByUser(UserEntity user);
+
+    void removeByUser(UserEntity user);
 }

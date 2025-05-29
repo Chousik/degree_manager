@@ -115,6 +115,20 @@ public class AccountController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/{username}/unsetadmin")
+    public ResponseEntity<?> unsetAdmin(
+            @Parameter(description = "Username to ungrant admin role")
+            @PathVariable String username) {
+        try {
+            accountServiceImpl.removeAdminRole(username);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @GetMapping
     public List<UserDTO> getUsers(){
         return accountServiceImpl.getUsers();

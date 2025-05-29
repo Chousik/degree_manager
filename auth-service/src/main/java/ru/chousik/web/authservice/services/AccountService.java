@@ -12,5 +12,6 @@ public interface AccountService {
     void changeOwnPassword(String username, ChangePasswordDTO dto);
     void changeUserPassword(String username, AdminChangePasswordDTO dto);
     void addAdminRole(String username);
+    void removeAdminRole(String username);
     List<UserDTO> getUsers();
 }

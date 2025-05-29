@@ -83,6 +83,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void removeAdminRole(String username){
+        UserEntity user = userRepository.getUserEntitiesByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        if (authoritiesRepository.getAuthoritiesEntityByUser(user).
+                stream()
+                .filter(r -> r.getAuthority().equals("ROLE_ADMIN"))
+                .toList()
+                .isEmpty()){
+            throw new IllegalArgumentException("User don't have admin role");
+        }
+        authoritiesRepository.removeByUser(user);
+    }
+
+    @Override
     public List<UserDTO> getUsers() {
         return userRepository.findAll()
                 .stream()
