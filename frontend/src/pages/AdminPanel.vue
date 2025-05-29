@@ -176,29 +176,49 @@ function selectTeacher(teacher) {
   showSuggestions.value = false
 }
 
-function addUser() {
+async function addUser() {
   if (!newLogin.value || !newPassword.value || !selectedTeacher.value) {
-    addUserError.value = 'Заполните все поля'
-    return
+    addUserError.value = 'Заполните все поля';
+    return;
   }
 
   const newUser = {
-    name: newLogin.value,
+    username: newLogin.value,
     password: newPassword.value,
-    teacher: selectedTeacher.value.full_name,
-    isAdmin: false
+    name: selectedTeacher.value.name,
+    surname: selectedTeacher.value.surname,
+    middle_name: selectedTeacher.value.middleName
+  };
+
+  try {
+    const response = await fetch('http://localhost:8071/api/users/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authStore.accessToken
+      },
+      body: JSON.stringify(newUser)
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      const firstError = data ? Object.values(data)[0] : 'Ошибка при добавлении пользователя';
+      throw new Error(firstError);
+    }
+
+    addUserError.value = '';
+    alert('Пользователь успешно добавлен');
+    showAddForm.value = false;
+    newLogin.value = '';
+    newPassword.value = '';
+    selectedTeacher.value = null;
+    teacherSearch.value = '';
+  } catch (error) {
+    addUserError.value = error.message;
   }
-
-  dataStore.users.push(newUser)
-
-  addUserError.value = ''
-  alert('Пользователь добавлен')
-  showAddForm.value = false
-  newLogin.value = ''
-  newPassword.value = ''
-  selectedTeacher.value = null
-  teacherSearch.value = ''
 }
+
 
 function changePassword(user) {
   const newPass = prompt('Введите новый пароль для пользователя', user.password);
