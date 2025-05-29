@@ -1,42 +1,45 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 import axios from 'axios'
 
 export const useDataStore = defineStore('data', {
     state: () => ({
         teachers: [],
         users: [],
-        loading: false,
         error: null,
-        token: null
     }),
 
     actions: {
-        async fetchTeachers() {
+        async fetchTeachers(tok) {
             try {
-                const response = await axios.get('http://localhost:8080/teachers', {
-                    headers
-                })
-                this.teachers = response.data
+                const response = await axios.get('http://localhost:8085/teacher', {
+                    headers: {
+                        Authorization: `Bearer ${tok}`
+                    },
+                });
+
+                this.teachers = response.data;
+                console.log(this.teachers)
             } catch (err) {
-                this.error = 'Ошибка при получении преподавателей'
-                console.error(err)
-            } finally {
+                this.error = 'Ошибка при получении учителей';
+                console.error(err);
             }
         },
 
-        async fetchUsers() {
+        async fetchUsers(tok) {
             try {
-                this.loading = true
-                const response = await axios.get('http://localhost:8080/users', {
-                    withCredentials: true
-                })
-                this.users = response.data
+                const response = await axios.get('http://localhost:8071/api/users', {
+                    headers: {
+                        Authorization: `Bearer ${tok}`
+                    },
+                });
+
+                this.users = response.data;
+                console.log(this.users)
             } catch (err) {
-                this.error = 'Ошибка при получении пользователей'
-                console.error(err)
-            } finally {
-                this.loading = false
+                this.error = 'Ошибка при получении пользователей';
+                console.error(err);
             }
         }
+
     }
 })

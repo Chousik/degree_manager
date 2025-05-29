@@ -36,7 +36,6 @@ router.beforeEach((to, from, next) => {
             if (!authStore.userInfo) {
                 authStore.userInfo = jwtDecode(accessToken);
             }
-            console.log(authStore.userInfo)
             const isAdmin = authStore.userInfo.roles?.includes('ROLE_ADMIN');
 
             if (to.path === '/admin' && !isAdmin) {
