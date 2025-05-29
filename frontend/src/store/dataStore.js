@@ -17,8 +17,12 @@ export const useDataStore = defineStore('data', {
                     },
                 });
 
-                this.teachers = response.data;
-                console.log(this.teachers)
+                this.teachers = response.data.map(t => ({
+                    ...t,
+                    full_name: `${t.surname} ${t.name} ${t.middleName}`.trim(),
+                    academic_status: t.academicStatus
+                }));
+                console.log(this.teachers);
             } catch (err) {
                 this.error = 'Ошибка при получении учителей';
                 console.error(err);

@@ -42,9 +42,10 @@
             type="text"
             placeholder="Введите ФИО преподавателя"
             class="w-full border border-gray-300 rounded px-3 py-2"
+            autocomplete="nope"
             @focus="showSuggestions = true"
             @input="showSuggestions = true"
-            @blur="() => setTimeout(() => showSuggestions.value = false, 150)"
+            @blur="hideSuggestionsWithDelay"
         />
         <ul
             v-if="showSuggestions && filteredTeacherOptions.length"
@@ -211,6 +212,13 @@ function makeAdmin(user) {
   user.isAdmin = !user.isAdmin
   alert(user.isAdmin ? 'Пользователь стал администратором' : 'Пользователь больше не администратор')
 }
+
+function hideSuggestionsWithDelay() {
+  setTimeout(() => {
+    showSuggestions.value = false
+  }, 150)
+}
+
 
 onMounted(() => {
   dataStore.fetchUsers(authStore.accessToken)
