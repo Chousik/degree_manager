@@ -31,7 +31,8 @@
           Sign In
         </button>
       </form>
-      <div class="mt-4 text-center">
+      <div v-if="errorMessage" class="text-red-600 text-sm mt-2 text-center">
+        {{ errorMessage }}
       </div>
     </div>
   </div>
@@ -41,11 +42,12 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
 const login = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 async function handleSubmit() {
+  errorMessage.value = ''; // сброс при новой попытке
   try {
     const loginResponse = await fetch('http://localhost:8071/login', {
       method: 'POST',
@@ -56,6 +58,11 @@ async function handleSubmit() {
       }),
       credentials: 'include'
     });
+
+    if (!loginResponse.ok) {
+      const errorText = await loginResponse.text();
+      throw new Error('Неверный логин или пароль');
+    }
 
     const codeVerifier = generateCodeVerifier();
     const codeChallenge = await generateCodeChallenge(codeVerifier);
@@ -73,7 +80,7 @@ async function handleSubmit() {
 
   } catch (error) {
     console.error('Ошибка:', error);
-    alert(error.message || 'Ошибка входа');
+    errorMessage.value = error.message || 'Ошибка входа';
   }
 }
 
