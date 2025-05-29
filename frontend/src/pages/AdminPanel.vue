@@ -98,10 +98,18 @@
           :key="index"
           class="bg-[#B3B8F5] p-4 rounded-2xl shadow-md"
       >
-        <p class="text-lg font-semibold">{{ user.userId }}</p>
+        <p class="text-lg font-semibold">
+          {{ user.userId }}
+          <span
+              style="text-shadow: -1px -1px 0 #4b4b4b, 1px -1px 0 #4b4b4b, -1px 1px 0 #4b4b4b, 1px 1px 0 #4b4b4b;"
+              v-if="user.roles && user.roles.includes('ROLE_ADMIN')"
+              class="text-green-500 text-sm ml-3"
+          >
+      Admin
+    </span>
+        </p>
         <p class="text-base">
           {{ user.surname }} {{ user.name }} {{ user.middleName }} — {{ user.academicStatus }}
-          <span v-if="user.isAdmin" class="text-green-500">(Admin)</span>
         </p>
         <div class="mt-2 flex flex-wrap gap-2">
           <button @click="changePassword(user)" class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
@@ -115,6 +123,7 @@
           </button>
         </div>
       </div>
+
 
     </div>
   </div>
@@ -140,7 +149,6 @@ function logout() {
 }
 
 const searchQuery = ref('')
-console.log(dataStore.users)
 const filteredUsers = computed(() =>
     dataStore.users.filter(u =>
         `${u.surname} ${u.name} ${u.middleName}`.toLowerCase().includes(searchQuery.value.toLowerCase())
@@ -193,12 +201,35 @@ function addUser() {
 }
 
 function changePassword(user) {
-  const newPass = prompt('Введите новый пароль для пользователя', user.password)
-  if (newPass) {
-    user.password = newPass
-    alert('Пароль изменен')
-  }
+  const newPass = prompt('Введите новый пароль для пользователя', user.password);
+  if (!newPass) return;
+
+  fetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + authStore.accessToken
+    },
+    body: JSON.stringify({
+      password: newPass
+    })
+  })
+      .then(async response => {
+        if (response.ok) {
+          alert('Пароль успешно изменен');
+        } else {
+          const data = await response.json().catch(() => null);
+          const firstError = data ? Object.values(data)[0] : 'Ошибка при изменении пароля';
+          throw new Error(firstError);
+        }
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+
+
 }
+
 
 function deleteUser(index) {
   const confirmDelete = confirm('Вы уверены, что хотите удалить этого пользователя?')

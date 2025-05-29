@@ -22,7 +22,6 @@ export const useDataStore = defineStore('data', {
                     full_name: `${t.surname} ${t.name} ${t.middleName}`.trim(),
                     academic_status: t.academicStatus
                 }));
-                console.log(this.teachers);
             } catch (err) {
                 this.error = 'Ошибка при получении учителей';
                 console.error(err);
@@ -38,12 +37,10 @@ export const useDataStore = defineStore('data', {
                 });
 
                 this.users = response.data;
-                console.log(this.users)
             } catch (err) {
                 this.error = 'Ошибка при получении пользователей';
                 console.error(err);
             }
         }
-
     }
 })
