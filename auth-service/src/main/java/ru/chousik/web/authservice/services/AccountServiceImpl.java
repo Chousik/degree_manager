@@ -62,7 +62,8 @@ public class AccountServiceImpl implements AccountService {
             throw new IllegalArgumentException("Old password is incorrect");
         }
 
-        userRepository.updatePasswordByUsername(dto.getNewPassword(), username);
+        userRepository.updatePasswordByUsername(passwordEncoder.encode(dto.getNewPassword())
+                , username);
     }
 
     @Override
@@ -70,7 +71,8 @@ public class AccountServiceImpl implements AccountService {
         if (!userRepository.existsByUsername(username)){
             throw new IllegalArgumentException("User not found");
         }
-        userRepository.updatePasswordByUsername(dto.getPassword(), username);
+        userRepository.updatePasswordByUsername(passwordEncoder.encode(dto.getPassword()),
+                username);
     }
 
     @Override
