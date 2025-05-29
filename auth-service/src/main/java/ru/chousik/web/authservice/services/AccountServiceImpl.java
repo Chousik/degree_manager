@@ -54,6 +54,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void deleteUser(String username){
+        if (!userRepository.existsByUsername(username)){
+            throw new IllegalArgumentException("Username does not exist");
+        }
+        userRepository.deleteByUsername(username);
+    }
+
+    @Override
     public void changeOwnPassword(String username, ChangePasswordDTO dto){
         UserEntity user = userRepository.getUserEntitiesByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User don't exist"));

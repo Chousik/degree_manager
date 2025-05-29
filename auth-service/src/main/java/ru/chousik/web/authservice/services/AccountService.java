@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface AccountService {
     void register(RegisterUserDTO dto);
+    void deleteUser(String username);
     void changeOwnPassword(String username, ChangePasswordDTO dto);
     void changeUserPassword(String username, AdminChangePasswordDTO dto);
     void addAdminRole(String username);

@@ -72,6 +72,19 @@ public class AccountController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> removeUser(
+            @PathVariable String username){
+        try {
+            accountServiceImpl.deleteUser(username);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{username}/password")
