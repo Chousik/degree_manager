@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#C6D0FF] p-6 flex flex-col relative">
     <!-- Header -->
     <header class="flex justify-between items-center mb-6">
-      <img src="/stankin_logo_main_color_ru_rgb_01_1x.png" alt="Станкин" class="h-20" />
+      <img src="/stankin_logo_main_color_ru_rgb_01_1x.png" alt="Станкин" class="h-20"/>
 
       <!-- Меню -->
       <div class="relative z-50">
@@ -65,13 +65,13 @@
       <div class="mb-4">
         <label class="block mb-1">Логин</label>
         <input v-model="newLogin" type="text" class="w-full border border-gray-300 rounded px-3 py-2"
-               placeholder="Введите логин" />
+               placeholder="Введите логин"/>
       </div>
 
       <div class="mb-4">
         <label class="block mb-1">Пароль</label>
         <input v-model="newPassword" type="password" class="w-full border border-gray-300 rounded px-3 py-2"
-               placeholder="Введите пароль" />
+               placeholder="Введите пароль"/>
       </div>
 
       <div v-if="addUserError" class="text-red-600 text-sm mb-2">{{ addUserError }}</div>
@@ -112,13 +112,27 @@
           {{ user.surname }} {{ user.name }} {{ user.middleName }} — {{ user.academicStatus }}
         </p>
         <div class="mt-2 flex flex-wrap gap-2">
-          <button @click="changePassword(user)" class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
+          <button @click="changePassword(user)"
+                  class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
             Изменить пароль
           </button>
-          <button @click="deleteUser(index)" class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
+          <button @click="deleteUser(user)"
+                  class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
             Удалить аккаунт
           </button>
-          <button @click="makeAdmin(user)" class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition">
+          <button
+              v-if="user.roles && user.roles.includes('ROLE_ADMIN')"
+              @click="revokeAdmin(user)"
+              class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition"
+          >
+            Забрать права
+          </button>
+
+          <button
+              v-else
+              @click="makeAdmin(user)"
+              class="bg-white px-4 py-1 rounded-full text-sm hover:bg-gray-200 transition"
+          >
             Сделать админом
           </button>
         </div>
@@ -130,10 +144,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/store/auth'
-import { useDataStore } from '@/store/dataStore'
+import {ref, computed, onMounted} from 'vue'
+import {useRouter} from 'vue-router'
+import {useAuthStore} from '@/store/auth'
+import {useDataStore} from '@/store/dataStore'
 
 const authStore = useAuthStore()
 const dataStore = useDataStore()
@@ -143,6 +157,7 @@ const username = authStore.userInfo.sub
 
 const menuOpen = ref(false)
 const toggleMenu = () => (menuOpen.value = !menuOpen.value)
+
 function logout() {
   authStore.clearAuth()
   router.push('/login')
@@ -214,6 +229,7 @@ async function addUser() {
     newPassword.value = '';
     selectedTeacher.value = null;
     teacherSearch.value = '';
+    await dataStore.fetchUsers(authStore.accessToken)
   } catch (error) {
     addUserError.value = error.message;
   }
@@ -246,22 +262,81 @@ function changePassword(user) {
       .catch(error => {
         alert(error.message);
       });
-
-
 }
 
 
-function deleteUser(index) {
-  const confirmDelete = confirm('Вы уверены, что хотите удалить этого пользователя?')
-  if (confirmDelete) {
-    dataStore.users.splice(index, 1)
-    alert('Пользователь удален')
-  }
+function deleteUser(user) {
+  const confirmDelete = confirm(`Вы уверены, что хотите удалить пользователя ${user.userId}?`);
+  if (!confirmDelete) return;
+
+  fetch(`http://localhost:8071/api/users/${user.userId}/remove`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + authStore.accessToken
+    }
+  })
+
+      .then(async response => {
+        if (response.ok) {
+          await dataStore.fetchUsers(authStore.accessToken)
+          alert('Пользователь удалён');
+        } else {
+          const data = await response.json().catch(() => null);
+          const firstError = data ? Object.values(data)[0] : 'Ошибка запроса';
+          throw new Error(firstError);
+        }
+      })
+      .catch(error => {
+        alert(error.message);
+      });
 }
+
 
 function makeAdmin(user) {
-  user.isAdmin = !user.isAdmin
-  alert(user.isAdmin ? 'Пользователь стал администратором' : 'Пользователь больше не администратор')
+  fetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/setadmin`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + authStore.accessToken
+    },
+  })
+      .then(async response => {
+        if (response.ok) {
+          await dataStore.fetchUsers(authStore.accessToken)
+          alert('Пользователь стал админом');
+        } else {
+          const data = await response.json().catch(() => null);
+          const firstError = data ? Object.values(data)[0] : 'Ошибка запроса';
+          throw new Error(firstError);
+        }
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+}
+
+function revokeAdmin(user) {
+  fetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/unsetadmin`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + authStore.accessToken
+    },
+  })
+      .then(async response => {
+        if (response.ok) {
+          await dataStore.fetchUsers(authStore.accessToken)
+          alert('Пользователь перестал быть админом');
+        } else {
+          const data = await response.json().catch(() => null);
+          const firstError = data ? Object.values(data)[0] : 'Ошибка запроса';
+          throw new Error(firstError);
+        }
+      })
+      .catch(error => {
+        alert(error.message);
+      });
 }
 
 function hideSuggestionsWithDelay() {

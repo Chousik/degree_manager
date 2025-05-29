@@ -73,7 +73,7 @@ public class AccountController {
         }
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{username}")
+    @DeleteMapping("/{username}/remove")
     public ResponseEntity<?> removeUser(
             @PathVariable String username){
         try {
