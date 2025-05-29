@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
                 passwordEncoder.encode(dto.getPassword()),
                 true,
                 teacher);
-        userRepository.save(user);
+        user = userRepository.save(user);
 
         authoritiesRepository.save(new AuthoritiesEntity(user,
                 "ROLE_USER"));
