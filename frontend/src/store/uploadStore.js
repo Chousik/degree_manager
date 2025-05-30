@@ -1,10 +1,10 @@
 import {defineStore} from 'pinia'
 import {authFetch} from "@/utills/authFetch.js";
 
-export const useDataStore = defineStore('data', {
+export const useUploadStore = defineStore('upload', {
     state: () => ({
         teachers: [],
-        users: [],
+        students: [],
         error: null,
     }),
 
@@ -21,25 +21,29 @@ export const useDataStore = defineStore('data', {
                 this.teachers = data.map(t => ({
                     ...t,
                     full_name: `${t.surname} ${t.name} ${t.middleName}`.trim(),
-                    academic_status: t.academicStatus
+                    id: t.id
                 }));
             } catch (err) {
                 this.error = 'Ошибка при получении учителей';
                 console.error(err);
             }
         },
-
-        async fetchUsers(tok) {
+        async fetchStudents(tok) {
             try {
-                const response = await authFetch('http://localhost:8071/api/users', {
+                const response = await authFetch('http://localhost:8085/student', {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${tok}`
                     },
                 });
-                this.users = await response.json();
+                const data = await response.json();
+                this.students = data.map(s => ({
+                    ...s,
+                    full_name: `${s.surname} ${s.name} ${s.middleName}`.trim(),
+                    uuid: s.uuid
+                }));
             } catch (err) {
-                this.error = 'Ошибка при получении пользователей';
+                this.error = 'Ошибка при получении студентов';
                 console.error(err);
             }
         }

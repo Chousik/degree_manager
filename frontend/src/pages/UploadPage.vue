@@ -53,7 +53,7 @@
                     @click="selectAuthor(author)"
                     class="p-3 hover:bg-indigo-100 cursor-pointer"
                 >
-                  {{ author }}
+                  {{ author.full_name }}
                 </li>
               </ul>
             </div>
@@ -78,7 +78,7 @@
                     @click="selectSupervisor(supervisor)"
                     class="p-3 hover:bg-indigo-100 cursor-pointer"
                 >
-                  {{ supervisor }}
+                  {{ supervisor.full_name }}
                 </li>
               </ul>
             </div>
@@ -143,24 +143,21 @@
 
 
 <script setup>
-import { ref, computed } from 'vue';
+import {ref, computed, onMounted} from 'vue';
 import { useRouter } from 'vue-router';
+import {useUploadStore} from "@/store/uploadStore.js";
+import {useAuthStore} from "@/store/authStore.js";
+
 
 const router = useRouter();
-const usname = "Путинцева Елена";
+const uploadStore = useUploadStore();
+const authStore = useAuthStore();
+
+const usname = authStore.userInfo.sub;
 const currentYear = new Date().getFullYear();
 
-const students = ref([
-  "Иванов Иван Иванович",
-  "Петров Петр Петрович",
-  "Сидорова Анна Викторовна",
-]);
-
-const supervisors = ref([
-  "Путинцева Елена Валентиновна",
-  "Иванов Иван Иванович",
-  "Петров Пётр Петрович",
-]);
+const selectedAuthor = ref(null);
+const selectedSupervisor = ref(null);
 
 const authorInput = ref('');
 const supervisorInput = ref('');
@@ -172,30 +169,36 @@ const showAuthorSuggestions = ref(false);
 const showSupervisorSuggestions = ref(false);
 
 const filteredAuthors = computed(() => {
-  return students.value.filter(student =>
-      student.toLowerCase().includes(authorInput.value.toLowerCase())
+  return uploadStore.students.filter(student =>
+      student.full_name.toLowerCase().includes(authorInput.value.toLowerCase())
   );
 });
 
 const filteredSupervisors = computed(() => {
-  return supervisors.value.filter(supervisor =>
-      supervisor.toLowerCase().includes(supervisorInput.value.toLowerCase())
+  return uploadStore.teachers.filter(supervisor =>
+      supervisor.full_name.toLowerCase().includes(supervisorInput.value.toLowerCase())
   );
 });
 
 const isFormValid = computed(() => {
-  return authorInput.value && supervisorInput.value && workYear.value && selectedFile.value;
+  return selectedAuthor.value && selectedSupervisor.value && workYear.value && selectedFile.value;
 });
 
-const selectAuthor = (author) => {
-  authorInput.value = author;
+
+const selectAuthor = (authorObj) => {
+  selectedAuthor.value = authorObj;
+  authorInput.value = authorObj.full_name;
   showAuthorSuggestions.value = false;
 };
 
-const selectSupervisor = (supervisor) => {
-  supervisorInput.value = supervisor;
+
+const selectSupervisor = (supervisorObj) => {
+  selectedSupervisor.value = supervisorObj;
+  supervisorInput.value = supervisorObj.full_name;
   showSupervisorSuggestions.value = false;
 };
+
+
 
 const triggerFileInput = () => {
   fileInput.value.click();
@@ -224,15 +227,17 @@ const uploadWork = () => {
   if (!isFormValid.value) return;
 
   console.log('Отправка данных:', {
-    author: authorInput.value,
-    supervisor: supervisorInput.value,
+    authorId: selectedAuthor.value?.uuid,
+    supervisorId: selectedSupervisor.value?.id,
     year: workYear.value,
-    file: selectedFile.value.name
+    file: selectedFile.value
   });
 
   alert('Работа успешно загружена!');
   // router.push('/works');
 };
+
+
 
 const logout = () => {
   localStorage.removeItem('access_token');
@@ -240,4 +245,10 @@ const logout = () => {
 
   router.push('/login');
 };
+
+
+onMounted(() => {
+  uploadStore.fetchTeachers(authStore.accessToken)
+  uploadStore.fetchStudents(authStore.accessToken)
+})
 </script>

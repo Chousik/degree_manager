@@ -154,7 +154,7 @@ import {ref, computed, onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 import {useAuthStore} from '@/store/authStore'
 import {useDataStore} from '@/store/dataStore'
-import {authFetch} from "@/store/authFetch"
+import {authFetch} from "@/utills/authFetch.js"
 
 const authStore = useAuthStore()
 const dataStore = useDataStore()
