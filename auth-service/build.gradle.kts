@@ -49,6 +49,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server
 	implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.4.2")
+	// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+	implementation("com.amazonaws:aws-java-sdk-s3:1.12.780")
+	// https://mvnrepository.com/artifact/software.amazon.awssdk/apache-client
+	implementation("software.amazon.awssdk:apache-client:2.31.49")
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
