@@ -6,7 +6,7 @@ import AdminPanel from './pages/AdminPanel.vue'
 import AuthorizedPage from './pages/AuthorizedPage.vue'
 import UploadPage from "@/pages/UploadPage.vue";
 import {jwtDecode} from "jwt-decode";
-import { useAuthStore } from '@/store/auth';
+import { useAuthStore } from '@/store/authStore';
 
 const routes = [
     { path: '/', redirect: '/login' },

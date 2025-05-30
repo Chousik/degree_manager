@@ -60,34 +60,26 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { useWorksStore } from '@/store/works.js'
-import { ref } from 'vue' // Подключаем ref для создания реактивного состояния
+import { useWorksStore } from '@/store/worksStore'
+import { ref } from 'vue'
 
 const route = useRoute()
 const worksStore = useWorksStore()
 
-// Получаем название документа из параметров маршрута
 const fileName = route.params.title
 console.log('fileName:', fileName)
 
-// Делаем отладку для вывода всех работ
 console.log('worksStore.works:', worksStore.works)
 
-// Ищем работу по переданному названию
 const work = worksStore.works.find(w => decodeURIComponent(w.link) === fileName)
 console.log('work:', work)
 
-// Если работа найдена, создаем URL для PDF
 const pdfUrl = work ? `/diplomas/${work.link}.pdf` : ''
 
-// Создаем реактивное состояние для проверки на антиплагиат
 const plagiarismCheckResult = ref(null)
 
-// Функция для имитации проверки на антиплагиат
 const checkPlagiarism = () => {
-  // Задержка 5 секунд (5000 миллисекунд)
   setTimeout(() => {
-    // Имитируем получение результата уникальности из объекта work
     plagiarismCheckResult.value = work ? work.unique : 'Неизвестно'
     console.log(plagiarismCheckResult.value)
   }, 4000)

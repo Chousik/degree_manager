@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import axios from 'axios'
+import {authFetch} from "@/store/authFetch.js";
 
 export const useDataStore = defineStore('data', {
     state: () => ({
@@ -11,13 +11,14 @@ export const useDataStore = defineStore('data', {
     actions: {
         async fetchTeachers(tok) {
             try {
-                const response = await axios.get('http://localhost:8085/teacher', {
+                const response = await authFetch('http://localhost:8085/teacher', {
+                    method: "GET",
                     headers: {
                         Authorization: `Bearer ${tok}`
                     },
                 });
-
-                this.teachers = response.data.map(t => ({
+                const data = await response.json();
+                this.teachers = data.map(t => ({
                     ...t,
                     full_name: `${t.surname} ${t.name} ${t.middleName}`.trim(),
                     academic_status: t.academicStatus
@@ -30,13 +31,14 @@ export const useDataStore = defineStore('data', {
 
         async fetchUsers(tok) {
             try {
-                const response = await axios.get('http://localhost:8071/api/users', {
+                const response = await authFetch('http://localhost:8071/api/users', {
+                    method: "GET",
                     headers: {
                         Authorization: `Bearer ${tok}`
                     },
                 });
-
-                this.users = response.data;
+                const data = await response.json();
+                this.users = data;
             } catch (err) {
                 this.error = 'Ошибка при получении пользователей';
                 console.error(err);

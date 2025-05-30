@@ -17,7 +17,13 @@ export const useAuthStore = defineStore('auth', {
             this.accessToken = null;
             this.refreshToken = null;
             this.userInfo = null;
+        },
+        isAccessTokenExpired(bufferSeconds = 30) {
+            if (!this.userInfo || !this.userInfo.exp) return true;
+            const now = Math.floor(Date.now() / 1000);
+            return now + bufferSeconds >= this.userInfo.exp;
         }
     },
     persist: true
+
 });

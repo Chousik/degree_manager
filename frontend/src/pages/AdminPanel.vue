@@ -74,6 +74,12 @@
                placeholder="Введите пароль"/>
       </div>
 
+      <div class="mb-4">
+        <label class="block mb-1">Повторите пароль</label>
+        <input v-model="repeatPassword" type="password" class="w-full border border-gray-300 rounded px-3 py-2"
+               placeholder="Повторите пароль"/>
+      </div>
+
       <div v-if="addUserError" class="text-red-600 text-sm mb-2">{{ addUserError }}</div>
 
       <button @click="addUser" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition">
@@ -146,8 +152,9 @@
 <script setup>
 import {ref, computed, onMounted} from 'vue'
 import {useRouter} from 'vue-router'
-import {useAuthStore} from '@/store/auth'
+import {useAuthStore} from '@/store/authStore'
 import {useDataStore} from '@/store/dataStore'
+import {authFetch} from "@/store/authFetch"
 
 const authStore = useAuthStore()
 const dataStore = useDataStore()
@@ -176,6 +183,7 @@ const teacherSearch = ref('')
 const selectedTeacher = ref(null)
 const newLogin = ref('')
 const newPassword = ref('')
+const repeatPassword = ref('')
 const addUserError = ref('')
 const showSuggestions = ref(false)
 
@@ -192,8 +200,13 @@ function selectTeacher(teacher) {
 }
 
 async function addUser() {
-  if (!newLogin.value || !newPassword.value || !selectedTeacher.value) {
+  if (!newLogin.value || !newPassword.value || !repeatPassword.value || !selectedTeacher.value) {
     addUserError.value = 'Заполните все поля';
+    return;
+  }
+
+  if (newPassword.value !== repeatPassword.value) {
+    addUserError.value = 'Пароли не совпадают';
     return;
   }
 
@@ -206,7 +219,7 @@ async function addUser() {
   };
 
   try {
-    const response = await fetch('http://localhost:8071/api/users/register', {
+    const response = await authFetch('http://localhost:8071/api/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -227,6 +240,7 @@ async function addUser() {
     showAddForm.value = false;
     newLogin.value = '';
     newPassword.value = '';
+    repeatPassword.value = '';
     selectedTeacher.value = null;
     teacherSearch.value = '';
     await dataStore.fetchUsers(authStore.accessToken)
@@ -235,12 +249,11 @@ async function addUser() {
   }
 }
 
-
 function changePassword(user) {
   const newPass = prompt('Введите новый пароль для пользователя', user.password);
   if (!newPass) return;
 
-  fetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/password`, {
+  authFetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/password`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -269,7 +282,7 @@ function deleteUser(user) {
   const confirmDelete = confirm(`Вы уверены, что хотите удалить пользователя ${user.userId}?`);
   if (!confirmDelete) return;
 
-  fetch(`http://localhost:8071/api/users/${user.userId}/remove`, {
+  authFetch(`http://localhost:8071/api/users/${user.userId}/remove`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -294,7 +307,7 @@ function deleteUser(user) {
 
 
 function makeAdmin(user) {
-  fetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/setadmin`, {
+  authFetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/setadmin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -317,7 +330,7 @@ function makeAdmin(user) {
 }
 
 function revokeAdmin(user) {
-  fetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/unsetadmin`, {
+  authFetch(`http://localhost:8071/api/users/${encodeURIComponent(user.userId)}/unsetadmin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

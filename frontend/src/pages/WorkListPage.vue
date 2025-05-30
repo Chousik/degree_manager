@@ -165,8 +165,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useWorksStore } from '@/store/works.js'
-import { useAuthStore } from '@/store/auth'
+import { useWorksStore } from '@/store/worksStore'
+import { useAuthStore } from '@/store/authStore'
 import { useRouter } from 'vue-router';
 
 
