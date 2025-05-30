@@ -1,6 +1,5 @@
 package ru.chousik.web.authservice.config;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import ru.chousik.web.authservice.repository.TeacherRepository;
 import ru.chousik.web.authservice.repository.UserRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
