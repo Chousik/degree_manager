@@ -1,4 +1,4 @@
-package ru.chousik.web.authservice.config;
+package ru.chousik.web.taskservice.config;
 
 import lombok.AccessLevel;
 import lombok.Getter;

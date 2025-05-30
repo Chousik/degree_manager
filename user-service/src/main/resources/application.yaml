@@ -3,11 +3,6 @@ logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 spring:
-  #  security:
-  #    oauth2:
-  #      resource server:
-  #        jwt:
-  #          issuer-uri: http://auth-service:8071
   application:
     name: user_service
   datasource:

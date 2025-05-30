@@ -1,12 +1,8 @@
 keySetURI: http://localhost:8071/oauth2/jwks
-
-
 spring:
-#  security:
-#    oauth2:
-#      resource server:
-#        jwt:
-#          issuer-uri: http://auth-service:8071
+  config:
+    import:
+      - classpath:s3.yaml
   application:
     name: task-service
   datasource:

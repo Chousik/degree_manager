@@ -1,7 +1,4 @@
 spring:
-  config:
-    import:
-      - classpath:s3.yaml
   application:
     name: auth-service
   datasource:

@@ -48,6 +48,10 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client:3.4.4")
+	// https://mvnrepository.com/artifact/software.amazon.awssdk/s3
+	implementation("software.amazon.awssdk:s3:2.31.49")
+	// https://mvnrepository.com/artifact/software.amazon.awssdk/apache-client
+	implementation("software.amazon.awssdk:apache-client:2.31.49")
 	implementation("ru.chousik.web:common:1.0-SNAPSHOT")
 }
 
