@@ -14,7 +14,7 @@ import ru.chousik.web.taskservice.services.WorkDocService;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
-@RequestMapping("/work")
+@RequestMapping("/work/upload")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class WorkDocController {

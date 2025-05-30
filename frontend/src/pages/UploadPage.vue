@@ -147,6 +147,7 @@ import {ref, computed, onMounted} from 'vue';
 import { useRouter } from 'vue-router';
 import {useUploadStore} from "@/store/uploadStore.js";
 import {useAuthStore} from "@/store/authStore.js";
+import axios from "axios";
 
 
 const router = useRouter();
@@ -232,7 +233,25 @@ const uploadWork = () => {
     year: workYear.value,
     file: selectedFile.value
   });
+  const formData = new FormData();
+  formData.append("work", selectedFile.value); // а не .name!
 
+  fetch("http://localhost:8084/work/upload", {
+    headers: {
+      'Authorization': 'Bearer ' + authStore.accessToken
+    },
+    method: 'POST',
+    body: formData,
+
+  })
+      .then(res => res.data)
+      .then(url => {
+        console.log('Uploaded URL:', url);
+        alert('Файл загружен: ' + url);
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Ошибка загрузки');});
   alert('Работа успешно загружена!');
   // router.push('/works');
 };
