@@ -1,0 +1,7 @@
+yandex:
+  s3:
+    endpoint: https://storage.yandexcloud.net
+    region: ru-central1
+    bucket: spring-boot-s3-example
+    access-key: YCAJES8zgaNJYWlGEfaYxisbR
+    secret-key: YCMdxnuAJVXMXOM8lXejSD3b16s-pY-G4595OtDe

@@ -22,6 +22,6 @@ public class WorkDocController {
 
     @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadWork(@RequestParam MultipartFile work){
-
+        return null;
     }
 }
