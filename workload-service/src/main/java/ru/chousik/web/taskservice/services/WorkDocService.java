@@ -1,4 +1,4 @@
 package ru.chousik.web.taskservice.services;
 
-public interface WorkDocInterface {
+public interface WorkDocService {
 }

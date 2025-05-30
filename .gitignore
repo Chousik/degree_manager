@@ -2,3 +2,4 @@
 cookie
 frontend/node_modules/
 
+/auth-service/src/main/resources/s3.yml

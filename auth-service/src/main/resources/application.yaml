@@ -1,3 +1,10 @@
+yandex:
+  s3:
+    endpoint: https://storage.yandexcloud.net
+    region: ru-central1
+    bucket: spring-boot-s3-example
+    access-key: ${S3_ACCESS_KEY}
+    secret-key: ${S3_SECRET_KEY}
 spring:
   application:
     name: auth-service

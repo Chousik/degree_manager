@@ -5,11 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/AwsS3Config.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/YandexS3Properties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/controller/WorkDocController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +37,9 @@
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/task-service">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/workload-service">
       <ProjectState />
     </projectState>
   </component>
@@ -55,8 +68,8 @@
         <option value="HTML File" />
         <option value="Vue Composition API Component" />
         <option value="com.intellij.jpb.JpaEntity" />
-        <option value="Class" />
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -177,6 +190,9 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="ru.chousik.web.taskservice.services" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\auth-service\src\main\resources\initial" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
@@ -262,6 +278,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TaskServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="workload-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.taskservice.TaskServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="user-service.main" />
@@ -295,6 +318,7 @@
       <item itemvalue="Gradle.AuthServiceApplicationTests" />
       <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
       <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
+      <item itemvalue="Spring Boot.TaskServiceApplication" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />

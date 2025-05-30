@@ -1,4 +1,6 @@
 keySetURI: http://localhost:8071/oauth2/jwks
+
+
 spring:
 #  security:
 #    oauth2:
