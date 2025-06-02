@@ -42,7 +42,6 @@ public class AccountServiceImpl implements AccountService {
         if (userRepository.existsByTeacher(teacher)){
             throw new IllegalArgumentException("Teacher already exists");
         }
-
         UserEntity user = new UserEntity(dto.getUsername(),
                 passwordEncoder.encode(dto.getPassword()),
                 true,
@@ -55,10 +54,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteUser(String username){
-        if (!userRepository.existsByUsername(username)){
-            throw new IllegalArgumentException("Username does not exist");
-        }
-        userRepository.deleteByUsername(username);
+        UserEntity user = userRepository.getUserEntitiesByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Username does not exist"));
+        authoritiesRepository.removeByUser(user);
+        userRepository.delete(user);
     }
 
     @Override
@@ -101,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
                 .isEmpty()){
             throw new IllegalArgumentException("User don't have admin role");
         }
-        authoritiesRepository.removeByUser(user);
+        authoritiesRepository.removeByAuthorityAndUser("ROLE_ADMIN", user);
     }
 
     @Override

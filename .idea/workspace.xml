@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/repository/AuthoritiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/repository/AuthoritiesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/services/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/services/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,12 +75,12 @@
     &quot;assignee&quot;: &quot;Chousik&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Chousik/degree_manager.git&quot;,
-    &quot;accountId&quot;: &quot;311e8071-b4de-47cb-ad9b-132b2cbf1664&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:Chousik/degree_manager.git",
+    "accountId": "350307ff-cd48-4e57-b8af-a6cc6a970c72"
   }
-}</component>
+}]]></component>
   <component name="KotlinScriptingSettings">
     <option name="suppressDefinitionsCheck" value="true" />
   </component>
@@ -332,8 +327,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
@@ -373,6 +368,7 @@
       <workItem from="1747764615826" duration="4814000" />
       <workItem from="1747817189543" duration="8373000" />
       <workItem from="1748077242165" duration="14042000" />
+      <workItem from="1748865353080" duration="523000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />

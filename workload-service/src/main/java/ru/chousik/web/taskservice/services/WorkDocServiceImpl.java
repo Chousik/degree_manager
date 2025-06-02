@@ -1,8 +1,6 @@
 package ru.chousik.web.taskservice.services;
 
-import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.chousik.web.taskservice.config.YandexS3Properties;
