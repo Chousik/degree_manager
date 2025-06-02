@@ -2,10 +2,17 @@ package ru.chousik.web.taskservice.services;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.chousik.web.taskservice.config.YandexS3Properties;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
@@ -23,7 +30,7 @@ public class WorkDocServiceImpl implements WorkDocService {
         this.bucket = props.getBucket();
     }
     @Override
-    public URL uploadWork(String key,
+    public void uploadWork(String key,
                           InputStream data,
                           long length,
                           String contType){
@@ -35,9 +42,22 @@ public class WorkDocServiceImpl implements WorkDocService {
 
         s3Client.putObject(putReq, RequestBody.fromInputStream(data, length));
 
-        return s3Client.utilities()
-                .getUrl(GetUrlRequest.builder().bucket(bucket).key(key).build());
+    }
+    @Override
+    public ResponseEntity<InputStreamResource> downloadWork(String key) {
+        GetObjectRequest getReq = GetObjectRequest.builder()
+                .bucket(bucket)
+                .key(key)
+                .build();
+        ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getReq);
+        InputStreamResource resource = new InputStreamResource(s3Object);
+        String contentType = s3Object.response().contentType();
+        long contentLength = s3Object.response().contentLength();
 
-
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + key + "\"")
+                .contentType(MediaType.parseMediaType(contentType != null ? contentType : MediaType.APPLICATION_OCTET_STREAM_VALUE))
+                .contentLength(contentLength)
+                .body(resource);
     }
 }

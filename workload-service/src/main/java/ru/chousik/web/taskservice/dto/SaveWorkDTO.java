@@ -12,11 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WorkDTO {
-    UUID uuid;
+public class SaveWorkDTO {
     String title;
-    String author;
     Integer year;
-    Integer completion;
-    String supervisor;
+    UUID studentId;
+    UUID teacherId;
 }

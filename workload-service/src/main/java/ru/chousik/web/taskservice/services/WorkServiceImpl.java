@@ -7,11 +7,14 @@ import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.chousik.web.dto.StudentDTO;
+import ru.chousik.web.dto.TeacherDTO;
 import ru.chousik.web.taskservice.clients.StudentClient;
+import ru.chousik.web.taskservice.dto.SaveWorkDTO;
 import ru.chousik.web.taskservice.dto.WorkDTO;
 import ru.chousik.web.taskservice.entity.WorkEntity;
 import ru.chousik.web.taskservice.repository.WorkRepository;
 
+import java.net.URL;
 import java.util.List;
 
 @Service
@@ -21,6 +24,13 @@ public class WorkServiceImpl implements WorkService {
     WorkRepository workRepository;
     StudentClient studentClient;
     ModelMapper modelMapper;
+
+    @Override
+    public void saveWork(SaveWorkDTO saveWorkDTO,
+                         String key){
+        WorkEntity work = fromDTO(saveWorkDTO);
+        work.setKey(key);
+    }
 
     @Override
     public List<WorkDTO> getWorks() {
@@ -33,12 +43,22 @@ public class WorkServiceImpl implements WorkService {
 
     private WorkDTO mapToDTO(WorkEntity work){
         StudentDTO student = studentClient.getStudentById(work.getStudentId());
+        TeacherDTO teacher = studentClient.getTeacherById(work.getTeacherId());
         WorkDTO workDTO = modelMapper.map(work, WorkDTO.class);
         workDTO.setAuthor(String.join(" ",
                 List.of(
                         student.getName(),
                         student.getMiddleName(),
                         student.getSurname())));
+        workDTO.setSupervisor(String.join(" ",
+                List.of(
+                        teacher.getName(),
+                        teacher.getMiddleName(),
+                        teacher.getSurname())));
         return workDTO;
+    }
+
+    private WorkEntity fromDTO(SaveWorkDTO saveWorkDTO){
+        return modelMapper.map(saveWorkDTO, WorkEntity.class);
     }
 }

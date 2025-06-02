@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.net.URL;
 import java.util.UUID;
 
 @Table(name = "works")
@@ -39,4 +40,7 @@ public class WorkEntity {
     @Column(name = "student_id")
     @NotNull
     UUID studentId;
+
+    @NotNull
+    String key;
 }

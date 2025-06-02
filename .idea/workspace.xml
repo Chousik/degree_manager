@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/repository/AuthoritiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/repository/AuthoritiesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/services/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/services/AccountServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/dto/SaveWorkDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/web/user_service/controller/TeacherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/web/user_service/controller/TeacherController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/clients/StudentClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/clients/StudentClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/controller/WorkDocController.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/controller/WorkDocController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/dto/WorkDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/dto/WorkDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/entity/WorkEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/entity/WorkEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocService.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkDocServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,12 +86,12 @@
     &quot;assignee&quot;: &quot;Chousik&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:Chousik/degree_manager.git",
-    "accountId": "350307ff-cd48-4e57-b8af-a6cc6a970c72"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:Chousik/degree_manager.git&quot;,
+    &quot;accountId&quot;: &quot;350307ff-cd48-4e57-b8af-a6cc6a970c72&quot;
   }
-}]]></component>
+}</component>
   <component name="KotlinScriptingSettings">
     <option name="suppressDefinitionsCheck" value="true" />
   </component>
