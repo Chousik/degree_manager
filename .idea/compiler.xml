@@ -32,4 +32,14 @@
       <module name="user_service.test" target="17" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="auth-service" options="-parameters" />
+      <module name="auth-service.main" options="-parameters" />
+      <module name="auth-service.test" options="-parameters" />
+      <module name="ru.chousik.web.workload-service.main" options="-parameters" />
+      <module name="workload-service" options="-parameters" />
+      <module name="workload-service.test" options="-parameters" />
+    </option>
+  </component>
 </project>

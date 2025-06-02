@@ -234,7 +234,7 @@ const uploadWork = () => {
     file: selectedFile.value
   });
   const formData = new FormData();
-  formData.append("work", selectedFile.value); // а не .name!
+  formData.append("file", selectedFile.value); // а не .name!
 
   fetch("http://localhost:8084/work/upload", {
     headers: {

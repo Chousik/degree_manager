@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/auth-service/src/main/insert_teachers.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/auth-service/src/main/resources/initial/oauth2-authorization-consent-schema.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/auth-service/src/main/resources/initial/schema.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/auth-service/src/main/students.sql" dialect="PostgreSQL" />
   </component>
 </project>
