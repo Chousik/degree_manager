@@ -5,6 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/controller/WorkDocController.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/controller/WorkDocController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/dto/SaveWorkDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/dto/SaveWorkDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkAnalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkAnalService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkAnalServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkAnalServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,6 +64,7 @@
         <option value="Vue Composition API Component" />
         <option value="com.intellij.jpb.JpaEntity" />
         <option value="JavaScript File" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -214,7 +224,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AuthServiceApplication">
+  <component name="RunManager" selected="Spring Boot.TaskServiceApplication">
     <configuration name="AuthServiceApplicationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -368,7 +378,7 @@
       <workItem from="1748077242165" duration="14042000" />
       <workItem from="1748865353080" duration="523000" />
       <workItem from="1748891563969" duration="1000" />
-      <workItem from="1748891669272" duration="1618000" />
+      <workItem from="1748891669272" duration="4300000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />

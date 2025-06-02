@@ -53,6 +53,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/software.amazon.awssdk/apache-client
 	implementation("software.amazon.awssdk:apache-client:2.31.49")
 	implementation("ru.chousik.web:common:1.0-SNAPSHOT")
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
+	implementation("org.apache.pdfbox:pdfbox:3.0.3")
 }
 
 tasks.withType<Test> {

@@ -14,6 +14,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SaveWorkDTO {
     String title;
+    Integer completion;
     Integer year;
     UUID studentId;
     UUID teacherId;
