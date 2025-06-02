@@ -1,5 +1,9 @@
 keySetURI: http://localhost:8071/oauth2/jwks
 spring:
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
   config:
     import:
       - classpath:s3.yaml

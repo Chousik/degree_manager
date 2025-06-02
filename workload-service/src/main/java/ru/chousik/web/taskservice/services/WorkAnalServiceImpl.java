@@ -6,9 +6,16 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WorkAnalServiceImpl implements WorkAnalService {
+    static Pattern TOPIC_PATTERN = Pattern.compile(
+            "(?i)на\\s+тему\\s*[:\\s]*[«\"“]?\\s*([^»\"”]+?)\\s*[»\"”]",  // группа 1 — сама тема
+            Pattern.UNICODE_CASE | Pattern.DOTALL);
+
     @Override
     public Integer getCompletion(PDDocument document) {
         return 0;
@@ -19,24 +26,31 @@ public class WorkAnalServiceImpl implements WorkAnalService {
         if (document == null) {
             return "";
         }
-
-        PDDocumentInformation info = document.getDocumentInformation();
-        String title = info.getTitle();
-        if (title != null && !title.trim().isEmpty()) {
-            return title.trim();
+        String firstPages = extractFirstPages(document, 2);
+        String topic = findTopic(firstPages);
+        if (!topic.isEmpty()) {
+            return topic;
         }
+        throw new IllegalArgumentException("Диплом должен быть стандартизирован");
+    }
+
+    private static String findTopic(String text) {
+        Matcher m = TOPIC_PATTERN.matcher(text);
+        return m.find() ? safeTrim(m.group(1)) : "";
+    }
+
+    private static String extractFirstPages(PDDocument doc, int pages) {
         try {
             var stripper = new org.apache.pdfbox.text.PDFTextStripper();
             stripper.setStartPage(1);
-            stripper.setEndPage(1);
-            String firstPage = stripper.getText(document).trim();
-            int nl = firstPage.indexOf('\n');
-            if (nl > 0) {
-                return firstPage.substring(0, nl).trim();
-            }
-            return firstPage;
-        } catch (Exception ignore) {}
+            stripper.setEndPage(Math.min(pages, doc.getNumberOfPages()));
+            return stripper.getText(doc);
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
-        return "";
+    private static String safeTrim(String s) {
+        return (s == null) ? "" : s.trim();
     }
 }

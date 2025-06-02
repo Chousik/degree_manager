@@ -23,7 +23,7 @@ public class WorkEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID uuid;
 
-    @Size(max = 50)
+    @Size(max = 500)
     @NotNull
     String title;
 
