@@ -42,6 +42,7 @@ public class WorkDocController {
                 work.getContentType());
         workService.saveWork(saveWorkDTO,
                 key);
+        System.out.println(saveWorkDTO.getTitle());
         return ResponseEntity.ok().build();
     }
 
