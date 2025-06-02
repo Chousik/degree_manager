@@ -3,7 +3,7 @@ import {authFetch} from "@/utills/authFetch.js";
 
 export const useWorksStore = defineStore('works', {
     state: () => ({
-        works: []
+        works: [],
     }),
     actions: {
         async fetchWorks(tok) {
@@ -15,22 +15,19 @@ export const useWorksStore = defineStore('works', {
                     },
                 });
                 console.log(response)
-                this.works = response.data.map(work => ({
+                const data = await response.json()
+                this.works = data.map(work => ({
                     title: work.title,
-                    author: work.authorFullName,
+                    author: work.author,
                     year: work.year,
-                    supervisor: work.supervisorFullName, // адаптируй под своё DTO
-                    progress: work.progress || 0,
-                    status: work.status || 'Неизвестно',
-                    link: encodeURIComponent(work.title), // или другой идентификатор
-                    unique: work.id // или другой уникальный идентификатор
+                    supervisor: work.supervisor,
+                    progress: work.completion || 0,
+                    link: encodeURIComponent(work.title),
+                    unique: work.uuid
                 }));
             } catch (error) {
                 console.error('Ошибка при получении работ:', error);
             }
         },
-        addWork(work) {
-            this.works.push(work);
-        }
     }
 });

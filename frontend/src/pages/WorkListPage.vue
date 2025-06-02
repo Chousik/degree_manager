@@ -129,33 +129,37 @@
           </div>
 
           <!-- Индикатор прогресса - теперь справа -->
-          <div class="relative w-12 h-12 md:w-16 md:h-16">
-            <svg class="w-full h-full" viewBox="0 0 100 100">
-              <circle
-                  cx="50"
-                  cy="50"
-                  :r="circleRadius"
-                  fill="none"
-                  stroke="#e0e0e0"
-                  stroke-width="8"
-              />
-              <circle
-                  cx="50"
-                  cy="50"
-                  :r="circleRadius"
-                  fill="none"
-                  stroke="#90ee90"
-                  stroke-width="8"
-                  stroke-linecap="round"
-                  :stroke-dasharray="circumference"
-                  :stroke-dashoffset="getStrokeDashoffset(work.progress)"
-                  transform="rotate(-90 50 50)"
-              />
-            </svg>
-            <span
-                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs md:text-sm font-bold text-black">
-            {{ work.progress }}%
-          </span>
+          <!-- Индикатор прогресса - теперь справа -->
+          <div class="flex flex-col items-center w-12 md:w-16">
+            <div class="relative w-12 h-12 md:w-16 md:h-16">
+              <svg class="w-full h-full" viewBox="0 0 100 100">
+                <circle
+                    cx="50"
+                    cy="50"
+                    :r="circleRadius"
+                    fill="none"
+                    stroke="#e0e0e0"
+                    stroke-width="8"
+                />
+                <circle
+                    cx="50"
+                    cy="50"
+                    :r="circleRadius"
+                    fill="none"
+                    stroke="#90ee90"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                    :stroke-dasharray="circumference"
+                    :stroke-dashoffset="getStrokeDashoffset(work.progress)"
+                    transform="rotate(-90 50 50)"
+                />
+              </svg>
+              <span
+                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs md:text-sm font-bold text-black">
+      {{ work.progress }}%
+    </span>
+            </div>
+            <span class="text-sm text-center mt-1">Процент выполнения</span>
           </div>
         </div>
       </section>
@@ -165,9 +169,9 @@
 
 <script setup>
 import {ref, computed, onMounted} from 'vue'
-import { useWorksStore } from '@/store/worksStore'
-import { useAuthStore } from '@/store/authStore'
-import { useRouter } from 'vue-router';
+import {useWorksStore} from '@/store/worksStore'
+import {useAuthStore} from '@/store/authStore'
+import {useRouter} from 'vue-router';
 
 
 const router = useRouter();
@@ -184,7 +188,7 @@ const showSupervisorSuggestions = ref(false)
 const showAuthorSuggestions = ref(false)
 
 const currentYear = new Date().getFullYear()
-const yearOptions = Array.from({ length: 6 }, (_, i) => currentYear - i)
+const yearOptions = Array.from({length: 6}, (_, i) => currentYear - i)
 
 const circleRadius = 40
 const circumference = 2 * Math.PI * circleRadius
