@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/worksStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/worksStore.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -312,10 +309,10 @@
       <item itemvalue="Gradle.AuthServiceApplicationTests" />
       <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
       <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
-      <item itemvalue="Spring Boot.TaskServiceApplication" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
+      <item itemvalue="Spring Boot.TaskServiceApplication" />
       <item itemvalue="Spring Boot.UserServiceApplication" />
     </list>
     <recent_temporary>
@@ -373,6 +370,8 @@
       <workItem from="1747817189543" duration="8373000" />
       <workItem from="1748077242165" duration="14042000" />
       <workItem from="1748865353080" duration="523000" />
+      <workItem from="1748891563969" duration="1000" />
+      <workItem from="1748891669272" duration="1087000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
