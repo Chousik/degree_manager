@@ -30,6 +30,7 @@ public class WorkServiceImpl implements WorkService {
                          String key){
         WorkEntity work = fromDTO(saveWorkDTO);
         work.setKey(key);
+        work.setCompletion((int) Math.round(Math.random()*100));
     }
 
     @Override
