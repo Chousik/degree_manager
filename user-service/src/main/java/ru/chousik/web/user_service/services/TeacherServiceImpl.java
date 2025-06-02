@@ -23,6 +23,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherEntity getTeacher(UUID uuid) {
-        return null;
+        return teacherRepository.findById(uuid)
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

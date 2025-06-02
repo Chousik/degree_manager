@@ -34,7 +34,7 @@ public class WorkServiceImpl implements WorkService {
         workRepository.save(work);
     }
 
-    @Overridew
+    @Override
     public List<WorkDTO> getWorks() {
         return workRepository
                 .findAll()
