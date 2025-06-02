@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-421935789/common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-421935789/common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/multi-microservice-app.iml" filepath="$PROJECT_DIR$/multi-microservice-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.web.workload-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.web.workload-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-service.main.iml" />

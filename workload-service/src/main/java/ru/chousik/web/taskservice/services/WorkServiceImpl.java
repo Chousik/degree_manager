@@ -31,9 +31,10 @@ public class WorkServiceImpl implements WorkService {
         WorkEntity work = fromDTO(saveWorkDTO);
         work.setKey(key);
         work.setCompletion((int) Math.round(Math.random()*100));
+        workRepository.save(work);
     }
 
-    @Override
+    @Overridew
     public List<WorkDTO> getWorks() {
         return workRepository
                 .findAll()
