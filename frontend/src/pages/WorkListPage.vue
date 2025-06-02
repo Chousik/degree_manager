@@ -164,7 +164,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import {ref, computed, onMounted} from 'vue'
 import { useWorksStore } from '@/store/worksStore'
 import { useAuthStore } from '@/store/authStore'
 import { useRouter } from 'vue-router';
@@ -268,4 +268,7 @@ const logout = () => {
   router.push('/login')
 };
 
+onMounted(() => {
+  worksStore.fetchWorks(authStore.accessToken);
+});
 </script>

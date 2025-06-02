@@ -148,6 +148,7 @@ import { useRouter } from 'vue-router';
 import {useUploadStore} from "@/store/uploadStore.js";
 import {useAuthStore} from "@/store/authStore.js";
 import axios from "axios";
+import {authFetch} from "@/utills/authFetch.js";
 
 
 const router = useRouter();
@@ -226,17 +227,21 @@ const handleFileDrop = (event) => {
 
 const uploadWork = () => {
   if (!isFormValid.value) return;
-
+  const formData = new FormData();
   console.log('Отправка данных:', {
     authorId: selectedAuthor.value?.uuid,
     supervisorId: selectedSupervisor.value?.id,
     year: workYear.value,
     file: selectedFile.value
   });
-  const formData = new FormData();
-  formData.append("file", selectedFile.value); // а не .name!
 
-  fetch("http://localhost:8084/work/upload", {
+  formData.append("file", selectedFile.value);
+  formData.append("title", "Вкррррр");
+  formData.append("year", workYear.value);
+  formData.append("studentId", selectedAuthor.value?.uuid);
+  formData.append("teacherId", selectedSupervisor.value?.id);
+
+   authFetch("http://localhost:8084/work/upload", {
     headers: {
       'Authorization': 'Bearer ' + authStore.accessToken
     },
@@ -252,7 +257,6 @@ const uploadWork = () => {
       .catch(err => {
         console.error(err);
         alert('Ошибка загрузки');});
-  alert('Работа успешно загружена!');
   // router.push('/works');
 };
 

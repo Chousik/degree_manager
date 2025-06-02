@@ -1,54 +1,34 @@
 import { defineStore } from 'pinia';
+import {authFetch} from "@/utills/authFetch.js";
 
 export const useWorksStore = defineStore('works', {
     state: () => ({
-        works: [
-            {
-                title: 'Веб приложение для помощи сотрудникам кафедр в систематизации информации о выпускных квалификационных работах обучающихся',
-                author: 'Мироненко Дарья Андреевна',
-                year: 2025,
-                supervisor: 'Путинцева Елена Валентиновна',
-                progress: 100,
-                status: 'На проверке',
-                link:  encodeURIComponent('ДипломМироненко'),
-                unique: 77
-            },
-            {
-                title: 'Разработка системы управления уровнем освящения производства на базе\n' +
-                    'программируемого логического контроллера',
-                author: 'Грибанов Александр Дмитриевич',
-                year: 2025,
-                supervisor: 'Никишечкин Анатолий Петрович',
-                progress: 75,
-                status: 'Проверено',
-                link: encodeURIComponent('ДипломГрибанов'),
-                unique: 71
-            },
-            {
-                title: 'Разработка автоматизированной системы документооборота при регистрации\n' +
-                    'объектов интеллектуальной собственности',
-                author: 'Санталов Михаил Дмитриевич',
-                year: 2025,
-                supervisor: 'Евстафиева Светлана Владимировна',
-                progress: 75,
-                status: 'В работе',
-                link: encodeURIComponent('ДипломСанталов'),
-                unique: 68
-            },
-            {
-                title: 'Разработка системы управления теплицей на базе\n' +
-                    'программируемого логического контроллера',
-                author: 'Савилов Игорь Олегович',
-                year: 2025,
-                supervisor: 'Евстафиева Светлана Владимировна',
-                progress: 75,
-                status: 'В работе',
-                link: encodeURIComponent('ДипломСавилов'),
-                unique: 80
-            }
-        ]
+        works: []
     }),
     actions: {
+        async fetchWorks(tok) {
+            try {
+                const response = await authFetch('http://localhost:8084/work', {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${tok}`
+                    },
+                });
+                console.log(response)
+                this.works = response.data.map(work => ({
+                    title: work.title,
+                    author: work.authorFullName,
+                    year: work.year,
+                    supervisor: work.supervisorFullName, // адаптируй под своё DTO
+                    progress: work.progress || 0,
+                    status: work.status || 'Неизвестно',
+                    link: encodeURIComponent(work.title), // или другой идентификатор
+                    unique: work.id // или другой уникальный идентификатор
+                }));
+            } catch (error) {
+                console.error('Ошибка при получении работ:', error);
+            }
+        },
         addWork(work) {
             this.works.push(work);
         }
