@@ -32,6 +32,7 @@ public class AuthorizationServerConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
     @Bean
     @Order(0)
     public SecurityFilterChain asFilterChain(HttpSecurity http)
@@ -41,7 +42,7 @@ public class AuthorizationServerConfig {
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
-        //Включение потокола OpenID Connect
+        //Включение протокола OpenID Connect
         http.getConfigurer(
                 OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());

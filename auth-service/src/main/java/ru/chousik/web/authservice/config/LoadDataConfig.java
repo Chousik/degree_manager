@@ -23,6 +23,7 @@ public class LoadDataConfig {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     AuthoritiesRepository authoritiesRepository;
+
     @PostConstruct
     public void initial(){
         if (userRepository.getUserEntitiesByUsername("chousik").isEmpty()){
@@ -30,7 +31,7 @@ public class LoadDataConfig {
                     "Захар",
                     "Силаев",
                     "Алексеевич",
-                    "магистр йода");
+                    "Middle Java Monkey");
             teacherRepository.save(teacher);
 
             UserEntity user = new UserEntity("chousik", passwordEncoder.encode("chousik"),
@@ -38,22 +39,9 @@ public class LoadDataConfig {
             userRepository.save(user);
 
             authoritiesRepository.save(new AuthoritiesEntity(user,
+                    "ROLE_USER"));
+            authoritiesRepository.save(new AuthoritiesEntity(user,
                     "ROLE_ADMIN"));
-        }
-        Optional<TeacherEntity> optionalTeacher = teacherRepository.getTeacherEntityByNameAndSurnameAndMiddleName(
-                "Елена", "Путинцева", "Валентиновна");
-
-        if (userRepository.getUserEntitiesByUsername("hipeoplea").isEmpty() && optionalTeacher.isPresent()) {
-            TeacherEntity teacher = optionalTeacher.get();
-            UserEntity user = new UserEntity(
-                    "hipeoplea",
-                    passwordEncoder.encode("hipeoplea"),
-                    true,
-                    teacher
-            );
-
-            userRepository.save(user);
-            authoritiesRepository.save(new AuthoritiesEntity(user, "ROLE_ADMIN"));
         }
     }
 }

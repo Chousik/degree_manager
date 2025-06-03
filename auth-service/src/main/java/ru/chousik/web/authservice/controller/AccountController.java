@@ -29,9 +29,7 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class AccountController {
     AccountService accountServiceImpl;
-
-
-
+    
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create users by Admin")

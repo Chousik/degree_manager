@@ -19,4 +19,5 @@ public class WorkDTO {
     Integer year;
     Integer completion;
     String supervisor;
+    String key;
 }
