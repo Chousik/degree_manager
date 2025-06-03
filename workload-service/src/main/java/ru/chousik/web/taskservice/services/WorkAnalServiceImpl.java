@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
@@ -18,7 +19,37 @@ public class WorkAnalServiceImpl implements WorkAnalService {
 
     @Override
     public Integer getCompletion(PDDocument document) {
-        return 0;
+        if (document == null) {
+            return 0;
+        }
+
+        Pattern[] chapterPatterns = new Pattern[] {
+                Pattern.compile("(?i)\\bГЛАВА\\s*1(?!\\d)"),
+                Pattern.compile("(?i)\\bГЛАВА\\s*2(?!\\d)"),
+                Pattern.compile("(?i)\\bГЛАВА\\s*3(?!\\d)"),
+                Pattern.compile("(?i)\\bГЛАВА\\s*4(?!\\d)")
+        };
+
+        try {
+            String text = new PDFTextStripper().getText(document);
+
+            int found = 0;
+            for (Pattern p : chapterPatterns) {
+                if (p.matcher(text).find()) {
+                    found++;
+                }
+            }
+
+            return switch (found) {
+                case 1 -> 25;
+                case 2 -> 50;
+                case 3 -> 75;
+                case 4 -> 100;
+                default -> 0;
+            };
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     @Override

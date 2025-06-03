@@ -21,7 +21,7 @@ import java.util.UUID;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
-@RequestMapping("/work/upload")
+@RequestMapping("/work")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class WorkDocController {
@@ -29,12 +29,13 @@ public class WorkDocController {
     WorkService workService;
     WorkAnalService workAnalService;
 
-    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/upload", consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadWork(@RequestPart("file") MultipartFile work,
                                         @ModelAttribute SaveWorkDTO saveWorkDTO) throws IOException {
         String key = UUID.randomUUID().toString();
         PDDocument document = Loader.loadPDF(work.getBytes());
         saveWorkDTO.setTitle(workAnalService.getTitle(document));
+        saveWorkDTO.setCompletion(workAnalService.getCompletion(document));
         workDocService.uploadWork(
                 key,
                 work.getInputStream(),
@@ -43,6 +44,7 @@ public class WorkDocController {
         workService.saveWork(saveWorkDTO,
                 key);
         System.out.println(saveWorkDTO.getTitle());
+        System.out.println(saveWorkDTO.getCompletion());
         return ResponseEntity.ok().build();
     }
 
