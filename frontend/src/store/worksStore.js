@@ -25,7 +25,8 @@ export const useWorksStore = defineStore('works', {
                     progress: work.completion || 0,
                     link: encodeURIComponent(work.title),
                     uuid: work.uuid,
-                    key: work.key
+                    key: work.key,
+                    uniqueCount: work.uniqueCount,
                 }));
             } catch (error) {
                 console.error('Ошибка при получении работ:', error);

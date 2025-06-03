@@ -119,7 +119,6 @@ async function fetchTasks() {
         headers: { 'Authorization': `Bearer ${token}` }
     });
     const tasks = await resp.json();
-    console.log('Tasks:', tasks);
 }
 
 document.getElementById('fetch-tasks-btn')?.addEventListener('click', fetchTasks);

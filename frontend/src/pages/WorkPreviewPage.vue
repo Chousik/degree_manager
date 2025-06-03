@@ -72,20 +72,17 @@ const route = useRoute()
 const worksStore = useWorksStore()
 const auth = useAuthStore()
 const fileName = route.params.title
-console.log('fileName:', fileName)
 
 
 const work = worksStore.works.find(w => decodeURIComponent(w.link) === fileName)
-console.log('work:', work)
 
 
 const pdfUrl = ref('')
 const plagiarismCheckResult = ref(null)
-
+console.log(work.uniqueCount)
 const checkPlagiarism = () => {
   setTimeout(() => {
-    plagiarismCheckResult.value = work ? work.unique : 'Неизвестно'
-    console.log(plagiarismCheckResult.value)
+    plagiarismCheckResult.value = work ? work.uniqueCount : 'Неизвестно'
   }, 4000)
 }
 

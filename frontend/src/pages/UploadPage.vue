@@ -228,15 +228,8 @@ const handleFileDrop = (event) => {
 const uploadWork = () => {
   if (!isFormValid.value) return;
   const formData = new FormData();
-  console.log('Отправка данных:', {
-    authorId: selectedAuthor.value?.uuid,
-    supervisorId: selectedSupervisor.value?.id,
-    year: workYear.value,
-    file: selectedFile.value
-  });
 
   formData.append("file", selectedFile.value);
-  formData.append("title", "Вкррррр");
   formData.append("year", workYear.value);
   formData.append("studentId", selectedAuthor.value?.uuid);
   formData.append("teacherId", selectedSupervisor.value?.id);
