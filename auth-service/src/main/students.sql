@@ -1,3 +1,4 @@
+
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 INSERT INTO students (uuid, surname, name, middle_name) VALUES

@@ -14,8 +14,9 @@ export const useWorksStore = defineStore('works', {
                         Authorization: `Bearer ${tok}`
                     },
                 });
-                console.log(response)
+
                 const data = await response.json()
+                console.log(data)
                 this.works = data.map(work => ({
                     title: work.title,
                     author: work.author,
@@ -23,7 +24,8 @@ export const useWorksStore = defineStore('works', {
                     supervisor: work.supervisor,
                     progress: work.completion || 0,
                     link: encodeURIComponent(work.title),
-                    unique: work.uuid
+                    uuid: work.uuid,
+                    key: work.key
                 }));
             } catch (error) {
                 console.error('Ошибка при получении работ:', error);

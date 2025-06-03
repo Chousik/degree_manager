@@ -250,14 +250,11 @@ const uploadWork = () => {
 
   })
       .then(res => res.data)
-      .then(url => {
-        console.log('Uploaded URL:', url);
-        alert('Файл загружен: ' + url);
+      .then(() => {
+        alert('Файл успешно загружен');
       })
       .catch(err => {
-        console.error(err);
-        alert('Ошибка загрузки');});
-  // router.push('/works');
+        alert('Ошибка загрузки ' + err);});
 };
 
 

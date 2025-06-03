@@ -122,13 +122,12 @@
               <router-link :to="`/preview/${work.link}`" class="px-4 py-1 bg-gray-200 rounded hover:bg-gray-300">
                 Просмотр
               </router-link>
-              <a :href="`${work.link}.pdf`" download class="px-4 py-1 bg-black text-white rounded hover:bg-gray-300">
+              <button @click="downloadWork(work.key)" class="px-4 py-1 bg-black text-white rounded hover:bg-gray-300">
                 Скачать
-              </a>
+              </button>
             </div>
           </div>
 
-          <!-- Индикатор прогресса - теперь справа -->
           <!-- Индикатор прогресса - теперь справа -->
           <div class="flex flex-col items-center w-12 md:w-16">
             <div class="relative w-12 h-12 md:w-16 md:h-16">
@@ -172,6 +171,7 @@ import {ref, computed, onMounted} from 'vue'
 import {useWorksStore} from '@/store/worksStore'
 import {useAuthStore} from '@/store/authStore'
 import {useRouter} from 'vue-router';
+import {authFetch} from "@/utills/authFetch.js";
 
 
 const router = useRouter();
@@ -262,6 +262,39 @@ function handleClickOutside(event) {
   ) {
     showSupervisorSuggestions.value = false
     showAuthorSuggestions.value = false
+  }
+}
+
+async function downloadWork(key) {
+  try {
+    const response = await authFetch(`http://localhost:8084/work/download/${key}`, {
+      headers: {
+        'Authorization': 'Bearer ' + authStore.accessToken
+      },
+      method: 'GET'
+    });
+
+    const blob = await response.blob();
+    const contentDisposition = response.headers.get('Content-Disposition');
+
+    let filename = 'vkr.pdf';
+    if (contentDisposition && contentDisposition.includes('filename=')) {
+      filename = contentDisposition
+          .split('filename=')[1]
+          .replace(/"/g, '')
+          .trim();
+    }
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error(error)
   }
 }
 
