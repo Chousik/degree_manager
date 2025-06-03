@@ -16,7 +16,6 @@ export const useWorksStore = defineStore('works', {
                 });
 
                 const data = await response.json()
-                console.log(data)
                 this.works = data.map(work => ({
                     title: work.title,
                     author: work.author,

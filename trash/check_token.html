@@ -93,7 +93,6 @@
     const resp = await fetch('http://localhost:8080/api/tasks', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    console.log(await resp.json());
   }
 
   // Шаг 6: обновление токена
@@ -111,7 +110,6 @@
 
     localStorage.setItem('access_token', tokenResp.access_token);
     localStorage.setItem('refresh_token', tokenResp.refresh_token);
-    console.log('Refreshed tokens:', tokenResp);
   }
 
   // Устанавливаем обработчики

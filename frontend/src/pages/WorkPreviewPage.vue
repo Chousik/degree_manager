@@ -79,7 +79,6 @@ const work = worksStore.works.find(w => decodeURIComponent(w.link) === fileName)
 
 const pdfUrl = ref('')
 const plagiarismCheckResult = ref(null)
-console.log(work.uniqueCount)
 const checkPlagiarism = () => {
   setTimeout(() => {
     plagiarismCheckResult.value = work ? work.uniqueCount : 'Неизвестно'
