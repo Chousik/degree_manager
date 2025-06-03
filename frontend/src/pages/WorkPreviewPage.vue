@@ -38,22 +38,25 @@
           Назад
         </router-link>
         <a
+            v-if="pdfUrl"
             :href="pdfUrl"
-            download
+            download="diplom.pdf"
             class="bg-indigo-600 text-white text-center text-lg sm:text-xl lg:text-2xl py-3 px-4 rounded hover:bg-indigo-700 transition"
         >
           Скачать
         </a>
+
       </div>
     </aside>
 
     <!-- Основная часть с PDF -->
     <main class="w-full lg:w-3/4 bg-white flex items-center justify-center overflow-hidden">
       <iframe
+          v-if="pdfUrl"
           :src="pdfUrl"
           class="w-full h-[80vh] lg:h-full border-none"
           frameborder="0"
-      ></iframe>
+      />
     </main>
   </div>
 </template>
@@ -61,21 +64,22 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { useWorksStore } from '@/store/worksStore'
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
+import {useAuthStore} from "@/store/authStore.js";
+import {authFetch} from "@/utills/authFetch.js";
 
 const route = useRoute()
 const worksStore = useWorksStore()
-
+const auth = useAuthStore()
 const fileName = route.params.title
 console.log('fileName:', fileName)
 
-console.log('worksStore.works:', worksStore.works)
 
 const work = worksStore.works.find(w => decodeURIComponent(w.link) === fileName)
 console.log('work:', work)
 
-const pdfUrl = work ? `/diplomas/${work.link}.pdf` : ''
 
+const pdfUrl = ref('')
 const plagiarismCheckResult = ref(null)
 
 const checkPlagiarism = () => {
@@ -84,6 +88,25 @@ const checkPlagiarism = () => {
     console.log(plagiarismCheckResult.value)
   }, 4000)
 }
+
+onMounted(async () => {
+  if (work) {
+    try {
+      const response = await authFetch(`http://localhost:8084/work/download/${work.key}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        }
+      })
+
+      const blob = await response.blob()
+      pdfUrl.value = URL.createObjectURL(blob)
+
+    } catch (error) {
+      console.error('Ошибка загрузки PDF для просмотра:', error)
+    }
+  }
+})
 </script>
 
 <style scoped>
