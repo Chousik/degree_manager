@@ -20,4 +20,5 @@ public class WorkDTO {
     Integer completion;
     String supervisor;
     String key;
+    Integer uniqueCount;
 }

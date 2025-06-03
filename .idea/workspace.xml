@@ -8,8 +8,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkAnalServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkAnalServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workload-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/dto/WorkDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/dto/WorkDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/entity/WorkEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/entity/WorkEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/repository/WorkRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/repository/WorkRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/workload-service/src/main/java/ru/chousik/web/taskservice/services/WorkServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

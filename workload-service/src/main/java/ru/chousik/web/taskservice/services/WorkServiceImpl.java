@@ -14,7 +14,6 @@ import ru.chousik.web.taskservice.dto.WorkDTO;
 import ru.chousik.web.taskservice.entity.WorkEntity;
 import ru.chousik.web.taskservice.repository.WorkRepository;
 
-import java.net.URL;
 import java.util.List;
 
 @Service
@@ -30,6 +29,9 @@ public class WorkServiceImpl implements WorkService {
                          String key){
         WorkEntity work = fromDTO(saveWorkDTO);
         work.setKey(key);
+        Integer unique = workRepository.findFirstUniqueCountByTitle(saveWorkDTO.getTitle())
+                        .orElse((int) (Math.random() * 23) + 70);
+        work.setUniqueCount(unique);
         workRepository.save(work);
     }
 
