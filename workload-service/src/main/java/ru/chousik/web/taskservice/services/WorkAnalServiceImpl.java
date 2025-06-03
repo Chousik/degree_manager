@@ -3,7 +3,6 @@ package ru.chousik.web.taskservice.services;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 

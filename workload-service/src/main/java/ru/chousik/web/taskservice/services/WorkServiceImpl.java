@@ -30,7 +30,6 @@ public class WorkServiceImpl implements WorkService {
                          String key){
         WorkEntity work = fromDTO(saveWorkDTO);
         work.setKey(key);
-        System.out.println(key);
         workRepository.save(work);
     }
 

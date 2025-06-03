@@ -15,7 +15,6 @@ import ru.chousik.web.taskservice.services.WorkDocService;
 import ru.chousik.web.taskservice.services.WorkService;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
@@ -43,8 +42,6 @@ public class WorkDocController {
                 work.getContentType());
         workService.saveWork(saveWorkDTO,
                 key);
-        System.out.println(saveWorkDTO.getTitle());
-        System.out.println(saveWorkDTO.getCompletion());
         return ResponseEntity.ok().build();
     }
 
