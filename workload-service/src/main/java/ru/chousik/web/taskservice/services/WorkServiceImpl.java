@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.chousik.web.dto.StudentDTO;
 import ru.chousik.web.dto.TeacherDTO;
 import ru.chousik.web.taskservice.clients.StudentClient;
@@ -15,12 +16,14 @@ import ru.chousik.web.taskservice.entity.WorkEntity;
 import ru.chousik.web.taskservice.repository.WorkRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class WorkServiceImpl implements WorkService {
     WorkRepository workRepository;
+    WorkDocService workDocService;
     StudentClient studentClient;
     ModelMapper modelMapper;
 
@@ -33,6 +36,25 @@ public class WorkServiceImpl implements WorkService {
                         .orElse((int) (Math.random() * 23) + 70);
         work.setUniqueCount(unique);
         workRepository.save(work);
+    }
+
+    @Override
+    public void deleteWork(UUID uuid) {
+        String key = workRepository.findKeyByUuid(uuid);
+        workRepository.deleteById(uuid);
+        workDocService.deleteWorkFile(key);
+    }
+
+    @Transactional
+    @Override
+    public void updateWork(UUID uuid, SaveWorkDTO saveWorkDTO, String key) {
+        WorkEntity work = workRepository.getWorkEntityByUuid(uuid);
+        if (!work.getTitle().equals(saveWorkDTO.getTitle())){
+            throw new IllegalArgumentException("Загружен неверный файл.");
+        }
+        workDocService.deleteWorkFile(work.getKey());
+        work.setCompletion(saveWorkDTO.getCompletion());
+        work.setKey(key);
     }
 
     @Override

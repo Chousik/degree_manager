@@ -7,47 +7,50 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.chousik.web.taskservice.blob.FileResource;
 import ru.chousik.web.taskservice.config.YandexS3Properties;
+import ru.chousik.web.taskservice.repository.WorkRepository;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-import software.amazon.awssdk.services.s3.model.GetUrlRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.*;
 
-import java.io.InputStream;
-import java.net.URL;
+import java.util.UUID;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WorkDocServiceImpl implements WorkDocService {
     S3Client s3Client;
     String bucket;
+    WorkRepository workRepository;
     public WorkDocServiceImpl(S3Client s3Client,
-                           YandexS3Properties props){
+                           YandexS3Properties props,
+                              WorkRepository workRepository){
         this.s3Client = s3Client;
         this.bucket = props.getBucket();
+        this.workRepository = workRepository;
     }
+
     @Override
     public void uploadWork(String key,
-                          InputStream data,
-                          long length,
-                          String contType){
+                           FileResource fileResource){
         PutObjectRequest putReq = PutObjectRequest.builder()
                 .bucket(bucket)
                 .key(key)
-                .contentType(contType)
+                .contentType(fileResource.contentType())
                 .build();
 
-        s3Client.putObject(putReq, RequestBody.fromInputStream(data, length));
+        s3Client.putObject(putReq, RequestBody.fromInputStream(fileResource.stream(),
+                fileResource.length()));
 
     }
+
     @Override
-    public ResponseEntity<InputStreamResource> downloadWork(String key) {
+    public ResponseEntity<InputStreamResource> downloadWork(UUID uuid){
+
         GetObjectRequest getReq = GetObjectRequest.builder()
                 .bucket(bucket)
-                .key(key)
+                .key(workRepository.findKeyByUuid(uuid))
                 .build();
         ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getReq);
         InputStreamResource resource = new InputStreamResource(s3Object);
@@ -55,9 +58,17 @@ public class WorkDocServiceImpl implements WorkDocService {
         long contentLength = s3Object.response().contentLength();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + key + "\"")
                 .contentType(MediaType.parseMediaType(contentType != null ? contentType : MediaType.APPLICATION_OCTET_STREAM_VALUE))
                 .contentLength(contentLength)
                 .body(resource);
+    }
+
+    @Override
+    public void deleteWorkFile(String key) {
+        DeleteObjectRequest delReq = DeleteObjectRequest.builder()
+                .bucket(bucket)
+                .key(key)
+                .build();
+        s3Client.deleteObject(delReq);
     }
 }

@@ -6,9 +6,11 @@ import lombok.experimental.FieldDefaults;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.chousik.web.taskservice.blob.FileResource;
 import ru.chousik.web.taskservice.dto.SaveWorkDTO;
 import ru.chousik.web.taskservice.services.WorkAnalService;
 import ru.chousik.web.taskservice.services.WorkDocService;
@@ -20,7 +22,7 @@ import java.util.UUID;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
-@RequestMapping("/work")
+@RequestMapping("/works")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class WorkDocController {
@@ -28,25 +30,55 @@ public class WorkDocController {
     WorkService workService;
     WorkAnalService workAnalService;
 
-    @PostMapping(path = "/upload", consumes = MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadWork(@RequestPart("file") MultipartFile work,
                                         @ModelAttribute SaveWorkDTO saveWorkDTO) throws IOException {
         String key = UUID.randomUUID().toString();
-        PDDocument document = Loader.loadPDF(work.getBytes());
-        saveWorkDTO.setTitle(workAnalService.getTitle(document));
-        saveWorkDTO.setCompletion(workAnalService.getCompletion(document));
-        workDocService.uploadWork(
-                key,
+        try (PDDocument document = Loader.loadPDF(work.getBytes())) {
+            saveWorkDTO.setTitle(workAnalService.getTitle(document));
+            saveWorkDTO.setCompletion(workAnalService.getCompletion(document));
+        }
+        try (FileResource file = new FileResource(
                 work.getInputStream(),
                 work.getSize(),
-                work.getContentType());
+                work.getContentType())){
+            workDocService.uploadWork(
+                    key,
+                    file);
+        }
         workService.saveWork(saveWorkDTO,
                 key);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();
     }
 
-    @GetMapping("/download/{key}")
-    public ResponseEntity<InputStreamResource> downloadWork(@PathVariable String key) {
-        return workDocService.downloadWork(key);
+    @PutMapping(
+            path = "/{uuid}/file",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<?> updateWorkFile(
+            @PathVariable UUID uuid,
+            @RequestPart("file") MultipartFile work
+    ) throws IOException {
+        String key = UUID.randomUUID().toString();
+        try (FileResource file = new FileResource(
+                work.getInputStream(),
+                work.getSize(),
+                work.getContentType())){
+            workDocService.uploadWork(
+                    key,
+                    file);
+        }
+        SaveWorkDTO saveWorkDTO = new SaveWorkDTO();
+        try (PDDocument document = Loader.loadPDF(work.getBytes())) {
+            saveWorkDTO.setTitle(workAnalService.getTitle(document));
+            saveWorkDTO.setCompletion(workAnalService.getCompletion(document));
+        }
+        workService.updateWork(uuid, saveWorkDTO, key);
+        return ResponseEntity.status(201).build();
+    }
+
+    @GetMapping("/{uuid}/file")
+    public ResponseEntity<InputStreamResource> downloadWork(@PathVariable UUID uuid) {
+        return workDocService.downloadWork(uuid);
     }
 }

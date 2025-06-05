@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.chousik.web.taskservice.entity.WorkEntity;
 import software.amazon.awssdk.services.s3.endpoints.internal.Value;
@@ -25,4 +26,8 @@ public interface WorkRepository extends JpaRepository<WorkEntity,
             nativeQuery = true
     )
     Optional<Integer> findFirstUniqueCountByTitle(@Size(max = 500) @NotNull String title);
+    WorkEntity getWorkEntityByUuid(UUID uuid);
+
+    @Query("select w.key from WorkEntity w where w.uuid = :uuid")
+    String findKeyByUuid(@Param("uuid") UUID uuid);
 }

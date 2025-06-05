@@ -18,14 +18,14 @@ public class AwsS3Config {
 
     @Bean
     public S3Client s3Client(YandexS3Properties props) {
-        AwsCredentials creds = AwsBasicCredentials.create(
+        AwsCredentials creeds = AwsBasicCredentials.create(
                 props.getAccessKey(),
                 props.getSecretKey()
         );
         return S3Client.builder()
                 .endpointOverride(URI.create(props.getEndpoint()))
                 .region(Region.of(props.getRegion()))
-                .credentialsProvider(StaticCredentialsProvider.create(creds))
+                .credentialsProvider(StaticCredentialsProvider.create(creeds))
                 .httpClient(ApacheHttpClient.create())
                 .build();
     }

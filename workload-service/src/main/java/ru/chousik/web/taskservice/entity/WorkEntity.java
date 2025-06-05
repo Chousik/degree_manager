@@ -1,6 +1,8 @@
 package ru.chousik.web.taskservice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -26,6 +28,7 @@ public class WorkEntity {
     @NotNull
     String title;
 
+    @Min(0) @Max(100)
     @NotNull
     Integer completion;
 
@@ -40,9 +43,11 @@ public class WorkEntity {
     @NotNull
     UUID studentId;
 
+    @Column(unique=true)
     @NotNull
     String key;
 
+    @Min(0) @Max(100)
     @NotNull
     Integer uniqueCount;
 }
