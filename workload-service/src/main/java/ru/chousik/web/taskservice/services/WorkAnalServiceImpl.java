@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
+import ru.chousik.web.taskservice.exception.InvalidWorkFormatException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,7 +62,7 @@ public class WorkAnalServiceImpl implements WorkAnalService {
         if (!topic.isEmpty()) {
             return topic;
         }
-        throw new IllegalArgumentException("Диплом должен быть стандартизирован");
+        throw new InvalidWorkFormatException("Failed to extract topic from document");
     }
 
     private static String findTopic(String text) {

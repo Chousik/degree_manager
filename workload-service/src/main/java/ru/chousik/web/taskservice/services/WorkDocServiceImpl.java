@@ -39,9 +39,12 @@ public class WorkDocServiceImpl implements WorkDocService {
                 .key(key)
                 .contentType(fileResource.contentType())
                 .build();
-
-        s3Client.putObject(putReq, RequestBody.fromInputStream(fileResource.stream(),
-                fileResource.length()));
+        try {
+            s3Client.putObject(putReq, RequestBody.fromInputStream(fileResource.stream(),
+                    fileResource.length()));
+        } catch (S3Exception e) {
+            throw new RuntimeException("Failed to upload file to S3", e);
+        }
 
     }
 
@@ -52,7 +55,15 @@ public class WorkDocServiceImpl implements WorkDocService {
                 .bucket(bucket)
                 .key(workRepository.findKeyByUuid(uuid))
                 .build();
-        ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getReq);
+        ResponseInputStream<GetObjectResponse> s3Object;
+        try {
+            s3Object = s3Client.getObject(getReq);
+        } catch (S3Exception e) {
+            if (e.statusCode() == 404) {
+                return ResponseEntity.notFound().build();
+            }
+            throw new RuntimeException("Failed to download file from S3", e);
+        }
         InputStreamResource resource = new InputStreamResource(s3Object);
         String contentType = s3Object.response().contentType();
         long contentLength = s3Object.response().contentLength();
@@ -69,6 +80,12 @@ public class WorkDocServiceImpl implements WorkDocService {
                 .bucket(bucket)
                 .key(key)
                 .build();
-        s3Client.deleteObject(delReq);
+        try {
+            s3Client.deleteObject(delReq);
+        } catch (S3Exception e) {
+            if (e.statusCode() != 404) {
+                throw new RuntimeException("Failed to delete file from S3", e);
+            }
+        }
     }
 }

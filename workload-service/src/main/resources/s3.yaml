@@ -1,0 +1,7 @@
+yandex:
+  s3:
+    endpoint: http://localhost:9000
+    region: us-east-1
+    bucket: sample-bucket
+    accessKey: sample-access
+    secretKey: sample-secret

@@ -42,12 +42,15 @@ public class WorkDocController {
                 work.getInputStream(),
                 work.getSize(),
                 work.getContentType())){
-            workDocService.uploadWork(
-                    key,
-                    file);
+            workDocService.uploadWork(key, file);
         }
-        workService.saveWork(saveWorkDTO,
-                key);
+
+        try {
+            workService.saveWork(saveWorkDTO, key);
+        } catch (Exception ex) {
+            workDocService.deleteWorkFile(key);
+            throw ex;
+        }
         return ResponseEntity.status(201).build();
     }
 
@@ -64,16 +67,20 @@ public class WorkDocController {
                 work.getInputStream(),
                 work.getSize(),
                 work.getContentType())){
-            workDocService.uploadWork(
-                    key,
-                    file);
+            workDocService.uploadWork(key, file);
         }
         SaveWorkDTO saveWorkDTO = new SaveWorkDTO();
         try (PDDocument document = Loader.loadPDF(work.getBytes())) {
             saveWorkDTO.setTitle(workAnalService.getTitle(document));
             saveWorkDTO.setCompletion(workAnalService.getCompletion(document));
         }
-        workService.updateWork(uuid, saveWorkDTO, key);
+
+        try {
+            workService.updateWork(uuid, saveWorkDTO, key);
+        } catch (Exception ex) {
+            workDocService.deleteWorkFile(key);
+            throw ex;
+        }
         return ResponseEntity.status(201).build();
     }
 

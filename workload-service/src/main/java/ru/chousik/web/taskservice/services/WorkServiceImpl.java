@@ -16,7 +16,9 @@ import ru.chousik.web.taskservice.entity.WorkEntity;
 import ru.chousik.web.taskservice.repository.WorkRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.HashMap;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -33,7 +35,7 @@ public class WorkServiceImpl implements WorkService {
         WorkEntity work = fromDTO(saveWorkDTO);
         work.setKey(key);
         Integer unique = workRepository.findFirstUniqueCountByTitle(saveWorkDTO.getTitle())
-                        .orElse((int) (Math.random() * 23) + 70);
+                .orElseGet(() -> Math.abs(saveWorkDTO.getTitle().hashCode()) % 30 + 70);
         work.setUniqueCount(unique);
         workRepository.save(work);
     }
@@ -59,16 +61,28 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public List<WorkDTO> getWorks() {
-        return workRepository
-                .findAll()
-                .stream()
-                .map(this::mapToDTO)
+        List<WorkEntity> works = workRepository.findAll();
+        Map<UUID, StudentDTO> studentCache = new HashMap<>();
+        Map<UUID, TeacherDTO> teacherCache = new HashMap<>();
+
+        return works.stream()
+                .map(work -> mapToDTO(work, studentCache, teacherCache))
                 .toList();
     }
 
     private WorkDTO mapToDTO(WorkEntity work){
-        StudentDTO student = studentClient.getStudentById(work.getStudentId());
-        TeacherDTO teacher = studentClient.getTeacherById(work.getTeacherId());
+        return mapToDTO(work, new HashMap<>(), new HashMap<>());
+    }
+
+    private WorkDTO mapToDTO(WorkEntity work,
+                             Map<UUID, StudentDTO> studentCache,
+                             Map<UUID, TeacherDTO> teacherCache){
+        StudentDTO student = studentCache.computeIfAbsent(
+                work.getStudentId(),
+                id -> studentClient.getStudentById(id));
+        TeacherDTO teacher = teacherCache.computeIfAbsent(
+                work.getTeacherId(),
+                id -> studentClient.getTeacherById(id));
         WorkDTO workDTO = modelMapper.map(work, WorkDTO.class);
         workDTO.setAuthor(String.join(" ",
                 List.of(
