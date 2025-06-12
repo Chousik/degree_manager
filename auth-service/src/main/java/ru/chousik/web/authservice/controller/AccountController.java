@@ -18,6 +18,7 @@ import ru.chousik.web.authservice.dto.AdminChangePasswordDTO;
 import ru.chousik.web.authservice.dto.ChangePasswordDTO;
 import ru.chousik.web.authservice.dto.RegisterUserDTO;
 import ru.chousik.web.authservice.dto.UserDTO;
+import ru.chousik.web.authservice.exception.SelfRoleModificationException;
 import ru.chousik.web.authservice.services.AccountService;
 
 import java.util.List;
@@ -112,13 +113,18 @@ public class AccountController {
             @ApiResponse(responseCode = "204", description = "Роль админа успешно добавлена."),
             @ApiResponse(responseCode = "409", description = "У пользователя уже есть роль админа."),
             @ApiResponse(responseCode = "404", description = "Требуемый пользователь не найден."),
+            @ApiResponse(responseCode = "403", description = "Запрещено модифицировать свои роли."),
             @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
             @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
     })
     public ResponseEntity<?> setAdmin(
+            @AuthenticationPrincipal UserDetails userDetails,
             @Parameter(name = "username",
                     description = "Никнейм пользователя")
             @PathVariable String username) {
+        if (username.equals(userDetails.getUsername())){
+            throw new SelfRoleModificationException();
+        }
         accountServiceImpl.addAdminRole(username);
         return ResponseEntity.noContent().build();
     }
@@ -130,14 +136,19 @@ public class AccountController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Роль админа успешно добавлена."),
             @ApiResponse(responseCode = "400", description = "У пользователя отсутствует роль админа."),
+            @ApiResponse(responseCode = "403", description = "Запрещено модифицировать свои роли."),
             @ApiResponse(responseCode = "404", description = "Требуемый пользователь не найден."),
             @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
             @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
     })
     public ResponseEntity<?> unsetAdmin(
+            @AuthenticationPrincipal UserDetails userDetails,
             @Parameter(name = "username",
                     description = "Никнейм пользователя")
             @PathVariable String username) {
+        if (username.equals(userDetails.getUsername())){
+            throw new SelfRoleModificationException();
+        }
         accountServiceImpl.removeAdminRole(username);
         return ResponseEntity.noContent().build();
     }
