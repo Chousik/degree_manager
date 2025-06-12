@@ -42,13 +42,8 @@ public class AccountController {
     public ResponseEntity<?> register(@Parameter(name = "username&password",
     description = "dto with username and password")
             @RequestBody @Valid RegisterUserDTO dto){
-        try {
-            accountServiceImpl.register(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        accountServiceImpl.register(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/password")

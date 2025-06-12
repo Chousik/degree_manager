@@ -13,6 +13,8 @@ import ru.chousik.web.authservice.dto.UserDTO;
 import ru.chousik.web.authservice.entity.AuthoritiesEntity;
 import ru.chousik.web.authservice.entity.TeacherEntity;
 import ru.chousik.web.authservice.entity.UserEntity;
+import ru.chousik.web.authservice.exception.TeacherAlreadyLinkedException;
+import ru.chousik.web.authservice.exception.UsernameExistsException;
 import ru.chousik.web.authservice.repository.AuthoritiesRepository;
 import ru.chousik.web.authservice.repository.TeacherRepository;
 import ru.chousik.web.authservice.repository.UserRepository;
@@ -33,14 +35,16 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public void register(RegisterUserDTO dto){
         if (userRepository.existsByUsername(dto.getUsername())){
-            throw new IllegalArgumentException("Username already exists");
+            throw new UsernameExistsException(dto.getUsername());
         }
         TeacherEntity teacher = teacherRepository.
                 getTeacherEntityByNameAndSurnameAndMiddleName(dto.getName(),
                         dto.getSurname(), dto.getMiddleName())
                 .orElseThrow(() -> new IllegalArgumentException("Teacher don't exist"));
         if (userRepository.existsByTeacher(teacher)){
-            throw new IllegalArgumentException("Teacher already exists");
+            throw new TeacherAlreadyLinkedException(String.join(" ",
+                    List.of(dto.getName(),
+                    dto.getMiddleName(), dto.getSurname())));
         }
         UserEntity user = new UserEntity(dto.getUsername(),
                 passwordEncoder.encode(dto.getPassword()),

@@ -16,8 +16,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.stream.LangCollectors.collect;
-
 @JsonTypeName("ru.chousik.web.authservice.security.DegreeUserDetails")
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,

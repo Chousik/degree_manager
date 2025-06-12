@@ -23,7 +23,6 @@ public class LoadDataConfig {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     AuthoritiesRepository authoritiesRepository;
-
     @PostConstruct
     public void initial(){
         if (userRepository.getUserEntitiesByUsername("chousik").isEmpty()){
