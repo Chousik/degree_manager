@@ -32,38 +32,52 @@ public class AccountController {
     
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMIN')")
-//    @Operation(summary = "Create users by Admin")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "201", description = "Successfully created"),
-//            @ApiResponse(responseCode = "409", description = "User already exist"),
-//            @ApiResponse(responseCode = "403", description = "You need Admin role"),
-//            @ApiResponse(responseCode = "401", description = "Unauthorized")
-//    })
-    public ResponseEntity<?> register(@Parameter(name = "username&password",
-    description = "dto with username and password")
+    @Operation(summary = "Создание аккаунта учителя.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Успешно создан."),
+            @ApiResponse(responseCode = "409", description = "Пользователь с таким ником существует."),
+            @ApiResponse(responseCode = "409", description = "данный учитель уже зарегистрирован."),
+            @ApiResponse(responseCode = "404", description = "Введенный учитель не найден в базе."),
+            @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
+            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
+    })
+    public ResponseEntity<?> register(@Parameter(name = "registerDTO",
+    description = "Содержит пароль и логин, а также ФИО учителя.")
             @RequestBody @Valid RegisterUserDTO dto){
         accountServiceImpl.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/password")
-//    @Operation(summary = "Change own password")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "204", description = "Password changed successfully"),
-//            @ApiResponse(responseCode = "400", description = "Old password is incorrect"),
-//            @ApiResponse(responseCode = "401", description = "Unauthorized")
-//    })
+    @Operation(summary = "Смена пароля юзером.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Пароль успешно сменен."),
+            @ApiResponse(responseCode = "400", description = "Старый пароль введен неверно."),
+            @ApiResponse(responseCode = "400", description = "Новый и старый пароли совпадают."),
+            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
+    })
     public ResponseEntity<?> changeOwnPassword(
             @AuthenticationPrincipal UserDetails userDetails,
-            @Parameter(name = "oldPassword") @RequestBody
+            @Parameter(name = "changePasswordDTO",
+                    description = "Содержит старый и новый пароль.")
+            @RequestBody
             @Valid ChangePasswordDTO dto){
         accountServiceImpl.changeOwnPassword(userDetails.getUsername(), dto);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Удаление пользователя админом.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Пользователь успешно удален."),
+            @ApiResponse(responseCode = "404", description = "Требуемый пользователь не найден."),
+            @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
+            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
+    })
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{username}/remove")
     public ResponseEntity<?> removeUser(
+            @Parameter(name = "username",
+                    description = "Никнейм пользователя.")
             @PathVariable String username){
         accountServiceImpl.deleteUser(username);
         return ResponseEntity.noContent().build();
@@ -72,16 +86,20 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{username}/password")
-    @Operation(summary = "Change user password by Admin")
+    @Operation(summary = "Смена пароля админом.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Password changed successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),
-            @ApiResponse(responseCode = "403", description = "You need Admin role")
+            @ApiResponse(responseCode = "204", description = "Пароль успешно сменен."),
+            @ApiResponse(responseCode = "404", description = "Требуемый пользователь не найден."),
+            @ApiResponse(responseCode = "400", description = "Новый и старый пароли совпадают."),
+            @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
+            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
     })
     public ResponseEntity<?> changeUserPassword(
-            @Parameter(description = "Username to change password for")
+            @Parameter(name = "username",
+                    description = "Никнейм пользователя.")
             @PathVariable String username,
-            @Parameter(description = "New password")
+            @Parameter(name = "password",
+                    description = "Новый пароль")
             @RequestBody @Valid AdminChangePasswordDTO dto) {
         accountServiceImpl.changeUserPassword(username, dto);
         return ResponseEntity.noContent().build();
@@ -89,28 +107,46 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{username}/setadmin")
-    @Operation(summary = "Add role Admin to user")
+    @Operation(summary = "Добавление роли админа юзеру.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Role added successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),
-            @ApiResponse(responseCode = "403", description = "You need Admin role")
+            @ApiResponse(responseCode = "204", description = "Роль админа успешно добавлена."),
+            @ApiResponse(responseCode = "409", description = "У пользователя уже есть роль админа."),
+            @ApiResponse(responseCode = "404", description = "Требуемый пользователь не найден."),
+            @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
+            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
     })
     public ResponseEntity<?> setAdmin(
-            @Parameter(description = "Username to grant admin role")
+            @Parameter(name = "username",
+                    description = "Никнейм пользователя")
             @PathVariable String username) {
         accountServiceImpl.addAdminRole(username);
         return ResponseEntity.noContent().build();
     }
 
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{username}/unsetadmin")
+    @Operation(summary = "Добавление роли админа юзеру.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Роль админа успешно добавлена."),
+            @ApiResponse(responseCode = "400", description = "У пользователя отсутствует роль админа."),
+            @ApiResponse(responseCode = "404", description = "Требуемый пользователь не найден."),
+            @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
+            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
+    })
     public ResponseEntity<?> unsetAdmin(
-            @Parameter(description = "Username to ungrant admin role")
+            @Parameter(name = "username",
+                    description = "Никнейм пользователя")
             @PathVariable String username) {
         accountServiceImpl.removeAdminRole(username);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Получение юзеров.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешно."),
+            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
+    })
     @GetMapping
     public List<UserDTO> getUsers(){
         return accountServiceImpl.getUsers();
