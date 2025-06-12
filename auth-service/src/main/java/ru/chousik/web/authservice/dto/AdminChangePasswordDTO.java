@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AdminChangePasswordDTO {
-    @NotBlank(message = "New password is required")
-    @Size(min = 8, message = "Password need minimum 8 character")
+    @NotBlank(message = "Необходим новый пароль.")
+    @Size(min = 8, message = "Минимальная длина нового пароля 8 символов.")
     String password;
 }

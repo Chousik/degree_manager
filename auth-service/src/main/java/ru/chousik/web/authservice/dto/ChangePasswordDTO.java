@@ -9,9 +9,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class ChangePasswordDTO {
-    @NotBlank(message = "Old password is required")
+    @NotBlank(message = "Необходим старый пароль")
     String oldPassword;
-    @NotBlank(message = "New password is required")
-    @Size(min = 8, message = "Password need minimum 8 character")
+    @NotBlank(message = "Необходим новый пароль.")
+    @Size(min = 8, message = "Минимальная нового длина пароля 8 символов.")
     String newPassword;
 }

@@ -32,13 +32,13 @@ public class AccountController {
     
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Create users by Admin")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully created"),
-            @ApiResponse(responseCode = "409", description = "User already exist"),
-            @ApiResponse(responseCode = "403", description = "You need Admin role"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
-    })
+//    @Operation(summary = "Create users by Admin")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "201", description = "Successfully created"),
+//            @ApiResponse(responseCode = "409", description = "User already exist"),
+//            @ApiResponse(responseCode = "403", description = "You need Admin role"),
+//            @ApiResponse(responseCode = "401", description = "Unauthorized")
+//    })
     public ResponseEntity<?> register(@Parameter(name = "username&password",
     description = "dto with username and password")
             @RequestBody @Valid RegisterUserDTO dto){
@@ -47,35 +47,26 @@ public class AccountController {
     }
 
     @PostMapping("/password")
-    @Operation(summary = "Change own password")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Password changed successfully"),
-            @ApiResponse(responseCode = "400", description = "Old password is incorrect"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
-    })
+//    @Operation(summary = "Change own password")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "204", description = "Password changed successfully"),
+//            @ApiResponse(responseCode = "400", description = "Old password is incorrect"),
+//            @ApiResponse(responseCode = "401", description = "Unauthorized")
+//    })
     public ResponseEntity<?> changeOwnPassword(
             @AuthenticationPrincipal UserDetails userDetails,
             @Parameter(name = "oldPassword") @RequestBody
             @Valid ChangePasswordDTO dto){
-        try {
-            accountServiceImpl.changeOwnPassword(userDetails.getUsername(), dto);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        accountServiceImpl.changeOwnPassword(userDetails.getUsername(), dto);
+        return ResponseEntity.noContent().build();
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{username}/remove")
     public ResponseEntity<?> removeUser(
             @PathVariable String username){
-        try {
-            accountServiceImpl.deleteUser(username);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        accountServiceImpl.deleteUser(username);
+        return ResponseEntity.noContent().build();
     }
 
 
@@ -92,13 +83,8 @@ public class AccountController {
             @PathVariable String username,
             @Parameter(description = "New password")
             @RequestBody @Valid AdminChangePasswordDTO dto) {
-        try {
-            accountServiceImpl.changeUserPassword(username, dto);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        accountServiceImpl.changeUserPassword(username, dto);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -112,13 +98,8 @@ public class AccountController {
     public ResponseEntity<?> setAdmin(
             @Parameter(description = "Username to grant admin role")
             @PathVariable String username) {
-        try {
-            accountServiceImpl.addAdminRole(username);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        accountServiceImpl.addAdminRole(username);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -126,13 +107,8 @@ public class AccountController {
     public ResponseEntity<?> unsetAdmin(
             @Parameter(description = "Username to ungrant admin role")
             @PathVariable String username) {
-        try {
-            accountServiceImpl.removeAdminRole(username);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        accountServiceImpl.removeAdminRole(username);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

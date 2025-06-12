@@ -10,19 +10,19 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterUserDTO {
-    @NotBlank(message = "Username is required")
+    @NotBlank(message = "Юзернейм требуется.")
     String username;
-    @NotBlank(message = "password is required")
-    @Size(min = 8, message = "Password need minimum 8 character")
+    @NotBlank(message = "Пароль требуется.")
+    @Size(min = 8, message = "Длина пароля минимум 8 символов.")
     String password;
-    @NotBlank(message = "name is required")
-    @Size(min = 1, message = "name need minimum 8 character")
+    @NotBlank(message = "Имя требуется.")
+    @Size(min = 1, message = "Имя должно содержать держать минимум 1 символ.")
     String name;
-    @NotBlank(message = "surname is required")
-    @Size(min = 1, message = "surname need minimum 8 character")
+    @NotBlank(message = "Требуется фамилия.")
+    @Size(min = 1, message = "Фамилия должна содержать держать минимум 1 символ.")
     String surname;
-    @NotBlank(message = "middleName is required")
-    @Size(min = 1, message = "middleName need minimum 8 character")
+    @NotBlank(message = "Требуется отчество.")
+    @Size(min = 1, message = "Отчество должно содержать держать минимум 1 символ.")
     @JsonProperty("middle_name")
     String middleName;
 }

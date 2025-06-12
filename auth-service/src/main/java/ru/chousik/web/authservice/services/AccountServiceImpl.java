@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.chousik.web.authservice.dto.AdminChangePasswordDTO;
@@ -13,8 +14,7 @@ import ru.chousik.web.authservice.dto.UserDTO;
 import ru.chousik.web.authservice.entity.AuthoritiesEntity;
 import ru.chousik.web.authservice.entity.TeacherEntity;
 import ru.chousik.web.authservice.entity.UserEntity;
-import ru.chousik.web.authservice.exception.TeacherAlreadyLinkedException;
-import ru.chousik.web.authservice.exception.UsernameExistsException;
+import ru.chousik.web.authservice.exception.*;
 import ru.chousik.web.authservice.repository.AuthoritiesRepository;
 import ru.chousik.web.authservice.repository.TeacherRepository;
 import ru.chousik.web.authservice.repository.UserRepository;
@@ -37,15 +37,20 @@ public class AccountServiceImpl implements AccountService {
         if (userRepository.existsByUsername(dto.getUsername())){
             throw new UsernameExistsException(dto.getUsername());
         }
+
+        String teacherData = String.join(" ",
+                List.of(dto.getName(),
+                        dto.getMiddleName(), dto.getSurname()));
+
         TeacherEntity teacher = teacherRepository.
                 getTeacherEntityByNameAndSurnameAndMiddleName(dto.getName(),
                         dto.getSurname(), dto.getMiddleName())
-                .orElseThrow(() -> new IllegalArgumentException("Teacher don't exist"));
+                .orElseThrow(() -> new TeacherNotFoundException(teacherData));
+
         if (userRepository.existsByTeacher(teacher)){
-            throw new TeacherAlreadyLinkedException(String.join(" ",
-                    List.of(dto.getName(),
-                    dto.getMiddleName(), dto.getSurname())));
+            throw new TeacherAlreadyLinkedException(teacherData);
         }
+
         UserEntity user = new UserEntity(dto.getUsername(),
                 passwordEncoder.encode(dto.getPassword()),
                 true,
@@ -59,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteUser(String username){
         UserEntity user = userRepository.getUserEntitiesByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Username does not exist"));
+                .orElseThrow(() -> new UsernameNotFoundException(username));
         authoritiesRepository.removeByUser(user);
         userRepository.delete(user);
     }
@@ -67,43 +72,65 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void changeOwnPassword(String username, ChangePasswordDTO dto){
         UserEntity user = userRepository.getUserEntitiesByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User don't exist"));
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 
         if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())){
-            throw new IllegalArgumentException("Old password is incorrect");
+            throw new IncorrectOldPasswordException();
         }
 
-        userRepository.updatePasswordByUsername(passwordEncoder.encode(dto.getNewPassword())
-                , username);
+        changePassword(username,
+                passwordEncoder.encode(dto.getNewPassword()));
     }
 
     @Override
     public void changeUserPassword(String username, AdminChangePasswordDTO dto){
         if (!userRepository.existsByUsername(username)){
-            throw new IllegalArgumentException("User not found");
+            throw new UserNotFoundException(username);
         }
-        userRepository.updatePasswordByUsername(passwordEncoder.encode(dto.getPassword()),
+
+        changePassword(username,
+                passwordEncoder.encode(dto.getPassword()));
+    }
+
+    private void changePassword(String username, String password){
+        if (!(passwordEncoder.matches(userRepository.getPasswordByUsername(username),
+                password))){
+            throw new PasswordReuseException();
+        }
+
+        userRepository.updatePasswordByUsername(passwordEncoder.encode(password),
                 username);
     }
 
     @Override
     public void addAdminRole(String username) {
         UserEntity user = userRepository.getUserEntitiesByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        if (!authoritiesRepository.getAuthoritiesEntityByUser(user).
+                stream()
+                .filter(r -> r.getAuthority().equals("ROLE_ADMIN"))
+                .toList()
+                .isEmpty()){
+            throw new AdminRoleAlreadyAssignedException(username);
+        }
+
         authoritiesRepository.save(new AuthoritiesEntity(user, "ROLE_ADMIN"));
     }
 
     @Override
     public void removeAdminRole(String username){
         UserEntity user = userRepository.getUserEntitiesByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
         if (authoritiesRepository.getAuthoritiesEntityByUser(user).
                 stream()
                 .filter(r -> r.getAuthority().equals("ROLE_ADMIN"))
                 .toList()
                 .isEmpty()){
-            throw new IllegalArgumentException("User don't have admin role");
+            throw new AdminRoleNotAssignedException(username);
         }
+
         authoritiesRepository.removeByAuthorityAndUser("ROLE_ADMIN", user);
     }
 
