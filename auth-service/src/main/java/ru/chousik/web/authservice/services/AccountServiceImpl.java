@@ -12,11 +12,9 @@ import ru.chousik.web.authservice.dto.ChangePasswordDTO;
 import ru.chousik.web.authservice.dto.RegisterUserDTO;
 import ru.chousik.web.authservice.dto.UserDTO;
 import ru.chousik.web.authservice.entity.AuthoritiesEntity;
-import ru.chousik.web.authservice.entity.TeacherEntity;
 import ru.chousik.web.authservice.entity.UserEntity;
 import ru.chousik.web.authservice.exception.*;
 import ru.chousik.web.authservice.repository.AuthoritiesRepository;
-import ru.chousik.web.authservice.repository.TeacherRepository;
 import ru.chousik.web.authservice.repository.UserRepository;
 
 import java.util.List;
@@ -28,7 +26,6 @@ import java.util.Objects;
 public class AccountServiceImpl implements AccountService {
     AuthoritiesRepository authoritiesRepository;
     UserRepository userRepository;
-    TeacherRepository teacherRepository;
     PasswordEncoder passwordEncoder;
 
     @Override
@@ -38,23 +35,9 @@ public class AccountServiceImpl implements AccountService {
             throw new UsernameExistsException(dto.getUsername());
         }
 
-        String teacherData = String.join(" ",
-                List.of(dto.getName(),
-                        dto.getMiddleName(), dto.getSurname()));
-
-        TeacherEntity teacher = teacherRepository.
-                getTeacherEntityByNameAndSurnameAndMiddleName(dto.getName(),
-                        dto.getSurname(), dto.getMiddleName())
-                .orElseThrow(() -> new TeacherNotFoundException(teacherData));
-
-        if (userRepository.existsByTeacher(teacher)){
-            throw new TeacherAlreadyLinkedException(teacherData);
-        }
-
         UserEntity user = new UserEntity(dto.getUsername(),
                 passwordEncoder.encode(dto.getPassword()),
-                true,
-                teacher);
+                true);
         user = userRepository.save(user);
 
         authoritiesRepository.save(new AuthoritiesEntity(user,
@@ -148,10 +131,6 @@ public class AccountServiceImpl implements AccountService {
                 .map(Objects::toString)
                 .toList();
         return new UserDTO(user.getUsername(),
-                authorities,
-                user.getTeacher().getName(),
-                user.getTeacher().getSurname(),
-                user.getTeacher().getMiddleName(),
-                user.getTeacher().getAcademicStatus());
+                authorities);
     }
 }

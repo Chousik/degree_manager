@@ -15,8 +15,4 @@ import java.util.List;
 public class UserDTO {
     String userId;
     List<String> roles;
-    String name;
-    String surname;
-    String middleName;
-    String academicStatus;
 }

@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/security/DegreeUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/security/DegreeUserDetails.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +20,9 @@
     <projectState path="$PROJECT_DIR$/auth-service">
       <ProjectState />
     </projectState>
+    <projectState path="$PROJECT_DIR$/common">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$/eureka-server">
       <ProjectState />
     </projectState>
@@ -24,6 +30,9 @@
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/task-service">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/user-service">
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/workload-service">
@@ -55,17 +64,7 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="auth-service" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build setup" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="auth-service" type="f1a62948:ProjectNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="auth-service" type="f1a62948:ProjectNode" />
-                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+                <item name="verification" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -105,9 +104,21 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Chousik/degree_manager.git&quot;,
-    &quot;accountId&quot;: &quot;350307ff-cd48-4e57-b8af-a6cc6a970c72&quot;
+    &quot;accountId&quot;: &quot;edc806ca-cd20-4583-8d4b-68146b100625&quot;
   }
 }</component>
+  <component name="GradleModuleStateConfig" initialized="true">
+    <option name="configPaths">
+      <map>
+        <entry key="$PROJECT_DIR$/auth-service" value="$PROJECT_DIR$/auth-service/build.gradle.kts" />
+        <entry key="$PROJECT_DIR$/common" value="$PROJECT_DIR$/common/build.gradle.kts" />
+        <entry key="$PROJECT_DIR$/eureka-server" value="$PROJECT_DIR$/eureka-server/build.gradle.kts" />
+        <entry key="$PROJECT_DIR$/gateway-server" value="$PROJECT_DIR$/gateway-server/build.gradle.kts" />
+        <entry key="$PROJECT_DIR$/user-service" value="$PROJECT_DIR$/user-service/build.gradle.kts" />
+        <entry key="$PROJECT_DIR$/workload-service" value="$PROJECT_DIR$/workload-service/build.gradle.kts" />
+      </map>
+    </option>
+  </component>
   <component name="KotlinScriptingSettings">
     <option name="suppressDefinitionsCheck" value="true" />
   </component>
@@ -117,6 +128,9 @@
 }</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -143,6 +157,7 @@
     &quot;Gradle.Building Gradle Dependencies.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Load Gradle Dependencies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth-service [:ru.chousik.web.authservice.AuthServiceApplication.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.auth-service [build].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.auth-service [clean].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.auth-service [dependencies].executor&quot;: &quot;Run&quot;,
@@ -175,7 +190,7 @@
     &quot;Spring Boot.TaskServiceApplication (1).executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.TaskServiceApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;9cf03a8a&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/chenqing/IdeaProjects/degree_manager/auth-service/src/main/resources/initial&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -243,30 +258,19 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AuthServiceApplication">
-    <configuration name="AuthServiceApplicationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/auth-service" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;ru.chousik.web.authservice.AuthServiceApplicationTests&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
+  <component name="RunManager" selected="Application.AuthServiceApplication">
+    <configuration name="AuthServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.chousik.web.authservice.AuthServiceApplication" />
+      <module name="auth-service.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.chousik.web.authservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="AuthServiceApplication | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/AuthServiceApplication.http" executionIdentifier="#2" index="2" runType="Run single request">
       <method v="2" />
@@ -331,8 +335,8 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.AuthServiceApplication" />
       <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-      <item itemvalue="Gradle.AuthServiceApplicationTests" />
       <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
       <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
@@ -343,11 +347,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.AuthServiceApplication" />
         <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
         <item itemvalue="HTTP Request.AuthServiceApplication | #2" />
-        <item itemvalue="Gradle.AuthServiceApplicationTests" />
       </list>
     </recent_temporary>
   </component>
@@ -404,6 +408,10 @@
       <workItem from="1749867551965" duration="1000" />
       <workItem from="1749898575423" duration="604000" />
       <workItem from="1750014590490" duration="5324000" />
+      <workItem from="1760662015851" duration="632000" />
+      <workItem from="1760698991641" duration="5318000" />
+      <workItem from="1760917004605" duration="7000" />
+      <workItem from="1761348815530" duration="109000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
@@ -523,6 +531,17 @@
     <MESSAGE value="Full admin panelv2" />
     <MESSAGE value="forgotten usname" />
     <option name="LAST_COMMIT_MESSAGE" value="forgotten usname" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/AuthServiceApplication.java</url>
+          <line>6</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

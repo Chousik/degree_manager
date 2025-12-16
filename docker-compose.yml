@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    build: .
     restart: always
     expose:
       - "5432"
@@ -10,6 +10,9 @@ services:
       POSTGRES_DB: task_app
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    command: postgres -c shared_preload_libraries=pg_cron -c cron.database_name=task_app
   prometheus:
     image: prom/prometheus:v2.53.0
     container_name: prometheus
@@ -28,5 +31,5 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
 volumes:
-  db:
+  pgdata:
   grafana_data:

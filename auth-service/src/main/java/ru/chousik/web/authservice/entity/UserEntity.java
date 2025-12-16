@@ -29,8 +29,4 @@ public class UserEntity {
 
     @NotNull
     Boolean enabled;
-
-    @OneToOne
-    @JoinColumn(name = "id", unique = true)
-    TeacherEntity teacher;
 }

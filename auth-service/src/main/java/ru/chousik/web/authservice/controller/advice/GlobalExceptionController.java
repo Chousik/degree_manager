@@ -16,8 +16,6 @@ public class GlobalExceptionController {
     @ExceptionHandler({
             UserNotFoundException.class,
             UsernameExistsException.class,
-            TeacherNotFoundException.class,
-            TeacherAlreadyLinkedException.class,
             IncorrectOldPasswordException.class,
             PasswordReuseException.class,
             AdminRoleAlreadyAssignedException.class,
