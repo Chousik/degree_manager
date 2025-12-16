@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface AccountService {
     void register(RegisterUserDTO dto);
+    void verifyEmail(String token);
+    void ensureOAuthUser(String email, String name);
     void deleteUser(String username);
     void changeOwnPassword(String username, ChangePasswordDTO dto);
     void changeUserPassword(String username, AdminChangePasswordDTO dto);

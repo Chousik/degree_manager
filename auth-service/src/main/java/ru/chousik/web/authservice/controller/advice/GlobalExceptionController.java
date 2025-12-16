@@ -20,7 +20,10 @@ public class GlobalExceptionController {
             PasswordReuseException.class,
             AdminRoleAlreadyAssignedException.class,
             AdminRoleNotAssignedException.class,
-            SelfRoleModificationException.class
+            SelfRoleModificationException.class,
+            EmailExistsException.class,
+            InvalidVerificationTokenException.class,
+            ExpiredVerificationTokenException.class
     })
     public ResponseEntity<String> handleValidationError(RuntimeException ex) {
         HttpStatus status = Optional.ofNullable(

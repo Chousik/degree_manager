@@ -1,5 +1,6 @@
 package ru.chousik.web.authservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -8,6 +9,9 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,14 +20,24 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 public class AuthorizationServerConfig {
+    @Value("${app.oauth2.success-redirect:http://localhost:5173/}")
+    private String oauthSuccessRedirect;
+
+    @Value("${app.oauth2.failure-redirect:http://localhost:5173/login?error=oauth}")
+    private String oauthFailureRedirect;
+
+    @Value("${app.oauth2.allowed-origins:http://localhost:5173}")
+    private String allowedOrigins;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(Arrays.stream(allowedOrigins.split(",")).map(String::trim).toList());
         config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "DELETE"));
         config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
         config.setAllowCredentials(true);
@@ -42,11 +56,9 @@ public class AuthorizationServerConfig {
         http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
-        //Включение протокола OpenID Connect
         http.getConfigurer(
                 OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());
-        //Буквально страницу авторизации
         http.exceptionHandling(ex -> ex
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
         );
@@ -64,7 +76,9 @@ public class AuthorizationServerConfig {
                         sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize ->
-                        authorize.anyRequest().authenticated()
+                        authorize
+                                .requestMatchers("/api/users/register", "/api/users/verify-email").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt -> jwt.decoder(jwtDecoder))
@@ -75,20 +89,27 @@ public class AuthorizationServerConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
+                                                          OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService)
             throws Exception {
         http.formLogin(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
+                        .successHandler((req, res, auth) -> res.sendRedirect(oauthSuccessRedirect))
+                        .failureHandler((req, res, ex) -> res.sendRedirect(oauthFailureRedirect))
+                )
                 .formLogin(form -> form
-                        .loginProcessingUrl("/login")          // обрабатываем POST /login
+                        .loginProcessingUrl("/login")
                         .successHandler((req, res, auth) -> res.setStatus(HttpStatus.OK.value()))
                         .failureHandler((req, res, exception) -> res.setStatus(HttpStatus.UNAUTHORIZED.value()))
                         .permitAll()
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/oauth2/**").permitAll()
                         .requestMatchers("v3/**").permitAll()
                         .requestMatchers("/swagger-ui*/**").permitAll()
                         .anyRequest().authenticated()

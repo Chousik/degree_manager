@@ -16,6 +16,39 @@ spring:
       schema-locations:
         - classpath:initial/*.sql
       mode: always
+  mail:
+    host: smtp.yandex.ru
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:Fixly.supp@yandex.ru}
+    password: ${MAIL_PASSWORD:wwnaiytrxrwwcpno}
+    protocol: smtp
+    properties:
+      "mail.transport.protocol": smtp
+      "mail.smtp.auth": true
+      "mail.smtp.starttls.enable": true
+      "mail.smtp.starttls.required": true
+      "mail.smtp.ssl.enable": false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:31470344474-r2o9aiv2bt9ivnhijr2rcat23ehtkl5s.apps.googleusercontent.com}
+            client-secret: ${GOOGLE_CLIENT_SECRET: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}
+            scope:
+              - email
+              - profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://www.googleapis.com/oauth2/v4/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+logging:
+  level:
+    org:
+      springframework:
+        mail=DEBG:
 server:
   port: 8071
   servlet:
@@ -23,6 +56,15 @@ server:
       timeout: 1m
 jwk:
   name: "master"
+
+app:
+  frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
+  email-verification:
+    expiration-hours: ${EMAIL_VERIFICATION_EXPIRATION_HOURS:24}
+  oauth2:
+    success-redirect: ${OAUTH_SUCCESS_REDIRECT:http://localhost:5173/}
+    failure-redirect: ${OAUTH_FAILURE_REDIRECT:http://localhost:5173/login?error=oauth}
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
 #eureka:
 #  client:
 #    register-with-eureka: true

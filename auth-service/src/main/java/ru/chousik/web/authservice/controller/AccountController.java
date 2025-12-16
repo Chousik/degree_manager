@@ -22,7 +22,6 @@ import ru.chousik.web.authservice.exception.SelfRoleModificationException;
 import ru.chousik.web.authservice.services.AccountService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -32,21 +31,27 @@ public class AccountController {
     AccountService accountServiceImpl;
     
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Создание аккаунта учителя.")
+    @Operation(summary = "Регистрация нового пользователя.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Успешно создан."),
-            @ApiResponse(responseCode = "409", description = "Пользователь с таким ником существует."),
-            @ApiResponse(responseCode = "409", description = "данный учитель уже зарегистрирован."),
-            @ApiResponse(responseCode = "404", description = "Введенный учитель не найден в базе."),
-            @ApiResponse(responseCode = "403", description = "Необходима роль админа."),
-            @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
+            @ApiResponse(responseCode = "409", description = "Пользователь с таким ником или email уже существует.")
     })
     public ResponseEntity<?> register(@Parameter(name = "registerDTO",
-    description = "Содержит пароль и логин, а также ФИО учителя.")
+    description = "Содержит логин, пароль и данные пользователя.")
             @RequestBody @Valid RegisterUserDTO dto){
         accountServiceImpl.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/verify-email")
+    @Operation(summary = "Подтверждение email по токену.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Email подтверждён."),
+            @ApiResponse(responseCode = "400", description = "Токен невалиден или истёк.")
+    })
+    public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
+        accountServiceImpl.verifyEmail(token);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/password")
