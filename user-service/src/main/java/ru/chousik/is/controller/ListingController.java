@@ -64,6 +64,12 @@ public class ListingController {
         return ResponseEntity.ok(page);
     }
 
+    @GetMapping("/{listingId}")
+    public ResponseEntity<ListingResponse> getListing(@PathVariable UUID listingId) {
+        ListingResponse response = listingService.getListing(listingId);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/map")
     public ResponseEntity<List<ListingMapPoint>> getListingsForMap(
             @RequestParam(required = false) String text,

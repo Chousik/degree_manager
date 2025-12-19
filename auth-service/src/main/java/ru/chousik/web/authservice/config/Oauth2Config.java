@@ -24,8 +24,10 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import ru.chousik.web.authservice.entity.JwkEntity;
 import ru.chousik.web.authservice.repository.JwkRepository;
+import ru.chousik.web.authservice.repository.UserProfileRepository;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -41,11 +43,18 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class Oauth2Config {
+    private final UserProfileRepository userProfileRepository;
+
+    public Oauth2Config(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
+    }
+
     @Bean
     public RegisteredClientRepository registeredClientRepository(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
         JdbcRegisteredClientRepository jdbcRegisteredClientRepository =
                 new JdbcRegisteredClientRepository(jdbcTemplate);
-        if (Objects.isNull(jdbcRegisteredClientRepository.findByClientId("client"))) {
+        RegisteredClient existing = jdbcRegisteredClientRepository.findByClientId("client");
+        if (Objects.isNull(existing)) {
             RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
                     .clientId("client")
                     .clientSecret(passwordEncoder.encode("secret"))
@@ -61,6 +70,10 @@ public class Oauth2Config {
                             .build())
                     .build();
             jdbcRegisteredClientRepository.save(client);
+        } else {
+            var builder = RegisteredClient.from(existing);
+            builder.redirectUri("http://localhost:5173/auth-callback");
+            jdbcRegisteredClientRepository.save(builder.build());
         }
         return jdbcRegisteredClientRepository;
     }
@@ -110,8 +123,18 @@ public class Oauth2Config {
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toCollection(ArrayList::new));
                 context.getClaims().claim("roles", roles);
+                addUserIdClaim(context);
+                context.getClaims().subject(principal.getName());
             }
         };
+    }
+
+    private void addUserIdClaim(JwtEncodingContext context) {
+        String username = context.getPrincipal().getName();
+        userProfileRepository.findByUsername(username).ifPresentOrElse(
+                profile -> context.getClaims().claim("user_id", profile.getId().toString()),
+                () -> context.getClaims().claim("user_id", username)
+        );
     }
 
     @Bean

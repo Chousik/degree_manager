@@ -39,21 +39,9 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <compositeConfiguration>
-          <compositeBuild compositeDefinitionSource="SCRIPT">
-            <builds>
-              <build path="$PROJECT_DIR$/common" name="common">
-                <projects>
-                  <project path="$PROJECT_DIR$/common" />
-                </projects>
-              </build>
-            </builds>
-          </compositeBuild>
-        </compositeConfiguration>
         <option name="externalProjectPath" value="$PROJECT_DIR$/user-service" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/user-service" />
           </set>
         </option>

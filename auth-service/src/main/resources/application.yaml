@@ -62,7 +62,7 @@ app:
   email-verification:
     expiration-hours: ${EMAIL_VERIFICATION_EXPIRATION_HOURS:24}
   oauth2:
-    success-redirect: ${OAUTH_SUCCESS_REDIRECT:http://localhost:5173/}
+    success-redirect: ${OAUTH_SUCCESS_REDIRECT:http://localhost:5173}
     failure-redirect: ${OAUTH_FAILURE_REDIRECT:http://localhost:5173/login?error=oauth}
     allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
 #eureka:

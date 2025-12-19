@@ -12,4 +12,6 @@ public interface ListingPhotoRepository extends JpaRepository<ListingPhoto, UUID
     void deleteByListing_Id(UUID listingId);
 
     List<ListingPhoto> findByListing_IdIn(Collection<UUID> listingIds);
+
+    List<ListingPhoto> findByListing_Id(UUID listingId);
 }

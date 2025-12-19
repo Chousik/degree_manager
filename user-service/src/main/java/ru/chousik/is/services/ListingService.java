@@ -253,6 +253,20 @@ public class ListingService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public ListingResponse getListing(UUID listingId) {
+        Listing listing = listingRepository.findById(listingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Listing %s not found".formatted(listingId)));
+
+        List<AvailabilitySlot> slots = availabilitySlotRepository.findByListing_Id(listingId);
+        List<ListingPhoto> photos = listingPhotoRepository.findByListing_Id(listingId);
+        List<Category> categories = listingCategoryRepository.findByListing_Id(listingId).stream()
+                .map(ListingCategory::getCategory)
+                .toList();
+
+        return mapToResponse(listing, slots, photos, categories);
+    }
+
     private void assertOwner(Listing listing, UUID ownerId) {
         if (ownerId == null || !listing.getOwner().getId().equals(ownerId)) {
             throw new BusinessValidationException("Operation allowed only for listing owner");

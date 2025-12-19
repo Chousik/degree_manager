@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import ru.chousik.is.entity.PaymentPurpose;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -41,5 +42,20 @@ public class Payment {
     @Size(max = 100)
     @Column(name = "external_id", length = 100)
     private String externalId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "purpose", length = 20)
+    private PaymentPurpose purpose;
+
+    @Size(max = 3)
+    @Column(name = "currency", length = 3)
+    private String currency;
+
+    @Size(max = 500)
+    @Column(name = "confirmation_url", length = 500)
+    private String confirmationUrl;
+
+    @Column(name = "refunded_at")
+    private OffsetDateTime refundedAt;
 
 }

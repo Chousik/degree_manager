@@ -25,10 +25,10 @@ import java.util.List;
 
 @Configuration
 public class AuthorizationServerConfig {
-    @Value("${app.oauth2.success-redirect:http://localhost:5173/}")
+    @Value("${app.oauth2.success-redirect:http://localhost:5173}")
     private String oauthSuccessRedirect;
 
-    @Value("${app.oauth2.failure-redirect:http://localhost:5173/login?error=oauth}")
+    @Value("${app.oauth2.failure-redirect:http://localhost:5173/auth?error=oauth}")
     private String oauthFailureRedirect;
 
     @Value("${app.oauth2.allowed-origins:http://localhost:5173}")
@@ -70,6 +70,7 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain registerSecurity(HttpSecurity http,
                                                 JwtDecoder jwtDecoder) throws Exception {
         http
+                .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .securityMatcher("/api/users/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess ->
@@ -92,7 +93,8 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
                                                           OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService)
             throws Exception {
-        http.formLogin(Customizer.withDefaults())
+        http.cors(c -> c.configurationSource(corsConfigurationSource()))
+            .formLogin(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
@@ -109,6 +111,7 @@ public class AuthorizationServerConfig {
                         .permitAll()
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
                         .requestMatchers("v3/**").permitAll()
                         .requestMatchers("/swagger-ui*/**").permitAll()

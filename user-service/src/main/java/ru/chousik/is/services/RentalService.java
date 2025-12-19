@@ -5,8 +5,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.chousik.is.dto.rental.RentalCreateRequest;
 import ru.chousik.is.dto.rental.RentalResponse;
-import ru.chousik.is.entity.*;
-import ru.chousik.is.repository.*;
+import ru.chousik.is.entity.Contract;
+import ru.chousik.is.entity.Listing;
+import ru.chousik.is.entity.PaymentPurpose;
+import ru.chousik.is.entity.Rental;
+import ru.chousik.is.entity.RentalStatus;
+import ru.chousik.is.entity.User;
+import ru.chousik.is.exceptions.BusinessValidationException;
+import ru.chousik.is.exceptions.ResourceNotFoundException;
+import ru.chousik.is.repository.ContractRepository;
+import ru.chousik.is.repository.ListingRepository;
+import ru.chousik.is.repository.RentalRepository;
+import ru.chousik.is.repository.UserRepository;
 import ru.chousik.is.exceptions.BusinessValidationException;
 import ru.chousik.is.exceptions.ResourceNotFoundException;
 
@@ -31,8 +41,8 @@ public class RentalService {
     private final ListingRepository listingRepository;
     private final UserRepository userRepository;
     private final ContractRepository contractRepository;
-    private final PaymentRepository paymentRepository;
     private final ConversationService conversationService;
+    private final PaymentService paymentService;
 
     public RentalResponse createRental(RentalCreateRequest request) {
         Listing listing = listingRepository.findById(request.listingId())
@@ -61,6 +71,10 @@ public class RentalService {
         boolean autoConfirmation = Boolean.TRUE.equals(listing.getAutoConfirmation());
         rental.setStatus(autoConfirmation ? RentalStatus.ACTIVE : RentalStatus.PENDING);
         Rental saved = rentalRepository.save(rental);
+        paymentService.preparePaymentRecord(saved, PaymentPurpose.RENTAL, rental.getTotalAmount());
+        if (rental.getDepositAmount() != null && rental.getDepositAmount().compareTo(BigDecimal.ZERO) > 0) {
+            paymentService.preparePaymentRecord(saved, PaymentPurpose.DEPOSIT, rental.getDepositAmount());
+        }
 
         if (autoConfirmation) {
             activateRental(saved);
@@ -95,6 +109,7 @@ public class RentalService {
         ensureParticipant(rental, actorId);
         ensureStatus(rental, RentalStatus.ACTIVE);
         rental.setStatus(RentalStatus.COMPLETED);
+        paymentService.refundDepositIfCompleted(rental);
         return mapToResponse(rental);
     }
 
@@ -108,7 +123,9 @@ public class RentalService {
         rentalRepository.save(rental);
         createContract(rental);
         conversationService.ensureConversation(rental);
-        createDepositPayment(rental);
+        if (rental.getDepositAmount() != null && rental.getDepositAmount().compareTo(BigDecimal.ZERO) > 0) {
+            paymentService.preparePaymentRecord(rental, PaymentPurpose.DEPOSIT, rental.getDepositAmount());
+        }
     }
 
     private void createContract(Rental rental) {
@@ -119,18 +136,6 @@ public class RentalService {
         contract.setFileUrl("/contracts/" + rental.getId() + ".pdf");
         contract.setSignatureHash(generateSignature(rental));
         contractRepository.save(contract);
-    }
-
-    private void createDepositPayment(Rental rental) {
-        BigDecimal deposit = rental.getDepositAmount();
-        if (deposit == null || deposit.compareTo(BigDecimal.ZERO) <= 0) {
-            return;
-        }
-        Payment payment = new Payment();
-        payment.setRental(rental);
-        payment.setAmount(deposit);
-        payment.setStatus("unpaid");
-        paymentRepository.save(payment);
     }
 
     private BigDecimal calculateTotalAmount(Listing listing, OffsetDateTime start, OffsetDateTime end) {
