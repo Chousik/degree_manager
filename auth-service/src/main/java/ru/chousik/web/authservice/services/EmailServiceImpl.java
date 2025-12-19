@@ -22,6 +22,8 @@ public class EmailServiceImpl implements EmailService {
     String fromEmail;
     @Value("${app.frontend-base-url:http://localhost:5173}")
     String frontendBaseUrl;
+    @Value("${app.backend-base-url:http://localhost:8071}")
+    String backendBaseUrl;
 
     @Override
     public void sendVerificationEmail(String to, String token) {
@@ -30,9 +32,9 @@ public class EmailServiceImpl implements EmailService {
             return;
         }
 
-        String verificationLink = frontendBaseUrl.endsWith("/")
-                ? frontendBaseUrl + "?token=" + token
-                : frontendBaseUrl + "/?token=" + token;
+        String verificationLink = backendBaseUrl.endsWith("/")
+                ? backendBaseUrl + "api/users/verify-email?token=" + token
+                : backendBaseUrl + "/api/users/verify-email?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
         if (StringUtils.hasText(fromEmail)) {

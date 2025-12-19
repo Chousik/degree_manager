@@ -59,6 +59,7 @@ jwk:
 
 app:
   frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
+  backend-base-url: ${BACKEND_BASE_URL:http://localhost:8071}
   email-verification:
     expiration-hours: ${EMAIL_VERIFICATION_EXPIRATION_HOURS:24}
   oauth2:

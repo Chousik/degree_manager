@@ -10,7 +10,7 @@ import ru.chousik.is.config.PaymentProviderProperties;
 public class UserServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserServiceApplication.class, args);
-	}
+        SpringApplication.run(UserServiceApplication.class, args);
+    }
 
 }

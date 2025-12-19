@@ -4,7 +4,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "ru.chousik.web"
+group = "ru.chousik.is"
 version = "0.0.1-SNAPSHOT"
 
 java {

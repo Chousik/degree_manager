@@ -8,8 +8,8 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,11 +24,13 @@ import ru.chousik.web.authservice.services.AccountService;
 import java.util.List;
 
 @RestController
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class AccountController {
-    AccountService accountServiceImpl;
+    final AccountService accountServiceImpl;
+    @Value("${app.frontend-base-url:http://localhost:5173}")
+    String frontendBaseUrl;
     
     @PostMapping("/register")
     @Operation(summary = "Регистрация нового пользователя.")
@@ -52,6 +54,15 @@ public class AccountController {
     public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
         accountServiceImpl.verifyEmail(token);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/verify-email")
+    @Operation(summary = "Подтверждение email по токену (GET для ссылок из письма).")
+    public ResponseEntity<?> verifyEmailGet(@RequestParam("token") String token) {
+        accountServiceImpl.verifyEmail(token);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, frontendBaseUrl + "/login?verified=true")
+                .build();
     }
 
     @PostMapping("/password")

@@ -8,10 +8,11 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="ru.chousik.web.user-service.main" />
+        <module name="user-service.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ru.chousik.web.user-service.main" target="17" />
       <module name="ru.chousik.web.user-service.test" target="17" />
       <module name="ru.chousik.web.user_service.main" target="17" />
       <module name="ru.chousik.web.user_service.test" target="17" />
@@ -19,7 +20,6 @@
       <module name="task-service.test" target="17" />
       <module name="untitled.main" target="17" />
       <module name="untitled.test" target="17" />
-      <module name="user-service.main" target="17" />
       <module name="user_service" target="17" />
       <module name="user_service.main" target="17" />
       <module name="user_service.test" target="17" />
@@ -41,6 +41,7 @@
       <module name="ru.chousik.web.user-service.main" options="-parameters" />
       <module name="ru.chousik.web.workload-service.main" options="-parameters" />
       <module name="user-service" options="-parameters" />
+      <module name="user-service.main" options="-parameters" />
       <module name="user-service.test" options="-parameters" />
       <module name="workload-service" options="-parameters" />
       <module name="workload-service.test" options="-parameters" />

@@ -45,6 +45,9 @@ const createRental = async () => {
   };
   apiResults.rental = await fetchJson(`${USER_API_BASE}/rentals`, { method: 'POST', body: JSON.stringify(payload) });
   showToast('Аренда создана');
+  if (apiResults.rental?.paymentConfirmationUrl) {
+    window.location.href = apiResults.rental.paymentConfirmationUrl;
+  }
 };
 
 const performRentalAction = async () => {

@@ -20,6 +20,8 @@ public record RentalResponse(
         OffsetDateTime confirmationDeadline,
         UUID contractId,
         String contractStatus,
-        String contractFileUrl
+        String contractFileUrl,
+        UUID paymentId,
+        String paymentConfirmationUrl
 ) {
 }

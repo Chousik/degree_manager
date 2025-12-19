@@ -1,9 +1,11 @@
 package ru.chousik.is.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "payment.yookassa")
 public class PaymentProviderProperties {
 
@@ -22,27 +24,4 @@ public class PaymentProviderProperties {
      */
     private String returnBaseUrl;
 
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public String getReturnBaseUrl() {
-        return returnBaseUrl;
-    }
-
-    public void setReturnBaseUrl(String returnBaseUrl) {
-        this.returnBaseUrl = returnBaseUrl;
-    }
 }

@@ -7,6 +7,7 @@ import ru.chousik.is.dto.rental.RentalCreateRequest;
 import ru.chousik.is.dto.rental.RentalResponse;
 import ru.chousik.is.entity.Contract;
 import ru.chousik.is.entity.Listing;
+import ru.chousik.is.entity.Payment;
 import ru.chousik.is.entity.PaymentPurpose;
 import ru.chousik.is.entity.Rental;
 import ru.chousik.is.entity.RentalStatus;
@@ -17,15 +18,15 @@ import ru.chousik.is.repository.ContractRepository;
 import ru.chousik.is.repository.ListingRepository;
 import ru.chousik.is.repository.RentalRepository;
 import ru.chousik.is.repository.UserRepository;
-import ru.chousik.is.exceptions.BusinessValidationException;
-import ru.chousik.is.exceptions.ResourceNotFoundException;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.HexFormat;
 import java.util.Objects;
 import java.util.UUID;
@@ -62,8 +63,8 @@ public class RentalService {
         rental.setListing(listing);
         rental.setLessor(lessor);
         rental.setLessee(lessee);
-        rental.setStartAt(request.startAt());
-        rental.setEndAt(request.endAt());
+        rental.setStartAt(toUtc(request.startAt()));
+        rental.setEndAt(toUtc(request.endAt()));
         rental.setCreatedAt(OffsetDateTime.now());
         rental.setDepositAmount(resolveDeposit(request, listing));
         rental.setTotalAmount(calculateTotalAmount(listing, request.startAt(), request.endAt()));
@@ -79,7 +80,8 @@ public class RentalService {
         if (autoConfirmation) {
             activateRental(saved);
         }
-        return mapToResponse(saved);
+        Payment initiated = paymentService.initiatePayment(saved.getId(), PaymentPurpose.RENTAL, null);
+        return mapToResponse(saved, initiated);
     }
 
     public RentalResponse confirmRental(UUID rentalId, UUID ownerId) {
@@ -138,7 +140,7 @@ public class RentalService {
         contractRepository.save(contract);
     }
 
-    private BigDecimal calculateTotalAmount(Listing listing, OffsetDateTime start, OffsetDateTime end) {
+    private BigDecimal calculateTotalAmount(Listing listing, LocalDateTime start, LocalDateTime end) {
         long hours = Duration.between(start, end).toHours();
         if (hours <= 0) {
             throw new BusinessValidationException("Rental duration must be positive");
@@ -161,13 +163,17 @@ public class RentalService {
         return listing.getDepositAmount();
     }
 
-    private void validateDates(OffsetDateTime start, OffsetDateTime end) {
+    private void validateDates(LocalDateTime start, LocalDateTime end) {
         if (!end.isAfter(start)) {
             throw new BusinessValidationException("End date must be after start date");
         }
-        if (start.isBefore(OffsetDateTime.now())) {
+        if (start.isBefore(LocalDateTime.now())) {
             throw new BusinessValidationException("Start date must be in future");
         }
+    }
+
+    private OffsetDateTime toUtc(LocalDateTime localDateTime) {
+        return localDateTime.atOffset(ZoneOffset.UTC);
     }
 
     private void ensureParticipant(Rental rental, UUID actorId) {
@@ -217,6 +223,10 @@ public class RentalService {
     }
 
     private RentalResponse mapToResponse(Rental rental) {
+        return mapToResponse(rental, null);
+    }
+
+    private RentalResponse mapToResponse(Rental rental, Payment payment) {
         OffsetDateTime deadline = rental.getCreatedAt() != null
                 ? rental.getCreatedAt().plus(CONFIRMATION_WINDOW)
                 : null;
@@ -235,7 +245,9 @@ public class RentalService {
                 deadline,
                 contract.map(Contract::getId).orElse(null),
                 contract.map(Contract::getStatus).orElse(null),
-                contract.map(Contract::getFileUrl).orElse(null)
+                contract.map(Contract::getFileUrl).orElse(null),
+                payment != null ? payment.getId() : null,
+                payment != null ? payment.getConfirmationUrl() : null
         );
     }
 }
