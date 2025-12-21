@@ -13,6 +13,17 @@ services:
     volumes:
       - ./p gdata:/var/lib/postgresql/data
     command: postgres -c shared_preload_libraries=pg_cron -c cron.database_name=task_app
+  minio:
+    image: minio/minio:RELEASE.2024-10-02T17-50-41Z
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
   prometheus:
     image: prom/prometheus:v2.53.0
     container_name: prometheus
@@ -33,3 +44,4 @@ services:
 volumes:
   pgdata:
   grafana_data:
+  minio-data:
