@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from './pages/LoginPage.vue';
 import RegisterPage from './pages/RegisterPage.vue';
+import LandingPage from './pages/LandingPage.vue';
 import ListingsPage from './pages/ListingsPage.vue';
 import PublicListingsPage from './pages/PublicListingsPage.vue';
 import AuthCallback from './pages/AuthCallback.vue';
@@ -14,7 +15,7 @@ import SupportPage from './pages/SupportPage.vue';
 import { useSession } from './state/session';
 
 const routes = [
-  { path: '/', redirect: '/catalog' },
+  { path: '/', component: LandingPage, meta: { landingPage: true } },
   { path: '/catalog', component: PublicListingsPage, meta: { requiresAuth: true } },
   { path: '/catalog/:id', component: ListingDetailPage, meta: { requiresAuth: true } },
   { path: '/login', component: LoginPage, meta: { guestOnly: true, authPage: true } },

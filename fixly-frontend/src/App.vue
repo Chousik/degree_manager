@@ -20,7 +20,7 @@ const navLinks = [
 
 const showNav = computed(() => isLoggedIn.value);
 const isCatalog = computed(() => route.path === '/catalog');
-const isAuthPage = computed(() => Boolean(route.meta?.authPage));
+const isStandalone = computed(() => Boolean(route.meta?.authPage || route.meta?.landingPage));
 
 const handleLogout = () => {
   logout();
@@ -29,7 +29,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <RouterView v-if="isAuthPage" />
+  <RouterView v-if="isStandalone" />
   <div v-else class="page">
     <div class="bg-shape bg-shape-1"></div>
     <div class="bg-shape bg-shape-2"></div>

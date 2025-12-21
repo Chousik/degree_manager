@@ -9,8 +9,11 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 
 keySetURI: ${KEY_SET_URI:http://localhost:8071/oauth2/jwks}
 payment:
