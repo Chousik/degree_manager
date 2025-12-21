@@ -4,4 +4,4 @@ frontend/node_modules/
 fixly-frontend/node_modules/
 /workload-service/src/main/resources/s3.yaml
 */.gradle/
-/pgdata/
+/p pgdata/
