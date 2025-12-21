@@ -20,15 +20,17 @@ const navLinks = [
 
 const showNav = computed(() => isLoggedIn.value);
 const isCatalog = computed(() => route.path === '/catalog');
+const isAuthPage = computed(() => Boolean(route.meta?.authPage));
 
 const handleLogout = () => {
   logout();
-  router.push('/auth');
+  router.push('/login');
 };
 </script>
 
 <template>
-  <div class="page">
+  <RouterView v-if="isAuthPage" />
+  <div v-else class="page">
     <div class="bg-shape bg-shape-1"></div>
     <div class="bg-shape bg-shape-2"></div>
 
@@ -49,10 +51,10 @@ const handleLogout = () => {
     <nav class="nav">
       <template v-for="link in navLinks" :key="link.to">
         <RouterLink
-          v-if="isLoggedIn || link.to === '/catalog'"
+          v-if="isLoggedIn"
           :to="link.to"
           class="nav-link"
-          :class="{ active: route.path === link.to, locked: link.requiresAuth && !isLoggedIn }"
+          :class="{ active: route.path === link.to }"
         >
           {{ link.label }}
         </RouterLink>
@@ -61,8 +63,8 @@ const handleLogout = () => {
         <button class="nav-link logout" type="button" @click="handleLogout">Выйти</button>
       </template>
       <template v-else>
-        <RouterLink class="nav-link" to="/auth">Log in</RouterLink>
-        <RouterLink class="nav-link" :to="{ path: '/auth', query: { tab: 'register' } }">Sign up</RouterLink>
+        <RouterLink class="nav-link" to="/login">Log in</RouterLink>
+        <RouterLink class="nav-link" to="/register">Sign up</RouterLink>
       </template>
     </nav>
 
@@ -75,7 +77,7 @@ const handleLogout = () => {
         <h1>Маркетплейс-интерфейс для всех эндпоинтов</h1>
         <p class="hero-text">
           Интерфейс похож на витрину объявлений: карточки, аккуратные формы и навигация как у Avito/Юлы.
-          Сначала войдите через /auth, потом тестируйте API по разделам.
+          Сначала войдите через /login, потом тестируйте API по разделам.
         </p>
         <ul class="hero-list">
           <li><span class="dot"></span>Регистрация/вход + подтверждение email</li>

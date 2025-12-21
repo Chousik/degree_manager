@@ -89,8 +89,14 @@ const clearFilters = () => {
 };
 
 const toggleDrawer = () => { showDrawer.value = !showDrawer.value; };
-const goToAuth = (tab) => router.push({ path: '/auth', query: tab ? { tab } : {} });
-const logoutAndRedirect = () => { logout(); router.push('/auth'); };
+const goToAuth = (tab) => {
+  if (tab === 'register') {
+    router.push('/register');
+  } else {
+    router.push('/login');
+  }
+};
+const logoutAndRedirect = () => { logout(); router.push('/login'); };
 
 onMounted(() => {
   fetchPage(true);

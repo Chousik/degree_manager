@@ -9,9 +9,9 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: task_app
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./ppgdata:/var/lib/postgresql/data
     command: postgres -c shared_preload_libraries=pg_cron -c cron.database_name=task_app
   prometheus:
     image: prom/prometheus:v2.53.0

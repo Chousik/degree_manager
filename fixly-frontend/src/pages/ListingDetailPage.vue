@@ -56,7 +56,7 @@ const fetchListing = async (id) => {
 const bookRental = async () => {
   if (!isLoggedIn.value) {
     showToast('Сначала войдите, чтобы бронировать', 'error');
-    router.push({ path: '/auth', query: { tab: 'login' } });
+    router.push('/login');
     return;
   }
   if (!booking.startAt || !booking.endAt) {

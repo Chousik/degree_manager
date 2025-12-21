@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AuthPage from './pages/AuthPage.vue';
+import LoginPage from './pages/LoginPage.vue';
+import RegisterPage from './pages/RegisterPage.vue';
 import ListingsPage from './pages/ListingsPage.vue';
 import PublicListingsPage from './pages/PublicListingsPage.vue';
 import AuthCallback from './pages/AuthCallback.vue';
@@ -14,9 +15,11 @@ import { useSession } from './state/session';
 
 const routes = [
   { path: '/', redirect: '/catalog' },
-  { path: '/catalog', component: PublicListingsPage },
-  { path: '/catalog/:id', component: ListingDetailPage },
-  { path: '/auth', component: AuthPage, meta: { guestOnly: true } },
+  { path: '/catalog', component: PublicListingsPage, meta: { requiresAuth: true } },
+  { path: '/catalog/:id', component: ListingDetailPage, meta: { requiresAuth: true } },
+  { path: '/login', component: LoginPage, meta: { guestOnly: true, authPage: true } },
+  { path: '/register', component: RegisterPage, meta: { guestOnly: true, authPage: true } },
+  { path: '/auth', redirect: '/login' },
   { path: '/auth-callback', component: AuthCallback, meta: { guestOnly: true } },
   { path: '/listings', component: ListingsPage, meta: { requiresAuth: true } },
   { path: '/rentals', component: RentalsPage, meta: { requiresAuth: true } },
@@ -35,7 +38,7 @@ const router = createRouter({
 router.beforeEach((to) => {
   const { isLoggedIn } = useSession();
   if (to.meta.requiresAuth && !isLoggedIn.value) {
-    return '/auth';
+    return '/login';
   }
   if (to.meta.guestOnly && isLoggedIn.value) {
     return '/listings';
