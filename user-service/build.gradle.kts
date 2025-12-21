@@ -24,6 +24,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2024.0.1"
+val flywayVersion = "11.10.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -33,7 +34,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.flywaydb:flyway-core:10.20.2")
+	// Flyway core + Postgres extension (required since Flyway 10+ splits DB support)
+	implementation("org.flywaydb:flyway-core:$flywayVersion")
+	implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	implementation("org.modelmapper:modelmapper:3.1.1")
