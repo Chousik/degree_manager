@@ -50,6 +50,11 @@ public class User {
     @Column(name = "status", nullable = false, length = 20)
     private String status;
 
+    @Size(max = 60)
+    @NotNull
+    @Column(name = "city", nullable = false, length = 60)
+    private String city;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "last_ban")
     private BanList lastBan;

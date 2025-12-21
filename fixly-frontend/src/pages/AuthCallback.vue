@@ -34,7 +34,7 @@ const exchangeCode = async (code) => {
   setLoggedIn(true);
   setUserIdFromToken(data.access_token);
   status.value = 'Успех! Перенаправляю...';
-  router.replace('/listings');
+  router.replace('/');
 };
 
 onMounted(async () => {

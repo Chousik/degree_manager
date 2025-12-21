@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import MainHeader from '../components/MainHeader.vue';
 
 const router = useRouter();
 
@@ -20,23 +21,11 @@ const goToCatalog = () => router.push('/catalog');
 
 <template>
   <div class="landing">
-    <header class="landing-header">
-      <div class="landing-header__location">
-        <div class="landing-avatar">СПб</div>
-        <span>г. Санкт-Петербург</span>
-      </div>
-      <div class="landing-logo">LOGO HERE</div>
-      <div class="landing-header__icons">
-        <button class="landing-icon" type="button" aria-label="Уведомления">🔔</button>
-        <button class="landing-icon" type="button" aria-label="Корзина">🛒</button>
-        <button class="landing-icon" type="button" aria-label="Профиль">⚙️</button>
-      </div>
-    </header>
+    <MainHeader />
 
     <div class="landing-actions">
       <div class="landing-buttons">
         <button type="button" class="landing-btn primary">Все категории</button>
-        <button type="button" class="landing-btn ghost">Поиск</button>
       </div>
       <div class="landing-search">
         <input type="text" placeholder="Найдите инструмент, услугу или продавца">

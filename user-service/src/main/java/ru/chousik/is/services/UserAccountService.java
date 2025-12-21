@@ -3,6 +3,7 @@ package ru.chousik.is.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.chousik.is.dto.account.*;
 import ru.chousik.is.entity.Listing;
 import ru.chousik.is.entity.ListingStatus;
@@ -65,8 +66,24 @@ public class UserAccountService {
         user.setSurname(request.surname());
         user.setLastName(request.lastName());
         user.setPhone(request.phone());
+        if (StringUtils.hasText(request.city())) {
+            user.setCity(normalizeCity(request.city()));
+        }
         userRepository.save(user);
         return toProfileDto(user);
+    }
+
+    @Transactional(readOnly = true)
+    public String getCity(UUID userId) {
+        return getUser(userId).getCity();
+    }
+
+    @Transactional
+    public String updateCity(UUID userId, String city) {
+        User user = getUser(userId);
+        user.setCity(normalizeCity(city));
+        userRepository.save(user);
+        return user.getCity();
     }
 
     @Transactional
@@ -98,6 +115,7 @@ public class UserAccountService {
                 user.getSurname(),
                 user.getLastName(),
                 user.getPhone(),
+                user.getCity(),
                 user.getRating(),
                 user.getStatus(),
                 user.getCreatedAt()
@@ -129,5 +147,12 @@ public class UserAccountService {
                 preference == null || Boolean.TRUE.equals(preference.getMessageNotifications()),
                 preference == null || Boolean.TRUE.equals(preference.getPaymentNotifications())
         );
+    }
+
+    private String normalizeCity(String value) {
+        if (!StringUtils.hasText(value)) {
+            return "Москва";
+        }
+        return value.trim();
     }
 }

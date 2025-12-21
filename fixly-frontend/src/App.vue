@@ -20,7 +20,7 @@ const navLinks = [
 
 const showNav = computed(() => isLoggedIn.value);
 const isCatalog = computed(() => route.path === '/catalog');
-const isStandalone = computed(() => Boolean(route.meta?.authPage || route.meta?.landingPage));
+const isStandalone = computed(() => Boolean(route.meta?.authPage || route.meta?.landingPage || route.meta?.standalone));
 
 const handleLogout = () => {
   logout();

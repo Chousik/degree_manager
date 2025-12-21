@@ -11,6 +11,7 @@ public record AccountProfileDto(
         String surname,
         String lastName,
         String phone,
+        String city,
         BigDecimal rating,
         String status,
         OffsetDateTime createdAt

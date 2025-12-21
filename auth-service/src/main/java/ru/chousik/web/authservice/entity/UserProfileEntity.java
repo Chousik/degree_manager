@@ -56,6 +56,11 @@ public class UserProfileEntity {
     @Column(name = "phone", length = 12)
     String phone;
 
+    @Size(max = 60)
+    @NotNull
+    @Column(name = "city", nullable = false, length = 60)
+    String city;
+
     @Column(name = "rating", precision = 2, scale = 1)
     BigDecimal rating;
 

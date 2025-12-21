@@ -1,4 +1,5 @@
 import { computed, reactive } from 'vue';
+import { getCity } from '../api/account';
 
 const state = reactive({
   loggedIn: localStorage.getItem('fx_logged_in') === '1',
@@ -6,6 +7,8 @@ const state = reactive({
   currentUserId: localStorage.getItem('fx_user_id') || '',
   accessToken: localStorage.getItem('fx_access') || '',
   refreshToken: localStorage.getItem('fx_refresh') || '',
+  city: localStorage.getItem('fx_city') || 'Москва',
+  cityLoaded: false,
 });
 
 function setLoggedIn(value) {
@@ -17,6 +20,7 @@ function logout() {
   setLoggedIn(false);
   setUserId('');
   setTokens('', '');
+  resetCity();
 }
 
 function setPendingEmail(email) {
@@ -70,22 +74,60 @@ function setTokens(access, refresh) {
   }
 }
 
+function setCity(value) {
+  const next = value || 'Москва';
+  state.city = next;
+  if (next) {
+    localStorage.setItem('fx_city', next);
+  } else {
+    localStorage.removeItem('fx_city');
+  }
+}
+
+function resetCity() {
+  state.cityLoaded = false;
+  setCity('Москва');
+}
+
+async function loadCityFromServer(force = false) {
+  if (!state.currentUserId) {
+    return;
+  }
+  if (state.cityLoaded && !force) {
+    return;
+  }
+  try {
+    const data = await getCity(state.currentUserId);
+    if (data?.city) {
+      setCity(data.city);
+    }
+  } catch (e) {
+    // ignore, keep local city
+  } finally {
+    state.cityLoaded = true;
+  }
+}
+
 export function useSession() {
   const isLoggedIn = computed(() => state.loggedIn);
   const userId = computed(() => state.currentUserId);
   const accessToken = computed(() => state.accessToken);
   const refreshToken = computed(() => state.refreshToken);
+  const city = computed(() => state.city);
   return {
     state,
     isLoggedIn,
     userId,
     accessToken,
     refreshToken,
+    city,
     setLoggedIn,
     logout,
     setPendingEmail,
     setUserId,
     setTokens,
     setUserIdFromToken,
+    setCity,
+    loadCityFromServer,
   };
 }

@@ -66,6 +66,7 @@ public class AccountServiceImpl implements AccountService {
         profile.setSurname(dto.getSurname());
         profile.setLastName(dto.getLastName());
         profile.setPhone(dto.getPhone());
+        profile.setCity("Москва");
         profile.setStatus("PENDING_VERIFICATION");
         profile.setCreatedAt(OffsetDateTime.now());
         userProfileRepository.save(profile);
@@ -129,6 +130,7 @@ public class AccountServiceImpl implements AccountService {
             profile.setEmail(email);
             profile.setName(resolveName(name, email));
             profile.setSurname("");
+            profile.setCity("Москва");
             profile.setStatus("ACTIVE");
             profile.setCreatedAt(OffsetDateTime.now());
             userProfileRepository.save(profile);

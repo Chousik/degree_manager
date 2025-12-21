@@ -31,4 +31,15 @@ public class UserAccountController {
                                                        @Valid @RequestBody NotificationSettingsUpdateRequest request) {
         return accountService.updateNotificationSettings(userId, request);
     }
+
+    @GetMapping("/{userId}/city")
+    public CityResponse getCity(@PathVariable UUID userId) {
+        return new CityResponse(accountService.getCity(userId));
+    }
+
+    @PutMapping("/{userId}/city")
+    public CityResponse updateCity(@PathVariable UUID userId,
+                                   @Valid @RequestBody CityUpdateRequest request) {
+        return new CityResponse(accountService.updateCity(userId, request.city()));
+    }
 }

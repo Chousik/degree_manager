@@ -10,9 +10,16 @@ const OAUTH_REDIRECT = import.meta.env.VITE_OAUTH_REDIRECT || 'http://localhost:
 export { API_BASE, USER_API_BASE, EMAIL_VERIFY_ENDPOINT, EMAIL_VERIFY_PARAM, OAUTH_BASE, OAUTH_REDIRECT };
 
 export async function fetchJson(url, options = {}) {
-  const { accessToken } = useSession();
+  const { accessToken, isLoggedIn, logout } = useSession();
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
-  if (accessToken.value && options.auth !== false) {
+  const needsAuth = options.auth !== false;
+
+  if (needsAuth && !isLoggedIn.value) {
+    redirectToLogin();
+    throw new Error('Требуется авторизация');
+  }
+
+  if (accessToken.value && needsAuth) {
     headers.Authorization = `Bearer ${accessToken.value}`;
   }
 
@@ -23,7 +30,17 @@ export async function fetchJson(url, options = {}) {
   const text = await res.text();
   const data = text ? JSON.parse(text) : null;
   if (!res.ok) {
+    if (needsAuth && res.status === 401) {
+      logout();
+      redirectToLogin();
+    }
     throw new Error(data?.message || text || res.statusText);
   }
   return data;
+}
+
+function redirectToLogin() {
+  if (window.location.pathname !== '/login') {
+    window.location.href = '/login';
+  }
 }
