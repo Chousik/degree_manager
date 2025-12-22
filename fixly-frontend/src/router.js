@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage.vue';
 import RegisterPage from './pages/RegisterPage.vue';
 import LandingPage from './pages/LandingPage.vue';
 import ListingsPage from './pages/ListingsPage.vue';
+import NewListingPage from './pages/NewListingPage.vue';
 import PublicListingsPage from './pages/PublicListingsPage.vue';
 import AuthCallback from './pages/AuthCallback.vue';
 import RentalsPage from './pages/RentalsPage.vue';
@@ -24,10 +25,11 @@ const routes = [
   { path: '/register', component: RegisterPage, meta: { guestOnly: true, authPage: true } },
   { path: '/auth', redirect: '/login' },
   { path: '/auth-callback', component: AuthCallback, meta: { guestOnly: true } },
-  { path: '/listings', component: ListingsPage, meta: { requiresAuth: true } },
+  { path: '/listings', component: ListingsPage, meta: { requiresAuth: true, standalone: true } },
+  { path: '/listings/new', component: NewListingPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/rentals', component: RentalsPage, meta: { requiresAuth: true } },
   { path: '/favorites', component: FavoritesLandingPage, meta: { requiresAuth: true, standalone: true } },
-  { path: '/account', component: AccountPage, meta: { requiresAuth: true } },
+  { path: '/account', component: AccountPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/communication', component: CommunicationPage, meta: { requiresAuth: true } },
   { path: '/moderation', component: ModerationPage, meta: { requiresAuth: true } },
   { path: '/support', component: SupportPage, meta: { requiresAuth: true } },

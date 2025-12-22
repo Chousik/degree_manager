@@ -1,186 +1,95 @@
 <script setup>
-import { computed, reactive } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import MainHeader from '../components/MainHeader.vue';
 import { USER_API_BASE, fetchJson } from '../api/client';
 import { useSession } from '../state/session';
 
-const accountForm = reactive({
-  profile: {
-    name: '',
-    surname: '',
-    lastName: '',
-    phone: '',
-  },
-  notifications: {
-    systemNotifications: true,
-    rentalNotifications: true,
-    messageNotifications: true,
-    paymentNotifications: true,
-  },
+const { isLoggedIn, userId } = useSession();
+const profile = ref(null);
+const notifications = ref(null);
+const loading = ref(false);
+const error = ref('');
+
+async function loadAccount() {
+  if (!isLoggedIn.value || !userId.value) {
+    profile.value = null;
+    notifications.value = null;
+    return;
+  }
+  loading.value = true;
+  error.value = '';
+  try {
+    const data = await fetchJson(`${USER_API_BASE}/account/${userId.value}`);
+    profile.value = data?.profile ?? null;
+    notifications.value = data?.notificationSettings ?? null;
+  } catch (err) {
+    error.value = 'Не удалось получить данные профиля. Перезайдите и попробуйте снова.';
+    profile.value = null;
+    notifications.value = null;
+  } finally {
+    loading.value = false;
+  }
+}
+
+onMounted(() => {
+  loadAccount();
 });
 
-const apiResults = reactive({
-  dashboard: null,
-  profile: null,
-  notifications: null,
-});
-const toast = reactive({ message: '', type: 'success', visible: false });
-const showToast = (message, type = 'success') => {
-  toast.message = message;
-  toast.type = type;
-  toast.visible = true;
-};
-const toJson = (val) => (val ? JSON.stringify(val, null, 2) : '');
-const listingsActive = computed(() => apiResults.dashboard?.activeListings || []);
-const listingsArchived = computed(() => apiResults.dashboard?.archivedListings || []);
-const listingsFavorites = computed(() => apiResults.dashboard?.favorites || []);
-const { userId } = useSession();
-
-const loadDashboard = async () => {
-  if (!userId.value) {
-    showToast('В токене нет userId/sub — войдите заново', 'error');
-    return;
+watch(
+  [() => isLoggedIn.value, () => userId.value],
+  () => {
+    loadAccount();
   }
-  const data = await fetchJson(`${USER_API_BASE}/account/${userId.value}`);
-  apiResults.dashboard = data;
-  accountForm.profile = {
-    name: data?.profile?.name || '',
-    surname: data?.profile?.surname || '',
-    lastName: data?.profile?.lastName || '',
-    phone: data?.profile?.phone || '',
-  };
-  accountForm.notifications = {
-    systemNotifications: data?.notificationSettings?.systemNotifications ?? true,
-    rentalNotifications: data?.notificationSettings?.rentalNotifications ?? true,
-    messageNotifications: data?.notificationSettings?.messageNotifications ?? true,
-    paymentNotifications: data?.notificationSettings?.paymentNotifications ?? true,
-  };
-};
+);
 
-const updateProfile = async () => {
-  if (!userId.value) {
-    showToast('В токене нет userId/sub — войдите заново', 'error');
-    return;
-  }
-  const payload = { ...accountForm.profile };
-  apiResults.profile = await fetchJson(`${USER_API_BASE}/account/${userId.value}`, {
-    method: 'PUT',
-    body: JSON.stringify(payload),
-  });
-  showToast('Профиль обновлён');
-};
-
-const updateNotifications = async () => {
-  if (!userId.value) {
-    showToast('В токене нет userId/sub — войдите заново', 'error');
-    return;
-  }
-  const payload = { ...accountForm.notifications };
-  apiResults.notifications = await fetchJson(`${USER_API_BASE}/account/${userId.value}/notifications`, {
-    method: 'PUT',
-    body: JSON.stringify(payload),
-  });
-  showToast('Настройки сохранены');
+const notificationLabels = {
+  systemNotifications: 'Системные уведомления',
+  rentalNotifications: 'Аренда и сделки',
+  messageNotifications: 'Сообщения и чат',
+  paymentNotifications: 'Оплаты и возвраты',
 };
 </script>
 
 <template>
-  <div class="api-playground">
-    <div class="section">
-      <h3>Профиль и дашборд</h3>
-      <button class="btn primary" @click="loadDashboard">Загрузить дашборд</button>
-      <div v-if="apiResults.dashboard" class="profile-card">
-        <div class="profile-row">
-          <div class="profile-name">{{ apiResults.dashboard.profile?.name }} {{ apiResults.dashboard.profile?.surname }}</div>
-          <div class="chip ghost">ID: {{ userId }}</div>
-        </div>
-        <div class="profile-meta">
-          <span>Телефон: {{ apiResults.dashboard.profile?.phone || '—' }}</span>
-          <span>Уведомления: {{ apiResults.dashboard.notificationSettings?.systemNotifications ? 'Вкл' : 'Выкл' }}</span>
-        </div>
-      </div>
-      <pre v-if="apiResults.dashboard">{{ toJson(apiResults.dashboard) }}</pre>
-    </div>
+  <div class="dashboard">
+    <MainHeader />
 
-    <div class="section">
-      <h3>Обновить профиль</h3>
-      <div class="grid">
-        <div class="field"><label>Имя</label><input v-model="accountForm.profile.name"></div>
-        <div class="field"><label>Фамилия</label><input v-model="accountForm.profile.surname"></div>
-        <div class="field"><label>Отчество</label><input v-model="accountForm.profile.lastName"></div>
-        <div class="field"><label>Телефон</label><input v-model="accountForm.profile.phone" placeholder="10-12 цифр"></div>
-      </div>
-      <button class="btn" @click="updateProfile">Сохранить профиль</button>
-      <pre v-if="apiResults.profile">{{ toJson(apiResults.profile) }}</pre>
-    </div>
-
-    <div class="section">
-      <h3>Настройки уведомлений</h3>
-      <div class="grid">
-        <div class="field checkbox">
-          <label>Системные</label>
-          <input type="checkbox" v-model="accountForm.notifications.systemNotifications">
-        </div>
-        <div class="field checkbox">
-          <label>Аренда</label>
-          <input type="checkbox" v-model="accountForm.notifications.rentalNotifications">
-        </div>
-        <div class="field checkbox">
-          <label>Сообщения</label>
-          <input type="checkbox" v-model="accountForm.notifications.messageNotifications">
-        </div>
-        <div class="field checkbox">
-          <label>Платежи</label>
-          <input type="checkbox" v-model="accountForm.notifications.paymentNotifications">
-        </div>
-      </div>
-      <button class="btn" @click="updateNotifications">Сохранить уведомления</button>
-      <pre v-if="apiResults.notifications">{{ toJson(apiResults.notifications) }}</pre>
-    </div>
-
-    <div class="section" v-if="listingsActive.length || listingsArchived.length || listingsFavorites.length">
-      <h3>Мои объявления и избранное</h3>
-      <div v-if="listingsActive.length">
-        <h4 class="subheading">Активные</h4>
-        <div class="cards">
-          <div v-for="item in listingsActive" :key="item.id" class="card">
-            <div class="card-header">
-              <div class="card-title">{{ item.title }}</div>
-              <span class="chip">{{ item.pricePerHour ?? 0 }} ₽/ч</span>
-            </div>
-            <p class="card-text">{{ item.description || 'Без описания' }}</p>
+    <section class="dashboard-section">
+      <h2>Профиль</h2>
+      <p v-if="!isLoggedIn" class="dashboard-note">Войдите, чтобы увидеть данные профиля.</p>
+      <p v-else-if="error" class="dashboard-note error">{{ error }}</p>
+      <p v-else-if="loading" class="dashboard-note">Загружаем данные...</p>
+      <div v-else-if="profile" class="dashboard-card profile-card">
+        <div class="profile-heading">
+          <div>
+            <div class="profile-name">{{ profile.name }} {{ profile.surname }}</div>
+            <div class="profile-email">{{ profile.email }}</div>
           </div>
+          <span class="chip ghost">ID: {{ profile.id }}</span>
+        </div>
+        <div class="profile-details">
+          <span>Город: {{ profile.city || '—' }}</span>
+          <span>Телефон: {{ profile.phone || '—' }}</span>
+          <span>Статус: {{ profile.status || '—' }}</span>
+        </div>
+        <div class="profile-details">
+          <span>Создан: {{ profile.createdAt ? new Date(profile.createdAt).toLocaleDateString('ru-RU') : '—' }}</span>
+          <span>Рейтинг: {{ profile.rating ?? '—' }}</span>
         </div>
       </div>
+    </section>
 
-      <div v-if="listingsArchived.length">
-        <h4 class="subheading">Архив</h4>
-        <div class="cards">
-          <div v-for="item in listingsArchived" :key="item.id" class="card muted-card">
-            <div class="card-header">
-              <div class="card-title">{{ item.title }}</div>
-              <span class="chip ghost">Архив</span>
-            </div>
-            <p class="card-text">{{ item.description || 'Без описания' }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div v-if="listingsFavorites.length">
-        <h4 class="subheading">Избранное</h4>
-        <div class="cards">
-          <div v-for="item in listingsFavorites" :key="item.id" class="card">
-            <div class="card-header">
-              <div class="card-title">{{ item.title }}</div>
-              <span class="chip">{{ item.pricePerHour ?? 0 }} ₽/ч</span>
-            </div>
-            <p class="card-text">{{ item.description || 'Без описания' }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="toast.visible" class="toast" :class="toast.type">
-      {{ toast.message }}
-    </div>
+    <section class="dashboard-section">
+      <h2>Настройки уведомлений</h2>
+      <p v-if="!isLoggedIn" class="dashboard-note">После входа вы сможете увидеть свои настройки уведомлений.</p>
+      <p v-else-if="error && !notifications" class="dashboard-note error">{{ error }}</p>
+      <p v-else-if="loading" class="dashboard-note">Обновляем настройки...</p>
+      <ul v-else-if="notifications" class="notifications-list">
+        <li v-for="(label, key) in notificationLabels" :key="key">
+          <span>{{ label }}</span>
+          <span :class="notifications[key] ? 'status-on' : 'status-off'">{{ notifications[key] ? 'Включено' : 'Выключено' }}</span>
+        </li>
+      </ul>
+    </section>
   </div>
 </template>

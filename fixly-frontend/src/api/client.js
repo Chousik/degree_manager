@@ -1,4 +1,5 @@
 import { useSession } from '../state/session';
+import { refreshTokens } from './auth';
 
 const API_BASE = (import.meta.env.VITE_API_BASE || 'http://localhost:8071').replace(/\/$/, '');
 const USER_API_BASE = (import.meta.env.VITE_USER_API_BASE || 'http://localhost:8085/api').replace(/\/$/, '');
@@ -10,7 +11,9 @@ const OAUTH_REDIRECT = import.meta.env.VITE_OAUTH_REDIRECT || 'http://localhost:
 export { API_BASE, USER_API_BASE, EMAIL_VERIFY_ENDPOINT, EMAIL_VERIFY_PARAM, OAUTH_BASE, OAUTH_REDIRECT };
 
 export async function fetchJson(url, options = {}) {
-  const { accessToken, isLoggedIn, logout } = useSession();
+  const session = useSession();
+  const { accessToken, refreshToken, isLoggedIn, logout, setTokens } = session;
+
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
   const needsAuth = options.auth !== false;
 
@@ -19,23 +22,44 @@ export async function fetchJson(url, options = {}) {
     throw new Error('Требуется авторизация');
   }
 
-  if (accessToken.value && needsAuth) {
-    headers.Authorization = `Bearer ${accessToken.value}`;
+  const attemptRequest = async (tokenOverride) => {
+    const authHeaders = { ...headers };
+    if (tokenOverride && needsAuth) {
+      authHeaders.Authorization = `Bearer ${tokenOverride}`;
+    }
+
+    const res = await fetch(url, {
+      ...options,
+      headers: authHeaders,
+    });
+    return res;
+  };
+
+  let response = await attemptRequest(accessToken.value);
+
+  if (needsAuth && response.status === 401 && refreshToken.value) {
+    try {
+      const refreshResponse = await refreshTokens(refreshToken.value);
+      setTokens(refreshResponse.access_token, refreshResponse.refresh_token || refreshToken.value);
+      response = await attemptRequest(refreshResponse.access_token);
+    } catch (err) {
+      logout();
+      redirectToLogin();
+      throw err;
+    }
   }
 
-  const res = await fetch(url, {
-    ...options,
-    headers,
-  });
-  const text = await res.text();
+  const text = await response.text();
   const data = text ? JSON.parse(text) : null;
-  if (!res.ok) {
-    if (needsAuth && res.status === 401) {
+
+  if (!response.ok) {
+    if (needsAuth && response.status === 401) {
       logout();
       redirectToLogin();
     }
-    throw new Error(data?.message || text || res.statusText);
+    throw new Error(data?.message || text || response.statusText);
   }
+
   return data;
 }
 

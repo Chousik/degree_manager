@@ -14,6 +14,13 @@
       </div>
       <div class="main-header__icons">
         <button
+          type="button"
+          class="main-icon main-icon--label"
+          @click="navigate('/listings')"
+        >
+          <span>Мои объявления</span>
+        </button>
+        <button
           v-for="icon in icons"
           :key="icon.alt"
           class="main-icon"
@@ -31,17 +38,56 @@
       <div class="city-modal__panel">
         <h3>Выберите город</h3>
         <p>Это поможет показывать актуальные объявления</p>
-        <div class="city-modal__list">
-          <button
-            v-for="option in cityOptions"
-            :key="option"
-            type="button"
-            class="city-option"
-            :class="{ active: option === selectedCity }"
-            @click="selectedCity = option"
-          >
-            {{ option }}
-          </button>
+
+        <div class="city-modal__popular">
+          <h4>Популярные города</h4>
+          <div class="city-modal__list">
+            <button
+              v-for="cityName in popularCities"
+              :key="cityName"
+              type="button"
+              class="city-option"
+              :class="{ active: cityName === selectedCity }"
+              @click="selectCity(cityName)"
+            >
+              {{ cityName }}
+            </button>
+          </div>
+        </div>
+
+        <div class="city-modal__search">
+          <label class="city-modal__search-label" for="city-search">Найти другой город</label>
+          <div class="city-modal__search-field">
+            <span class="city-modal__search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="16.65" y1="16.65" x2="21" y2="21" />
+              </svg>
+            </span>
+            <input
+              id="city-search"
+              v-model="citySearch"
+              type="text"
+              class="city-modal__search-input"
+              placeholder="Введите название города"
+            >
+          </div>
+        </div>
+
+        <div class="city-modal__all">
+          <div v-if="filteredCities.length" class="city-modal__list scrollable">
+            <button
+              v-for="option in filteredCities"
+              :key="option"
+              type="button"
+              class="city-option"
+              :class="{ active: option === selectedCity }"
+              @click="selectCity(option)"
+            >
+              {{ option }}
+            </button>
+          </div>
+          <p v-else class="city-modal__empty">Ничего не найдено</p>
         </div>
         <p v-if="cityError" class="city-modal__error">{{ cityError }}</p>
         <div class="city-modal__actions">
@@ -66,9 +112,124 @@ const { city, isLoggedIn, userId, setCity, loadCityFromServer } = useSession();
 
 const showCityModal = ref(false);
 const selectedCity = ref('Москва');
+const citySearch = ref('');
 const savingCity = ref(false);
 const cityError = ref('');
-const cityOptions = ['Москва', 'Санкт-Петербург', 'Казань', 'Екатеринбург', 'Нижний Новгород', 'Новосибирск'];
+const allCities = [
+  'Москва',
+  'Санкт-Петербург',
+  'Новосибирск',
+  'Екатеринбург',
+  'Казань',
+  'Нижний Новгород',
+  'Челябинск',
+  'Самара',
+  'Омск',
+  'Ростов-на-Дону',
+  'Уфа',
+  'Красноярск',
+  'Пермь',
+  'Воронеж',
+  'Волгоград',
+  'Краснодар',
+  'Саратов',
+  'Тюмень',
+  'Тольятти',
+  'Ижевск',
+  'Барнаул',
+  'Иркутск',
+  'Ульяновск',
+  'Хабаровск',
+  'Ярославль',
+  'Владивосток',
+  'Махачкала',
+  'Томск',
+  'Оренбург',
+  'Кемерово',
+  'Новокузнецк',
+  'Рязань',
+  'Астрахань',
+  'Пенза',
+  'Набережные Челны',
+  'Липецк',
+  'Тула',
+  'Киров',
+  'Чебоксары',
+  'Калининград',
+  'Брянск',
+  'Курск',
+  'Иваново',
+  'Магнитогорск',
+  'Тверь',
+  'Ставрополь',
+  'Белгород',
+  'Сочи',
+  'Калуга',
+  'Сургут',
+  'Владимир',
+  'Чита',
+  'Архангельск',
+  'Симферополь',
+  'Севастополь',
+  'Грозный',
+  'Петрозаводск',
+  'Кострома',
+  'Йошкар-Ола',
+  'Нижний Тагил',
+  'Комсомольск-на-Амуре',
+  'Сыктывкар',
+  'Новороссийск',
+  'Якутск',
+  'Тамбов',
+  'Мытищи',
+  'Подольск',
+  'Королёв',
+  'Химки',
+  'Балашиха',
+  'Раменское',
+  'Домодедово',
+  'Жуковский',
+  'Березники',
+  'Энгельс',
+  'Старый Оскол',
+  'Орёл',
+  'Нальчик',
+  'Шахты',
+  'Благовещенск',
+  'Псков',
+  'Абакан',
+  'Каменск-Уральский',
+  'Уссурийск',
+  'Армавир',
+  'Великий Новгород',
+  'Салават',
+  'Мурманск',
+  'Люберцы',
+  'Электросталь',
+  'Ангарск',
+  'Серпухов',
+  'Вологда',
+  'Кызыл',
+  'Орск',
+  'Бийск',
+  'Прокопьевск',
+  'Рубцовск',
+  'Находка',
+  'Бердск',
+  'Дзержинск',
+  'Обнинск',
+  'Новоуральск'
+];
+const popularCityPreset = ['Москва', 'Санкт-Петербург', 'Казань'];
+const popularCities = popularCityPreset.filter((cityName) => allCities.includes(cityName));
+const filteredCities = computed(() => {
+  const lookup = citySearch.value.trim().toLowerCase();
+  const remaining = allCities.filter((cityName) => !popularCities.includes(cityName));
+  if (!lookup) {
+    return remaining;
+  }
+  return remaining.filter((cityName) => cityName.toLowerCase().includes(lookup));
+});
 
 const cityLabel = computed(() => city.value || 'Москва');
 
@@ -88,6 +249,7 @@ function navigateToHome() {
 
 function openCityModal() {
   selectedCity.value = cityLabel.value;
+  citySearch.value = '';
   cityError.value = '';
   showCityModal.value = true;
 }
@@ -117,6 +279,10 @@ async function saveCity() {
   } finally {
     savingCity.value = false;
   }
+}
+
+function selectCity(cityName) {
+  selectedCity.value = cityName;
 }
 
 onMounted(() => {
