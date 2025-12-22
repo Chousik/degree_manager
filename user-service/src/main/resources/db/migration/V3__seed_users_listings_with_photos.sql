@@ -1,37 +1,37 @@
--- Seed demo users, listings, categories links, and S3-hosted photos (aligned with current schema)
-WITH desired_users(id, email, name, surname, username, phone, rating) AS (
+-- Seed demo users, listings, categories links, and MinIO-hosted photos (aligned with current schema)
+WITH desired_users(id, email, name, phone, rating) AS (
     VALUES
-        ('80000000-0000-0000-0000-000000000001'::uuid, 'anna.renter@example.com', 'Анна', 'Рентер', 'anna_renter', '900000001', 4.8),
-        ('80000000-0000-0000-0000-000000000002'::uuid, 'pavel.tools@example.com', 'Павел', 'Инструментов', 'pavel_tools', '900000002', 4.6),
-        ('80000000-0000-0000-0000-000000000003'::uuid, 'svetlana.clean@example.com', 'Светлана', 'Клининг', 'svetlana_clean', '900000003', 4.9)
+        ('80000000-0000-0000-0000-000000000001'::uuid, 'anna.renter@example.com', 'Анна', '900000001', 4.8),
+        ('80000000-0000-0000-0000-000000000002'::uuid, 'pavel.tools@example.com', 'Павел', '900000002', 4.6),
+        ('80000000-0000-0000-0000-000000000003'::uuid, 'svetlana.clean@example.com', 'Светлана', '900000003', 4.9)
 ),
 inserted_users AS (
-    INSERT INTO "user" (id, email, name, surname, username, phone, rating, status, created_at)
-    SELECT du.id, du.email, du.name, du.surname, du.username, du.phone, du.rating, 'ACTIVE', now()
+    INSERT INTO "user" (id, email, name, phone, rating)
+    SELECT du.id, du.email, du.name, du.phone, du.rating
     FROM desired_users du
-    ON CONFLICT (username) DO NOTHING
-    RETURNING id, username
+    ON CONFLICT (email) DO NOTHING
+    RETURNING id, email
 ),
 all_users AS (
-    SELECT id, username FROM inserted_users
+    SELECT id, email FROM inserted_users
     UNION
-    SELECT id, username FROM "user" WHERE username IN (SELECT username FROM desired_users)
+    SELECT id, email FROM "user" WHERE email IN (SELECT email FROM desired_users)
 ),
-listing_data(id, owner_username, title, description, price_per_hour, deposit_amount, auto_confirmation, status, latitude, longitude) AS (
+listing_data(id, owner_email, title, description, price_per_hour, deposit_amount, auto_confirmation, status, latitude, longitude) AS (
     VALUES
-        ('71000000-0000-0000-0000-000000000001'::uuid, 'anna_renter',
-         'Городской электросамокат', 'Легкий самокат с запасом хода 30 км, зарядка включена.', 350.00, 1000.00, true, 'AVAILABLE', 55.752220, 37.615560),
-        ('71000000-0000-0000-0000-000000000002'::uuid, 'pavel_tools',
-         'Отбойный молоток SDS-max', 'Профессиональный инструмент, выдаю с чемоданом и смазкой.', 500.00, 2000.00, false, 'AVAILABLE', 59.931100, 30.360900),
-        ('71000000-0000-0000-0000-000000000003'::uuid, 'svetlana_clean',
-         'Генеральная уборка 2-комнатной квартиры', 'Привезу расходники, работаю по чек-листу, скидка за повторные заказы.', 800.00, NULL, true, 'AVAILABLE', 55.995000, 37.190000)
+        ('71000000-0000-0000-0000-000000000001'::uuid, 'anna.renter@example.com',
+         'Городской электросамокат', 'Легкий самокат с запасом хода 30 км, зарядка включена.', 350.00, 1000.00, true, 'active', 55.752220, 37.615560),
+        ('71000000-0000-0000-0000-000000000002'::uuid, 'pavel.tools@example.com',
+         'Отбойный молоток SDS-max', 'Профессиональный инструмент, выдаю с чемоданом и смазкой.', 500.00, 2000.00, false, 'active', 59.931100, 30.360900),
+        ('71000000-0000-0000-0000-000000000003'::uuid, 'svetlana.clean@example.com',
+         'Генеральная уборка 2-комнатной квартиры', 'Привезу расходники, работаю по чек-листу, скидка за повторные заказы.', 800.00, NULL, true, 'active', 55.995000, 37.190000)
 ),
 inserted_listings AS (
-    INSERT INTO listing (id, owner_id, title, description, price_per_hour, deposit_amount, auto_confirmation, status, latitude, longitude, created_at)
+    INSERT INTO listing (id, owner_id, title, description, price_per_hour, deposit_amount, auto_confirmation, status, latitude, longitude)
     SELECT ld.id, u.id, ld.title, ld.description, ld.price_per_hour, ld.deposit_amount,
-           ld.auto_confirmation, ld.status, ld.latitude, ld.longitude, now()
+           ld.auto_confirmation, ld.status, ld.latitude, ld.longitude
     FROM listing_data ld
-    JOIN all_users u ON u.username = ld.owner_username
+    JOIN all_users u ON u.email = ld.owner_email
     ON CONFLICT (id) DO NOTHING
     RETURNING id
 ),
@@ -65,11 +65,11 @@ WITH photo_data(listing_id, url, sort_order) AS (
         ('71000000-0000-0000-0000-000000000003'::uuid, 'http://localhost:9000/media/top-view-mechanical-tools-arrangement_23-2149552411.jpg', 1),
         ('71000000-0000-0000-0000-000000000003'::uuid, 'http://localhost:9000/media/232.jpg', 2)
 )
-INSERT INTO listing_photo (id, listing_id, url, sort_order)
+INSERT INTO photo (id, listing_id, url, sort_order)
 SELECT gen_random_uuid(), pd.listing_id, pd.url, pd.sort_order
 FROM photo_data pd
 WHERE pd.listing_id IN (SELECT id FROM listing)
   AND NOT EXISTS (
-      SELECT 1 FROM listing_photo lp
+      SELECT 1 FROM photo lp
       WHERE lp.listing_id = pd.listing_id AND lp.url = pd.url
   );
