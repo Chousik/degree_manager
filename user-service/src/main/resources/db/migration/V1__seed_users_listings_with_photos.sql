@@ -65,11 +65,11 @@ WITH photo_data(listing_id, url, sort_order) AS (
         ('71000000-0000-0000-0000-000000000003'::uuid, 'http://localhost:9000/media/top-view-mechanical-tools-arrangement_23-2149552411.jpg', 1),
         ('71000000-0000-0000-0000-000000000003'::uuid, 'http://localhost:9000/media/232.jpg', 2)
 )
-INSERT INTO photo (id, listing_id, url, sort_order)
+INSERT INTO listing_photo (id, listing_id, url, sort_order)
 SELECT gen_random_uuid(), pd.listing_id, pd.url, pd.sort_order
 FROM photo_data pd
 WHERE pd.listing_id IN (SELECT id FROM listing)
   AND NOT EXISTS (
-      SELECT 1 FROM photo lp
+      SELECT 1 FROM listing_photo lp
       WHERE lp.listing_id = pd.listing_id AND lp.url = pd.url
   );

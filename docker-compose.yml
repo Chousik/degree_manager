@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./p gdata:/var/lib/postgresql/data
+      - ./gdata:/var/lib/postgresql/data
     command: postgres -c shared_preload_libraries=pg_cron -c cron.database_name=task_app
   minio:
     image: minio/minio:RELEASE.2024-10-02T17-50-41Z
