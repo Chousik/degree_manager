@@ -5,85 +5,64 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="fixed">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/1/2696" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/1/2696" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/1/2840" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/1/2840" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/1/2840_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/1/2840_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/1/2840_vm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/1/2840_vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/1/2841" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/1/2841" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/1249" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/1249" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/1259" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/1259" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16389" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16389" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16395" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16395" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16397" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16397" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16437" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16437" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16438" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16446" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16447" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16448" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16456" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16456" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16466" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16473" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16475" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16475" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16480" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16480" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16481" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/16481" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16483" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16488" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16490" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16492" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16498" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16499" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16500" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/16507" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2604_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2604_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2606" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2606" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2608" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2608" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2610" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2610" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2619" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2619" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2619_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2619_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2619_vm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2619_vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2620" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2620" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2620_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2620_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2666" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2666" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2667" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2667" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2673" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2673" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2674" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2674" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2675" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2675" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2678" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2678" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2679" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2679" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2684" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2684" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2685" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2685" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2690" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2690" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2691" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2691" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2696" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2696" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2699" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2699" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2701" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2701" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2702" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2702" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2703" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2703" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2704" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2704" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2840" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2840" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2840_vm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2840_vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/2841" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/2841" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3079" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3079" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3079_vm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3079_vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3080" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3080" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3081" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3081" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3256" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3256" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3257" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3257" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3258" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3258" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3394" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3394" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3394_vm" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3394_vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3395" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3395" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/3455" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/3455" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/5002" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/5002" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/base/16384/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/base/16384/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/global/pg_control" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/global/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/global/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/pg_wal/000000010000000000000001" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/pg_wal/000000010000000000000001" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p gdata/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/p gdata/pg_xact/0000" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/1/pg_internal.init" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1247" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1247" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1249" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1249" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1259" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1259" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1259_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1259_fsm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16456" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16456" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16457" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16457" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16463" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16463" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16475" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16475" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16493" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16499" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16500" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16501" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16508" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16683" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16687" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16688" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16689" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16701" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16895" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16895" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16898" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16898" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16900" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16900" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16908" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16908" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2579" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2579" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2606" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2606" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2606_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2606_fsm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2608" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2608" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2610" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2610" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2620" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2620" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2658" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2658" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2659" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2659" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2662" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2662" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2663" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2663" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2664" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2664" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2665" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2665" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2666" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2666" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2667" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2667" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2673" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2673" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2674" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2674" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2678" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2678" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2679" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2679" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2699" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2699" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2701" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2701" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2702" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2702" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2703" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2703" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2704" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2704" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/3455" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/3455" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/pg_internal.init" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/5/pg_internal.init" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/global/pg_control" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/global/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/global/pg_internal.init" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/pg_wal/000000010000000000000001" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/pg_wal/000000010000000000000001" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/pg_xact/0000" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/postmaster.pid" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/postmaster.pid" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__seed_users_listings_with_photos.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__seed_users_listings_with_photos.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,12 +154,12 @@
     &quot;assignee&quot;: &quot;Chousik&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:Chousik/degree_manager.git",
-    "accountId": "edc806ca-cd20-4583-8d4b-68146b100625"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:Chousik/degree_manager.git&quot;,
+    &quot;accountId&quot;: &quot;edc806ca-cd20-4583-8d4b-68146b100625&quot;
   }
-}]]></component>
+}</component>
   <component name="GradleModuleStateConfig" initialized="true">
     <option name="configPaths">
       <map>
@@ -342,7 +321,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Docker.docker-compose.yml.db: Compose Deployment">
+  <component name="RunManager" selected="Spring Boot.UserServiceApplication (1)">
     <configuration name="AuthServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="ru.chousik.web.auth-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.authservice.AuthServiceApplication" />
@@ -421,11 +400,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.UserServiceApplication" />
+        <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
         <item itemvalue="Spring Boot.UserServiceApplication (1)" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-        <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
-        <item itemvalue="Spring Boot.UserServiceApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -491,6 +470,7 @@
       <workItem from="1766007153544" duration="33248000" />
       <workItem from="1766166672073" duration="9844000" />
       <workItem from="1766356498023" duration="7000" />
+      <workItem from="1766365359474" duration="8000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
