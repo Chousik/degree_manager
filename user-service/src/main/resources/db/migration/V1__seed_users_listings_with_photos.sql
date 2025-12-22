@@ -1,13 +1,14 @@
 -- Seed demo users, listings, categories links, and MinIO-hosted photos (aligned with current schema)
-WITH desired_users(id, email, name, phone, rating) AS (
+WITH desired_users(id, email, username, name, surname, last_name, phone, rating, status, city) AS (
     VALUES
-        ('80000000-0000-0000-0000-000000000001'::uuid, 'anna.renter@example.com', 'Анна', '900000001', 4.8),
-        ('80000000-0000-0000-0000-000000000002'::uuid, 'pavel.tools@example.com', 'Павел', '900000002', 4.6),
-        ('80000000-0000-0000-0000-000000000003'::uuid, 'svetlana.clean@example.com', 'Светлана', '900000003', 4.9)
+        ('80000000-0000-0000-0000-000000000001'::uuid, 'anna.renter@example.com', 'anna.renter', 'Анна', 'Иванова', 'Сергеевна', '900000001', 4.8, 'ACTIVE', 'Москва'),
+        ('80000000-0000-0000-0000-000000000002'::uuid, 'pavel.tools@example.com', 'pavel.tools', 'Павел', 'Петров', 'Алексеевич', '900000002', 4.6, 'ACTIVE', 'Санкт-Петербург'),
+        ('80000000-0000-0000-0000-000000000003'::uuid, 'svetlana.clean@example.com', 'svetlana.clean', 'Светлана', 'Сидорова', 'Игоревна', '900000003', 4.9, 'ACTIVE', 'Москва')
 ),
 inserted_users AS (
-    INSERT INTO "user" (id, email, name, phone, rating)
-    SELECT du.id, du.email, du.name, du.phone, du.rating
+    INSERT INTO "user" (id, email, username, name, surname, last_name, phone, rating, status, city)
+    SELECT du.id, du.email, du.username, du.name, du.surname, du.last_name,
+           du.phone, du.rating, du.status, du.city
     FROM desired_users du
     ON CONFLICT (email) DO NOTHING
     RETURNING id, email

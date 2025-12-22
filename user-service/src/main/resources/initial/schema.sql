@@ -4,12 +4,34 @@ CREATE EXTENSION IF NOT EXISTS pg_cron;
 CREATE TABLE "user" (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(100) NOT NULL UNIQUE,
+    username VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
-    phone VARCHAR(10),
+    surname VARCHAR(60) NOT NULL,
+    last_name VARCHAR(20),
+    phone VARCHAR(12),
     rating DECIMAL(2,1),
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
     city VARCHAR(60) NOT NULL DEFAULT 'Москва',
+    last_ban UUID,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE ban_list (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    banned_user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    ban_reason VARCHAR(1000),
+    ban_type VARCHAR(30),
+    ban_duration TIMESTAMP,
+    admin_user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX idx_ban_list_banned ON ban_list(banned_user_id);
+CREATE INDEX idx_ban_list_admin ON ban_list(admin_user_id);
+
+ALTER TABLE "user"
+    ADD CONSTRAINT fk_user_last_ban
+        FOREIGN KEY (last_ban) REFERENCES ban_list(id);
 
 CREATE TABLE notification (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
