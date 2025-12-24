@@ -1,6 +1,6 @@
 <script setup>
 import { computed, reactive } from 'vue';
-import { USER_API_BASE, fetchJson } from '../api/client';
+import { addFavorite as addFavoriteApi, getFavorites, removeFavorite as removeFavoriteApi } from '../api/favorites';
 import { useSession } from '../state/session';
 
 const favoriteForm = reactive({ listingId: '' });
@@ -21,8 +21,7 @@ const addFavorite = async () => {
     showToast('В токене нет userId/sub — войдите заново', 'error');
     return;
   }
-  const payload = { userId: userId.value, listingId: favoriteForm.listingId };
-  await fetchJson(`${USER_API_BASE}/favorites`, { method: 'POST', body: JSON.stringify(payload) });
+  await addFavoriteApi(userId.value, favoriteForm.listingId);
   apiResults.favoriteAction = { message: 'Добавлено в избранное' };
   showToast('Добавлено');
 };
@@ -32,9 +31,7 @@ const removeFavorite = async () => {
     showToast('В токене нет userId/sub — войдите заново', 'error');
     return;
   }
-  await fetchJson(`${USER_API_BASE}/favorites/${favoriteForm.listingId}?userId=${userId.value}`, {
-    method: 'DELETE',
-  });
+  await removeFavoriteApi(userId.value, favoriteForm.listingId);
   apiResults.favoriteAction = { message: 'Удалено из избранного' };
   showToast('Удалено');
 };
@@ -44,7 +41,7 @@ const loadFavorites = async () => {
     showToast('В токене нет userId/sub — войдите заново', 'error');
     return;
   }
-  apiResults.favorites = await fetchJson(`${USER_API_BASE}/favorites?userId=${userId.value}`);
+  apiResults.favorites = await getFavorites(userId.value);
 };
 </script>
 

@@ -1429,6 +1429,11 @@ pre {
   box-shadow: 0 15px 35px rgba(184,134,11,0.12);
 }
 
+.notification-card[data-read="false"] {
+  border-color: rgba(217,165,32,0.55);
+  box-shadow: 0 18px 40px rgba(184,134,11,0.18);
+}
+
 .notification-card__head {
   display: flex;
   align-items: center;
