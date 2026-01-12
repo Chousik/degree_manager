@@ -6,10 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.chousik.is.dto.support.SupportTicketRequest;
 import ru.chousik.is.dto.support.SupportTicketResolutionRequest;
 import ru.chousik.is.dto.support.SupportTicketResponse;
+import ru.chousik.is.dto.support.SupportTicketStatusRequest;
 import ru.chousik.is.entity.Rental;
 import ru.chousik.is.entity.SupportTicket;
 import ru.chousik.is.entity.SupportTicketStatus;
 import ru.chousik.is.entity.User;
+import ru.chousik.is.exceptions.BusinessValidationException;
 import ru.chousik.is.exceptions.ResourceNotFoundException;
 import ru.chousik.is.repository.RentalRepository;
 import ru.chousik.is.repository.SupportTicketRepository;
@@ -53,6 +55,32 @@ public class SupportService {
                 .stream()
                 .map(this::map)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SupportTicketResponse> getTickets(String status) {
+        if (status == null || status.isBlank()) {
+            return supportTicketRepository.findAll().stream().map(this::map).toList();
+        }
+        SupportTicketStatus parsed;
+        try {
+            parsed = SupportTicketStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new BusinessValidationException("Unknown ticket status: " + status);
+        }
+        return supportTicketRepository.findAllByStatus(parsed).stream().map(this::map).toList();
+    }
+
+    @Transactional
+    public SupportTicketResponse startTicket(UUID ticketId, SupportTicketStatusRequest request) {
+        SupportTicket ticket = supportTicketRepository.findById(ticketId)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket %s not found".formatted(ticketId)));
+        if (ticket.getStatus() == SupportTicketStatus.RESOLVED) {
+            throw new BusinessValidationException("Ticket already resolved");
+        }
+        ticket.setStatus(SupportTicketStatus.IN_PROGRESS);
+        SupportTicket saved = supportTicketRepository.save(ticket);
+        return map(saved);
     }
 
     @Transactional

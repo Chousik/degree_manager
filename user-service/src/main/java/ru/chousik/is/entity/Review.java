@@ -59,4 +59,6 @@ public class Review {
     @Column(name = "flag_reason", length = 1000)
     private String flagReason;
 
+    @Column(name = "is_hidden")
+    private Boolean hidden;
 }

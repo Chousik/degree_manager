@@ -79,6 +79,7 @@ public class UserServiceConfig {
                 c -> c
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/listings", "/api/listings/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
         );
         return http.build();

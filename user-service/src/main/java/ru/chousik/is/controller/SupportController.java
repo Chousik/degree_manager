@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.chousik.is.dto.support.SupportTicketRequest;
 import ru.chousik.is.dto.support.SupportTicketResolutionRequest;
 import ru.chousik.is.dto.support.SupportTicketResponse;
+import ru.chousik.is.dto.support.SupportTicketStatusRequest;
 import ru.chousik.is.services.SupportService;
 
 import java.util.List;
@@ -29,6 +30,17 @@ public class SupportController {
     @GetMapping("/tickets/open")
     public List<SupportTicketResponse> getOpenTickets() {
         return supportService.getOpenTickets();
+    }
+
+    @GetMapping("/tickets")
+    public List<SupportTicketResponse> getTickets(@RequestParam(value = "status", required = false) String status) {
+        return supportService.getTickets(status);
+    }
+
+    @PostMapping("/tickets/{ticketId}/start")
+    public SupportTicketResponse startTicket(@PathVariable UUID ticketId,
+                                             @Valid @RequestBody SupportTicketStatusRequest request) {
+        return supportService.startTicket(ticketId, request);
     }
 
     @PostMapping("/tickets/{ticketId}/resolve")

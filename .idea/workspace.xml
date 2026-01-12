@@ -4,23 +4,120 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="fixed">
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
+      <change afterPath="$PROJECT_DIR$/2.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/settings.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/AdminServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/client/UserServiceClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/config/AdminClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/config/UserServiceProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminBanController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminListingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminModerationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminReportController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminReviewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminSupportController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/ban/BanCreateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/ban/BanLiftRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/ban/BanResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/AvailabilitySlotDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/CategorySummaryDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/ListingArchiveRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/ListingDetailDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/ListingPhotoDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/moderation/FlaggedListingDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/moderation/FlaggedReviewDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/moderation/ModerationResolutionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/report/ReportResolutionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/report/ReportSummaryDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/review/ReviewDetailDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/review/ReviewHideRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/support/SupportTicketResolutionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/support/SupportTicketResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/support/SupportTicketStatusRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/model/ReviewAuthorRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/model/SupportTicketStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/initial/V1__seed_users_listings_with_photos.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/initial/V2__seed_categories.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/initial/schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service/src/test/java/ru/chousik/is/admin/AdminServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/dist/assets/index-24jYEV2r.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/dist/assets/index-CBb4lZQ1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/AuthCallback.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/AuthCallback.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/LoginPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/state/session.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/state/session.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/Oauth2Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/Oauth2Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/exit-CbdBGL6z.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-Cr5eIPa2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-Dne32utM.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/stankin_logo_main_color_ru_rgb_01_1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/Силаев Захар ВычМат (1).pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/frontend.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломГрибанов.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломМироненко.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСавилов.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСанталов.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/stankin_logo_main_color_ru_rgb_01_1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/diploma.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/students.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/tailwind.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/teachers.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/users.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/icons/File_dock.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/icons/exit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/icons/folder-up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/icons/user.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AuthorizedPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/LoginPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/authStore.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/dataStore.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/uploadStore.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/worksStore.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utills/authFetch.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utills/pkce.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/config/UserServiceConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/config/UserServiceConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/SupportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/SupportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/BanList.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/BanList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Listing.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Listing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ModerationActionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ModerationActionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ReviewRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ModerationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ModerationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReputationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReputationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/SupportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/SupportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__init_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__init_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,10 +125,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
-    <projectState path="$PROJECT_DIR$/auth-service">
+    <projectState path="$PROJECT_DIR$/admin-service">
       <ProjectState />
     </projectState>
-    <projectState path="$PROJECT_DIR$/common">
+    <projectState path="$PROJECT_DIR$/auth-service">
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/eureka-server">
@@ -75,7 +172,17 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="auth-service" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="verification" type="c8890929:TasksNode$1" />
+                <item name="build setup" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="auth-service" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="auth-service" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -115,28 +222,12 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Chousik/degree_manager.git&quot;,
-    &quot;accountId&quot;: &quot;edc806ca-cd20-4583-8d4b-68146b100625&quot;
+    &quot;accountId&quot;: &quot;350307ff-cd48-4e57-b8af-a6cc6a970c72&quot;
   }
 }</component>
-  <component name="GradleModuleStateConfig" initialized="true">
-    <option name="configPaths">
-      <map>
-        <entry key="$PROJECT_DIR$/auth-service" value="$PROJECT_DIR$/auth-service/build.gradle.kts" />
-        <entry key="$PROJECT_DIR$/common" value="$PROJECT_DIR$/common/build.gradle.kts" />
-        <entry key="$PROJECT_DIR$/eureka-server" value="$PROJECT_DIR$/eureka-server/build.gradle.kts" />
-        <entry key="$PROJECT_DIR$/gateway-server" value="$PROJECT_DIR$/gateway-server/build.gradle.kts" />
-        <entry key="$PROJECT_DIR$/user-service" value="$PROJECT_DIR$/user-service/build.gradle.kts" />
-        <entry key="$PROJECT_DIR$/workload-service" value="$PROJECT_DIR$/workload-service/build.gradle.kts" />
-      </map>
-    </option>
-  </component>
-  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$/user-service" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/corretto-17.0.16/Contents/Home" gradleVersion="8.13" />
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$/admin-service" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/corretto-17.0.16/Contents/Home" gradleVersion="8.13" />
   <component name="KotlinScriptingSettings">
     <option name="suppressDefinitionsCheck" value="true" />
-    <scriptDefinition className="io.amplicode.connekt.Connekt" definitionName="Connekt">
-      <order>-100</order>
-      <autoReloadConfigurations>true</autoReloadConfigurations>
-    </scriptDefinition>
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -144,9 +235,6 @@
 }</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="2" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -156,90 +244,87 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.yml.prometheus: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Gradle.AuthServiceApplicationTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build auth-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build common.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build eureka-server.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build gateway-server.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build task-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build user-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build workload-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Building Gradle Dependencies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Load Gradle Dependencies.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [:ru.chousik.web.authservice.AuthServiceApplication.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [dependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [dependencyInsight].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [dependencyManagement].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.gateway-server [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.gateway-server [clean].executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.AuthServiceApplication | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.GatewayServerApplication | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.TaskServiceApplication | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.TaskServiceApplication | Hello with Bearer.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in auth-service (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in auth-service (2).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in auth-service (3).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in auth-service.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.AuthServiceApplication (1).executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayServerApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.TaskServiceApplication (1).executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.TaskServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserServiceApplication (1).executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;course-work&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/chousik/IdeaProjects/degree_manager/fixly-frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.09891197&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Docker.docker-compose.yml.db: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml.prometheus: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.AuthServiceApplicationTests.executor": "Run",
+    "Gradle.Build admin-service.executor": "Run",
+    "Gradle.Build auth-service.executor": "Run",
+    "Gradle.Build eureka-server.executor": "Run",
+    "Gradle.Build gateway-server.executor": "Run",
+    "Gradle.Build task-service.executor": "Run",
+    "Gradle.Build user-service.executor": "Run",
+    "Gradle.Build workload-service.executor": "Run",
+    "Gradle.Building Gradle Dependencies.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.Load Gradle Dependencies.executor": "Run",
+    "Gradle.auth-service [build].executor": "Run",
+    "Gradle.auth-service [clean].executor": "Run",
+    "Gradle.auth-service [dependencies].executor": "Run",
+    "Gradle.auth-service [dependencyInsight].executor": "Run",
+    "Gradle.auth-service [dependencyManagement].executor": "Run",
+    "Gradle.gateway-server [build].executor": "Run",
+    "Gradle.gateway-server [clean].executor": "Run",
+    "HTTP Request.AuthServiceApplication | #2.executor": "Run",
+    "HTTP Request.GatewayServerApplication | #1.executor": "Run",
+    "HTTP Request.TaskServiceApplication | #1.executor": "Run",
+    "HTTP Request.TaskServiceApplication | Hello with Bearer.executor": "Run",
+    "JUnit.All in auth-service (1).executor": "Run",
+    "JUnit.All in auth-service (2).executor": "Run",
+    "JUnit.All in auth-service (3).executor": "Run",
+    "JUnit.All in auth-service.executor": "Run",
+    "JavaScript Debug.index.html.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.AdminServiceApplication.executor": "Run",
+    "Spring Boot.AuthServiceApplication.executor": "Run",
+    "Spring Boot.EurekaServerApplication.executor": "Run",
+    "Spring Boot.GatewayServerApplication.executor": "Run",
+    "Spring Boot.TaskServiceApplication (1).executor": "Run",
+    "Spring Boot.TaskServiceApplication.executor": "Run",
+    "Spring Boot.UserServiceApplication (1).executor": "Run",
+    "Spring Boot.UserServiceApplication.executor": "Run",
+    "git-widget-placeholder": "course-work",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/hipeoplea/IdeaProjects/degree_manager",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.09891197",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TEXT&quot;
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT"
     ],
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -248,18 +333,18 @@
       <recent name="ru.chousik.web.taskservice.services" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/fixly-frontend" />
-      <recent name="$PROJECT_DIR$/user-service" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\auth-service\src\main\resources\initial" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
       <recent name="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice" />
+      <recent name="$PROJECT_DIR$/.idea/modules" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/fixly-frontend/public/media" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/user-service/src/main/resources/initial" />
       <recent name="$PROJECT_DIR$/workload-service/src/main/resources" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\auth-service\src\main" />
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public" />
+      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\src\assets\diplomas" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="ru.chousik.web.taskservice.repository" />
@@ -279,14 +364,36 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <map>
+              <entry key="AdminServiceApplication" value="STOPPED" />
+              <entry key="AuthServiceApplication" value="STOPPED" />
+              <entry key="UserServiceApplication (1)" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserServiceApplication (1)">
-    <configuration name="AuthServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="ru.chousik.web.auth-service.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.authservice.AuthServiceApplication" />
+  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
+    <configuration name="2.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/2.sql" />
+      <script-mode>FILE</script-mode>
+      <method v="2" />
+    </configuration>
+    <configuration name="TaskServiceApplication | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/TaskServiceApplication.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="AdminServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="admin-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.admin.AdminServiceApplication" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ru.chousik.web.authservice.*" />
+          <option name="PATTERN" value="ru.chousik.is.admin.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -294,16 +401,46 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+    <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" singleton="true" nameIsGenerated="true">
+      <module name="ru.chousik.web.auth-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.authservice.AuthServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="eureka-server.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.eurekaserver.EurekaServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="gateway-server.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.gatewayserver.GatewayServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="workload-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.taskservice.TaskServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="ru.chousik.is.user-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.UserServiceApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.chousik.is.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication (2)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ru.chousik.is.user-service.main~1" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.UserServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -311,10 +448,10 @@
     <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="user-service.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.UserServiceApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.user_service.UserServiceApplication" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ru.chousik.is.*" />
+          <option name="PATTERN" value="ru.chousik.web.user_service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -328,47 +465,34 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
-          <option name="services">
-            <list>
-              <option value="db" />
-            </list>
-          </option>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="docker-compose.yml.minio: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="commandLineOptions" value="--build" />
-          <option name="services">
-            <list>
-              <option value="minio" />
-            </list>
-          </option>
           <option name="sourceFilePath" value="docker-compose.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
-      <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
+      <item itemvalue="Database Script.2.sql" />
+      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+      <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
       <item itemvalue="Spring Boot.UserServiceApplication (1)" />
+      <item itemvalue="Spring Boot.UserServiceApplication (2)" />
+      <item itemvalue="Spring Boot.AuthServiceApplication" />
+      <item itemvalue="Spring Boot.EurekaServerApplication" />
+      <item itemvalue="Spring Boot.GatewayServerApplication" />
+      <item itemvalue="Spring Boot.TaskServiceApplication" />
+      <item itemvalue="Spring Boot.AdminServiceApplication" />
       <item itemvalue="Spring Boot.UserServiceApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.UserServiceApplication (1)" />
-        <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
-        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
+        <item itemvalue="Spring Boot.AdminServiceApplication" />
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Database Script.2.sql" />
         <item itemvalue="Spring Boot.UserServiceApplication" />
+        <item itemvalue="HTTP Request.TaskServiceApplication | #1" />
       </list>
     </recent_temporary>
   </component>
@@ -425,18 +549,6 @@
       <workItem from="1749867551965" duration="1000" />
       <workItem from="1749898575423" duration="604000" />
       <workItem from="1750014590490" duration="5324000" />
-      <workItem from="1760662015851" duration="632000" />
-      <workItem from="1760698991641" duration="5318000" />
-      <workItem from="1760917004605" duration="7000" />
-      <workItem from="1761348815530" duration="109000" />
-      <workItem from="1766004589402" duration="347000" />
-      <workItem from="1766005766265" duration="635000" />
-      <workItem from="1766007153544" duration="33248000" />
-      <workItem from="1766166672073" duration="9844000" />
-      <workItem from="1766356498023" duration="7000" />
-      <workItem from="1766365359474" duration="10699000" />
-      <workItem from="1767087362010" duration="11000" />
-      <workItem from="1768208611316" duration="5000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
@@ -510,15 +622,7 @@
       <option name="project" value="LOCAL" />
       <updated>1745587949033</updated>
     </task>
-    <task id="LOCAL-00010" summary="fixed">
-      <option name="closed" value="true" />
-      <created>1766165166203</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1766165166203</updated>
-    </task>
-    <option name="localTasksCounter" value="11" />
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -563,8 +667,7 @@
     <MESSAGE value="Full admin panel" />
     <MESSAGE value="Full admin panelv2" />
     <MESSAGE value="forgotten usname" />
-    <MESSAGE value="fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="forgotten usname" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

@@ -8,10 +8,14 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="ru.chousik.is.user-service.main" />
+        <module name="admin-service.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ru.chousik.is.user-service" target="17" />
+      <module name="ru.chousik.is.user-service.main~1" target="17" />
+      <module name="ru.chousik.is.user-service.test" target="17" />
+      <module name="ru.chousik.web.auth-service.main~2" target="17" />
       <module name="ru.chousik.web.user-service.main" target="17" />
       <module name="ru.chousik.web.user-service.test" target="17" />
       <module name="ru.chousik.web.user_service.main" target="17" />
@@ -27,21 +31,21 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="admin-service" options="-parameters" />
+      <module name="admin-service.main" options="-parameters" />
+      <module name="admin-service.test" options="-parameters" />
       <module name="auth-service" options="-parameters" />
       <module name="auth-service.main" options="-parameters" />
       <module name="auth-service.test" options="-parameters" />
-      <module name="degree_manager.workload-service.main" options="-parameters" />
-      <module name="eureka-server" options="-parameters" />
-      <module name="eureka-server.main" options="-parameters" />
-      <module name="eureka-server.test" options="-parameters" />
-      <module name="gateway-server" options="-parameters" />
-      <module name="gateway-server.main" options="-parameters" />
-      <module name="gateway-server.test" options="-parameters" />
+      <module name="ru.chousik.is.user-service" options="-parameters" />
+      <module name="ru.chousik.is.user-service.main" options="-parameters" />
+      <module name="ru.chousik.is.user-service.main~1" options="-parameters" />
+      <module name="ru.chousik.is.user-service.test" options="-parameters" />
+      <module name="ru.chousik.web.auth-service" options="-parameters" />
       <module name="ru.chousik.web.auth-service.main" options="-parameters" />
-      <module name="ru.chousik.web.user-service.main" options="-parameters" />
+      <module name="ru.chousik.web.auth-service.test" options="-parameters" />
       <module name="ru.chousik.web.workload-service.main" options="-parameters" />
       <module name="user-service" options="-parameters" />
-      <module name="user-service.main" options="-parameters" />
       <module name="user-service.test" options="-parameters" />
       <module name="workload-service" options="-parameters" />
       <module name="workload-service.test" options="-parameters" />

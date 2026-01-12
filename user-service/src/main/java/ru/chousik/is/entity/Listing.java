@@ -64,5 +64,4 @@ public class Listing {
 
     @Column(name = "flag_reason", length = 1000)
     private String flagReason;
-
 }

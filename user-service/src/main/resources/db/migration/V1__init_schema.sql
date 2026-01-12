@@ -183,7 +183,8 @@ CREATE TABLE review (
     text TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     is_flagged BOOLEAN DEFAULT FALSE,
-    flag_reason VARCHAR(1000)
+    flag_reason VARCHAR(1000),
+    is_hidden BOOLEAN DEFAULT FALSE
 );
 CREATE INDEX idx_review_lessor ON review(lessor_id);
 CREATE INDEX idx_review_lessee ON review(lessee_id);

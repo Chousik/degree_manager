@@ -45,4 +45,6 @@ public class BanList {
     @Column(name = "status", nullable = false, length = 20)
     private String status;
 
+    @Column(name = "created_at")
+    private OffsetDateTime createdAt;
 }

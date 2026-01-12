@@ -14,5 +14,9 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
     List<Review> findAllByLessee_Id(UUID lesseeId);
 
+    List<Review> findAllByLessor_IdAndHiddenFalse(UUID lessorId);
+
+    List<Review> findAllByLessee_IdAndHiddenFalse(UUID lesseeId);
+
     List<Review> findAllByFlaggedTrue();
 }

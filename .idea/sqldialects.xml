@@ -2,7 +2,17 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/1.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/admin-service/build/resources/main/initial/V1__seed_users_listings_with_photos.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/admin-service/build/resources/main/initial/V2__seed_categories.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/admin-service/build/resources/main/initial/schema.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/admin-service/src/main/resources/initial/V1__seed_users_listings_with_photos.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/admin-service/src/main/resources/initial/V2__seed_categories.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/admin-service/src/main/resources/initial/schema.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/auth-service/src/main/resources/initial/oauth2-authorization-consent-schema.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/auth-service/src/main/resources/initial/schema.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/cleanup_test_data.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__init_schema.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/user-service/src/main/resources/db/migration/V2__add_report_targets.sql" dialect="PostgreSQL" />
   </component>
 </project>

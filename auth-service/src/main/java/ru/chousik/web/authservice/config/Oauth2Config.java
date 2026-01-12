@@ -61,6 +61,7 @@ public class Oauth2Config {
                     .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                     .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                     .redirectUri("http://localhost:5173/auth-callback")
+                    .redirectUri("http://localhost:5174/auth-callback")
                     .scope(OidcScopes.OPENID)
                     .scope("offline_access")
                     .tokenSettings(TokenSettings.builder()
@@ -73,6 +74,7 @@ public class Oauth2Config {
         } else {
             var builder = RegisteredClient.from(existing);
             builder.redirectUri("http://localhost:5173/auth-callback");
+            builder.redirectUri("http://localhost:5174/auth-callback");
             jdbcRegisteredClientRepository.save(builder.build());
         }
         return jdbcRegisteredClientRepository;

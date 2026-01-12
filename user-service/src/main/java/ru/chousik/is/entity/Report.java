@@ -33,9 +33,8 @@ public class Report {
     @Column(name = "target_type", length = 30)
     private String targetType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "target_id")
-    private Rental target;
+    @Column(name = "target_id")
+    private UUID targetId;
 
     @Column(name = "reason_body", length = Integer.MAX_VALUE)
     private String reasonBody;

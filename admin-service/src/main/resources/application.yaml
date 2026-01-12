@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: admin_service
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+keySetURI: ${KEY_SET_URI:http://localhost:8071/oauth2/jwks}
+admin:
+  user-service:
+    base-url: ${USER_SERVICE_BASE_URL:http://localhost:8085}
+
+server:
+  port: 8086
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8070/eureka/
+#  instance:
+#    prefer-ip-address: true
+#management:
+#  endpoints.web.exposure.include: prometheus,health,info
+#  metrics.tags.application: ${spring.application.name}

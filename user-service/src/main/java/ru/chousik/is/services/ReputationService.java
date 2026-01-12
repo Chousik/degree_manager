@@ -23,12 +23,12 @@ public class ReputationService {
 
     @Transactional
     public void updateReputationForLessor(UUID lessorId) {
-        updateRating(lessorId, reviewRepository.findAllByLessor_Id(lessorId), ReviewAuthorRole.LESSEE);
+        updateRating(lessorId, reviewRepository.findAllByLessor_IdAndHiddenFalse(lessorId), ReviewAuthorRole.LESSEE);
     }
 
     @Transactional
     public void updateReputationForLessee(UUID lesseeId) {
-        updateRating(lesseeId, reviewRepository.findAllByLessee_Id(lesseeId), ReviewAuthorRole.LESSOR);
+        updateRating(lesseeId, reviewRepository.findAllByLessee_IdAndHiddenFalse(lesseeId), ReviewAuthorRole.LESSOR);
     }
 
     private void updateRating(UUID userId, List<Review> reviews, ReviewAuthorRole expectedReviewerRole) {
