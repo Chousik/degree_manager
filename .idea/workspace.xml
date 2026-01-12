@@ -5,64 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="fixed">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/1/pg_internal.init" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1247" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1247" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1249" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1249" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1259" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1259" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/1259_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/1259_fsm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/base/16384/16456" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16456" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/base/16384/16457" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16457" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16457_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16457_fsm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/base/16384/16463" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16463" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16475" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16475" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16493" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16499" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16500" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16501" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16508" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16683" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16687" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16688" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16689" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16701" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16895" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16895" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16898" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16898" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16900" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16900" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16908" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16908" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2579" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2579" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2606" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2606" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2606_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2606_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2608" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2608" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2610" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2610" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2620" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2620" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2658" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2658" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2659" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2659" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2662" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2662" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2663" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2663" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2664" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2664" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2665" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2665" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2666" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2666" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2667" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2667" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2673" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2673" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2674" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2674" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2678" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2678" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2679" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2679" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2699" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2699" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2701" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2701" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2702" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2702" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2703" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2703" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/2704" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/2704" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/3455" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/3455" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24632" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24632" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24632_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24632_fsm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24639" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24639" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24640" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24640" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24641" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24641" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/base/16384/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/5/pg_internal.init" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/global/pg_control" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/global/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/global/pg_internal.init" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/pg_wal/000000010000000000000001" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/pg_wal/000000010000000000000001" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdata/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/pg_xact/0000" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/postmaster.pid" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/postmaster.pid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__seed_users_listings_with_photos.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__seed_users_listings_with_photos.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gdata/postmaster.pid" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,6 +161,7 @@
   &quot;keyToString&quot;: {
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml.prometheus: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
@@ -296,11 +256,11 @@
       <recent name="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fixly-frontend/public/media" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/user-service/src/main/resources/initial" />
       <recent name="$PROJECT_DIR$/workload-service/src/main/resources" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\auth-service\src\main" />
-      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
-      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public" />
-      <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\src\assets\diplomas" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="ru.chousik.web.taskservice.repository" />
@@ -321,7 +281,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.UserServiceApplication (1)">
+  <component name="RunManager" selected="Docker.docker-compose.yml.minio: Compose Deployment">
     <configuration name="AuthServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="ru.chousik.web.auth-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.authservice.AuthServiceApplication" />
@@ -369,15 +329,6 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="commandLineOptions" value="--build" />
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <configuration name="docker-compose.yml.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
@@ -391,20 +342,34 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <configuration name="docker-compose.yml.minio: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="commandLineOptions" value="--build" />
+          <option name="services">
+            <list>
+              <option value="minio" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
+      <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
       <item itemvalue="Spring Boot.UserServiceApplication (1)" />
       <item itemvalue="Spring Boot.UserServiceApplication" />
-      <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
+        <item itemvalue="Spring Boot.UserServiceApplication (1)" />
         <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
-        <item itemvalue="Spring Boot.UserServiceApplication (1)" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -470,7 +435,9 @@
       <workItem from="1766007153544" duration="33248000" />
       <workItem from="1766166672073" duration="9844000" />
       <workItem from="1766356498023" duration="7000" />
-      <workItem from="1766365359474" duration="8000" />
+      <workItem from="1766365359474" duration="10699000" />
+      <workItem from="1767087362010" duration="11000" />
+      <workItem from="1768208611316" duration="5000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />

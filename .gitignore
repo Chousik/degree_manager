@@ -6,3 +6,6 @@ fixly-frontend/node_modules/
 */.gradle/
 /p pgdata/
 /pgdata/
+/gdata/
+/p gdata/
+/gdata/
