@@ -1,6 +1,8 @@
 import { computed, reactive } from 'vue';
 import { getCity } from '../api/account';
 
+const TOKEN_LEEWAY_MS = 5000;
+
 const state = reactive({
   loggedIn: localStorage.getItem('fx_logged_in') === '1',
   pendingEmail: '',
@@ -46,6 +48,18 @@ function decodeJwtPayload(token) {
   }
 }
 
+function isTokenActive(token) {
+  if (!token) {
+    return false;
+  }
+  const payload = decodeJwtPayload(token);
+  if (!payload?.exp) {
+    return false;
+  }
+  const expiresAtMs = payload.exp * 1000;
+  return expiresAtMs - TOKEN_LEEWAY_MS > Date.now();
+}
+
 function setUserIdFromToken(token) {
   const payload = decodeJwtPayload(token);
   if (!payload) return;
@@ -56,7 +70,8 @@ function setUserIdFromToken(token) {
 }
 
 function setTokens(access, refresh) {
-  state.accessToken = access || '';
+  const normalizedAccess = access && isTokenActive(access) ? access : '';
+  state.accessToken = normalizedAccess;
   state.refreshToken = refresh || '';
   if (state.accessToken) {
     localStorage.setItem('fx_access', state.accessToken);
@@ -68,9 +83,28 @@ function setTokens(access, refresh) {
   } else {
     localStorage.removeItem('fx_refresh');
   }
-  if (access) {
+  if (normalizedAccess) {
     setLoggedIn(true);
-    setUserIdFromToken(access);
+    setUserIdFromToken(normalizedAccess);
+  } else {
+    setLoggedIn(false);
+    setUserId('');
+  }
+}
+
+function syncSessionWithToken() {
+  if (isTokenActive(state.accessToken)) {
+    setLoggedIn(true);
+    setUserIdFromToken(state.accessToken);
+  } else {
+    if (state.accessToken) {
+      state.accessToken = '';
+      localStorage.removeItem('fx_access');
+    }
+    setLoggedIn(false);
+    if (state.currentUserId) {
+      setUserId('');
+    }
   }
 }
 
@@ -108,18 +142,22 @@ async function loadCityFromServer(force = false) {
   }
 }
 
+syncSessionWithToken();
+
 export function useSession() {
   const isLoggedIn = computed(() => state.loggedIn);
   const userId = computed(() => state.currentUserId);
   const accessToken = computed(() => state.accessToken);
   const refreshToken = computed(() => state.refreshToken);
   const city = computed(() => state.city);
+  const hasValidAccessToken = computed(() => isTokenActive(state.accessToken));
   return {
     state,
     isLoggedIn,
     userId,
     accessToken,
     refreshToken,
+    hasValidAccessToken,
     city,
     setLoggedIn,
     logout,

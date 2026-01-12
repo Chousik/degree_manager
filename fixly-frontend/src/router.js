@@ -11,6 +11,7 @@ import FavoritesPage from './pages/FavoritesPage.vue';
 import FavoritesLandingPage from './pages/FavoritesLandingPage.vue';
 import ListingDetailPage from './pages/ListingDetailPage.vue';
 import AccountPage from './pages/AccountPage.vue';
+import ChangePasswordPage from './pages/ChangePasswordPage.vue';
 import CommunicationPage from './pages/CommunicationPage.vue';
 import ModerationPage from './pages/ModerationPage.vue';
 import SupportPage from './pages/SupportPage.vue';
@@ -30,6 +31,7 @@ const routes = [
   { path: '/rentals', component: RentalsPage, meta: { requiresAuth: true } },
   { path: '/favorites', component: FavoritesLandingPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/account', component: AccountPage, meta: { requiresAuth: true, standalone: true } },
+  { path: '/account/password', component: ChangePasswordPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/communication', component: CommunicationPage, meta: { requiresAuth: true } },
   { path: '/moderation', component: ModerationPage, meta: { requiresAuth: true } },
   { path: '/support', component: SupportPage, meta: { requiresAuth: true } },

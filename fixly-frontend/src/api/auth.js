@@ -1,11 +1,11 @@
-import { API_BASE } from './client';
+import { OAUTH_BASE, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from './client';
 
 export async function refreshTokens(refreshToken) {
-  const response = await fetch(`${API_BASE}/oauth2/token`, {
+  const response = await fetch(`${OAUTH_BASE}/oauth2/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: 'Basic ' + btoa('client:secret'),
+      Authorization: 'Basic ' + btoa(`${OAUTH_CLIENT_ID}:${OAUTH_CLIENT_SECRET}`),
     },
     body: new URLSearchParams({
       grant_type: 'refresh_token',

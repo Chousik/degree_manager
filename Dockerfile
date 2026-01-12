@@ -1,10 +1,10 @@
-FROM postgres:15
+FROM postgres:18
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Устанавливаем pg_cron (пакет в репозиториях Debian/Ubuntu)
 RUN apt-get update \
- && apt-get install -y --no-install-recommends postgresql-15-cron \
+ && apt-get install -y --no-install-recommends postgresql-18-cron \
  && rm -rf /var/lib/apt/lists/*
 
 # Включим pg_cron в конфигурации до первого запуска сервера

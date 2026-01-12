@@ -24,12 +24,12 @@
           v-for="icon in icons"
           :key="icon.alt"
           class="main-icon"
-        type="button"
-        :aria-label="icon.alt"
-        @click="navigate(icon.route)"
-      >
-        <img :src="icon.src" :alt="icon.alt">
-      </button>
+          type="button"
+          :aria-label="icon.alt"
+          @click="navigate(icon.route)"
+        >
+          <img :src="icon.src" :alt="icon.alt">
+        </button>
       </div>
     </header>
 

@@ -7,19 +7,56 @@ const EMAIL_VERIFY_ENDPOINT = import.meta.env.VITE_EMAIL_VERIFY_ENDPOINT || '/ap
 const EMAIL_VERIFY_PARAM = import.meta.env.VITE_EMAIL_VERIFY_PARAM || 'token';
 const OAUTH_BASE = (import.meta.env.VITE_OAUTH_BASE || API_BASE).replace(/\/$/, '');
 const OAUTH_REDIRECT = import.meta.env.VITE_OAUTH_REDIRECT || 'http://localhost:5173/auth-callback';
+const OAUTH_CLIENT_ID = import.meta.env.VITE_OAUTH_CLIENT_ID || 'client';
+const OAUTH_CLIENT_SECRET = import.meta.env.VITE_OAUTH_CLIENT_SECRET || 'secret';
+const OAUTH_SCOPE = import.meta.env.VITE_OAUTH_SCOPE || 'openid offline_access';
 
-export { API_BASE, USER_API_BASE, EMAIL_VERIFY_ENDPOINT, EMAIL_VERIFY_PARAM, OAUTH_BASE, OAUTH_REDIRECT };
+export {
+  API_BASE,
+  USER_API_BASE,
+  EMAIL_VERIFY_ENDPOINT,
+  EMAIL_VERIFY_PARAM,
+  OAUTH_BASE,
+  OAUTH_REDIRECT,
+  OAUTH_CLIENT_ID,
+  OAUTH_CLIENT_SECRET,
+  OAUTH_SCOPE,
+};
 
 export async function fetchJson(url, options = {}) {
   const session = useSession();
-  const { accessToken, refreshToken, isLoggedIn, logout, setTokens } = session;
+  const { accessToken, refreshToken, hasValidAccessToken, logout, setTokens } = session;
 
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
   const needsAuth = options.auth !== false;
 
-  if (needsAuth && !isLoggedIn.value) {
-    redirectToLogin();
-    throw new Error('Требуется авторизация');
+  const ensureFreshAccessToken = async () => {
+    if (!needsAuth || hasValidAccessToken.value) {
+      return;
+    }
+    if (!refreshToken.value) {
+      throw new Error('Нет refresh токена');
+    }
+    const refreshResponse = await refreshTokens(refreshToken.value);
+    setTokens(refreshResponse.access_token, refreshResponse.refresh_token || refreshToken.value);
+    if (!hasValidAccessToken.value) {
+      throw new Error('Не удалось обновить токен');
+    }
+  };
+
+  if (needsAuth) {
+    try {
+      await ensureFreshAccessToken();
+    } catch (err) {
+      logout();
+      redirectToLogin();
+      throw new Error('Требуется авторизация');
+    }
+    if (!hasValidAccessToken.value) {
+      logout();
+      redirectToLogin();
+      throw new Error('Требуется авторизация');
+    }
   }
 
   const attemptRequest = async (tokenOverride) => {

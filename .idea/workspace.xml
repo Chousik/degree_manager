@@ -5,23 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="fixed">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16456" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16456" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16457" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16457" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16457_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16457_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/16463" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/16463" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24632" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24632" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24632_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24632_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24639" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24639" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24640" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24640" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/24641" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/24641" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/base/16384/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/base/16384/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/global/pg_control" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/global/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/global/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/pg_wal/000000010000000000000001" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/pg_wal/000000010000000000000001" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/gdata/pg_xact/0000" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gdata/postmaster.pid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/dist/assets/index-24jYEV2r.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/dist/assets/index-CBb4lZQ1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/AuthCallback.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/AuthCallback.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/LoginPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/state/session.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/state/session.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,7 +280,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Docker.docker-compose.yml.minio: Compose Deployment">
+  <component name="RunManager" selected="Spring Boot.UserServiceApplication (1)">
     <configuration name="AuthServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="ru.chousik.web.auth-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.authservice.AuthServiceApplication" />
@@ -365,11 +364,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
         <item itemvalue="Spring Boot.UserServiceApplication (1)" />
-        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
+        <item itemvalue="Spring Boot.UserServiceApplication" />
       </list>
     </recent_temporary>
   </component>

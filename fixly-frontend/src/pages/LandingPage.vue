@@ -144,11 +144,7 @@ function formatPrice(value) {
       </div>
     </section>
 
-    <div class="landing-cta">
-      <div>
-        <h3>Готовы тестировать Fixly?</h3>
-        <p>Войдите в песочницу и управляйте объявлениями, арендой и поддержкой.</p>
-      </div>
+    <div class="landing-cta" v-if="!isLoggedIn">
       <div class="landing-cta__buttons">
         <button class="landing-btn primary" type="button" @click="goToLogin">Войти</button>
         <button class="landing-btn ghost" type="button" @click="router.push('/register')">Зарегистрироваться</button>

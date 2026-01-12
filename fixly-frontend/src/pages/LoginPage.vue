@@ -5,6 +5,10 @@ import {
   API_BASE,
   EMAIL_VERIFY_ENDPOINT,
   EMAIL_VERIFY_PARAM,
+  OAUTH_BASE,
+  OAUTH_REDIRECT,
+  OAUTH_CLIENT_ID,
+  OAUTH_SCOPE,
 } from '../api/client';
 import { useSession } from '../state/session';
 import AuthShell from '../components/AuthShell.vue';
@@ -24,8 +28,10 @@ const showToast = (message, type = 'success') => {
 };
 
 const authUrl = computed(() => {
-  const redirect = encodeURIComponent('http://localhost:5173/auth-callback');
-  return `${API_BASE}/oauth2/authorize?response_type=code&client_id=client&redirect_uri=${redirect}&scope=openid%20offline_access`;
+  const redirect = encodeURIComponent(OAUTH_REDIRECT);
+  const scope = encodeURIComponent(OAUTH_SCOPE);
+  const clientId = encodeURIComponent(OAUTH_CLIENT_ID);
+  return `${OAUTH_BASE}/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirect}&scope=${scope}`;
 });
 
 const handleLogin = async () => {
@@ -38,7 +44,7 @@ const handleLogin = async () => {
     formData.append('username', loginForm.username.trim());
     formData.append('password', loginForm.password);
 
-    const res = await fetch(`${API_BASE}/login`, {
+    const res = await fetch(`${OAUTH_BASE}/login`, {
       method: 'POST',
       credentials: 'include',
       headers: { Accept: 'application/json' },
