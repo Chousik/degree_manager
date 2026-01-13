@@ -21,6 +21,7 @@ configurations {
 repositories {
 	mavenCentral()
 }
+extra["springCloudVersion"] = "2024.0.1"
 configurations.all {
 	resolutionStrategy {
 		force("com.thoughtworks.xstream:xstream:1.4.21")
@@ -29,9 +30,9 @@ configurations.all {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-security:3.4.4")
+	implementation("org.springframework.boot:spring-boot-starter-security:")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-web:3.4.4")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	compileOnly("org.projectlombok:lombok")
@@ -42,8 +43,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	testImplementation ("org.junit.jupiter:junit-jupiter-api:5.8.2")
 	testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
-	//	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.1")
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("com.thoughtworks.xstream:xstream:1.4.21")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
@@ -52,7 +52,13 @@ dependencies {
 	implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.4.2")
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
 }
 
 tasks.withType<Test> {

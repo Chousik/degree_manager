@@ -8,9 +8,10 @@
       <module fileurl="file://$PROJECT_DIR$/multi-microservice-app.iml" filepath="$PROJECT_DIR$/multi-microservice-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.is.admin-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.is.admin-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.is.user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.is.user-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.web.workload-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.web.workload-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.web.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.web.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.is.event-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.is.event-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/workload-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/workload-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/event-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/event-service.main.iml" />
     </modules>
   </component>
 </project>

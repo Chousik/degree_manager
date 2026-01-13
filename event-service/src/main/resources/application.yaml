@@ -1,11 +1,7 @@
 keySetURI: http://localhost:8071/oauth2/jwks
 spring:
-  servlet:
-    multipart:
-      max-file-size: 25MB
-      max-request-size: 25MB
   application:
-    name: task-service
+    name: event-service
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -20,14 +16,14 @@ server:
   port: 8087
 user-service:
   url: http://localhost:8085
-#eureka:
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://localhost:8070/eureka/
-#  instance:
-#    prefer-ip-address: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    prefer-ip-address: true
 #management:
 #  endpoints.web.exposure.include: prometheus,health,info
 #  metrics.tags.application: ${spring.application.name}

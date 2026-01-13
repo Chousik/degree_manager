@@ -5,12 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="some shit">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/admin-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/AdminServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/AdminServiceApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/categories.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/event-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/event-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event-service/src/main/java/ru/chousik/is/event/TaskServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/event-service/src/main/java/ru/chousik/is/event/TaskServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/event-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +37,9 @@
     <projectState path="$PROJECT_DIR$/eureka-server">
       <ProjectState />
     </projectState>
+    <projectState path="$PROJECT_DIR$/event-service">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$/gateway-server">
       <ProjectState />
     </projectState>
@@ -34,9 +47,6 @@
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/user-service">
-      <ProjectState />
-    </projectState>
-    <projectState path="$PROJECT_DIR$/workload-service">
       <ProjectState />
     </projectState>
   </component>
@@ -112,7 +122,9 @@
     <option name="configPaths">
       <map>
         <entry key="$PROJECT_DIR$/admin-service" value="$PROJECT_DIR$/admin-service/build.gradle.kts" />
+        <entry key="$PROJECT_DIR$/auth-service" value="$PROJECT_DIR$/auth-service/build.gradle.kts" />
         <entry key="$PROJECT_DIR$/eureka-server" value="$PROJECT_DIR$/eureka-server/build.gradle.kts" />
+        <entry key="$PROJECT_DIR$/event-service" value="$PROJECT_DIR$/event-service/build.gradle.kts" />
         <entry key="$PROJECT_DIR$/gateway-server" value="$PROJECT_DIR$/gateway-server/build.gradle.kts" />
         <entry key="$PROJECT_DIR$/user-service" value="$PROJECT_DIR$/user-service/build.gradle.kts" />
       </map>
@@ -153,10 +165,10 @@
     "Gradle.Build admin-service.executor": "Run",
     "Gradle.Build auth-service.executor": "Run",
     "Gradle.Build eureka-server.executor": "Run",
+    "Gradle.Build event-service.executor": "Run",
     "Gradle.Build gateway-server.executor": "Run",
     "Gradle.Build task-service.executor": "Run",
     "Gradle.Build user-service.executor": "Run",
-    "Gradle.Build workload-service.executor": "Run",
     "Gradle.Building Gradle Dependencies.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Load Gradle Dependencies.executor": "Run",
@@ -191,8 +203,10 @@
     "Spring Boot.AuthServiceApplication.executor": "Run",
     "Spring Boot.EurekaServerApplication (1).executor": "Run",
     "Spring Boot.EurekaServerApplication.executor": "Run",
+    "Spring Boot.GatewayServerApplication (1).executor": "Run",
     "Spring Boot.GatewayServerApplication.executor": "Run",
     "Spring Boot.TaskServiceApplication (1).executor": "Run",
+    "Spring Boot.TaskServiceApplication (2).executor": "Run",
     "Spring Boot.TaskServiceApplication.executor": "Run",
     "Spring Boot.UserServiceApplication (1).executor": "Run",
     "Spring Boot.UserServiceApplication.executor": "Run",
@@ -239,7 +253,7 @@
       <recent name="$PROJECT_DIR$/.idea/modules" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/workload-service/src/main/resources" />
+      <recent name="$PROJECT_DIR$/event-service/src/main/resources" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\auth-service\src\main" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public\diplomas" />
       <recent name="C:\Users\chenqing\IdeaProjects\degree_manager\frontend\public" />
@@ -264,12 +278,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AdminServiceApplication">
-    <configuration name="2.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
-      <script-file value="$PROJECT_DIR$/2.sql" />
-      <script-mode>FILE</script-mode>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Spring Boot.TaskServiceApplication">
     <configuration name="AdminServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="ru.chousik.is.admin-service.main" />
@@ -319,9 +328,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="workload-service.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.taskservice.TaskServiceApplication" />
+    <configuration name="TaskServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="event-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.event.TaskServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.chousik.is.event.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="degree_manager.workload-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.event.TaskServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.chousik.is.event.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -345,14 +373,6 @@
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
       </deployment>
       <method v="2" />
     </configuration>
@@ -384,10 +404,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Database Script.2.sql" />
       <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Spring Boot.EurekaServerApplication (1)" />
       <item itemvalue="Spring Boot.GatewayServerApplication (1)" />
       <item itemvalue="Spring Boot.UserServiceApplication (1)" />
@@ -400,11 +418,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.TaskServiceApplication" />
+        <item itemvalue="Spring Boot.TaskServiceApplication" />
         <item itemvalue="Spring Boot.AdminServiceApplication" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-        <item itemvalue="Database Script.2.sql" />
       </list>
     </recent_temporary>
   </component>
@@ -606,6 +624,11 @@
           <url>file://$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/AuthorizationServerConfig.java</url>
           <line>122</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/event-service/src/main/java/ru/chousik/is/event/TaskServiceApplication.java</url>
+          <line>6</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

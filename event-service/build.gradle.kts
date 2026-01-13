@@ -1,5 +1,6 @@
 plugins {
 	java
+	id("application")
 	id("org.springframework.boot") version "3.4.4"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -13,6 +14,10 @@ java {
 	}
 }
 
+application {
+	mainClass.set("ru.chousik.is.event.TaskServiceApplication")
+}
+
 configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
@@ -22,8 +27,10 @@ configurations {
 repositories {
 	mavenCentral()
 }
+extra["springCloudVersion"] = "2024.0.1"
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 //	implementation("org.springframework.boot:spring-boot-starter-data-redis")
@@ -37,8 +44,7 @@ dependencies {
 	implementation("org.modelmapper:modelmapper:3.1.1")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
-//	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.4")
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.4.4")
@@ -52,9 +58,14 @@ dependencies {
 	implementation("software.amazon.awssdk:s3:2.31.49")
 	// https://mvnrepository.com/artifact/software.amazon.awssdk/apache-client
 	implementation("software.amazon.awssdk:apache-client:2.31.49")
-	implementation("ru.chousik.web:common:1.0-SNAPSHOT")
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
 	implementation("org.apache.pdfbox:pdfbox:3.0.3")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
 }
 
 tasks.withType<Test> {

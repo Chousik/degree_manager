@@ -35,6 +35,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.flywaydb:flyway-core:10.21.0")
 	implementation("org.flywaydb:flyway-database-postgresql:10.21.0")
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	implementation("org.modelmapper:modelmapper:3.1.1")

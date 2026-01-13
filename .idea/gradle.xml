@@ -38,6 +38,14 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/event-service" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/event-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/gateway-server" />
         <option name="gradleJvm" value="corretto-17" />
         <option name="modules">
@@ -51,26 +59,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/user-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <compositeConfiguration>
-          <compositeBuild compositeDefinitionSource="SCRIPT">
-            <builds>
-              <build path="$PROJECT_DIR$/common" name="common">
-                <projects>
-                  <project path="$PROJECT_DIR$/common" />
-                </projects>
-              </build>
-            </builds>
-          </compositeBuild>
-        </compositeConfiguration>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/workload-service" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/common" />
-            <option value="$PROJECT_DIR$/workload-service" />
           </set>
         </option>
       </GradleProjectSettings>
