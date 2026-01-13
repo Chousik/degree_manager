@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { USER_API_BASE, fetchJson } from '../api/client';
+import MainHeader from '../components/MainHeader.vue';
 import { useSession } from '../state/session';
 
 const route = useRoute();
@@ -12,11 +13,17 @@ const listing = reactive({
   id: '',
   title: '',
   description: '',
-  pricePerHour: '',
-  depositAmount: '',
+  pricePerHour: null,
+  depositAmount: null,
   autoConfirmation: false,
   latitude: '',
   longitude: '',
+  photos: [],
+  categories: [],
+  availabilitySlots: [],
+  ownerId: '',
+  status: '',
+  createdAt: '',
 });
 
 const booking = reactive({
@@ -28,10 +35,121 @@ const loading = ref(true);
 const bookingLoading = ref(false);
 const toast = reactive({ message: '', type: 'success', visible: false });
 const errorMessage = ref('');
+const selectedPhoto = ref('');
+const selectedSlotId = ref('');
 
-const formatPrice = (price) => (price ? `${price} ₽/ч` : 'Договорная');
-const formatDeposit = (value) => (value ? `Депозит ${value} ₽` : 'Без депозита');
+const formatPrice = (price) => (price ? `${Number(price).toLocaleString('ru-RU')} ₽/ч` : 'Договорная');
+const formatDeposit = (value) => (value ? `Депозит ${Number(value).toLocaleString('ru-RU')} ₽` : 'Без депозита');
 const hasCoords = () => listing.latitude && listing.longitude;
+const hasPhotos = computed(() => Array.isArray(listing.photos) && listing.photos.length > 0);
+const sortedPhotos = computed(() => {
+  if (!Array.isArray(listing.photos)) return [];
+  return [...listing.photos].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+});
+const galleryMain = computed(() => {
+  if (selectedPhoto.value) return selectedPhoto.value;
+  return sortedPhotos.value[0]?.url || '';
+});
+const formattedDate = computed(() => {
+  if (!listing.createdAt) return '';
+  try {
+    return new Date(listing.createdAt).toLocaleDateString('ru-RU');
+  } catch (err) {
+    return listing.createdAt;
+  }
+});
+const availabilitySlots = computed(() => {
+  if (!Array.isArray(listing.availabilitySlots)) return [];
+  return listing.availabilitySlots;
+});
+const dateKey = (value) => {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+const slotGroups = computed(() => {
+  const groups = new Map();
+  availabilitySlots.value.forEach((slot) => {
+    const key = dateKey(slot.startsAt);
+    if (!key) return;
+    if (!groups.has(key)) {
+      groups.set(key, []);
+    }
+    groups.get(key).push(slot);
+  });
+  for (const [key, slots] of groups.entries()) {
+    groups.set(key, [...slots].sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt)));
+  }
+  return groups;
+});
+const slotDates = computed(() => {
+  const dates = [];
+  slotGroups.value.forEach((slots, key) => {
+    const [year, month, day] = key.split('-').map(Number);
+    const labelDate = new Date(year, month - 1, day);
+    dates.push({
+      key,
+      slots,
+      label: labelDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }),
+    });
+  });
+  return dates.sort((a, b) => a.key.localeCompare(b.key));
+});
+const hasSlots = computed(() => slotDates.value.length > 0);
+const selectedDateKey = ref('');
+const slotTimeLabel = (slot) => {
+  const start = new Date(slot.startsAt);
+  const end = new Date(slot.endsAt);
+  return `${start.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })} — ` +
+    `${end.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`;
+};
+const selectedDateSlots = computed(() => slotGroups.value.get(selectedDateKey.value) || []);
+const slotLabel = (slot) => {
+  const start = new Date(slot.startsAt);
+  const end = new Date(slot.endsAt);
+  return `${start.toLocaleDateString('ru-RU')} ${start.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })} — ` +
+    `${end.toLocaleDateString('ru-RU')} ${end.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`;
+};
+
+const pickDate = (key) => {
+  selectedDateKey.value = key;
+  if (selectedSlotId.value) {
+    const selectedSlot = availabilitySlots.value.find((slot) => slot.id === selectedSlotId.value);
+    if (selectedSlot && dateKey(selectedSlot.startsAt) !== key) {
+      selectedSlotId.value = '';
+      booking.startAt = '';
+      booking.endAt = '';
+    }
+  }
+};
+
+const pickSlot = (slot) => {
+  if (!slot) return;
+  selectedDateKey.value = dateKey(slot.startsAt);
+  selectedSlotId.value = slot.id;
+  booking.startAt = slot.startsAt?.slice(0, 16) || '';
+  booking.endAt = slot.endsAt?.slice(0, 16) || '';
+};
+
+const canBook = computed(() => {
+  if (hasSlots.value) {
+    return Boolean(selectedSlotId.value);
+  }
+  return Boolean(booking.startAt && booking.endAt);
+});
+
+const selectedSlot = computed(() => {
+  if (!selectedSlotId.value) return null;
+  return availabilitySlots.value.find((slot) => slot.id === selectedSlotId.value) || null;
+});
+
+const slotSummary = computed(() => {
+  if (!selectedSlot.value) return '';
+  return slotLabel(selectedSlot.value);
+});
 
 const showToast = (message, type = 'success') => {
   toast.message = message;
@@ -46,6 +164,13 @@ const fetchListing = async (id) => {
     const data = await fetchJson(`${USER_API_BASE}/listings/${id}`);
     Object.assign(listing, data || {});
     listing.id = data?.id || id;
+    if (Array.isArray(data?.photos) && data.photos.length > 0) {
+      selectedPhoto.value = data.photos[0].url;
+    }
+    selectedSlotId.value = '';
+    selectedDateKey.value = '';
+    booking.startAt = '';
+    booking.endAt = '';
   } catch (err) {
     errorMessage.value = err.message || 'Не удалось загрузить объявление';
   } finally {
@@ -61,6 +186,10 @@ const bookRental = async () => {
   }
   if (!booking.startAt || !booking.endAt) {
     showToast('Укажите дату и время начала и конца', 'error');
+    return;
+  }
+  if (hasSlots.value && !selectedSlotId.value) {
+    showToast('Выберите доступный слот', 'error');
     return;
   }
   if (bookingLoading.value) return;
@@ -95,59 +224,132 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
 </script>
 
 <template>
-  <div class="detail-shell">
-    <div class="detail-header">
-      <div>
-        <p class="eyebrow muted">Карточка товара</p>
-        <h1 class="detail-title">{{ listing.title || 'Объявление' }}</h1>
-        <p class="muted">{{ formatDeposit(listing.depositAmount) }}</p>
+  <div class="landing listing-detail-page">
+    <MainHeader />
+
+    <section class="landing-section listing-hero">
+      <div class="landing-card listing-head">
+        <div>
+          <button class="landing-link" type="button" @click="router.push('/catalog')">Каталог</button>
+          <h1 class="listing-title">{{ listing.title || 'Объявление' }}</h1>
+          <div class="listing-subtitle">
+            <span class="chip ghost">{{ listing.autoConfirmation ? 'Мгновенное подтверждение' : 'Ручное подтверждение' }}</span>
+            <span class="chip ghost" v-if="listing.status">Статус: {{ listing.status }}</span>
+            <span class="chip ghost" v-if="formattedDate">Создано: {{ formattedDate }}</span>
+          </div>
+        </div>
+        <div class="price-chip">{{ formatPrice(listing.pricePerHour) }}</div>
       </div>
-      <div class="price-chip">{{ formatPrice(listing.pricePerHour) }}</div>
-    </div>
 
-    <div v-if="errorMessage" class="toast error">{{ errorMessage }}</div>
+      <p v-if="errorMessage" class="landing-note error">{{ errorMessage }}</p>
 
-    <div class="detail-grid">
-      <section class="detail-body">
-        <div v-if="loading" class="skeleton-card large"></div>
-        <template v-else>
-          <div class="detail-card">
-            <h3>Описание</h3>
-            <p class="body-text">
-              {{ listing.description || 'Автор еще не добавил описание' }}
-            </p>
-            <div class="meta-row">
-              <span class="chip ghost">{{ listing.autoConfirmation ? 'Автоподтверждение' : 'Ручное подтверждение' }}</span>
-              <span class="chip ghost" v-if="hasCoords()">Локация: {{ listing.latitude }}, {{ listing.longitude }}</span>
+      <div class="listing-grid">
+        <section class="listing-gallery">
+          <div v-if="loading" class="skeleton-card large"></div>
+          <template v-else>
+            <div class="gallery-main">
+              <div v-if="!hasPhotos" class="gallery-placeholder">
+                Фото появятся позже
+              </div>
+              <img v-else :src="galleryMain" :alt="listing.title" />
+            </div>
+            <div class="gallery-thumbs" v-if="hasPhotos">
+              <button
+                v-for="photo in sortedPhotos"
+                :key="photo.id || photo.url"
+                type="button"
+                class="thumb"
+                :class="{ active: photo.url === galleryMain }"
+                @click="selectedPhoto = photo.url"
+              >
+                <img :src="photo.url" :alt="listing.title" />
+              </button>
+            </div>
+          </template>
+        </section>
+
+        <aside class="landing-card listing-book">
+          <div class="booking-head">
+            <div>
+              <p class="eyebrow muted">Бронирование</p>
+              <h3>Запланируйте время</h3>
             </div>
           </div>
-        </template>
-      </section>
 
-      <aside class="booking-card">
-        <div class="booking-head">
-          <div>
-            <p class="eyebrow muted">Бронирование</p>
-            <h3>Запланируйте время</h3>
+          <div v-if="hasSlots" class="slot-picker">
+            <p class="muted small">Свободные даты</p>
+            <div class="date-grid">
+              <button
+                v-for="date in slotDates"
+                :key="date.key"
+                type="button"
+                class="date-pill"
+                :class="{ active: date.key === selectedDateKey }"
+                @click="pickDate(date.key)"
+              >
+                <span class="date-pill__label">{{ date.label }}</span>
+                <span class="muted small">{{ date.slots.length }} слотов</span>
+              </button>
+            </div>
+            <div v-if="selectedDateKey" class="time-grid">
+              <button
+                v-for="slot in selectedDateSlots"
+                :key="slot.id"
+                type="button"
+                class="time-pill"
+                :class="{ active: slot.id === selectedSlotId }"
+                @click="pickSlot(slot)"
+              >
+                {{ slotTimeLabel(slot) }}
+              </button>
+            </div>
+            <p v-else class="muted small">Сначала выберите дату.</p>
+            <p v-if="slotSummary" class="helper small">Выбрано: {{ slotSummary }}</p>
           </div>
-          <span class="badge">{{ isLoggedIn ? 'Вы вошли' : 'Гость' }}</span>
-        </div>
 
-        <div class="field">
-          <label>Начало</label>
-          <input v-model="booking.startAt" type="datetime-local">
-        </div>
-        <div class="field">
-          <label>Конец</label>
-          <input v-model="booking.endAt" type="datetime-local">
-        </div>
-        <button class="btn primary" type="button" :disabled="bookingLoading" @click="bookRental">
-          {{ bookingLoading ? 'Бронируем...' : 'Забронировать' }}
-        </button>
-        <p class="helper small">Указывайте время с учетом выдачи и возврата.</p>
+          <div class="price-stack">
+            <div class="price-value">{{ formatPrice(listing.pricePerHour) }}</div>
+            <div class="muted small">{{ formatDeposit(listing.depositAmount) }}</div>
+          </div>
 
-        <div v-if="toast.visible" class="toast" :class="toast.type">{{ toast.message }}</div>
-      </aside>
-    </div>
+          <template v-if="!hasSlots">
+            <div class="field">
+              <label>Начало</label>
+              <input v-model="booking.startAt" type="datetime-local">
+            </div>
+            <div class="field">
+              <label>Конец</label>
+              <input v-model="booking.endAt" type="datetime-local">
+            </div>
+          </template>
+          <button class="landing-btn primary" type="button" :disabled="bookingLoading || !canBook" @click="bookRental">
+            {{ bookingLoading ? 'Бронируем...' : 'Забронировать' }}
+          </button>
+          <p class="helper small">Указывайте время с учетом выдачи и возврата.</p>
+
+          <div v-if="toast.visible" class="toast" :class="toast.type">{{ toast.message }}</div>
+        </aside>
+      </div>
+
+      <div class="listing-details-grid">
+        <div class="landing-card">
+          <h3>Описание</h3>
+          <p class="body-text">
+            {{ listing.description || 'Автор еще не добавил описание' }}
+          </p>
+          <div class="meta-row">
+            <span class="chip ghost">{{ formatDeposit(listing.depositAmount) }}</span>
+            <span class="chip ghost" v-if="hasCoords()">Локация: {{ listing.latitude }}, {{ listing.longitude }}</span>
+            <span class="chip ghost" v-if="listing.ownerId">Владелец: {{ listing.ownerId }}</span>
+          </div>
+          <div class="tag-row">
+            <span v-if="!listing.categories?.length" class="muted">Категории не указаны</span>
+            <span v-else v-for="cat in listing.categories" :key="cat.id" class="chip">
+              {{ cat.name }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>

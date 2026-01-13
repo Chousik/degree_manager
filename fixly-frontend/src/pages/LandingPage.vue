@@ -133,14 +133,15 @@ function formatPrice(value) {
       <p v-else-if="!products.length" class="landing-note">Подходящих предложений пока нет.</p>
 
       <div v-else class="landing-grid products">
-        <article
+        <RouterLink
           v-for="item in products"
           :key="item.id"
-          class="landing-card product"
+          class="landing-card product product-link"
+          :to="item.id ? `/catalog/${item.id}` : '/catalog'"
         >
           <div class="landing-card__product-title">{{ item.title }}</div>
           <div class="landing-card__product-price">{{ formatPrice(item.pricePerHour) }}</div>
-        </article>
+        </RouterLink>
       </div>
     </section>
 
