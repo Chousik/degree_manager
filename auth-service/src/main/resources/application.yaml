@@ -65,7 +65,7 @@ app:
   oauth2:
     success-redirect: ${OAUTH_SUCCESS_REDIRECT:http://localhost:5173}
     failure-redirect: ${OAUTH_FAILURE_REDIRECT:http://localhost:5173/login?error=oauth}
-    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174}
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174,http://localhost:5175}
 #eureka:
 #  client:
 #    register-with-eureka: true

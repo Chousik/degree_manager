@@ -1,4 +1,4 @@
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(150) NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -13,7 +13,7 @@ CREATE TABLE "user" (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE ban_list (
+CREATE TABLE IF NOT EXISTS ban_list (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     banned_user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     ban_reason VARCHAR(1000),
@@ -30,7 +30,7 @@ ALTER TABLE "user"
     ADD CONSTRAINT fk_user_last_ban
         FOREIGN KEY (last_ban) REFERENCES ban_list(id) ON DELETE SET NULL;
 
-CREATE TABLE notification (
+CREATE TABLE IF NOT EXISTS notification (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     type VARCHAR(50),
@@ -40,7 +40,7 @@ CREATE TABLE notification (
 );
 CREATE INDEX idx_notification_user_id ON notification(user_id);
 
-CREATE TABLE blacklist (
+CREATE TABLE IF NOT EXISTS blacklist (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     owner_id UUID REFERENCES "user"(id) ON DELETE CASCADE,
     blocked_user_id UUID REFERENCES "user"(id) ON DELETE CASCADE,
@@ -49,7 +49,7 @@ CREATE TABLE blacklist (
 CREATE INDEX idx_blacklist_owner ON blacklist(owner_id);
 CREATE INDEX idx_blacklist_blocked ON blacklist(blocked_user_id);
 
-CREATE TABLE listing (
+CREATE TABLE IF NOT EXISTS listing (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     owner_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     title VARCHAR(500) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE listing (
 CREATE INDEX idx_listing_owner_id ON listing(owner_id);
 CREATE INDEX idx_listing_status ON listing(status);
 
-CREATE TABLE listing_photo (
+CREATE TABLE IF NOT EXISTS listing_photo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     listing_id UUID REFERENCES listing(id) ON DELETE CASCADE,
     url VARCHAR(255) NOT NULL,
@@ -75,20 +75,20 @@ CREATE TABLE listing_photo (
 );
 CREATE INDEX idx_listing_photo_listing_id ON listing_photo(listing_id);
 
-CREATE TABLE category (
+CREATE TABLE IF NOT EXISTS category (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     parent_id UUID REFERENCES category(id) ON DELETE SET NULL,
     name VARCHAR(100) NOT NULL,
     url_name VARCHAR(100) UNIQUE
 );
 
-CREATE TABLE listing_category (
+CREATE TABLE IF NOT EXISTS listing_category (
     listing_id UUID REFERENCES listing(id) ON DELETE CASCADE,
     category_id UUID REFERENCES category(id) ON DELETE CASCADE,
     PRIMARY KEY (listing_id, category_id)
 );
 
-CREATE TABLE favorite (
+CREATE TABLE IF NOT EXISTS favorite (
     user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     listing_id UUID NOT NULL REFERENCES listing(id) ON DELETE CASCADE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
@@ -96,7 +96,7 @@ CREATE TABLE favorite (
 );
 CREATE INDEX idx_favorite_listing ON favorite(listing_id);
 
-CREATE TABLE availability_slot (
+CREATE TABLE IF NOT EXISTS availability_slot (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     listing_id UUID NOT NULL REFERENCES listing(id) ON DELETE CASCADE,
     starts_at TIMESTAMPTZ NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE availability_slot (
 CREATE INDEX idx_av_slot_listing ON availability_slot(listing_id);
 CREATE INDEX idx_av_slot_range ON availability_slot(starts_at, ends_at);
 
-CREATE TABLE rental (
+CREATE TABLE IF NOT EXISTS rental (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     listing_id UUID NOT NULL REFERENCES listing(id) ON DELETE CASCADE,
     lessor_id UUID REFERENCES "user"(id),
@@ -122,7 +122,7 @@ CREATE INDEX idx_rental_status ON rental(status);
 CREATE INDEX idx_rental_listing_start_end ON rental(listing_id, start_at, end_at);
 CREATE INDEX idx_rental_start_end ON rental(start_at, end_at);
 
-CREATE TABLE contract (
+CREATE TABLE IF NOT EXISTS contract (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     rental_id UUID REFERENCES rental(id) ON DELETE CASCADE,
     status VARCHAR(30),
@@ -132,7 +132,7 @@ CREATE TABLE contract (
 );
 CREATE INDEX idx_contract_rental ON contract(rental_id);
 
-CREATE TABLE payment (
+CREATE TABLE IF NOT EXISTS payment (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     rental_id UUID REFERENCES rental(id) ON DELETE CASCADE,
     amount DECIMAL(38,10) NOT NULL,
@@ -146,7 +146,7 @@ CREATE TABLE payment (
 );
 CREATE INDEX idx_payment_rental ON payment(rental_id);
 
-CREATE TABLE notification_preference (
+CREATE TABLE IF NOT EXISTS notification_preference (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL UNIQUE REFERENCES "user"(id) ON DELETE CASCADE,
     system_notifications BOOLEAN,
@@ -156,7 +156,7 @@ CREATE TABLE notification_preference (
     updated_at TIMESTAMPTZ
 );
 
-CREATE TABLE support_ticket (
+CREATE TABLE IF NOT EXISTS support_ticket (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     requester_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     rental_id UUID REFERENCES rental(id) ON DELETE SET NULL,
@@ -169,7 +169,7 @@ CREATE TABLE support_ticket (
 );
 CREATE INDEX idx_support_ticket_status ON support_ticket(status);
 
-CREATE TABLE review (
+CREATE TABLE IF NOT EXISTS review (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     lessor_id UUID REFERENCES "user"(id) ON DELETE SET NULL,
     lessee_id UUID REFERENCES "user"(id) ON DELETE SET NULL,
@@ -187,14 +187,14 @@ CREATE INDEX idx_review_lessor ON review(lessor_id);
 CREATE INDEX idx_review_lessee ON review(lessee_id);
 CREATE INDEX idx_review_listing ON review(listing_id);
 
-CREATE TABLE conversation (
+CREATE TABLE IF NOT EXISTS conversation (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     rental_id UUID NOT NULL REFERENCES rental(id) ON DELETE CASCADE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX idx_conversation_rental ON conversation(rental_id);
 
-CREATE TABLE conversation_pair (
+CREATE TABLE IF NOT EXISTS conversation_pair (
     conversation_id UUID NOT NULL REFERENCES conversation(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -202,7 +202,7 @@ CREATE TABLE conversation_pair (
 );
 CREATE INDEX idx_convpair_user ON conversation_pair(user_id);
 
-CREATE TABLE message (
+CREATE TABLE IF NOT EXISTS message (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     conversation_id UUID NOT NULL REFERENCES conversation(id) ON DELETE CASCADE,
     sender_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
@@ -213,7 +213,7 @@ CREATE TABLE message (
 CREATE INDEX idx_message_conversation ON message(conversation_id);
 CREATE INDEX idx_message_sender ON message(sender_id);
 
-CREATE TABLE report (
+CREATE TABLE IF NOT EXISTS report (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     reporter_id UUID REFERENCES "user"(id) ON DELETE SET NULL,
     status VARCHAR(30) DEFAULT 'OPEN',
@@ -226,7 +226,7 @@ CREATE TABLE report (
 CREATE INDEX idx_report_reporter ON report(reporter_id);
 CREATE INDEX idx_report_status ON report(status);
 
-CREATE TABLE moderation_action (
+CREATE TABLE IF NOT EXISTS moderation_action (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     report_id UUID REFERENCES report(id) ON DELETE CASCADE,
     listing_id UUID REFERENCES listing(id) ON DELETE SET NULL,
@@ -241,7 +241,7 @@ CREATE INDEX idx_modact_listing ON moderation_action(listing_id);
 CREATE INDEX idx_modact_actor ON moderation_action(actor_id);
 CREATE INDEX idx_modact_target ON moderation_action(target_user_id);
 
-CREATE TABLE notification_preference_change (
+CREATE TABLE IF NOT EXISTS notification_preference_change (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     preference_id UUID REFERENCES notification_preference(id) ON DELETE CASCADE,
     changed_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
@@ -289,4 +289,6 @@ BEGIN
     END LOOP;
 END;
 $$;
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS pg_cron;
 SELECT cron.schedule('mark_expired_rentals_hourly', '0 * * * *', $$SELECT fn_mark_expired_rentals();$$);

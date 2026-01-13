@@ -25,13 +25,13 @@ import java.util.List;
 
 @Configuration
 public class AuthorizationServerConfig {
-    @Value("${app.oauth2.success-redirect:http://localhost:5173}")
+    @Value("${app.oauth2.success-redirect:http://localhost:5175}")
     private String oauthSuccessRedirect;
 
-    @Value("${app.oauth2.failure-redirect:http://localhost:5173/auth?error=oauth}")
+    @Value("${app.oauth2.failure-redirect:http://localhost:5175/auth?error=oauth}")
     private String oauthFailureRedirect;
 
-    @Value("${app.oauth2.allowed-origins:http://localhost:5173}")
+    @Value("${app.oauth2.allowed-origins:http://localhost:5175}")
     private String allowedOrigins;
 
     @Bean
