@@ -32,6 +32,10 @@ spring:
             - Path=/auth-service/**
           filters:
             - StripPrefix=1
+        - id: minio-media
+          uri: http://localhost:9000
+          predicates:
+            - Path=/media/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 management:

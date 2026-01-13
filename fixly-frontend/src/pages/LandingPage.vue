@@ -139,6 +139,10 @@ function formatPrice(value) {
           class="landing-card product product-link"
           :to="item.id ? `/catalog/${item.id}` : '/catalog'"
         >
+          <div
+            class="landing-card__product-image"
+            :style="{ backgroundImage: `url('${item.previewPhotoUrl || '/media/basket.svg'}')` }"
+          ></div>
           <div class="landing-card__product-title">{{ item.title }}</div>
           <div class="landing-card__product-price">{{ formatPrice(item.pricePerHour) }}</div>
         </RouterLink>

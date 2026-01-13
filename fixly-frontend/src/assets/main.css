@@ -1637,7 +1637,6 @@ pre {
   width: 220px;
   height: 160px;
   border-radius: 18px;
-  background: url('/media/basket.svg') center/cover no-repeat;
   border: none;
   box-shadow: 0 16px 32px rgba(15, 23, 42, 0.2);
   display: flex;
@@ -1645,6 +1644,14 @@ pre {
   justify-content: flex-end;
   padding: 18px;
   overflow: hidden;
+}
+.landing-card__product-image {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: saturate(1.05);
 }
 .landing-card.product.product-link {
   text-decoration: none;

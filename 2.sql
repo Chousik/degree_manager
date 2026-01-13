@@ -17,6 +17,17 @@ VALUES
   ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '22222222-2222-2222-2222-222222222222', 'Перфоратор Bosch', 'Сильный, но цена указана неверно', 350.00, 2000.00, true, 'AVAILABLE', 55.7558, 37.6173, NOW() - INTERVAL '2 days', true, 'Цена в описании не совпадает'),
   ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '33333333-3333-3333-3333-333333333333', 'Пила Makita', 'Состояние сомнительное', 280.00, 1500.00, false, 'AVAILABLE', 59.9386, 30.3141, NOW() - INTERVAL '1 day', true, 'Подозрение на неисправность');
 
+-- Listing photos (MinIO: http://localhost:9000/media/)
+INSERT INTO listing_photo (listing_id, url, sort_order)
+VALUES
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'http://localhost:8075/media/232.jpg', 1),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'http://localhost:8075/media/carpentry-construction-collage-tools-underneath-wooden-planks_488220-29813.jpg', 2),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'http://localhost:8075/media/tools_909293-2254.jpg', 3),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'http://localhost:8075/media/top-view-mechanical-tools-arrangement_23-2149552411.jpg', 4),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'http://localhost:8075/media/work-tool-blue-background-hand-tool-new-set-repair-construction-overhead_771335-2453.jpg', 1),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'http://localhost:8075/media/work-tools-on-the-wooden-background_220873-8575.jpg', 2),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'http://localhost:8075/media/working-tools-repair-isolated-white_290947-962.jpg', 3);
+
 -- Rentals
 INSERT INTO rental (id, listing_id, lessor_id, lessee_id, start_at, end_at, status, total_amount)
 VALUES

@@ -8,7 +8,7 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.36/5a30490a6e14977d97d9c73c924c1f1b5311ea95/lombok-1.18.36.jar" />
         </processorPath>
-        <module name="gateway-server.main" />
+        <module name="ru.chousik.web.gateway-server.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -39,6 +39,7 @@
       <module name="auth-service.test" options="-parameters" />
       <module name="event-service" options="-parameters" />
       <module name="event-service.test" options="-parameters" />
+      <module name="gateway-server" options="-parameters" />
       <module name="ru.chousik.is.event-service.main" options="-parameters" />
       <module name="ru.chousik.is.user-service" options="-parameters" />
       <module name="ru.chousik.is.user-service.main" options="-parameters" />
@@ -47,6 +48,8 @@
       <module name="ru.chousik.web.auth-service" options="-parameters" />
       <module name="ru.chousik.web.auth-service.main" options="-parameters" />
       <module name="ru.chousik.web.auth-service.test" options="-parameters" />
+      <module name="ru.chousik.web.gateway-server.main" options="-parameters" />
+      <module name="ru.chousik.web.gateway-server.test" options="-parameters" />
       <module name="user-service" options="-parameters" />
       <module name="user-service.test" options="-parameters" />
     </option>
