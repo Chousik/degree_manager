@@ -1,0 +1,6 @@
+ALTER TABLE review
+    ADD COLUMN IF NOT EXISTS is_hidden BOOLEAN DEFAULT FALSE;
+
+UPDATE review
+SET is_hidden = FALSE
+WHERE is_hidden IS NULL;

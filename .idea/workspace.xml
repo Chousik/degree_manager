@@ -4,120 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="forgotten usname">
-      <change afterPath="$PROJECT_DIR$/2.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/AdminServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/client/UserServiceClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/config/AdminClientConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/config/UserServiceProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminBanController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminListingController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminModerationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminReportController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminReviewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/controller/AdminSupportController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/ban/BanCreateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/ban/BanLiftRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/ban/BanResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/AvailabilitySlotDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/CategorySummaryDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/ListingArchiveRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/ListingDetailDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/listing/ListingPhotoDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/moderation/FlaggedListingDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/moderation/FlaggedReviewDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/moderation/ModerationResolutionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/report/ReportResolutionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/report/ReportSummaryDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/review/ReviewDetailDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/review/ReviewHideRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/support/SupportTicketResolutionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/support/SupportTicketResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/dto/support/SupportTicketStatusRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/model/ReviewAuthorRole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/java/ru/chousik/is/admin/model/SupportTicketStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/initial/V1__seed_users_listings_with_photos.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/initial/V2__seed_categories.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/main/resources/initial/schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin-service/src/test/java/ru/chousik/is/admin/AdminServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="make full admin pannel">
+      <change afterPath="$PROJECT_DIR$/categories.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V2__add_report_targets.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V3__use_report_target_type.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V4__add_review_hidden.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/Oauth2Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/Oauth2Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/exit-CbdBGL6z.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-Cr5eIPa2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/assets/index-Dne32utM.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/stankin_logo_main_color_ru_rgb_01_1x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dist/Силаев Захар ВычМат (1).pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/postcss.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломГрибанов.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломМироненко.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСавилов.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/diplomas/ДипломСанталов.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/stankin_logo_main_color_ru_rgb_01_1x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/diploma.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/students.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/tailwind.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/teachers.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/users.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/icons/File_dock.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/icons/exit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/icons/folder-up.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/icons/user.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminPanel.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AuthorizedPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/LoginPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UploadPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkListPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/WorkPreviewPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/route.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/authStore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/dataStore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/uploadStore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/worksStore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utills/authFetch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utills/pkce.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/config/UserServiceConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/config/UserServiceConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/SupportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/SupportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/BanList.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/BanList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Listing.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Listing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Report.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/Review.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ModerationActionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ModerationActionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ReviewRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ModerationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ModerationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReputationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReputationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/SupportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/SupportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__init_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__init_schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/initial/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -622,7 +515,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745587949033</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="make full admin pannel">
+      <option name="closed" value="true" />
+      <created>1768254991464</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768254991464</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -667,7 +568,8 @@
     <MESSAGE value="Full admin panel" />
     <MESSAGE value="Full admin panelv2" />
     <MESSAGE value="forgotten usname" />
-    <option name="LAST_COMMIT_MESSAGE" value="forgotten usname" />
+    <MESSAGE value="make full admin pannel" />
+    <option name="LAST_COMMIT_MESSAGE" value="make full admin pannel" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/degree_manager$AuthServiceApplication.ic" NAME="AuthServiceApplication Coverage Results" MODIFIED="1745436192146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

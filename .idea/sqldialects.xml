@@ -11,6 +11,7 @@
     <file url="file://$PROJECT_DIR$/admin-service/src/main/resources/initial/schema.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/auth-service/src/main/resources/initial/oauth2-authorization-consent-schema.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/auth-service/src/main/resources/initial/schema.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/categories.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/cleanup_test_data.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/user-service/src/main/resources/db/migration/V1__init_schema.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/user-service/src/main/resources/db/migration/V2__add_report_targets.sql" dialect="PostgreSQL" />
