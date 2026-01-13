@@ -15,7 +15,7 @@ const notificationError = ref('');
 const updatingNotification = ref('');
 
 async function loadAccount() {
-  if (!isLoggedIn.value || !userId.value) {
+  if (!isLoggedIn.value) {
     profile.value = null;
     notifications.value = null;
     notificationError.value = '';
@@ -25,7 +25,7 @@ async function loadAccount() {
   error.value = '';
   notificationError.value = '';
   try {
-    const data = await fetchJson(`${USER_API_BASE}/account/${userId.value}`);
+    const data = await fetchJson(`${USER_API_BASE}/account/me`);
     profile.value = data?.profile ?? null;
     notifications.value = data?.notificationSettings ?? null;
   } catch (err) {
@@ -69,7 +69,7 @@ const formattedCreatedAt = computed(() => {
 });
 
 async function toggleNotification(settingKey) {
-  if (!notifications.value || !userId.value || updatingNotification.value) {
+  if (!notifications.value || updatingNotification.value) {
     return;
   }
   const currentValue = Boolean(notifications.value[settingKey]);
@@ -79,7 +79,7 @@ async function toggleNotification(settingKey) {
   notificationError.value = '';
   try {
     const payload = { [settingKey]: nextValue };
-    const response = await fetchJson(`${USER_API_BASE}/account/${userId.value}/notifications`, {
+    const response = await fetchJson(`${USER_API_BASE}/account/me/notifications`, {
       method: 'PUT',
       body: JSON.stringify(payload),
     });

@@ -10,14 +10,14 @@ const loading = ref(false);
 const error = ref('');
 
 async function loadMyListings() {
-  if (!isLoggedIn.value || !userId.value) {
+  if (!isLoggedIn.value) {
     listings.value = { active: [], archived: [] };
     return;
   }
   loading.value = true;
   error.value = '';
   try {
-    const data = await fetchJson(`${USER_API_BASE}/account/${userId.value}`);
+    const data = await fetchJson(`${USER_API_BASE}/account/me`);
     listings.value = {
       active: Array.isArray(data?.activeListings) ? data.activeListings : [],
       archived: Array.isArray(data?.archivedListings) ? data.archivedListings : [],

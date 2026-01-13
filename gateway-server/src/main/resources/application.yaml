@@ -5,6 +5,7 @@ spring:
   cloud:
     gateway:
       globalcors:
+        add-to-simple-url-handler-mapping: true
         corsConfigurations:
           '[/**]':
             allowedOrigins:
@@ -24,11 +25,23 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        - id: auth-service-login
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/**
+          filters:
+            - StripPrefix=1
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 management:
   metrics.tags.application: ${spring.application.name}
   endpoint:
     gateway:
       access: unrestricted
+    web:
+      exposure:
+        include: gateway
   endpoints:
     web:
       exposure:
@@ -43,7 +56,7 @@ management:
 #          predicates:
 #            - Path=/api/tasks/**
 server:
-  port: 8888
+  port: 8075
 eureka:
   client:
     register-with-eureka: true

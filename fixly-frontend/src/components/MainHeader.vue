@@ -268,8 +268,8 @@ async function saveCity() {
   savingCity.value = true;
   cityError.value = '';
   try {
-    if (isLoggedIn.value && userId.value) {
-      await updateCity(userId.value, nextCity);
+    if (isLoggedIn.value) {
+      await updateCity(nextCity);
       await loadCityFromServer(true);
     }
     setCity(nextCity);

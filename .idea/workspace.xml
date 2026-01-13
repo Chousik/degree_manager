@@ -5,9 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="some shit">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/scripts/seed-listings.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/scripts/seed-listings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/ListingsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/ListingsPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/state/session.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/state/session.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-server/src/main/java/ru/chousik/is/gatewayserver/config/GetAwayConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/src/main/java/ru/chousik/is/gatewayserver/config/GetAwayConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/UserAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/UserAccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/account/AccountProfileDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/account/AccountProfileDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/UserAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/UserAccountService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,8 +281,26 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
+    <option name="hiddenConfigurations">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <set>
+              <option value="AdminServiceApplication" />
+              <option value="AuthServiceApplication" />
+              <option value="EurekaServerApplication" />
+              <option value="GatewayServerApplication" />
+              <option value="GatewayServerApplication (1)" />
+              <option value="TaskServiceApplication" />
+              <option value="UserServiceApplication (1)" />
+              <option value="UserServiceApplication (2)" />
+            </set>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.TaskServiceApplication">
+  <component name="RunManager" selected="Spring Boot.GatewayServerApplication (1)">
     <configuration name="AdminServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="ru.chousik.is.admin-service.main" />
@@ -406,8 +441,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.TaskServiceApplication" />
-        <item itemvalue="Spring Boot.TaskServiceApplication" />
         <item itemvalue="Spring Boot.AdminServiceApplication" />
+        <item itemvalue="Spring Boot.TaskServiceApplication" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
       </list>

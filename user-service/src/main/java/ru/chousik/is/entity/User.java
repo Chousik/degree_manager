@@ -24,6 +24,11 @@ public class User {
     @Column(name = "email", nullable = false, length = Integer.MAX_VALUE)
     private String email;
 
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "username", nullable = false, length = 50, unique = true)
+    private String username;
+
     @Size(max = 20)
     @NotNull
     @Column(name = "name", nullable = false, length = 20)

@@ -111,6 +111,7 @@ public class UserAccountService {
         return new AccountProfileDto(
                 user.getId(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getName(),
                 user.getSurname(),
                 user.getLastName(),
@@ -147,6 +148,13 @@ public class UserAccountService {
                 preference == null || Boolean.TRUE.equals(preference.getMessageNotifications()),
                 preference == null || Boolean.TRUE.equals(preference.getPaymentNotifications())
         );
+    }
+
+    @Transactional(readOnly = true)
+    public UUID findUserIdByUsername(String username) {
+        User user = userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User %s not found".formatted(username)));
+        return user.getId();
     }
 
     private String normalizeCity(String value) {

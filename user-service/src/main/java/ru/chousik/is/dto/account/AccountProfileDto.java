@@ -7,6 +7,7 @@ import java.util.UUID;
 public record AccountProfileDto(
         UUID id,
         String email,
+        String username,
         String name,
         String surname,
         String lastName,

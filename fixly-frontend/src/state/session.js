@@ -124,14 +124,14 @@ function resetCity() {
 }
 
 async function loadCityFromServer(force = false) {
-  if (!state.currentUserId) {
+  if (!state.loggedIn) {
     return;
   }
   if (state.cityLoaded && !force) {
     return;
   }
   try {
-    const data = await getCity(state.currentUserId);
+    const data = await getCity();
     if (data?.city) {
       setCity(data.city);
     }

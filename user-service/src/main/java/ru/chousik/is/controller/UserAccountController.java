@@ -2,6 +2,9 @@ package ru.chousik.is.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.chousik.is.dto.account.*;
 import ru.chousik.is.services.UserAccountService;
@@ -15,31 +18,70 @@ public class UserAccountController {
 
     private final UserAccountService accountService;
 
-    @GetMapping("/{userId}")
-    public AccountDashboardResponse getDashboard(@PathVariable UUID userId) {
-        return accountService.getDashboard(userId);
+    @GetMapping("/{userRef}")
+    public AccountDashboardResponse getDashboard(@PathVariable String userRef,
+                                                 @AuthenticationPrincipal Jwt jwt) {
+        return accountService.getDashboard(resolveUserId(userRef, jwt));
     }
 
-    @PutMapping("/{userId}")
-    public AccountProfileDto updateProfile(@PathVariable UUID userId,
+    @PutMapping("/{userRef}")
+    public AccountProfileDto updateProfile(@PathVariable String userRef,
+                                           @AuthenticationPrincipal Jwt jwt,
                                            @Valid @RequestBody ProfileUpdateRequest request) {
-        return accountService.updateProfile(userId, request);
+        return accountService.updateProfile(resolveUserId(userRef, jwt), request);
     }
 
-    @PutMapping("/{userId}/notifications")
-    public NotificationSettingsDto updateNotifications(@PathVariable UUID userId,
+    @PutMapping("/{userRef}/notifications")
+    public NotificationSettingsDto updateNotifications(@PathVariable String userRef,
+                                                       @AuthenticationPrincipal Jwt jwt,
                                                        @Valid @RequestBody NotificationSettingsUpdateRequest request) {
-        return accountService.updateNotificationSettings(userId, request);
+        return accountService.updateNotificationSettings(resolveUserId(userRef, jwt), request);
     }
 
-    @GetMapping("/{userId}/city")
-    public CityResponse getCity(@PathVariable UUID userId) {
-        return new CityResponse(accountService.getCity(userId));
+    @GetMapping("/{userRef}/city")
+    public CityResponse getCity(@PathVariable String userRef,
+                                @AuthenticationPrincipal Jwt jwt) {
+        return new CityResponse(accountService.getCity(resolveUserId(userRef, jwt)));
     }
 
-    @PutMapping("/{userId}/city")
-    public CityResponse updateCity(@PathVariable UUID userId,
+    @PutMapping("/{userRef}/city")
+    public CityResponse updateCity(@PathVariable String userRef,
+                                   @AuthenticationPrincipal Jwt jwt,
                                    @Valid @RequestBody CityUpdateRequest request) {
-        return new CityResponse(accountService.updateCity(userId, request.city()));
+        return new CityResponse(accountService.updateCity(resolveUserId(userRef, jwt), request.city()));
+    }
+
+    private UUID resolveUserId(String userRef, Jwt jwt) {
+        if ("me".equalsIgnoreCase(userRef)) {
+            return currentUserId(jwt);
+        }
+        try {
+            return UUID.fromString(userRef);
+        } catch (IllegalArgumentException ignored) {
+            return accountService.findUserIdByUsername(userRef);
+        }
+    }
+
+    private UUID currentUserId(Jwt jwt) {
+        if (jwt == null) {
+            throw new IllegalStateException("Authentication is required");
+        }
+        String userIdClaim = jwt.getClaimAsString("user_id");
+        if (StringUtils.hasText(userIdClaim)) {
+            try {
+                return UUID.fromString(userIdClaim);
+            } catch (IllegalArgumentException ignored) {
+                // fall back to username lookup
+            }
+        }
+        String subject = jwt.getSubject();
+        if (StringUtils.hasText(subject)) {
+            try {
+                return UUID.fromString(subject);
+            } catch (IllegalArgumentException ex) {
+                return accountService.findUserIdByUsername(subject);
+            }
+        }
+        throw new IllegalStateException("Cannot resolve current user identifier");
     }
 }
