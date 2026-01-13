@@ -52,6 +52,7 @@ dependencies {
 	implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.4.2")
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
