@@ -13,14 +13,14 @@ admin:
 
 server:
   port: 8086
-#eureka:
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://localhost:8070/eureka/
-#  instance:
-#    prefer-ip-address: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    prefer-ip-address: true
 #management:
 #  endpoints.web.exposure.include: prometheus,health,info
 #  metrics.tags.application: ${spring.application.name}

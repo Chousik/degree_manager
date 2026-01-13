@@ -1,0 +1,38 @@
+keySetURI: http://localhost:8071/oauth2/jwks
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+management:
+  metrics.tags.application: ${spring.application.name}
+  endpoint:
+    gateway:
+      access: unrestricted
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,gateway,health,info
+#      routes:
+#        - id: auth-service-route
+#          uri: lb://auth-service
+#          predicates:
+#            - Path=/api/auth/**
+#        - id: task-service-route
+#          uri: lb://task-service
+#          predicates:
+#            - Path=/api/tasks/**
+server:
+  port: 8888
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+  instance:
+    prefer-ip-address: true
