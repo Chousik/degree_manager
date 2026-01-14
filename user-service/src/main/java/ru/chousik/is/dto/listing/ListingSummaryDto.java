@@ -14,6 +14,7 @@ public record ListingSummaryDto(
         ListingStatus status,
         BigDecimal latitude,
         BigDecimal longitude,
+        String address,
         String previewPhotoUrl
 ) {
 }

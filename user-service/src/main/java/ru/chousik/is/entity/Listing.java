@@ -56,6 +56,10 @@ public class Listing {
     @Column(name = "longitude", precision = 9, scale = 6)
     private BigDecimal longitude;
 
+    @Size(max = 500)
+    @Column(name = "address", length = 500)
+    private String address;
+
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
 

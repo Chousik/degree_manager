@@ -85,6 +85,7 @@ public class AdminListingService {
                 listing.getStatus(),
                 listing.getLatitude(),
                 listing.getLongitude(),
+                listing.getAddress(),
                 listing.getCreatedAt(),
                 slotDtos,
                 photoDtos,

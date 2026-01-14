@@ -64,6 +64,7 @@ public class ListingService {
         listing.setStatus(ListingStatus.AVAILABLE);
         listing.setLatitude(request.latitude());
         listing.setLongitude(request.longitude());
+        listing.setAddress(request.address());
         listing.setCreatedAt(OffsetDateTime.now());
 
         Listing savedListing = listingRepository.save(listing);
@@ -93,6 +94,7 @@ public class ListingService {
         }
         listing.setLatitude(request.latitude());
         listing.setLongitude(request.longitude());
+        listing.setAddress(request.address());
 
         Listing savedListing = listingRepository.save(listing);
 
@@ -246,6 +248,7 @@ public class ListingService {
                 listing.getStatus(),
                 listing.getLatitude(),
                 listing.getLongitude(),
+                listing.getAddress(),
                 listing.getCreatedAt(),
                 slotDtos,
                 photoDtos,

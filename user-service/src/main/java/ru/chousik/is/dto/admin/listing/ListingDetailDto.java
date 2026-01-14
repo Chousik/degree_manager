@@ -21,6 +21,7 @@ public record ListingDetailDto(
         ListingStatus status,
         BigDecimal latitude,
         BigDecimal longitude,
+        String address,
         OffsetDateTime createdAt,
         List<AvailabilitySlotDto> availabilitySlots,
         List<ListingPhotoDto> photos,

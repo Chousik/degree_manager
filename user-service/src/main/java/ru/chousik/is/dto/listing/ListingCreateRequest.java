@@ -20,6 +20,7 @@ public record ListingCreateRequest(
         Boolean autoConfirmation,
         @Digits(integer = 3, fraction = 6) BigDecimal latitude,
         @Digits(integer = 3, fraction = 6) BigDecimal longitude,
+        @Size(max = 500) String address,
         @Valid List<AvailabilitySlotRequest> availabilitySlots,
         @Valid List<ListingPhotoRequest> photos,
         List<UUID> categoryIds

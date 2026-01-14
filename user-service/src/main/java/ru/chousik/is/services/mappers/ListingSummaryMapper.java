@@ -50,6 +50,7 @@ public class ListingSummaryMapper {
                 listing.getStatus(),
                 listing.getLatitude(),
                 listing.getLongitude(),
+                listing.getAddress(),
                 previewUrl
         );
     }

@@ -18,6 +18,7 @@ const listing = reactive({
   autoConfirmation: false,
   latitude: '',
   longitude: '',
+  address: '',
   photos: [],
   categories: [],
   availabilitySlots: [],
@@ -36,11 +37,18 @@ const bookingLoading = ref(false);
 const toast = reactive({ message: '', type: 'success', visible: false });
 const errorMessage = ref('');
 const selectedPhoto = ref('');
+const isPhotoModalOpen = ref(false);
 const selectedSlotId = ref('');
 
 const formatPrice = (price) => (price ? `${Number(price).toLocaleString('ru-RU')} ₽/ч` : 'Договорная');
 const formatDeposit = (value) => (value ? `Депозит ${Number(value).toLocaleString('ru-RU')} ₽` : 'Без депозита');
-const hasCoords = () => listing.latitude && listing.longitude;
+const locationLabel = computed(() => {
+  if (listing.address) return listing.address;
+  if (listing.latitude && listing.longitude) {
+    return `${listing.latitude}, ${listing.longitude}`;
+  }
+  return '';
+});
 const hasPhotos = computed(() => Array.isArray(listing.photos) && listing.photos.length > 0);
 const sortedPhotos = computed(() => {
   if (!Array.isArray(listing.photos)) return [];
@@ -50,6 +58,13 @@ const galleryMain = computed(() => {
   if (selectedPhoto.value) return selectedPhoto.value;
   return sortedPhotos.value[0]?.url || '';
 });
+const currentPhotoIndex = computed(() => {
+  if (!sortedPhotos.value.length) return -1;
+  const matchIndex = sortedPhotos.value.findIndex((photo) => photo.url === galleryMain.value);
+  return matchIndex >= 0 ? matchIndex : 0;
+});
+const totalPhotos = computed(() => sortedPhotos.value.length);
+const photoPosition = computed(() => (currentPhotoIndex.value >= 0 ? currentPhotoIndex.value + 1 : 0));
 const formattedDate = computed(() => {
   if (!listing.createdAt) return '';
   try {
@@ -112,6 +127,23 @@ const slotLabel = (slot) => {
   const end = new Date(slot.endsAt);
   return `${start.toLocaleDateString('ru-RU')} ${start.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })} — ` +
     `${end.toLocaleDateString('ru-RU')} ${end.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`;
+};
+
+const selectPhotoByIndex = (index) => {
+  const count = sortedPhotos.value.length;
+  if (!count) return;
+  const normalized = ((index % count) + count) % count;
+  selectedPhoto.value = sortedPhotos.value[normalized].url;
+};
+
+const goNextPhoto = () => selectPhotoByIndex(currentPhotoIndex.value + 1);
+const goPrevPhoto = () => selectPhotoByIndex(currentPhotoIndex.value - 1);
+const openPhotoModal = () => {
+  if (!hasPhotos.value) return;
+  isPhotoModalOpen.value = true;
+};
+const closePhotoModal = () => {
+  isPhotoModalOpen.value = false;
 };
 
 const pickDate = (key) => {
@@ -251,7 +283,28 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
               <div v-if="!hasPhotos" class="gallery-placeholder">
                 Фото появятся позже
               </div>
-              <img v-else :src="galleryMain" :alt="listing.title" />
+              <img v-else :src="galleryMain" :alt="listing.title" @click="openPhotoModal" />
+              <button
+                v-if="hasPhotos && totalPhotos > 1"
+                type="button"
+                class="gallery-nav prev"
+                aria-label="Предыдущее фото"
+                @click="goPrevPhoto"
+              >
+                ‹
+              </button>
+              <button
+                v-if="hasPhotos && totalPhotos > 1"
+                type="button"
+                class="gallery-nav next"
+                aria-label="Следующее фото"
+                @click="goNextPhoto"
+              >
+                ›
+              </button>
+              <div v-if="hasPhotos && totalPhotos > 1" class="gallery-counter">
+                {{ photoPosition }} / {{ totalPhotos }}
+              </div>
             </div>
             <div class="gallery-thumbs" v-if="hasPhotos">
               <button
@@ -339,7 +392,7 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
           </p>
           <div class="meta-row">
             <span class="chip ghost">{{ formatDeposit(listing.depositAmount) }}</span>
-            <span class="chip ghost" v-if="hasCoords()">Локация: {{ listing.latitude }}, {{ listing.longitude }}</span>
+            <span class="chip ghost" v-if="locationLabel">Локация: {{ locationLabel }}</span>
             <span class="chip ghost" v-if="listing.ownerId">Владелец: {{ listing.ownerId }}</span>
           </div>
           <div class="tag-row">
@@ -351,5 +404,35 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
         </div>
       </div>
     </section>
+
+    <div v-if="isPhotoModalOpen" class="photo-modal" @click.self="closePhotoModal">
+      <div class="photo-modal__window">
+        <button class="photo-modal__close" type="button" aria-label="Закрыть" @click="closePhotoModal">×</button>
+        <div class="photo-modal__frame">
+          <img :src="galleryMain" :alt="listing.title" />
+        </div>
+        <div class="photo-modal__nav">
+          <button
+            v-if="totalPhotos > 1"
+            type="button"
+            class="photo-modal__button"
+            aria-label="Предыдущее фото"
+            @click="goPrevPhoto"
+          >
+            ‹ Назад
+          </button>
+          <span class="photo-modal__count">{{ photoPosition }} / {{ totalPhotos }}</span>
+          <button
+            v-if="totalPhotos > 1"
+            type="button"
+            class="photo-modal__button"
+            aria-label="Следующее фото"
+            @click="goNextPhoto"
+          >
+            Вперед ›
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
