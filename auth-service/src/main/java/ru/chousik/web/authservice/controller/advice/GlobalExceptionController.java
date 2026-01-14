@@ -23,7 +23,9 @@ public class GlobalExceptionController {
             SelfRoleModificationException.class,
             EmailExistsException.class,
             InvalidVerificationTokenException.class,
-            ExpiredVerificationTokenException.class
+            ExpiredVerificationTokenException.class,
+            InvalidTwoFactorCodeException.class,
+            MissingTwoFactorCodeException.class
     })
     public ResponseEntity<String> handleValidationError(RuntimeException ex) {
         HttpStatus status = Optional.ofNullable(

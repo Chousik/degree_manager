@@ -6,7 +6,7 @@ import { USER_API_BASE, fetchJson } from '../api/client';
 import { useSession } from '../state/session';
 
 const router = useRouter();
-const { isLoggedIn, userId } = useSession();
+const { isLoggedIn } = useSession();
 const profile = ref(null);
 const notifications = ref(null);
 const loading = ref(false);
@@ -42,7 +42,7 @@ onMounted(() => {
 });
 
 watch(
-  [() => isLoggedIn.value, () => userId.value],
+  () => isLoggedIn.value,
   () => {
     loadAccount();
   }
@@ -76,7 +76,6 @@ async function toggleNotification(settingKey) {
   const nextValue = !currentValue;
   updatingNotification.value = settingKey;
   notificationError.value = '';
-  notificationError.value = '';
   try {
     const payload = { [settingKey]: nextValue };
     const response = await fetchJson(`${USER_API_BASE}/account/me/notifications`, {
@@ -100,6 +99,10 @@ async function toggleNotification(settingKey) {
 
 function goToPasswordChange() {
   router.push('/account/password');
+}
+
+function goToTwoFactor() {
+  router.push('/account/2fa');
 }
 </script>
 
@@ -127,9 +130,10 @@ function goToPasswordChange() {
               <div class="profile-meta">Телефон: {{ profile.phone || '—' }}</div>
               <div class="profile-meta">Логин: {{ profile.username || '—' }}</div>
               <div class="profile-meta">Создан: {{ formattedCreatedAt }}</div>
-              <button type="button" class="landing-btn ghost profile-password-btn" @click="goToPasswordChange">
-                Сменить пароль
-              </button>
+              <div class="profile-actions">
+                <button type="button" class="landing-btn ghost" @click="goToPasswordChange">Сменить пароль</button>
+                <button type="button" class="landing-btn ghost" @click="goToTwoFactor">Настроить 2FA</button>
+              </div>
             </div>
             <div class="profile-stat">
               <div class="profile-stat__value">{{ profile.rating ?? '—' }}</div>
@@ -164,6 +168,5 @@ function goToPasswordChange() {
         </ul>
       </div>
     </section>
-
   </div>
 </template>

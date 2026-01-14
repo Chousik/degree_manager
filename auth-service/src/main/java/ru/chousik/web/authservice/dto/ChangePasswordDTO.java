@@ -14,4 +14,6 @@ public class ChangePasswordDTO {
     @NotBlank(message = "Необходим новый пароль.")
     @Size(min = 8, message = "Минимальная нового длина пароля 8 символов.")
     String newPassword;
+
+    String otp;
 }

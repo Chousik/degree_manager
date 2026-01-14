@@ -26,8 +26,11 @@ public class LoadDataConfig {
     @PostConstruct
     public void initial(){
         if (userRepository.getUserEntitiesByUsername("chousik").isEmpty()){
-            UserEntity user = new UserEntity("chousik", passwordEncoder.encode("chousik"),
-                    true);
+            UserEntity user = new UserEntity();
+            user.setUsername("chousik");
+            user.setPassword(passwordEncoder.encode("chousik"));
+            user.setEnabled(true);
+            user.setTwoFactorEnabled(false);
             userRepository.save(user);
 
             authoritiesRepository.save(new AuthoritiesEntity(user,

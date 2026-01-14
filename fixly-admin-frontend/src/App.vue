@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import {
   ADMIN_API_BASE,
   OAUTH_BASE,
@@ -21,7 +21,8 @@ const moderationTab = ref('open');
 const rentalTab = ref('open');
 const ticketTab = ref('open');
 
-const loginForm = reactive({ username: '', password: '' });
+const loginForm = reactive({ username: '', password: '', otp: '' });
+const needsOtp = ref(false);
 const toast = reactive({ message: '', type: 'success', visible: false });
 
 const tickets = ref([]);
@@ -130,6 +131,9 @@ const handleLogin = async () => {
     const formData = new FormData();
     formData.append('username', loginForm.username.trim());
     formData.append('password', loginForm.password);
+    if (needsOtp.value) {
+      formData.append('otp', loginForm.otp || '');
+    }
 
     const res = await fetch(`${OAUTH_BASE}/login`, {
       method: 'POST',
@@ -139,15 +143,37 @@ const handleLogin = async () => {
     });
 
     if (!res.ok) {
-      throw new Error('Неверный логин или пароль');
+      const text = (await res.text()).trim();
+      if (text === 'OTP_REQUIRED') {
+        showToast('Введите код из Google Authenticator', 'success');
+        needsOtp.value = true;
+        return;
+      }
+      if (text === 'INVALID_OTP') {
+        throw new Error('Неверный код из Google Authenticator');
+      }
+      if (text === 'BAD_CREDENTIALS') {
+        throw new Error('Неверный логин или пароль');
+      }
+      throw new Error(text || 'Неверный логин или пароль');
     }
 
     showToast('Пароль верен. Перенаправляем для получения токена...', 'success');
     window.location.href = authUrl.value;
+    needsOtp.value = false;
+    loginForm.otp = '';
   } catch (err) {
     showToast(err.message || 'Ошибка при входе', 'error');
   }
 };
+
+watch(
+  () => loginForm.username,
+  () => {
+    needsOtp.value = false;
+    loginForm.otp = '';
+  }
+);
 
 const exchangeCode = async (code) => {
   authStatus.value = 'Обмениваю код на токен...';
@@ -691,6 +717,10 @@ onMounted(async () => {
         <label>
           Пароль
           <input v-model="loginForm.password" type="password" autocomplete="current-password" required />
+        </label>
+        <label v-if="needsOtp">
+          Код из Google Authenticator
+          <input v-model="loginForm.otp" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" required />
         </label>
         <button class="btn primary" type="submit">Войти</button>
       </form>
