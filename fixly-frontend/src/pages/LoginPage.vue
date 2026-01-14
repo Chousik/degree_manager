@@ -18,7 +18,7 @@ const route = useRoute();
 
 const toast = reactive({ message: '', type: 'success', visible: false });
 const submitting = reactive({ login: false, verify: false });
-const loginForm = reactive({ username: '', password: '' });
+const loginForm = reactive({ username: '', password: '', otp: '' });
 const pendingEmail = computed(() => state.pendingEmail);
 
 const showToast = (message, type = 'success') => {
@@ -43,6 +43,7 @@ const handleLogin = async () => {
     const formData = new FormData();
     formData.append('username', loginForm.username.trim());
     formData.append('password', loginForm.password);
+    formData.append('otp', loginForm.otp || '');
 
     const res = await fetch(`${OAUTH_BASE}/login`, {
       method: 'POST',
@@ -119,6 +120,18 @@ onMounted(() => {
           autocomplete="current-password"
           required
           placeholder="••••••••"
+        >
+      </div>
+      <div class="field">
+        <label for="login-otp">Код из Google Authenticator (если включён)</label>
+        <input
+          id="login-otp"
+          v-model="loginForm.otp"
+          name="otp"
+          type="text"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          placeholder="123456"
         >
       </div>
       <button type="submit" class="btn primary" :disabled="submitting.login">

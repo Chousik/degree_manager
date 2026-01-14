@@ -1,9 +1,10 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import MainHeader from '../components/MainHeader.vue';
 import { USER_API_BASE, fetchJson } from '../api/client';
 import { useSession } from '../state/session';
+import { getTwoFactorStatus, startTwoFactorSetup, confirmTwoFactor, disableTwoFactor as disableTwoFactorApi } from '../api/twoFactor';
 
 const router = useRouter();
 const { isLoggedIn, userId } = useSession();
@@ -13,6 +14,17 @@ const loading = ref(false);
 const error = ref('');
 const notificationError = ref('');
 const updatingNotification = ref('');
+const twoFactor = reactive({
+  enabled: false,
+  loading: false,
+  setup: null,
+  qrUrl: '',
+  code: '',
+  disableCode: '',
+  error: '',
+  disableError: '',
+  showDisable: false,
+});
 
 async function loadAccount() {
   if (!isLoggedIn.value) {
@@ -37,14 +49,37 @@ async function loadAccount() {
   }
 }
 
+async function loadTwoFactorStatus() {
+  if (!isLoggedIn.value) {
+    twoFactor.enabled = false;
+    twoFactor.setup = null;
+    twoFactor.code = '';
+    twoFactor.disableCode = '';
+    twoFactor.showDisable = false;
+    return;
+  }
+  try {
+    const status = await getTwoFactorStatus();
+    twoFactor.enabled = Boolean(status?.enabled);
+    if (!twoFactor.enabled) {
+      twoFactor.showDisable = false;
+      twoFactor.disableCode = '';
+    }
+  } catch (err) {
+    // ignore
+  }
+}
+
 onMounted(() => {
   loadAccount();
+  loadTwoFactorStatus();
 });
 
 watch(
   [() => isLoggedIn.value, () => userId.value],
   () => {
     loadAccount();
+    loadTwoFactorStatus();
   }
 );
 
@@ -101,6 +136,78 @@ async function toggleNotification(settingKey) {
 function goToPasswordChange() {
   router.push('/account/password');
 }
+
+async function beginTwoFactorSetup() {
+  if (twoFactor.loading) return;
+  twoFactor.error = '';
+  twoFactor.disableError = '';
+  twoFactor.loading = true;
+  try {
+    const setup = await startTwoFactorSetup();
+    twoFactor.setup = setup;
+    twoFactor.qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(setup.otpauthUrl)}`;
+    twoFactor.code = '';
+    twoFactor.showDisable = false;
+  } catch (err) {
+    twoFactor.error = err?.message || 'Не удалось подготовить двухфакторную аутентификацию';
+  } finally {
+    twoFactor.loading = false;
+  }
+}
+
+function cancelTwoFactorSetup() {
+  twoFactor.setup = null;
+  twoFactor.qrUrl = '';
+  twoFactor.code = '';
+  twoFactor.error = '';
+}
+
+async function confirmTwoFactorCode() {
+  if (!twoFactor.code) {
+    twoFactor.error = 'Введите код из приложения';
+    return;
+  }
+  twoFactor.loading = true;
+  twoFactor.error = '';
+  try {
+    await confirmTwoFactor(twoFactor.code.trim());
+    twoFactor.enabled = true;
+    twoFactor.setup = null;
+    twoFactor.qrUrl = '';
+    twoFactor.code = '';
+    await loadTwoFactorStatus();
+  } catch (err) {
+    twoFactor.error = err?.message || 'Код не подошёл, попробуйте снова';
+  } finally {
+    twoFactor.loading = false;
+  }
+}
+
+function toggleDisableTwoFactor() {
+  twoFactor.showDisable = !twoFactor.showDisable;
+  twoFactor.disableError = '';
+  twoFactor.disableCode = '';
+}
+
+async function disableTwoFactor() {
+  if (!twoFactor.disableCode) {
+    twoFactor.disableError = 'Укажите код из приложения';
+    return;
+  }
+  twoFactor.loading = true;
+  twoFactor.disableError = '';
+  try {
+    await disableTwoFactorApi(twoFactor.disableCode.trim());
+    twoFactor.enabled = false;
+    twoFactor.showDisable = false;
+    twoFactor.disableCode = '';
+    await loadTwoFactorStatus();
+  } catch (err) {
+    twoFactor.disableError = err?.message || 'Не удалось отключить 2FA';
+  } finally {
+    twoFactor.loading = false;
+  }
+}
 </script>
 
 <template>
@@ -130,10 +237,55 @@ function goToPasswordChange() {
               <button type="button" class="landing-btn ghost profile-password-btn" @click="goToPasswordChange">
                 Сменить пароль
               </button>
+              <div class="twofactor-actions">
+                <p class="twofactor-status">
+                  Двухфакторная аутентификация:
+                  <span :class="twoFactor.enabled ? 'status-on' : 'status-off'">
+                    {{ twoFactor.enabled ? 'Включена' : 'Выключена' }}
+                  </span>
+                </p>
+                <button
+                  type="button"
+                  class="landing-btn ghost"
+                  :disabled="twoFactor.loading"
+                  @click="twoFactor.enabled ? toggleDisableTwoFactor() : beginTwoFactorSetup()"
+                >
+                  {{ twoFactor.enabled ? (twoFactor.showDisable ? 'Скрыть форму отключения' : 'Отключить 2FA') : 'Включить 2FA' }}
+                </button>
+              </div>
             </div>
             <div class="profile-stat">
               <div class="profile-stat__value">{{ profile.rating ?? '—' }}</div>
               <div class="profile-stat__label">Рейтинг</div>
+            </div>
+          </div>
+          <div v-if="twoFactor.error" class="dashboard-note error">{{ twoFactor.error }}</div>
+          <div v-if="twoFactor.setup" class="twofactor-setup">
+            <p>Сканируйте QR-код в Google Authenticator или введите ключ вручную: <strong>{{ twoFactor.setup.secret }}</strong></p>
+            <img :src="twoFactor.qrUrl" alt="QR-код для двухфакторной аутентификации" class="twofactor-qr">
+            <label>
+              Код подтверждения
+              <input v-model="twoFactor.code" type="text" inputmode="numeric" placeholder="123456" />
+            </label>
+            <div class="twofactor-buttons">
+              <button type="button" class="landing-btn primary" :disabled="twoFactor.loading" @click="confirmTwoFactorCode">
+                Подтвердить
+              </button>
+              <button type="button" class="landing-btn ghost" @click="cancelTwoFactorSetup">Отмена</button>
+            </div>
+          </div>
+          <div v-else-if="twoFactor.enabled && twoFactor.showDisable" class="twofactor-setup">
+            <p>Введите текущий код из приложения, чтобы отключить 2FA</p>
+            <label>
+              Код подтверждения
+              <input v-model="twoFactor.disableCode" type="text" inputmode="numeric" placeholder="123456" />
+            </label>
+            <p v-if="twoFactor.disableError" class="dashboard-note error">{{ twoFactor.disableError }}</p>
+            <div class="twofactor-buttons">
+              <button type="button" class="landing-btn danger" :disabled="twoFactor.loading" @click="disableTwoFactor">
+                Отключить 2FA
+              </button>
+              <button type="button" class="landing-btn ghost" @click="toggleDisableTwoFactor">Отмена</button>
             </div>
           </div>
         </div>

@@ -16,7 +16,6 @@ import lombok.experimental.FieldDefaults;
         include = JsonTypeInfo.As.PROPERTY,
         property = "@class"
 )
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -29,4 +28,10 @@ public class UserEntity {
 
     @NotNull
     Boolean enabled;
+
+    @Column(name = "two_factor_enabled", nullable = false)
+    Boolean twoFactorEnabled = Boolean.FALSE;
+
+    @Column(name = "two_factor_secret")
+    String twoFactorSecret;
 }

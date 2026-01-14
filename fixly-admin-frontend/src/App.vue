@@ -21,7 +21,7 @@ const moderationTab = ref('open');
 const rentalTab = ref('open');
 const ticketTab = ref('open');
 
-const loginForm = reactive({ username: '', password: '' });
+const loginForm = reactive({ username: '', password: '', otp: '' });
 const toast = reactive({ message: '', type: 'success', visible: false });
 
 const tickets = ref([]);
@@ -130,6 +130,7 @@ const handleLogin = async () => {
     const formData = new FormData();
     formData.append('username', loginForm.username.trim());
     formData.append('password', loginForm.password);
+    formData.append('otp', loginForm.otp || '');
 
     const res = await fetch(`${OAUTH_BASE}/login`, {
       method: 'POST',
@@ -691,6 +692,10 @@ onMounted(async () => {
         <label>
           Пароль
           <input v-model="loginForm.password" type="password" autocomplete="current-password" required />
+        </label>
+        <label>
+          Код из Google Authenticator
+          <input v-model="loginForm.otp" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" />
         </label>
         <button class="btn primary" type="submit">Войти</button>
       </form>

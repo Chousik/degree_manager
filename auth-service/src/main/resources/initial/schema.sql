@@ -2,7 +2,9 @@
 CREATE TABLE IF NOT EXISTS users (
                                      username VARCHAR(50) NOT NULL PRIMARY KEY,
                                      password VARCHAR(100) NOT NULL,
-                                     enabled BOOLEAN NOT NULL
+                                     enabled BOOLEAN NOT NULL,
+                                     two_factor_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+                                     two_factor_secret VARCHAR(100)
 );
 CREATE TABLE IF NOT EXISTS authorities (
                                            username VARCHAR(50) NOT NULL,

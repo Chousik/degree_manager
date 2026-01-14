@@ -19,6 +19,14 @@ import ru.chousik.web.authservice.repository.AuthoritiesRepository;
 import ru.chousik.web.authservice.repository.UserRepository;
 import ru.chousik.web.authservice.security.DegreeUserDetailServices;
 import ru.chousik.web.authservice.services.AccountService;
+import dev.samstevens.totp.code.CodeGenerator;
+import dev.samstevens.totp.code.CodeVerifier;
+import dev.samstevens.totp.code.DefaultCodeGenerator;
+import dev.samstevens.totp.code.DefaultCodeVerifier;
+import dev.samstevens.totp.code.HashingAlgorithm;
+import dev.samstevens.totp.secret.DefaultSecretGenerator;
+import dev.samstevens.totp.secret.SecretGenerator;
+import dev.samstevens.totp.time.SystemTimeProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -59,5 +67,16 @@ public class ToolsConfig {
                     "email"
             );
         };
+    }
+
+    @Bean
+    public SecretGenerator secretGenerator() {
+        return new DefaultSecretGenerator();
+    }
+
+    @Bean
+    public CodeVerifier codeVerifier() {
+        CodeGenerator generator = new DefaultCodeGenerator(HashingAlgorithm.SHA1);
+        return new DefaultCodeVerifier(generator, new SystemTimeProvider());
     }
 }

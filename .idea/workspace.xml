@@ -6,12 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="some shit">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2.sql" beforeDir="false" afterPath="$PROJECT_DIR$/2.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/LandingPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/AuthorizationServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/AuthorizationServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/LoadDataConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/ToolsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/ToolsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/controller/advice/GlobalExceptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/controller/advice/GlobalExceptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/dto/ChangePasswordDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/dto/ChangePasswordDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/services/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/services/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/initial/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/initial/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-admin-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-admin-frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/ChangePasswordPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/ChangePasswordPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/LoginPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,6 +205,7 @@
     "Spring Boot.EurekaServerApplication (1).executor": "Run",
     "Spring Boot.EurekaServerApplication.executor": "Run",
     "Spring Boot.GatewayServerApplication (1).executor": "Run",
+    "Spring Boot.GatewayServerApplication (2).executor": "Run",
     "Spring Boot.GatewayServerApplication.executor": "Run",
     "Spring Boot.TaskServiceApplication (1).executor": "Run",
     "Spring Boot.TaskServiceApplication (2).executor": "Run",
@@ -269,22 +279,8 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
-    <option name="configurationStatuses">
-      <map>
-        <entry key="SpringBootApplicationConfigurationType">
-          <value>
-            <map>
-              <entry key="AdminServiceApplication" value="STOPPED" />
-              <entry key="AuthServiceApplication" value="STOPPED" />
-              <entry key="GatewayServerApplication (1)" value="STOPPED" />
-              <entry key="UserServiceApplication (1)" value="STOPPED" />
-            </map>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.TaskServiceApplication (1)">
+  <component name="RunManager" selected="Spring Boot.UserServiceApplication (1)">
     <configuration name="AdminServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="admin-service.main" />
@@ -337,6 +333,19 @@
     <configuration name="GatewayServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="ru.chousik.web.gateway-server.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.gatewayserver.GatewayServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayServerApplication (2)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="gateway-server.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.gatewayserver.GatewayServerApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.chousik.is.gatewayserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -409,21 +418,7 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml.minio: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="services">
-            <list>
-              <option value="minio" />
-            </list>
-          </option>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
       <item itemvalue="Spring Boot.EurekaServerApplication (1)" />
       <item itemvalue="Spring Boot.GatewayServerApplication (1)" />
       <item itemvalue="Spring Boot.UserServiceApplication (1)" />
@@ -431,6 +426,7 @@
       <item itemvalue="Spring Boot.AuthServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
+      <item itemvalue="Spring Boot.GatewayServerApplication (2)" />
       <item itemvalue="Spring Boot.AdminServiceApplication (1)" />
       <item itemvalue="Spring Boot.TaskServiceApplication (1)" />
       <item itemvalue="Spring Boot.TaskServiceApplication" />
@@ -438,10 +434,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.GatewayServerApplication (2)" />
         <item itemvalue="Spring Boot.TaskServiceApplication (1)" />
         <item itemvalue="Spring Boot.AdminServiceApplication (1)" />
         <item itemvalue="Spring Boot.AdminServiceApplication" />
-        <item itemvalue="Spring Boot.TaskServiceApplication" />
         <item itemvalue="Spring Boot.TaskServiceApplication" />
       </list>
     </recent_temporary>
@@ -642,8 +638,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/AuthorizationServerConfig.java</url>
-          <line>122</line>
+          <line>165</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/AuthServiceApplication.java</url>
+          <line>6</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,21 +1,33 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import MainHeader from '../components/MainHeader.vue';
 import { API_BASE, fetchJson } from '../api/client';
 import { useSession } from '../state/session';
+import { getTwoFactorStatus } from '../api/twoFactor';
 
 const router = useRouter();
 const { isLoggedIn } = useSession();
 
-const form = ref({ current: '', next: '', confirm: '' });
+const form = ref({ current: '', next: '', confirm: '', otp: '' });
 const error = ref('');
 const success = ref('');
 const loading = ref(false);
+const twoFactorEnabled = ref(false);
 
 function resetForm() {
-  form.value = { current: '', next: '', confirm: '' };
+  form.value = { current: '', next: '', confirm: '', otp: '' };
 }
+
+onMounted(async () => {
+  if (!isLoggedIn.value) return;
+  try {
+    const status = await getTwoFactorStatus();
+    twoFactorEnabled.value = Boolean(status?.enabled);
+  } catch (err) {
+    twoFactorEnabled.value = false;
+  }
+});
 
 async function handleSubmit() {
   if (loading.value) {
@@ -23,7 +35,7 @@ async function handleSubmit() {
   }
   error.value = '';
   success.value = '';
-  const { current, next: nextPassword, confirm } = form.value;
+  const { current, next: nextPassword, confirm, otp } = form.value;
   if (!current || !nextPassword || !confirm) {
     error.value = 'Заполните все поля формы';
     return;
@@ -36,11 +48,15 @@ async function handleSubmit() {
     error.value = 'Новый пароль и подтверждение не совпадают';
     return;
   }
+  if (twoFactorEnabled.value && !otp) {
+    error.value = 'Введите код из приложения Google Authenticator';
+    return;
+  }
   loading.value = true;
   try {
     await fetchJson(`${API_BASE}/api/account/password`, {
       method: 'POST',
-      body: JSON.stringify({ oldPassword: current, newPassword: nextPassword }),
+      body: JSON.stringify({ oldPassword: current, newPassword: nextPassword, otp: twoFactorEnabled.value ? otp : undefined }),
     });
     success.value = 'Пароль успешно обновлён';
     resetForm();
@@ -97,6 +113,17 @@ function goBack() {
                 name="confirmPassword"
                 autocomplete="new-password"
                 placeholder="Повторите новый пароль"
+                required
+              >
+            </label>
+            <label v-if="twoFactorEnabled">
+              Код из приложения
+              <input
+                v-model="form.otp"
+                type="text"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                placeholder="123456"
                 required
               >
             </label>

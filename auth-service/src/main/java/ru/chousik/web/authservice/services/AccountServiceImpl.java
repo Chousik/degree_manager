@@ -38,6 +38,7 @@ public class AccountServiceImpl implements AccountService {
     final EmailVerificationTokenRepository emailVerificationTokenRepository;
     final PasswordEncoder passwordEncoder;
     final EmailService emailService;
+    final TwoFactorService twoFactorService;
 
     @Value("${app.email-verification.expiration-hours:24}")
     long verificationExpirationHours;
@@ -52,9 +53,11 @@ public class AccountServiceImpl implements AccountService {
             throw new EmailExistsException(dto.getEmail());
         }
 
-        UserEntity user = new UserEntity(dto.getUsername(),
-                passwordEncoder.encode(dto.getPassword()),
-                false);
+        UserEntity user = new UserEntity();
+        user.setUsername(dto.getUsername());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setEnabled(false);
+        user.setTwoFactorEnabled(false);
         user = userRepository.save(user);
 
         authoritiesRepository.save(new AuthoritiesEntity(user, "ROLE_USER"));
@@ -121,7 +124,11 @@ public class AccountServiceImpl implements AccountService {
 
         UserEntity user = userRepository.getUserEntitiesByUsername(email).orElse(null);
         if (Objects.isNull(user)) {
-            user = new UserEntity(email, passwordEncoder.encode(UUID.randomUUID().toString()), true);
+            user = new UserEntity();
+            user.setUsername(email);
+            user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+            user.setEnabled(true);
+            user.setTwoFactorEnabled(false);
             userRepository.saveAndFlush(user);
             authoritiesRepository.save(new AuthoritiesEntity(user, "ROLE_USER"));
 
@@ -159,6 +166,8 @@ public class AccountServiceImpl implements AccountService {
         if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())){
             throw new IncorrectOldPasswordException();
         }
+
+        twoFactorService.requireValidCodeForAction(user, dto.getOtp());
 
         changePassword(username,
                 passwordEncoder.encode(dto.getNewPassword()));
