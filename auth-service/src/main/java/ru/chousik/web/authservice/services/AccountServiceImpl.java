@@ -169,8 +169,7 @@ public class AccountServiceImpl implements AccountService {
 
         twoFactorService.requireValidCodeForAction(user, dto.getOtp());
 
-        changePassword(username,
-                passwordEncoder.encode(dto.getNewPassword()));
+        changePassword(username, dto.getNewPassword());
     }
 
     @Override
@@ -179,17 +178,16 @@ public class AccountServiceImpl implements AccountService {
             throw new UserNotFoundException(username);
         }
 
-        changePassword(username,
-                passwordEncoder.encode(dto.getPassword()));
+        changePassword(username, dto.getPassword());
     }
 
-    private void changePassword(String username, String password){
-        if (!(passwordEncoder.matches(userRepository.getPasswordByUsername(username),
-                password))){
+    private void changePassword(String username, String rawNewPassword){
+        String currentHashed = userRepository.getPasswordByUsername(username);
+        if (passwordEncoder.matches(rawNewPassword, currentHashed)){
             throw new PasswordReuseException();
         }
 
-        userRepository.updatePasswordByUsername(passwordEncoder.encode(password),
+        userRepository.updatePasswordByUsername(passwordEncoder.encode(rawNewPassword),
                 username);
     }
 

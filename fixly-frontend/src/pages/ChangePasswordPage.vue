@@ -54,14 +54,19 @@ async function handleSubmit() {
   }
   loading.value = true;
   try {
-    await fetchJson(`${API_BASE}/api/account/password`, {
+    const payload = { oldPassword: current, newPassword: nextPassword };
+    if (twoFactorEnabled.value) {
+      payload.otp = otp;
+    }
+    await fetchJson(`${API_BASE}/api/users/password`, {
       method: 'POST',
-      body: JSON.stringify({ oldPassword: current, newPassword: nextPassword, otp: twoFactorEnabled.value ? otp : undefined }),
+      body: JSON.stringify(payload),
     });
     success.value = 'Пароль успешно обновлён';
     resetForm();
   } catch (err) {
-    error.value = err?.message || 'Не удалось сменить пароль';
+    const message = err?.message || 'Не удалось сменить пароль';
+    error.value = message;
   } finally {
     loading.value = false;
   }

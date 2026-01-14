@@ -12,6 +12,7 @@ import ru.chousik.web.authservice.dto.TwoFactorSetupResponse;
 import ru.chousik.web.authservice.dto.TwoFactorStatusResponse;
 import ru.chousik.web.authservice.entity.UserEntity;
 import ru.chousik.web.authservice.exception.InvalidTwoFactorCodeException;
+import ru.chousik.web.authservice.exception.MissingTwoFactorCodeException;
 import ru.chousik.web.authservice.repository.UserRepository;
 
 import java.net.URLEncoder;
@@ -69,6 +70,9 @@ public class TwoFactorService {
         if (!Boolean.TRUE.equals(user.getTwoFactorEnabled())) {
             return;
         }
+        if (!StringUtils.hasText(code)) {
+            throw new MissingTwoFactorCodeException();
+        }
         if (!isCodeValid(user, code)) {
             throw new InvalidTwoFactorCodeException();
         }
@@ -77,6 +81,9 @@ public class TwoFactorService {
     public void requireCodeForLogin(UserEntity user, String code) {
         if (!Boolean.TRUE.equals(user.getTwoFactorEnabled())) {
             return;
+        }
+        if (!StringUtils.hasText(code)) {
+            throw new BadCredentialsException("OTP_REQUIRED");
         }
         if (!isCodeValid(user, code)) {
             throw new BadCredentialsException("INVALID_OTP");

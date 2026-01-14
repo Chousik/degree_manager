@@ -24,5 +24,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
     @Transactional
     void deleteByUsername(String username);
 
-    String getPasswordByUsername(java.lang.String username);
+    @Query("select u.password from UserEntity u where u.username = :username")
+    String getPasswordByUsername(@Param("username") String username);
 }

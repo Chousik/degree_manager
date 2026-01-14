@@ -26,6 +26,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -139,9 +140,14 @@ public class AuthorizationServerConfig {
         return (request, response, exception) -> {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            String message = "Неверный логин или пароль";
-            if (exception != null && "INVALID_OTP".equals(exception.getMessage())) {
-                message = "Требуется корректный код двухфакторной аутентификации";
+            response.setCharacterEncoding(java.nio.charset.StandardCharsets.UTF_8.name());
+            String message = "BAD_CREDENTIALS";
+            if (exception != null) {
+                if ("OTP_REQUIRED".equals(exception.getMessage())) {
+                    message = "OTP_REQUIRED";
+                } else if ("INVALID_OTP".equals(exception.getMessage())) {
+                    message = "INVALID_OTP";
+                }
             }
             response.getWriter().write(message);
         };

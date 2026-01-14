@@ -84,6 +84,13 @@ async function loadProducts() {
   }
 }
 
+function filterByCategory(categoryId) {
+  router.push({
+    path: '/catalog',
+    query: categoryId ? { category: categoryId } : undefined,
+  });
+}
+
 function formatPrice(value) {
   if (!value && value !== 0) {
     return 'Цена по запросу';
@@ -115,13 +122,15 @@ function formatPrice(value) {
       <p v-else-if="!categories.length" class="landing-note">Категории скоро появятся.</p>
 
       <div v-else class="landing-grid categories">
-        <article
+        <button
           v-for="category in categories"
           :key="category.id"
-          class="landing-card category"
+          class="landing-card category category-button"
+          type="button"
+          @click="filterByCategory(category.id)"
         >
-          <div class="landing-card__category-name">{{ category.name }}</div>
-        </article>
+          <span class="landing-card__category-name">{{ category.name }}</span>
+        </button>
       </div>
     </section>
 

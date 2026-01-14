@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.chousik.web.authservice.dto.AdminChangePasswordDTO;
 import ru.chousik.web.authservice.dto.ChangePasswordDTO;
@@ -74,12 +76,12 @@ public class AccountController {
             @ApiResponse(responseCode = "401", description = "Не пройдена авторизация.")
     })
     public ResponseEntity<?> changeOwnPassword(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal Jwt jwt,
             @Parameter(name = "changePasswordDTO",
                     description = "Содержит старый и новый пароль.")
             @RequestBody
             @Valid ChangePasswordDTO dto){
-        accountServiceImpl.changeOwnPassword(userDetails.getUsername(), dto);
+        accountServiceImpl.changeOwnPassword(resolveUsername(jwt), dto);
         return ResponseEntity.noContent().build();
     }
 
@@ -177,5 +179,24 @@ public class AccountController {
     @GetMapping
     public List<UserDTO> getUsers(){
         return accountServiceImpl.getUsers();
+    }
+
+    private String resolveUsername(Jwt jwt) {
+        if (jwt == null) {
+            throw new IllegalStateException("Authentication required");
+        }
+        String preferred = jwt.getClaimAsString("preferred_username");
+        if (StringUtils.hasText(preferred)) {
+            return preferred;
+        }
+        String subject = jwt.getSubject();
+        if (StringUtils.hasText(subject)) {
+            return subject;
+        }
+        String claimUser = jwt.getClaimAsString("user_name");
+        if (StringUtils.hasText(claimUser)) {
+            return claimUser;
+        }
+        throw new IllegalStateException("Unable to resolve username from token");
     }
 }

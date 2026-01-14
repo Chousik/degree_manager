@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import {
   API_BASE,
@@ -19,6 +19,7 @@ const route = useRoute();
 const toast = reactive({ message: '', type: 'success', visible: false });
 const submitting = reactive({ login: false, verify: false });
 const loginForm = reactive({ username: '', password: '', otp: '' });
+const needsOtp = ref(false);
 const pendingEmail = computed(() => state.pendingEmail);
 
 const showToast = (message, type = 'success') => {
@@ -43,7 +44,9 @@ const handleLogin = async () => {
     const formData = new FormData();
     formData.append('username', loginForm.username.trim());
     formData.append('password', loginForm.password);
-    formData.append('otp', loginForm.otp || '');
+    if (needsOtp.value) {
+      formData.append('otp', loginForm.otp || '');
+    }
 
     const res = await fetch(`${OAUTH_BASE}/login`, {
       method: 'POST',
@@ -53,11 +56,28 @@ const handleLogin = async () => {
     });
 
     if (!res.ok) {
-      throw new Error('Неверный логин или пароль или email ещё не подтверждён');
+      const text = (await res.text()).trim();
+      if (text === 'OTP_REQUIRED') {
+        needsOtp.value = true;
+        showToast('Введите код из Google Authenticator', 'success');
+        submitting.login = false;
+        return;
+      }
+      if (text === 'INVALID_OTP') {
+        showToast('Неверный код из приложения. Попробуйте снова.', 'error');
+        submitting.login = false;
+        return;
+      }
+      if (text === 'BAD_CREDENTIALS') {
+        throw new Error('Неверный логин или пароль или email ещё не подтверждён');
+      }
+      throw new Error(text || 'Неверный логин или пароль или email ещё не подтверждён');
     }
 
     showToast('Пароль верен. Перенаправляем для получения токена...', 'success');
     window.location.href = authUrl.value;
+    needsOtp.value = false;
+    loginForm.otp = '';
   } catch (err) {
     showToast(err.message || 'Ошибка при входе', 'error');
   } finally {
@@ -93,6 +113,14 @@ onMounted(() => {
     verifyEmail(token);
   }
 });
+
+watch(
+  () => loginForm.username,
+  () => {
+    needsOtp.value = false;
+    loginForm.otp = '';
+  }
+);
 </script>
 
 <template>
@@ -122,8 +150,8 @@ onMounted(() => {
           placeholder="••••••••"
         >
       </div>
-      <div class="field">
-        <label for="login-otp">Код из Google Authenticator (если включён)</label>
+      <div v-if="needsOtp" class="field">
+        <label for="login-otp">Код из Google Authenticator</label>
         <input
           id="login-otp"
           v-model="loginForm.otp"
@@ -132,6 +160,7 @@ onMounted(() => {
           inputmode="numeric"
           autocomplete="one-time-code"
           placeholder="123456"
+          required
         >
       </div>
       <button type="submit" class="btn primary" :disabled="submitting.login">

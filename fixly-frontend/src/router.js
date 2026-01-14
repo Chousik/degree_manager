@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage.vue';
 import RegisterPage from './pages/RegisterPage.vue';
 import LandingPage from './pages/LandingPage.vue';
 import ListingsPage from './pages/ListingsPage.vue';
+import SearchPage from './pages/SearchPage.vue';
 import NewListingPage from './pages/NewListingPage.vue';
 import PublicListingsPage from './pages/PublicListingsPage.vue';
 import AuthCallback from './pages/AuthCallback.vue';
@@ -11,6 +12,7 @@ import FavoritesPage from './pages/FavoritesPage.vue';
 import FavoritesLandingPage from './pages/FavoritesLandingPage.vue';
 import ListingDetailPage from './pages/ListingDetailPage.vue';
 import AccountPage from './pages/AccountPage.vue';
+import TwoFactorPage from './pages/TwoFactorPage.vue';
 import ChangePasswordPage from './pages/ChangePasswordPage.vue';
 import CommunicationPage from './pages/CommunicationPage.vue';
 import ModerationPage from './pages/ModerationPage.vue';
@@ -20,6 +22,7 @@ import { useSession } from './state/session';
 
 const routes = [
   { path: '/', component: LandingPage, meta: { landingPage: true } },
+  { path: '/search', component: SearchPage, meta: { standalone: true } },
   { path: '/catalog', component: PublicListingsPage, meta: { requiresAuth: true } },
   { path: '/catalog/:id', component: ListingDetailPage, meta: { requiresAuth: true } },
   { path: '/login', component: LoginPage, meta: { guestOnly: true, authPage: true } },
@@ -31,6 +34,7 @@ const routes = [
   { path: '/rentals', component: RentalsPage, meta: { requiresAuth: true } },
   { path: '/favorites', component: FavoritesLandingPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/account', component: AccountPage, meta: { requiresAuth: true, standalone: true } },
+  { path: '/account/2fa', component: TwoFactorPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/account/password', component: ChangePasswordPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/communication', component: CommunicationPage, meta: { requiresAuth: true } },
   { path: '/moderation', component: ModerationPage, meta: { requiresAuth: true } },
