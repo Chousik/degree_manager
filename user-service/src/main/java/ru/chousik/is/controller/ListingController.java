@@ -118,4 +118,18 @@ public class ListingController {
         listingService.deleteListing(listingId, ownerId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{listingId}/archive")
+    public ResponseEntity<ListingResponse> archiveListing(@PathVariable UUID listingId,
+                                                          @RequestParam UUID ownerId) {
+        ListingResponse response = listingService.archiveListing(listingId, ownerId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{listingId}/unarchive")
+    public ResponseEntity<ListingResponse> unarchiveListing(@PathVariable UUID listingId,
+                                                            @RequestParam UUID ownerId) {
+        ListingResponse response = listingService.unarchiveListing(listingId, ownerId);
+        return ResponseEntity.ok(response);
+    }
 }

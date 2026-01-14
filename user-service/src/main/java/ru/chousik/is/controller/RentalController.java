@@ -10,7 +10,10 @@ import ru.chousik.is.dto.message.MessageDto;
 import ru.chousik.is.dto.message.MessageRequest;
 import ru.chousik.is.dto.rental.RentalActionRequest;
 import ru.chousik.is.dto.rental.RentalCreateRequest;
+import ru.chousik.is.dto.rental.RentalDateRange;
+import ru.chousik.is.dto.rental.RentalOwnerSummary;
 import ru.chousik.is.dto.rental.RentalResponse;
+import ru.chousik.is.dto.rental.RentalUserSummary;
 import ru.chousik.is.dto.review.ReviewRequest;
 import ru.chousik.is.dto.review.ReviewResponse;
 import ru.chousik.is.services.MessagingService;
@@ -34,6 +37,21 @@ public class RentalController {
     public ResponseEntity<RentalResponse> createRental(@Valid @RequestBody RentalCreateRequest request) {
         RentalResponse response = rentalService.createRental(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/owner")
+    public List<RentalOwnerSummary> getOwnerRentals(@RequestParam UUID ownerId) {
+        return rentalService.getOwnerUpcomingRentals(ownerId);
+    }
+
+    @GetMapping("/listing")
+    public List<RentalDateRange> getListingRentals(@RequestParam UUID listingId) {
+        return rentalService.getListingActiveRanges(listingId);
+    }
+
+    @GetMapping("/user")
+    public List<RentalUserSummary> getUserRentals(@RequestParam UUID userId) {
+        return rentalService.getUserRentals(userId);
     }
 
     @PostMapping("/{rentalId}/confirm")

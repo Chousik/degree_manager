@@ -6,6 +6,7 @@ import ru.chousik.is.dto.listing.ListingSearchRequest;
 import ru.chousik.is.entity.AvailabilitySlot;
 import ru.chousik.is.entity.Listing;
 import ru.chousik.is.entity.ListingCategory;
+import ru.chousik.is.entity.ListingStatus;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -21,6 +22,7 @@ public final class ListingSpecifications {
         if (request == null) {
             return spec;
         }
+        spec = spec.and(notArchived());
         spec = spec.and(textContains(request.text()));
         spec = spec.and(categoryEquals(request.categoryId()));
         spec = spec.and(priceBetween(request.minPrice(), request.maxPrice()));
@@ -28,6 +30,13 @@ public final class ListingSpecifications {
         spec = spec.and(latitudeBetween(request.minLatitude(), request.maxLatitude()));
         spec = spec.and(longitudeBetween(request.minLongitude(), request.maxLongitude()));
         return spec;
+    }
+
+    private static Specification<Listing> notArchived() {
+        return (root, query, cb) -> cb.or(
+                cb.isNull(root.get("status")),
+                cb.notEqual(root.get("status"), ListingStatus.ARCHIVED)
+        );
     }
 
     private static Specification<Listing> textContains(String text) {

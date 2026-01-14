@@ -25,7 +25,7 @@ function formatPrice(value) {
   if (!value && value !== 0) {
     return 'Цена по запросу';
   }
-  return `${Number(value).toLocaleString('ru-RU')} ₽/ч`;
+  return `${Number(value).toLocaleString('ru-RU')} ₽/день`;
 }
 
 function submitSearch() {

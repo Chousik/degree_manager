@@ -38,9 +38,19 @@ const toast = reactive({ message: '', type: 'success', visible: false });
 const errorMessage = ref('');
 const selectedPhoto = ref('');
 const isPhotoModalOpen = ref(false);
-const selectedSlotId = ref('');
+const ownerActionLoading = ref(false);
+const rentalRanges = ref([]);
+const selectedStartDay = ref('');
+const selectedEndDay = ref('');
+const bookingError = ref('');
+const todayStart = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+};
+const currentMonth = ref(new Date(todayStart().getFullYear(), todayStart().getMonth(), 1));
 
-const formatPrice = (price) => (price ? `${Number(price).toLocaleString('ru-RU')} ₽/ч` : 'Договорная');
+const formatPrice = (price) => (price ? `${Number(price).toLocaleString('ru-RU')} ₽/день` : 'Договорная');
 const formatDeposit = (value) => (value ? `Депозит ${Number(value).toLocaleString('ru-RU')} ₽` : 'Без депозита');
 const locationLabel = computed(() => {
   if (listing.address) return listing.address;
@@ -50,6 +60,7 @@ const locationLabel = computed(() => {
   return '';
 });
 const hasPhotos = computed(() => Array.isArray(listing.photos) && listing.photos.length > 0);
+const isOwner = computed(() => Boolean(listing.ownerId && userId.value && listing.ownerId === userId.value));
 const sortedPhotos = computed(() => {
   if (!Array.isArray(listing.photos)) return [];
   return [...listing.photos].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
@@ -77,6 +88,15 @@ const availabilitySlots = computed(() => {
   if (!Array.isArray(listing.availabilitySlots)) return [];
   return listing.availabilitySlots;
 });
+const availableDaySet = computed(() => {
+  if (!availabilitySlots.value.length) return null;
+  const days = new Set();
+  availabilitySlots.value.forEach((slot) => {
+    const key = dateKey(slot.startsAt);
+    if (key) days.add(key);
+  });
+  return days;
+});
 const dateKey = (value) => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '';
@@ -85,49 +105,69 @@ const dateKey = (value) => {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
-const slotGroups = computed(() => {
-  const groups = new Map();
-  availabilitySlots.value.forEach((slot) => {
-    const key = dateKey(slot.startsAt);
-    if (!key) return;
-    if (!groups.has(key)) {
-      groups.set(key, []);
+const blockedDaySet = computed(() => {
+  const blocked = new Set();
+  rentalRanges.value.forEach((range) => {
+    const start = new Date(range.startAt);
+    const end = new Date(range.endAt);
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return;
+    const cursor = new Date(start);
+    while (cursor < end) {
+      blocked.add(dateKey(cursor));
+      cursor.setDate(cursor.getDate() + 1);
     }
-    groups.get(key).push(slot);
   });
-  for (const [key, slots] of groups.entries()) {
-    groups.set(key, [...slots].sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt)));
+  return blocked;
+});
+const monthLabel = computed(() =>
+  currentMonth.value.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })
+);
+const maxMonth = computed(() => {
+  const today = new Date();
+  return new Date(today.getFullYear(), today.getMonth() + 11, 1);
+});
+const minMonth = computed(() => {
+  const today = new Date();
+  return new Date(today.getFullYear(), today.getMonth(), 1);
+});
+const canPrevMonth = computed(() => {
+  const prev = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth() - 1, 1);
+  return prev >= minMonth.value;
+});
+const canNextMonth = computed(() => {
+  const next = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth() + 1, 1);
+  return next <= maxMonth.value;
+});
+const calendarCells = computed(() => {
+  const cells = [];
+  const monthStart = new Date(currentMonth.value);
+  const year = monthStart.getFullYear();
+  const month = monthStart.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const startOffset = (firstDay.getDay() + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let i = 0; i < startOffset; i += 1) {
+    cells.push({ key: `blank-${year}-${month}-${i}`, isBlank: true });
   }
-  return groups;
-});
-const slotDates = computed(() => {
-  const dates = [];
-  slotGroups.value.forEach((slots, key) => {
-    const [year, month, day] = key.split('-').map(Number);
-    const labelDate = new Date(year, month - 1, day);
-    dates.push({
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const availableSet = availableDaySet.value;
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const current = new Date(year, month, day);
+    const key = dateKey(current);
+    const isAvailable = !availableSet || availableSet.has(key);
+    const isBlocked = blockedDaySet.value.has(key);
+    const isPast = current < today;
+    cells.push({
       key,
-      slots,
-      label: labelDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }),
+      label: day,
+      isAvailable,
+      isBlocked,
+      isPast,
     });
-  });
-  return dates.sort((a, b) => a.key.localeCompare(b.key));
+  }
+  return cells;
 });
-const hasSlots = computed(() => slotDates.value.length > 0);
-const selectedDateKey = ref('');
-const slotTimeLabel = (slot) => {
-  const start = new Date(slot.startsAt);
-  const end = new Date(slot.endsAt);
-  return `${start.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })} — ` +
-    `${end.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`;
-};
-const selectedDateSlots = computed(() => slotGroups.value.get(selectedDateKey.value) || []);
-const slotLabel = (slot) => {
-  const start = new Date(slot.startsAt);
-  const end = new Date(slot.endsAt);
-  return `${start.toLocaleDateString('ru-RU')} ${start.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })} — ` +
-    `${end.toLocaleDateString('ru-RU')} ${end.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`;
-};
 
 const selectPhotoByIndex = (index) => {
   const count = sortedPhotos.value.length;
@@ -146,47 +186,110 @@ const closePhotoModal = () => {
   isPhotoModalOpen.value = false;
 };
 
-const pickDate = (key) => {
-  selectedDateKey.value = key;
-  if (selectedSlotId.value) {
-    const selectedSlot = availabilitySlots.value.find((slot) => slot.id === selectedSlotId.value);
-    if (selectedSlot && dateKey(selectedSlot.startsAt) !== key) {
-      selectedSlotId.value = '';
-      booking.startAt = '';
-      booking.endAt = '';
+const isDayDisabled = (dayKey) => {
+  if (!dayKey) return true;
+  const availableSet = availableDaySet.value;
+  if (availableSet && !availableSet.has(dayKey)) return true;
+  if (blockedDaySet.value.has(dayKey)) return true;
+  const dayDate = new Date(dayKey);
+  if (Number.isNaN(dayDate.getTime())) return true;
+  dayDate.setHours(0, 0, 0, 0);
+  return dayDate < todayStart();
+};
+
+const setBookingRange = (startKey, endKey) => {
+  booking.startAt = `${startKey}T00:00`;
+  booking.endAt = `${endKey}T00:00`;
+};
+
+const selectDay = (dayKey) => {
+  if (!dayKey || isDayDisabled(dayKey)) return;
+  bookingError.value = '';
+  if (!selectedStartDay.value || (selectedStartDay.value && selectedEndDay.value)) {
+    selectedStartDay.value = dayKey;
+    selectedEndDay.value = '';
+    booking.startAt = '';
+    booking.endAt = '';
+    return;
+  }
+  if (dayKey <= selectedStartDay.value) {
+    selectedStartDay.value = dayKey;
+    selectedEndDay.value = '';
+    booking.startAt = '';
+    booking.endAt = '';
+    return;
+  }
+  const start = new Date(selectedStartDay.value);
+  const end = new Date(dayKey);
+  const cursor = new Date(start);
+  while (cursor < end) {
+    const key = dateKey(cursor);
+    if (isDayDisabled(key)) {
+      bookingError.value = 'В выбранном диапазоне есть занятые дни';
+      return;
     }
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  selectedEndDay.value = dayKey;
+  setBookingRange(selectedStartDay.value, selectedEndDay.value);
+};
+
+const prevMonth = () => {
+  const prev = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth() - 1, 1);
+  if (canPrevMonth.value) {
+    currentMonth.value = prev;
   }
 };
 
-const pickSlot = (slot) => {
-  if (!slot) return;
-  selectedDateKey.value = dateKey(slot.startsAt);
-  selectedSlotId.value = slot.id;
-  booking.startAt = slot.startsAt?.slice(0, 16) || '';
-  booking.endAt = slot.endsAt?.slice(0, 16) || '';
+const nextMonth = () => {
+  const next = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth() + 1, 1);
+  if (canNextMonth.value) {
+    currentMonth.value = next;
+  }
 };
 
 const canBook = computed(() => {
-  if (hasSlots.value) {
-    return Boolean(selectedSlotId.value);
+  if (isOwner.value) {
+    return false;
   }
   return Boolean(booking.startAt && booking.endAt);
 });
 
-const selectedSlot = computed(() => {
-  if (!selectedSlotId.value) return null;
-  return availabilitySlots.value.find((slot) => slot.id === selectedSlotId.value) || null;
+const rentalDays = computed(() => {
+  if (!selectedStartDay.value || !selectedEndDay.value) return 0;
+  const start = new Date(selectedStartDay.value);
+  const end = new Date(selectedEndDay.value);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 0;
+  const diff = (end - start) / (1000 * 60 * 60 * 24);
+  return diff > 0 ? diff : 0;
 });
 
-const slotSummary = computed(() => {
-  if (!selectedSlot.value) return '';
-  return slotLabel(selectedSlot.value);
+const rentalAmount = computed(() => {
+  if (!rentalDays.value || !listing.pricePerHour) return 0;
+  return Number(listing.pricePerHour) * rentalDays.value;
 });
+
+const depositAmount = computed(() => Number(listing.depositAmount || 0));
+
+const totalAmount = computed(() => rentalAmount.value + depositAmount.value);
 
 const showToast = (message, type = 'success') => {
   toast.message = message;
   toast.type = type;
   toast.visible = true;
+};
+
+const loadListingRentals = async (id) => {
+  if (!id) {
+    rentalRanges.value = [];
+    return;
+  }
+  try {
+    const data = await fetchJson(`${USER_API_BASE}/rentals/listing?listingId=${id}`);
+    rentalRanges.value = Array.isArray(data) ? data : [];
+  } catch (err) {
+    rentalRanges.value = [];
+  }
 };
 
 const fetchListing = async (id) => {
@@ -199,10 +302,12 @@ const fetchListing = async (id) => {
     if (Array.isArray(data?.photos) && data.photos.length > 0) {
       selectedPhoto.value = data.photos[0].url;
     }
-    selectedSlotId.value = '';
-    selectedDateKey.value = '';
+    await loadListingRentals(listing.id);
     booking.startAt = '';
     booking.endAt = '';
+    selectedStartDay.value = '';
+    selectedEndDay.value = '';
+    bookingError.value = '';
   } catch (err) {
     errorMessage.value = err.message || 'Не удалось загрузить объявление';
   } finally {
@@ -216,12 +321,16 @@ const bookRental = async () => {
     router.push('/login');
     return;
   }
-  if (!booking.startAt || !booking.endAt) {
-    showToast('Укажите дату и время начала и конца', 'error');
+  if (isOwner.value) {
+    showToast('Нельзя арендовать собственное объявление', 'error');
     return;
   }
-  if (hasSlots.value && !selectedSlotId.value) {
-    showToast('Выберите доступный слот', 'error');
+  if (!booking.startAt || !booking.endAt) {
+    showToast('Выберите даты аренды', 'error');
+    return;
+  }
+  if (bookingError.value) {
+    showToast(bookingError.value, 'error');
     return;
   }
   if (bookingLoading.value) return;
@@ -234,12 +343,61 @@ const bookRental = async () => {
       endAt: booking.endAt,
       depositAmount: listing.depositAmount || 0,
     };
-    await fetchJson(`${USER_API_BASE}/rentals`, { method: 'POST', body: JSON.stringify(payload) });
-    showToast('Бронь создана. Мы держим слоты за вами', 'success');
+    const response = await fetchJson(`${USER_API_BASE}/rentals`, { method: 'POST', body: JSON.stringify(payload) });
+    showToast('Бронь создана. Даты закреплены за вами', 'success');
+    if (response?.paymentConfirmationUrl) {
+      window.location.href = response.paymentConfirmationUrl;
+      return;
+    }
+    await loadListingRentals(listing.id);
   } catch (err) {
     showToast(err.message || 'Не удалось забронировать', 'error');
   } finally {
     bookingLoading.value = false;
+  }
+};
+
+const archiveListing = async () => {
+  if (!isLoggedIn.value || !userId.value || !listing.id) return;
+  if (ownerActionLoading.value) return;
+  ownerActionLoading.value = true;
+  try {
+    await fetchJson(`${USER_API_BASE}/listings/${listing.id}/archive?ownerId=${userId.value}`, { method: 'POST' });
+    showToast('Объявление перенесено в архив', 'success');
+  } catch (err) {
+    showToast(err.message || 'Не удалось архивировать', 'error');
+  } finally {
+    ownerActionLoading.value = false;
+  }
+};
+
+const unarchiveListing = async () => {
+  if (!isLoggedIn.value || !userId.value || !listing.id) return;
+  if (ownerActionLoading.value) return;
+  ownerActionLoading.value = true;
+  try {
+    await fetchJson(`${USER_API_BASE}/listings/${listing.id}/unarchive?ownerId=${userId.value}`, { method: 'POST' });
+    showToast('Объявление восстановлено', 'success');
+  } catch (err) {
+    showToast(err.message || 'Не удалось разархивировать', 'error');
+  } finally {
+    ownerActionLoading.value = false;
+  }
+};
+
+const deleteListing = async () => {
+  if (!isLoggedIn.value || !userId.value || !listing.id) return;
+  if (!window.confirm('Удалить объявление? Действие нельзя отменить.')) return;
+  if (ownerActionLoading.value) return;
+  ownerActionLoading.value = true;
+  try {
+    await fetchJson(`${USER_API_BASE}/listings/${listing.id}?ownerId=${userId.value}`, { method: 'DELETE' });
+    showToast('Объявление удалено', 'success');
+    router.push('/listings');
+  } catch (err) {
+    showToast(err.message || 'Не удалось удалить объявление', 'error');
+  } finally {
+    ownerActionLoading.value = false;
   }
 };
 
@@ -321,7 +479,7 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
           </template>
         </section>
 
-        <aside class="landing-card listing-book">
+        <aside class="landing-card listing-book" v-if="!isOwner">
           <div class="booking-head">
             <div>
               <p class="eyebrow muted">Бронирование</p>
@@ -329,57 +487,96 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
             </div>
           </div>
 
-          <div v-if="hasSlots" class="slot-picker">
-            <p class="muted small">Свободные даты</p>
-            <div class="date-grid">
-              <button
-                v-for="date in slotDates"
-                :key="date.key"
-                type="button"
-                class="date-pill"
-                :class="{ active: date.key === selectedDateKey }"
-                @click="pickDate(date.key)"
-              >
-                <span class="date-pill__label">{{ date.label }}</span>
-                <span class="muted small">{{ date.slots.length }} слотов</span>
-              </button>
+          <div class="day-picker">
+            <div class="calendar-header">
+              <button class="calendar-nav" type="button" :disabled="!canPrevMonth" @click="prevMonth">‹</button>
+              <div class="calendar-title">{{ monthLabel }}</div>
+              <button class="calendar-nav" type="button" :disabled="!canNextMonth" @click="nextMonth">›</button>
             </div>
-            <div v-if="selectedDateKey" class="time-grid">
-              <button
-                v-for="slot in selectedDateSlots"
-                :key="slot.id"
-                type="button"
-                class="time-pill"
-                :class="{ active: slot.id === selectedSlotId }"
-                @click="pickSlot(slot)"
-              >
-                {{ slotTimeLabel(slot) }}
-              </button>
+            <div class="calendar-weekdays">
+              <span>Пн</span>
+              <span>Вт</span>
+              <span>Ср</span>
+              <span>Чт</span>
+              <span>Пт</span>
+              <span>Сб</span>
+              <span>Вс</span>
             </div>
-            <p v-else class="muted small">Сначала выберите дату.</p>
-            <p v-if="slotSummary" class="helper small">Выбрано: {{ slotSummary }}</p>
+            <div class="calendar-grid">
+              <span v-for="cell in calendarCells" :key="cell.key" class="calendar-cell" :class="{ blank: cell.isBlank }">
+                <button
+                  v-if="!cell.isBlank"
+                  type="button"
+                  class="calendar-day"
+                  :class="{
+                    active: cell.key === selectedStartDay || cell.key === selectedEndDay,
+                    inRange: selectedStartDay && selectedEndDay && cell.key > selectedStartDay && cell.key < selectedEndDay,
+                    disabled: cell.isPast || !cell.isAvailable || cell.isBlocked,
+                  }"
+                  :disabled="cell.isPast || !cell.isAvailable || cell.isBlocked"
+                  @click="selectDay(cell.key)"
+                >
+                  {{ cell.label }}
+                </button>
+              </span>
+            </div>
+            <p v-if="selectedStartDay && !selectedEndDay" class="muted small">Выберите дату возврата.</p>
+            <p v-if="selectedStartDay && selectedEndDay" class="helper small">
+              Период: {{ selectedStartDay }} — {{ selectedEndDay }}
+            </p>
+            <p v-if="bookingError" class="helper small error">{{ bookingError }}</p>
+            <p class="muted small">Занятые дни недоступны для выбора.</p>
           </div>
 
           <div class="price-stack">
             <div class="price-value">{{ formatPrice(listing.pricePerHour) }}</div>
             <div class="muted small">{{ formatDeposit(listing.depositAmount) }}</div>
           </div>
+          <div v-if="rentalDays" class="price-breakdown">
+            <div>Аренда ({{ rentalDays }} дн.): {{ rentalAmount.toLocaleString('ru-RU') }} ₽</div>
+            <div>Залог: {{ depositAmount.toLocaleString('ru-RU') }} ₽</div>
+            <div class="price-breakdown__total">Итого: {{ totalAmount.toLocaleString('ru-RU') }} ₽</div>
+          </div>
 
-          <template v-if="!hasSlots">
-            <div class="field">
-              <label>Начало</label>
-              <input v-model="booking.startAt" type="datetime-local">
-            </div>
-            <div class="field">
-              <label>Конец</label>
-              <input v-model="booking.endAt" type="datetime-local">
-            </div>
-          </template>
           <button class="landing-btn primary" type="button" :disabled="bookingLoading || !canBook" @click="bookRental">
             {{ bookingLoading ? 'Бронируем...' : 'Забронировать' }}
           </button>
-          <p class="helper small">Указывайте время с учетом выдачи и возврата.</p>
+          <p class="helper small">Аренда считается посуточно.</p>
 
+          <div v-if="toast.visible" class="toast" :class="toast.type">{{ toast.message }}</div>
+        </aside>
+        <aside class="landing-card listing-book" v-else>
+          <div class="booking-head">
+            <div>
+              <p class="eyebrow muted">Ваше объявление</p>
+              <h3>Управление</h3>
+            </div>
+          </div>
+          <button class="landing-btn ghost" type="button" @click="router.push(`/listings/${listing.id}/edit`)">
+            Редактировать
+          </button>
+          <button
+            v-if="listing.status === 'ARCHIVED'"
+            class="landing-btn ghost"
+            type="button"
+            :disabled="ownerActionLoading"
+            @click="unarchiveListing"
+          >
+            Разархивировать
+          </button>
+          <button
+            v-else
+            class="landing-btn ghost"
+            type="button"
+            :disabled="ownerActionLoading"
+            @click="archiveListing"
+          >
+            Архивировать
+          </button>
+          <button class="landing-btn danger" type="button" :disabled="ownerActionLoading" @click="deleteListing">
+            Удалить
+          </button>
+          <p class="helper small">Удаление возможно, только если нет незавершённых аренд.</p>
           <div v-if="toast.visible" class="toast" :class="toast.type">{{ toast.message }}</div>
         </aside>
       </div>

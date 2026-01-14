@@ -68,6 +68,12 @@ public class PaymentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Rental %s not found".formatted(rentalId)));
         BigDecimal amount = resolveAmount(rental, purpose);
         Payment payment = preparePaymentRecord(rental, purpose, amount);
+        if (payment.getExternalId() != null
+                && payment.getConfirmationUrl() != null
+                && !"canceled".equalsIgnoreCase(payment.getStatus())
+                && !"refunded".equalsIgnoreCase(payment.getStatus())) {
+            return payment;
+        }
         Assert.notNull(properties.getShopId(), "YooKassa shopId is not configured");
         Assert.notNull(properties.getSecretKey(), "YooKassa secretKey is not configured");
 
@@ -78,6 +84,7 @@ public class PaymentService {
         if (confirmationReturnUrl == null) {
             throw new BusinessValidationException("Return URL must be provided for redirect payments");
         }
+        confirmationReturnUrl = attachPaymentId(confirmationReturnUrl, payment.getId());
 
         var body = Map.of(
                 "amount", Map.of(
@@ -197,6 +204,14 @@ public class PaymentService {
         return purpose == PaymentPurpose.DEPOSIT
                 ? "Депозит за аренду " + rental.getId()
                 : "Оплата аренды " + rental.getId();
+    }
+
+    private String attachPaymentId(String baseUrl, UUID paymentId) {
+        if (baseUrl.contains("paymentId=")) {
+            return baseUrl;
+        }
+        String separator = baseUrl.contains("?") ? "&" : "?";
+        return baseUrl + separator + "paymentId=" + paymentId;
     }
 
     private record YooPaymentResponse(String id,

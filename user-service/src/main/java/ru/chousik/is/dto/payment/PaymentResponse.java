@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public record PaymentResponse(
         UUID id,
+        UUID rentalId,
         PaymentPurpose purpose,
         String status,
         BigDecimal amount,

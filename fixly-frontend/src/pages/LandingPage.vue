@@ -96,7 +96,7 @@ function formatPrice(value) {
     return 'Цена по запросу';
   }
   const formatted = Number(value).toLocaleString('ru-RU');
-  return `${formatted} ₽/ч`;
+  return `${formatted} ₽/день`;
 }
 </script>
 

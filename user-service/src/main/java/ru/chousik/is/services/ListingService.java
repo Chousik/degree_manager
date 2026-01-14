@@ -17,6 +17,7 @@ import ru.chousik.is.entity.ListingCategoryId;
 import ru.chousik.is.entity.ListingPhoto;
 import ru.chousik.is.entity.ListingStatus;
 import ru.chousik.is.entity.User;
+import ru.chousik.is.entity.RentalStatus;
 import ru.chousik.is.exceptions.BusinessValidationException;
 import ru.chousik.is.exceptions.ResourceNotFoundException;
 import ru.chousik.is.repository.AvailabilitySlotRepository;
@@ -24,6 +25,7 @@ import ru.chousik.is.repository.CategoryRepository;
 import ru.chousik.is.repository.ListingCategoryRepository;
 import ru.chousik.is.repository.ListingPhotoRepository;
 import ru.chousik.is.repository.ListingRepository;
+import ru.chousik.is.repository.RentalRepository;
 import ru.chousik.is.repository.UserRepository;
 import ru.chousik.is.services.mappers.ListingSummaryMapper;
 import ru.chousik.is.services.specifications.ListingSpecifications;
@@ -47,6 +49,7 @@ public class ListingService {
     private final CategoryRepository categoryRepository;
     private final ListingCategoryRepository listingCategoryRepository;
     private final ListingSummaryMapper listingSummaryMapper;
+    private final RentalRepository rentalRepository;
 
     @Transactional
     public ListingResponse createListing(ListingCreateRequest request) {
@@ -114,7 +117,46 @@ public class ListingService {
         Listing listing = listingRepository.findById(listingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Listing %s not found".formatted(listingId)));
         assertOwner(listing, ownerId);
+        boolean hasActiveRentals = rentalRepository.existsByListing_IdAndStatusIn(
+                listingId,
+                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE)
+        );
+        if (hasActiveRentals) {
+            throw new BusinessValidationException("Нельзя удалить объявление с активными арендами");
+        }
         listingRepository.delete(listing);
+    }
+
+    @Transactional
+    public ListingResponse archiveListing(UUID listingId, UUID ownerId) {
+        Listing listing = listingRepository.findById(listingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Listing %s not found".formatted(listingId)));
+        assertOwner(listing, ownerId);
+        listing.setStatus(ListingStatus.ARCHIVED);
+        Listing saved = listingRepository.save(listing);
+
+        List<AvailabilitySlot> slots = availabilitySlotRepository.findByListing_Id(listingId);
+        List<ListingPhoto> photos = listingPhotoRepository.findByListing_Id(listingId);
+        List<Category> categories = listingCategoryRepository.findByListing_Id(listingId).stream()
+                .map(ListingCategory::getCategory)
+                .toList();
+        return mapToResponse(saved, slots, photos, categories);
+    }
+
+    @Transactional
+    public ListingResponse unarchiveListing(UUID listingId, UUID ownerId) {
+        Listing listing = listingRepository.findById(listingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Listing %s not found".formatted(listingId)));
+        assertOwner(listing, ownerId);
+        listing.setStatus(ListingStatus.AVAILABLE);
+        Listing saved = listingRepository.save(listing);
+
+        List<AvailabilitySlot> slots = availabilitySlotRepository.findByListing_Id(listingId);
+        List<ListingPhoto> photos = listingPhotoRepository.findByListing_Id(listingId);
+        List<Category> categories = listingCategoryRepository.findByListing_Id(listingId).stream()
+                .map(ListingCategory::getCategory)
+                .toList();
+        return mapToResponse(saved, slots, photos, categories);
     }
 
     @Transactional(readOnly = true)

@@ -11,6 +11,7 @@ import RentalsPage from './pages/RentalsPage.vue';
 import FavoritesPage from './pages/FavoritesPage.vue';
 import FavoritesLandingPage from './pages/FavoritesLandingPage.vue';
 import ListingDetailPage from './pages/ListingDetailPage.vue';
+import EditListingPage from './pages/EditListingPage.vue';
 import AccountPage from './pages/AccountPage.vue';
 import TwoFactorPage from './pages/TwoFactorPage.vue';
 import ChangePasswordPage from './pages/ChangePasswordPage.vue';
@@ -18,6 +19,7 @@ import CommunicationPage from './pages/CommunicationPage.vue';
 import ModerationPage from './pages/ModerationPage.vue';
 import SupportPage from './pages/SupportPage.vue';
 import NotificationsPage from './pages/NotificationsPage.vue';
+import PaymentReturnPage from './pages/PaymentReturnPage.vue';
 import { useSession } from './state/session';
 
 const routes = [
@@ -31,6 +33,7 @@ const routes = [
   { path: '/auth-callback', component: AuthCallback, meta: { guestOnly: true } },
   { path: '/listings', component: ListingsPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/listings/new', component: NewListingPage, meta: { requiresAuth: true, standalone: true } },
+  { path: '/listings/:id/edit', component: EditListingPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/rentals', component: RentalsPage, meta: { requiresAuth: true } },
   { path: '/favorites', component: FavoritesLandingPage, meta: { requiresAuth: true, standalone: true } },
   { path: '/account', component: AccountPage, meta: { requiresAuth: true, standalone: true } },
@@ -40,6 +43,7 @@ const routes = [
   { path: '/moderation', component: ModerationPage, meta: { requiresAuth: true } },
   { path: '/support', component: SupportPage, meta: { requiresAuth: true } },
   { path: '/notifications', component: NotificationsPage, meta: { requiresAuth: true, standalone: true } },
+  { path: '/payment-return', component: PaymentReturnPage, meta: { standalone: true } },
 ];
 
 const router = createRouter({

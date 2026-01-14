@@ -64,7 +64,7 @@ const loadFavorites = async () => {
         <div v-for="item in favoriteCards" :key="item.id" class="card">
           <div class="card-header">
             <div class="card-title">{{ item.title }}</div>
-            <span class="chip">{{ item.pricePerHour ?? 0 }} ₽/ч</span>
+            <span class="chip">{{ item.pricePerHour ?? 0 }} ₽/день</span>
           </div>
           <p class="card-text">{{ item.description || 'Без описания' }}</p>
         </div>

@@ -500,6 +500,7 @@ pre {
   margin-top: 10px;
 }
 .helper.small { font-size: 12px; }
+.helper.error { color: #d14343; }
 .link {
   color: #3b5bff;
   cursor: pointer;
@@ -885,6 +886,77 @@ pre {
   background: rgba(20,12,4,0.7);
   color: #fff;
   font-size: 12px;
+}
+
+.day-picker {
+  display: grid;
+  gap: 10px;
+}
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.calendar-title {
+  font-weight: 700;
+  color: #3a2200;
+  text-transform: capitalize;
+}
+.calendar-nav {
+  border: 1px solid rgba(217,165,32,0.4);
+  background: rgba(255,255,255,0.85);
+  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  color: #4c3200;
+  font-size: 18px;
+}
+.calendar-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  font-size: 12px;
+  color: #8a6a1b;
+  text-align: center;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.calendar-cell {
+  min-height: 36px;
+}
+.calendar-cell.blank {
+  background: transparent;
+}
+.calendar-day {
+  width: 100%;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(217,165,32,0.3);
+  background: rgba(255,255,255,0.7);
+  cursor: pointer;
+  font-size: 12px;
+}
+.calendar-day.active {
+  border-color: rgba(217,155,39,0.8);
+  box-shadow: 0 6px 14px rgba(217,155,39,0.2);
+  background: rgba(255,231,175,0.7);
+}
+.calendar-day.inRange {
+  background: rgba(255,231,175,0.35);
+}
+.calendar-day.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .photo-modal {
@@ -1470,6 +1542,11 @@ pre {
   border: 1px solid rgba(217,165,32,0.25);
   color: #8a6a1b;
 }
+.landing-btn.danger {
+  background: rgba(217, 83, 79, 0.1);
+  border: 1px solid rgba(217, 83, 79, 0.35);
+  color: #b33935;
+}
 .landing-search {
   display: flex;
   flex: 1;
@@ -1652,10 +1729,88 @@ pre {
   opacity: 0.6;
   cursor: not-allowed;
 }
+.rentals-panel {
+  display: grid;
+  gap: 16px;
+}
+.rentals-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rentals-tab {
+  border-radius: 999px;
+  border: 1px solid rgba(217,165,32,0.3);
+  background: rgba(255,255,255,0.85);
+  padding: 8px 14px;
+  cursor: pointer;
+  color: #6c4a12;
+  font-weight: 600;
+}
+.rentals-tab.active {
+  background: rgba(255,231,175,0.7);
+  border-color: rgba(217,155,39,0.6);
+  color: #3a2200;
+}
+.rentals-list {
+  display: grid;
+  gap: 12px;
+}
+.rental-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(217,165,32,0.25);
+  padding: 14px 16px;
+  display: grid;
+  gap: 10px;
+}
+.rental-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.rental-card__title {
+  font-weight: 700;
+  color: #3a2200;
+}
+.rental-card__meta {
+  font-size: 12px;
+  color: #8a6a1b;
+}
+.rental-card__body {
+  display: grid;
+  gap: 6px;
+  color: #6b5b3e;
+  font-size: 14px;
+}
+.rental-card__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.payment-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(217,165,32,0.25);
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+}
+.payment-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #6b5b3e;
+}
 .listings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
+}
+.listings-grid .listing-card {
+  cursor: pointer;
 }
 .listings-grid.muted .listing-card {
   opacity: 0.8;
@@ -1685,6 +1840,46 @@ pre {
   justify-content: space-between;
   font-weight: 600;
   color: #b8860b;
+}
+.listing-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+.listing-card__actions .btn.secondary {
+  width: auto;
+}
+.rental-groups {
+  display: grid;
+  gap: 12px;
+}
+.rental-item {
+  background: rgba(255,255,255,0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(217,165,32,0.25);
+  padding: 10px 14px;
+}
+.rental-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.rental-item summary::-webkit-details-marker {
+  display: none;
+}
+.rental-title {
+  font-weight: 700;
+  color: #3a2200;
+}
+.rental-body {
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+  color: #6b5b3e;
+  font-size: 14px;
 }
 .section-header {
   display: flex;
@@ -1873,12 +2068,27 @@ pre {
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
 }
+.photo-item {
+  position: relative;
+}
 .photo-grid img {
   width: 100%;
   height: 90px;
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid rgba(217,165,32,0.25);
+}
+.photo-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: none;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  background: rgba(20,12,4,0.75);
+  color: #fff;
 }
 .landing-note {
   margin: 0 0 16px;

@@ -73,7 +73,7 @@ watch(
         <article v-for="item in favoriteCards" :key="item.id" class="favorites-card">
           <div class="favorites-card__title">{{ item.title }}</div>
           <p>
-            {{ item.pricePerHour }} ₽/ч ·
+            {{ item.pricePerHour }} ₽/день ·
             <span v-if="item.depositAmount">Залог {{ item.depositAmount }} ₽</span>
             <span v-else>Без залога</span>
             <span v-if="item.status"> · Статус: {{ item.status }}</span>

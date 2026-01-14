@@ -32,7 +32,7 @@ const heroSubtitle = computed(() =>
     ? `Нашли ${listings.value.length} предложений, листайте ещё`
     : 'Инструменты, аренда и сервис - бесконечная лента карточек');
 
-const formatPrice = (price) => (price ? `${price} ₽/ч` : 'Договорная');
+const formatPrice = (price) => (price ? `${price} ₽/день` : 'Договорная');
 const formatDeposit = (value) => (value ? `Депозит ${value} ₽` : 'Без депозита');
 
 const mapListings = (data) => {

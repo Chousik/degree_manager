@@ -53,6 +53,7 @@ public class PaymentController {
     private PaymentResponse toResponse(Payment payment) {
         return new PaymentResponse(
                 payment.getId(),
+                payment.getRental() != null ? payment.getRental().getId() : null,
                 payment.getPurpose(),
                 payment.getStatus(),
                 payment.getAmount(),
