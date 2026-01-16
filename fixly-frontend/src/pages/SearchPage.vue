@@ -1,14 +1,15 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import MainHeader from '../components/MainHeader.vue';
 import { getCategories } from '../api/categories';
 import { USER_API_BASE, fetchJson } from '../api/client';
+import { addFavorite, getFavorites, removeFavorite } from '../api/favorites';
 import { useSession } from '../state/session';
 
 const router = useRouter();
 const route = useRoute();
-const { isLoggedIn } = useSession();
+const { isLoggedIn, userId } = useSession();
 
 const categories = ref([]);
 const categoriesLoading = ref(true);
@@ -16,10 +17,59 @@ const categoriesError = ref('');
 
 const searchQuery = ref(route.query.q || '');
 const searchResults = ref([]);
+const totalResults = ref(0);
 const searchLoading = ref(false);
 const searchError = ref('');
 
-const activeCategory = ref(route.query.category || null);
+const activeCategory = ref(route.query.category || '');
+const minPrice = ref(route.query.minPrice || '');
+const maxPrice = ref(route.query.maxPrice || '');
+const availableFrom = ref(route.query.availableFrom ? route.query.availableFrom.slice(0, 10) : '');
+const availableTo = ref(route.query.availableTo ? route.query.availableTo.slice(0, 10) : '');
+const locationQuery = ref(route.query.location || '');
+const radiusKm = ref(route.query.radius ? Number(route.query.radius) : 10);
+const locationCoords = ref(null);
+const locationError = ref('');
+const mapView = ref(route.query.view === 'map');
+const mapPoints = ref([]);
+const favorites = ref(new Set());
+const favoritesLoading = ref(false);
+
+const mapCenter = computed(() => {
+  if (!mapPoints.value.length) return null;
+  const coords = mapPoints.value.filter((p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude));
+  if (!coords.length) return null;
+  const lats = coords.map((p) => p.latitude);
+  const lons = coords.map((p) => p.longitude);
+  return {
+    minLat: Math.min(...lats),
+    maxLat: Math.max(...lats),
+    minLon: Math.min(...lons),
+    maxLon: Math.max(...lons),
+  };
+});
+
+const normalizedMapPoints = computed(() => {
+  if (!mapCenter.value) return [];
+  const { minLat, maxLat, minLon, maxLon } = mapCenter.value;
+  const latRange = maxLat - minLat || 1;
+  const lonRange = maxLon - minLon || 1;
+  return mapPoints.value
+    .filter((p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude))
+    .map((p) => {
+      const x = ((p.longitude - minLon) / lonRange) * 100;
+      const y = (1 - (p.latitude - minLat) / latRange) * 100;
+      return {
+        ...p,
+        x,
+        y,
+      };
+    });
+});
+
+const mapFallbackList = computed(() =>
+  mapPoints.value.filter((p) => !Number.isFinite(p.latitude) || !Number.isFinite(p.longitude))
+);
 
 function formatPrice(value) {
   if (!value && value !== 0) {
@@ -28,31 +78,137 @@ function formatPrice(value) {
   return `${Number(value).toLocaleString('ru-RU')} ₽/день`;
 }
 
-function submitSearch() {
+const isFavorite = (listingId) => favorites.value.has(listingId);
+
+const toggleFavorite = async (listingId) => {
+  if (!isLoggedIn.value || !userId.value) {
+    router.push('/login');
+    return;
+  }
+  if (!listingId) return;
+  const next = new Set(favorites.value);
+  try {
+    if (next.has(listingId)) {
+      await removeFavorite(userId.value, listingId);
+      next.delete(listingId);
+    } else {
+      await addFavorite(userId.value, listingId);
+      next.add(listingId);
+    }
+    favorites.value = next;
+  } catch (err) {
+    // ignore; keep current state
+  }
+};
+
+const buildIsoDate = (value) => {
+  if (!value) return '';
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toISOString();
+};
+
+const geocodeLocation = async () => {
+  locationError.value = '';
+  if (!locationQuery.value) {
+    locationCoords.value = null;
+    return;
+  }
+  try {
+    const base = (import.meta.env.VITE_GEOCODING_BASE || 'https://nominatim.openstreetmap.org').replace(/\/$/, '');
+    const url = `${base}/search?format=json&limit=1&accept-language=ru&q=${encodeURIComponent(locationQuery.value)}`;
+    const response = await fetch(url, { headers: { Accept: 'application/json' } });
+    const data = await response.json();
+    const first = Array.isArray(data) ? data[0] : null;
+    if (!first?.lat || !first?.lon) {
+      locationError.value = 'Не удалось определить местоположение';
+      locationCoords.value = null;
+      return;
+    }
+    locationCoords.value = {
+      lat: Number(first.lat),
+      lon: Number(first.lon),
+    };
+  } catch (err) {
+    locationError.value = 'Не удалось определить местоположение';
+    locationCoords.value = null;
+  }
+};
+
+const buildLocationBounds = () => {
+  if (!locationCoords.value) return {};
+  const radius = Math.max(1, Number(radiusKm.value || 10));
+  const latDelta = radius / 111;
+  const lonDelta = radius / (111 * Math.cos((locationCoords.value.lat * Math.PI) / 180));
+  return {
+    minLatitude: (locationCoords.value.lat - latDelta).toFixed(6),
+    maxLatitude: (locationCoords.value.lat + latDelta).toFixed(6),
+    minLongitude: (locationCoords.value.lon - lonDelta).toFixed(6),
+    maxLongitude: (locationCoords.value.lon + lonDelta).toFixed(6),
+  };
+};
+
+const submitSearch = async () => {
+  if (locationQuery.value) {
+    await geocodeLocation();
+  } else {
+    locationCoords.value = null;
+  }
   router.push({
     path: '/search',
     query: {
       ...(searchQuery.value ? { q: searchQuery.value } : {}),
       ...(activeCategory.value ? { category: activeCategory.value } : {}),
+      ...(minPrice.value ? { minPrice: minPrice.value } : {}),
+      ...(maxPrice.value ? { maxPrice: maxPrice.value } : {}),
+      ...(availableFrom.value ? { availableFrom: availableFrom.value } : {}),
+      ...(availableTo.value ? { availableTo: availableTo.value } : {}),
+      ...(locationQuery.value ? { location: locationQuery.value } : {}),
+      ...(radiusKm.value ? { radius: radiusKm.value } : {}),
+      ...(mapView.value ? { view: 'map' } : {}),
     },
   });
-}
+};
 
-function filterByCategory(categoryId) {
-  activeCategory.value = categoryId ? String(categoryId) : null;
+const clearFilters = () => {
+  activeCategory.value = '';
+  minPrice.value = '';
+  maxPrice.value = '';
+  availableFrom.value = '';
+  availableTo.value = '';
+  locationQuery.value = '';
+  locationCoords.value = null;
+  locationError.value = '';
   submitSearch();
-}
+};
 
 async function loadCategories() {
   categoriesLoading.value = true;
   categoriesError.value = '';
   try {
     const data = await getCategories();
-    categories.value = Array.isArray(data) ? data.slice(0, 10) : [];
+    categories.value = Array.isArray(data) ? data : [];
   } catch (err) {
     categoriesError.value = 'Не удалось загрузить категории';
   } finally {
     categoriesLoading.value = false;
+  }
+}
+
+async function loadFavorites() {
+  if (!isLoggedIn.value || !userId.value) {
+    favorites.value = new Set();
+    return;
+  }
+  favoritesLoading.value = true;
+  try {
+    const data = await getFavorites(userId.value);
+    const ids = Array.isArray(data) ? data.map((item) => item.listingId || item.id) : [];
+    favorites.value = new Set(ids.filter(Boolean));
+  } catch (err) {
+    favorites.value = new Set();
+  } finally {
+    favoritesLoading.value = false;
   }
 }
 
@@ -61,24 +217,49 @@ async function performSearch() {
   searchError.value = '';
   try {
     const params = new URLSearchParams({ size: '12' });
-    if (searchQuery.value) {
-      params.set('text', searchQuery.value);
-    }
-    if (activeCategory.value) {
-      params.set('categoryId', activeCategory.value);
+    if (searchQuery.value) params.set('text', searchQuery.value);
+    if (activeCategory.value) params.set('categoryId', activeCategory.value);
+    if (minPrice.value) params.set('minPrice', minPrice.value);
+    if (maxPrice.value) params.set('maxPrice', maxPrice.value);
+    if (availableFrom.value) params.set('availableFrom', buildIsoDate(availableFrom.value));
+    if (availableTo.value) params.set('availableTo', buildIsoDate(availableTo.value));
+    const bounds = buildLocationBounds();
+    if (bounds.minLatitude) {
+      params.set('minLatitude', bounds.minLatitude);
+      params.set('maxLatitude', bounds.maxLatitude);
+      params.set('minLongitude', bounds.minLongitude);
+      params.set('maxLongitude', bounds.maxLongitude);
     }
     const data = await fetchJson(`${USER_API_BASE}/listings?${params.toString()}`, { auth: false });
     searchResults.value = Array.isArray(data?.content) ? data.content : [];
+    totalResults.value = Number.isFinite(data?.totalElements)
+      ? Number(data.totalElements)
+      : searchResults.value.length;
+    if (mapView.value) {
+      await fetchMapPoints(params);
+    }
   } catch (err) {
     searchError.value = err?.message || 'Не удалось загрузить объявления';
     searchResults.value = [];
+    totalResults.value = 0;
+    mapPoints.value = [];
   } finally {
     searchLoading.value = false;
   }
 }
 
+async function fetchMapPoints(params) {
+  try {
+    const mapData = await fetchJson(`${USER_API_BASE}/listings/map?${params.toString()}`, { auth: false });
+    mapPoints.value = Array.isArray(mapData) ? mapData : [];
+  } catch (err) {
+    mapPoints.value = [];
+  }
+}
+
 onMounted(() => {
   loadCategories();
+  loadFavorites();
   performSearch();
 });
 
@@ -86,73 +267,147 @@ watch(
   () => route.fullPath,
   () => {
     searchQuery.value = route.query.q || '';
-    activeCategory.value = route.query.category || null;
+    activeCategory.value = route.query.category || '';
+    minPrice.value = route.query.minPrice || '';
+    maxPrice.value = route.query.maxPrice || '';
+    availableFrom.value = route.query.availableFrom ? String(route.query.availableFrom).slice(0, 10) : '';
+    availableTo.value = route.query.availableTo ? String(route.query.availableTo).slice(0, 10) : '';
+    locationQuery.value = route.query.location || '';
+    radiusKm.value = route.query.radius ? Number(route.query.radius) : 10;
+    mapView.value = route.query.view === 'map';
     performSearch();
   }
 );
 </script>
 
 <template>
-  <div class="landing-page">
+  <div class="search-shell">
     <MainHeader />
 
-    <div class="landing-hero">
-      <h1>Поиск объявлений</h1>
-      <p>Найдите нужный инструмент или услугу рядом с вами.</p>
-    </div>
-
-    <div class="landing-actions">
-      <div class="landing-buttons">
-        <button class="landing-btn primary" type="button" @click="submitSearch">Поиск</button>
+    <section class="search-hero">
+      <div>
+        <h1>Найдите инструмент за минуту</h1>
+        <p>Поиск по названию, ключевым словам, описанию и карте.</p>
       </div>
-      <div class="landing-search">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Введите название инструмента или услуги"
-          @keyup.enter="submitSearch"
-        >
-        <button type="button" @click="submitSearch">Найти</button>
-      </div>
-    </div>
-
-    <section class="landing-section">
-      <div class="landing-section__title">Категории</div>
-      <p v-if="categoriesError" class="landing-note error">{{ categoriesError }}</p>
-      <p v-else-if="categoriesLoading" class="landing-note">Загружаем категории...</p>
-      <div v-else class="landing-grid categories">
-        <button
-          v-for="category in categories"
-          :key="category.id"
-          class="landing-card category category-button"
-          type="button"
-          :class="{ active: activeCategory === String(category.id) }"
-          @click="filterByCategory(category.id)"
-        >
-          <span class="landing-card__category-name">{{ category.name }}</span>
-        </button>
+      <div class="search-toggle">
+        <button type="button" class="btn secondary" :class="{ active: !mapView }" @click="mapView = false">Список</button>
+        <button type="button" class="btn secondary" :class="{ active: mapView }" @click="mapView = true">Карта</button>
       </div>
     </section>
 
-    <section class="landing-section">
-      <div class="landing-section__title">Результаты поиска</div>
-      <p v-if="searchError" class="landing-note error">{{ searchError }}</p>
-      <p v-else-if="searchLoading" class="landing-note">Обновляем результаты...</p>
-      <p v-else-if="!searchResults.length" class="landing-note">Пока ничего не найдено.</p>
-      <div v-else class="landing-grid products">
-        <RouterLink
-          v-for="item in searchResults"
-          :key="item.id"
-          class="landing-card product product-link"
-          :to="item.id ? `/catalog/${item.id}` : '/catalog'"
-        >
-          <div
-            class="landing-card__product-image"
-            :style="{ backgroundImage: `url('${item.previewPhotoUrl || '/media/basket.svg'}')` }"
-          ></div>
-          <div class="landing-card__product-title">{{ item.title }}</div>
-          <div class="landing-card__product-price">{{ formatPrice(item.pricePerHour) }}</div>
-        </RouterLink>
+    <section class="search-panel">
+      <div class="filter-card">
+        <div class="filter-header">
+          <h3>Фильтры</h3>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section__title">Быстрый поиск</div>
+          <label>
+            Поиск
+            <input v-model="searchQuery" type="text" placeholder="Название, ключевые слова, описание" @keyup.enter="submitSearch">
+          </label>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section__title">Категория и цена</div>
+          <label>
+            Категория
+            <select v-model="activeCategory">
+              <option value="">Все категории</option>
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+            </select>
+          </label>
+          <div class="filter-grid">
+            <label>
+              Цена от
+              <input v-model="minPrice" type="number" min="0" step="1">
+            </label>
+            <label>
+              Цена до
+              <input v-model="maxPrice" type="number" min="0" step="1">
+            </label>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section__title">Доступность</div>
+          <div class="filter-grid">
+            <label>
+              Дата начала
+              <input v-model="availableFrom" type="date">
+            </label>
+            <label>
+              Дата возврата
+              <input v-model="availableTo" type="date">
+            </label>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section__title">Местоположение</div>
+          <label>
+            Адрес или город
+            <input v-model="locationQuery" type="text" placeholder="Город или адрес">
+          </label>
+          <label>
+            Радиус, км
+            <input v-model="radiusKm" type="number" min="1" max="100" step="1">
+          </label>
+          <p v-if="locationError" class="landing-note error">{{ locationError }}</p>
+        </div>
+        <div class="filter-actions">
+          <button type="button" class="btn primary" @click="submitSearch">Искать</button>
+          <button type="button" class="btn secondary" @click="clearFilters">Очистить</button>
+        </div>
+      </div>
+
+      <div class="results-card">
+        <div class="results-header">
+          <div>
+            <div class="results-title">Результаты</div>
+            <p class="muted small">Поиск по названию, описанию и ключевым словам.</p>
+            <div v-if="!searchLoading && !searchError" class="results-count">Найдено: {{ totalResults }}</div>
+          </div>
+          <div v-if="favoritesLoading" class="muted small">Обновляем избранное...</div>
+        </div>
+        <p v-if="categoriesError" class="landing-note error">{{ categoriesError }}</p>
+        <p v-else-if="searchLoading" class="landing-note">Обновляем результаты...</p>
+        <p v-else-if="searchError" class="landing-note error">{{ searchError }}</p>
+        <p v-else-if="!searchResults.length" class="landing-note">Пока ничего не найдено.</p>
+
+        <div v-else-if="!mapView" class="results-grid">
+          <article v-for="item in searchResults" :key="item.id" class="result-card">
+            <button class="favorite-btn" type="button" :class="{ active: isFavorite(item.id) }" @click="toggleFavorite(item.id)">
+              ♥
+            </button>
+            <div
+              class="result-image"
+              :style="{ backgroundImage: `url('${item.previewPhotoUrl || '/media/basket.svg'}')` }"
+            ></div>
+            <div class="result-body">
+              <div class="result-title">{{ item.title }}</div>
+              <div class="result-price">{{ formatPrice(item.pricePerHour) }}</div>
+              <button type="button" class="link" @click="router.push(`/catalog/${item.id}`)">Открыть объявление</button>
+            </div>
+          </article>
+        </div>
+
+        <div v-else class="map-view">
+          <div class="map-frame">
+            <div v-if="!normalizedMapPoints.length" class="map-empty">Нет точек для отображения</div>
+            <div
+              v-for="point in normalizedMapPoints"
+              :key="point.id || point.listingId"
+              class="map-marker"
+              :style="{ left: `${point.x}%`, top: `${point.y}%` }"
+            >
+              <span class="map-label">{{ formatPrice(point.pricePerHour) }}</span>
+            </div>
+          </div>
+          <div v-if="mapFallbackList.length" class="map-fallback">
+            <p class="muted small">Без координат:</p>
+            <div class="map-fallback__list">
+              <span v-for="item in mapFallbackList" :key="item.id || item.listingId">{{ item.title }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </div>

@@ -56,6 +56,24 @@ public class Rental {
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
 
+    @Column(name = "completion_requested_by")
+    private UUID completionRequestedBy;
+
+    @Column(name = "completion_requested_at")
+    private OffsetDateTime completionRequestedAt;
+
+    @Column(name = "completion_confirmed_by")
+    private UUID completionConfirmedBy;
+
+    @Column(name = "completion_confirmed_at")
+    private OffsetDateTime completionConfirmedAt;
+
+    @Column(name = "cancellation_requested_by")
+    private UUID cancellationRequestedBy;
+
+    @Column(name = "cancellation_requested_at")
+    private OffsetDateTime cancellationRequestedAt;
+
 /*
  TODO [Amplicode] create field to map the 'period' column
  Available actions: Define target Java type | Uncomment as is | Remove column mapping

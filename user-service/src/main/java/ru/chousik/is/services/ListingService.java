@@ -16,6 +16,7 @@ import ru.chousik.is.entity.ListingCategory;
 import ru.chousik.is.entity.ListingCategoryId;
 import ru.chousik.is.entity.ListingPhoto;
 import ru.chousik.is.entity.ListingStatus;
+import ru.chousik.is.entity.ReviewAuthorRole;
 import ru.chousik.is.entity.User;
 import ru.chousik.is.entity.RentalStatus;
 import ru.chousik.is.exceptions.BusinessValidationException;
@@ -26,6 +27,7 @@ import ru.chousik.is.repository.ListingCategoryRepository;
 import ru.chousik.is.repository.ListingPhotoRepository;
 import ru.chousik.is.repository.ListingRepository;
 import ru.chousik.is.repository.RentalRepository;
+import ru.chousik.is.repository.ReviewRepository;
 import ru.chousik.is.repository.UserRepository;
 import ru.chousik.is.services.mappers.ListingSummaryMapper;
 import ru.chousik.is.services.specifications.ListingSpecifications;
@@ -50,6 +52,7 @@ public class ListingService {
     private final ListingCategoryRepository listingCategoryRepository;
     private final ListingSummaryMapper listingSummaryMapper;
     private final RentalRepository rentalRepository;
+    private final ReviewRepository reviewRepository;
 
     @Transactional
     public ListingResponse createListing(ListingCreateRequest request) {
@@ -119,7 +122,7 @@ public class ListingService {
         assertOwner(listing, ownerId);
         boolean hasActiveRentals = rentalRepository.existsByListing_IdAndStatusIn(
                 listingId,
-                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE)
+                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE, RentalStatus.COMPLETION_PENDING)
         );
         if (hasActiveRentals) {
             throw new BusinessValidationException("Нельзя удалить объявление с активными арендами");
@@ -279,9 +282,21 @@ public class ListingService {
                 .map(category -> new CategorySummaryDto(category.getId(), category.getName()))
                 .toList();
 
+        long ownerReviewCount = 0;
+        if (listing.getOwner() != null) {
+            ownerReviewCount = reviewRepository.countByLessor_IdAndHiddenFalseAndAuthorRole(
+                    listing.getOwner().getId(),
+                    ReviewAuthorRole.LESSEE
+            );
+        }
+
         return new ListingResponse(
                 listing.getId(),
                 listing.getOwner().getId(),
+                listing.getOwner().getName(),
+                listing.getOwner().getUsername(),
+                listing.getOwner().getRating(),
+                ownerReviewCount,
                 listing.getTitle(),
                 listing.getDescription(),
                 listing.getPricePerHour(),

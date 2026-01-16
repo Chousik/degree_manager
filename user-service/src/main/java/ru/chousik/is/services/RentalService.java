@@ -74,7 +74,7 @@ public class RentalService {
         OffsetDateTime endAtUtc = toUtc(endDate.atStartOfDay());
         boolean hasOverlap = rentalRepository.existsByListing_IdAndStatusInAndStartAtLessThanAndEndAtGreaterThan(
                 listing.getId(),
-                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE),
+                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE, RentalStatus.COMPLETION_PENDING),
                 endAtUtc,
                 startAtUtc
         );
@@ -127,6 +127,8 @@ public class RentalService {
         if (rental.getStatus() == RentalStatus.COMPLETED || rental.getStatus() == RentalStatus.CANCELLED) {
             throw new BusinessValidationException("Rental already finished");
         }
+        rental.setCancellationRequestedBy(actorId);
+        rental.setCancellationRequestedAt(OffsetDateTime.now());
         rental.setStatus(RentalStatus.CANCELLED);
         return mapToResponse(rental);
     }
@@ -134,17 +136,42 @@ public class RentalService {
     public RentalResponse completeRental(UUID rentalId, UUID actorId) {
         Rental rental = findRental(rentalId);
         ensureParticipant(rental, actorId);
-        ensureStatus(rental, RentalStatus.ACTIVE);
-        rental.setStatus(RentalStatus.COMPLETED);
-        paymentService.refundDepositIfCompleted(rental);
-        return mapToResponse(rental);
+        if (rental.getStatus() == RentalStatus.COMPLETED || rental.getStatus() == RentalStatus.CANCELLED) {
+            throw new BusinessValidationException("Rental already finished");
+        }
+        if (rental.getStatus() == RentalStatus.ACTIVE) {
+            if (Objects.equals(rental.getCompletionRequestedBy(), actorId)) {
+                throw new BusinessValidationException("Completion already requested");
+            }
+            rental.setCompletionRequestedBy(actorId);
+            rental.setCompletionRequestedAt(OffsetDateTime.now());
+            rental.setStatus(RentalStatus.COMPLETION_PENDING);
+            return mapToResponse(rental);
+        }
+        if (rental.getStatus() == RentalStatus.COMPLETION_PENDING) {
+            UUID requester = rental.getCompletionRequestedBy();
+            if (requester == null) {
+                rental.setCompletionRequestedBy(actorId);
+                rental.setCompletionRequestedAt(OffsetDateTime.now());
+                return mapToResponse(rental);
+            }
+            if (Objects.equals(requester, actorId)) {
+                throw new BusinessValidationException("Waiting for second confirmation");
+            }
+            rental.setCompletionConfirmedBy(actorId);
+            rental.setCompletionConfirmedAt(OffsetDateTime.now());
+            rental.setStatus(RentalStatus.COMPLETED);
+            paymentService.refundDepositIfCompleted(rental);
+            return mapToResponse(rental);
+        }
+        throw new BusinessValidationException("Rental status must be ACTIVE");
     }
 
     @Transactional(readOnly = true)
     public List<RentalOwnerSummary> getOwnerUpcomingRentals(UUID ownerId) {
         List<Rental> rentals = rentalRepository.findByLessor_IdAndStatusInOrderByStartAtAsc(
                 ownerId,
-                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE)
+                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE, RentalStatus.COMPLETION_PENDING)
         );
         return rentals.stream()
                 .map(this::mapToOwnerSummary)
@@ -155,7 +182,7 @@ public class RentalService {
     public List<RentalDateRange> getListingActiveRanges(UUID listingId) {
         List<Rental> rentals = rentalRepository.findByListing_IdAndStatusInOrderByStartAtAsc(
                 listingId,
-                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE)
+                List.of(RentalStatus.PENDING, RentalStatus.ACTIVE, RentalStatus.COMPLETION_PENDING)
         );
         return rentals.stream()
                 .map(rental -> new RentalDateRange(rental.getStartAt(), rental.getEndAt()))
@@ -306,6 +333,9 @@ public class RentalService {
                 rental.getDepositAmount(),
                 rental.getCreatedAt(),
                 deadline,
+                rental.getCompletionRequestedBy(),
+                rental.getCompletionConfirmedBy(),
+                rental.getCancellationRequestedBy(),
                 contract.map(Contract::getId).orElse(null),
                 contract.map(Contract::getStatus).orElse(null),
                 contract.map(Contract::getFileUrl).orElse(null),
@@ -327,6 +357,7 @@ public class RentalService {
                 lesseeName,
                 lesseeUsername,
                 rental.getStatus(),
+                rental.getCompletionRequestedBy(),
                 rental.getStartAt(),
                 rental.getEndAt(),
                 rental.getCreatedAt()
@@ -347,6 +378,7 @@ public class RentalService {
         String statusLabel = switch (rental.getStatus()) {
             case PENDING -> "ожидает подтверждения";
             case ACTIVE -> "подтверждено";
+            case COMPLETION_PENDING -> "ожидает завершения";
             case COMPLETED -> "завершено";
             case CANCELLED -> "отменено";
         };
@@ -381,6 +413,7 @@ public class RentalService {
                 counterpartyName,
                 counterpartyUsername,
                 rental.getStatus(),
+                rental.getCompletionRequestedBy(),
                 rental.getStartAt(),
                 rental.getEndAt(),
                 rental.getCreatedAt(),

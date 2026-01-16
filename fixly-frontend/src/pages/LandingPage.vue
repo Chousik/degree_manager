@@ -16,9 +16,16 @@ const categoriesError = ref('');
 const products = ref([]);
 const productsLoading = ref(true);
 const productsError = ref('');
+const heroQuery = ref('');
 
 const goToLogin = () => router.push('/login');
 const goToCatalog = () => router.push('/catalog');
+const goToSearch = () => {
+  router.push({
+    path: '/search',
+    query: heroQuery.value ? { q: heroQuery.value } : undefined,
+  });
+};
 
 onMounted(() => {
   if (isLoggedIn.value) {
@@ -86,7 +93,7 @@ async function loadProducts() {
 
 function filterByCategory(categoryId) {
   router.push({
-    path: '/catalog',
+    path: '/search',
     query: categoryId ? { category: categoryId } : undefined,
   });
 }
@@ -104,15 +111,21 @@ function formatPrice(value) {
   <div class="landing">
     <MainHeader />
 
-    <div class="landing-actions">
-      <div class="landing-buttons">
-        <button type="button" class="landing-btn primary" @click="goToCatalog">Все категории</button>
+    <section class="landing-hero">
+      <div>
+        <h1>Инструменты рядом — без лишней суеты</h1>
+        <p>Поиск по названию, ключевым словам и описанию. Фильтры по цене, датам и местоположению.</p>
       </div>
-      <div class="landing-search">
-        <input type="text" placeholder="Найдите инструмент, услугу или продавца">
-        <button type="button">Найти</button>
+      <div class="landing-hero__form">
+        <input
+          v-model="heroQuery"
+          type="text"
+          placeholder="Например: шуруповерт, лестница, сварка"
+          @keyup.enter="goToSearch"
+        >
+        <button type="button" class="landing-btn primary" @click="goToSearch">Найти</button>
       </div>
-    </div>
+    </section>
 
     <section class="landing-section">
       <div class="landing-section__title">Категории</div>

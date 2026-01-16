@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { USER_API_BASE, fetchJson } from '../api/client';
 import MainHeader from '../components/MainHeader.vue';
 import { useSession } from '../state/session';
+import { startListingConversation } from '../api/conversations';
+import { getLessorReviews } from '../api/reviews';
 
 const route = useRoute();
 const router = useRouter();
@@ -23,6 +25,10 @@ const listing = reactive({
   categories: [],
   availabilitySlots: [],
   ownerId: '',
+  ownerName: '',
+  ownerUsername: '',
+  ownerRating: null,
+  ownerReviewCount: 0,
   status: '',
   createdAt: '',
 });
@@ -43,6 +49,28 @@ const rentalRanges = ref([]);
 const selectedStartDay = ref('');
 const selectedEndDay = ref('');
 const bookingError = ref('');
+const questionText = ref('');
+const questionLoading = ref(false);
+const ownerReviews = ref([]);
+const reviewsLoading = ref(false);
+const reviewsError = ref('');
+const isReviewsOpen = ref(false);
+const reportModal = reactive({
+  open: false,
+  targetType: 'listing',
+  targetId: '',
+  reason: '',
+  note: '',
+});
+const reportSubmitting = ref(false);
+const reportError = ref('');
+const reportReasons = [
+  'Мошенничество',
+  'Запрещенный товар',
+  'Неверное описание',
+  'Оскорбления/спам',
+  'Другое',
+];
 const todayStart = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -59,6 +87,21 @@ const locationLabel = computed(() => {
   }
   return '';
 });
+const ownerLabel = computed(() => {
+  if (listing.ownerName) {
+    return listing.ownerUsername ? `${listing.ownerName} (@${listing.ownerUsername})` : listing.ownerName;
+  }
+  if (listing.ownerUsername) return `@${listing.ownerUsername}`;
+  return listing.ownerId || '';
+});
+const formattedOwnerRating = computed(() => {
+  if (!listing.ownerRating && listing.ownerRating !== 0) return '—';
+  return Number(listing.ownerRating).toLocaleString('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+});
+const renderStars = (rating) => {
+  const rounded = Math.round(Number(rating) || 0);
+  return Array.from({ length: 5 }, (_, index) => index < rounded);
+};
 const hasPhotos = computed(() => Array.isArray(listing.photos) && listing.photos.length > 0);
 const isOwner = computed(() => Boolean(listing.ownerId && userId.value && listing.ownerId === userId.value));
 const sortedPhotos = computed(() => {
@@ -357,6 +400,107 @@ const bookRental = async () => {
   }
 };
 
+const askQuestion = async () => {
+  if (!isLoggedIn.value) {
+    showToast('Сначала войдите, чтобы написать', 'error');
+    router.push('/login');
+    return;
+  }
+  if (isOwner.value) {
+    showToast('Нельзя писать самому себе', 'error');
+    return;
+  }
+  if (!questionText.value.trim()) {
+    showToast('Введите вопрос', 'error');
+    return;
+  }
+  if (questionLoading.value) return;
+  questionLoading.value = true;
+  try {
+    const response = await startListingConversation(listing.id, {
+      senderId: userId.value,
+      body: questionText.value.trim(),
+    });
+    questionText.value = '';
+    if (response?.conversationId) {
+      router.push({ path: '/account', query: { tab: 'chats', conversation: response.conversationId } });
+      return;
+    }
+    showToast('Сообщение отправлено', 'success');
+  } catch (err) {
+    showToast(err.message || 'Не удалось отправить сообщение', 'error');
+  } finally {
+    questionLoading.value = false;
+  }
+};
+
+const openReviewsModal = async () => {
+  if (!listing.ownerId) return;
+  isReviewsOpen.value = true;
+  reviewsLoading.value = true;
+  reviewsError.value = '';
+  try {
+    const data = await getLessorReviews(listing.ownerId);
+    ownerReviews.value = Array.isArray(data) ? data : [];
+  } catch (err) {
+    reviewsError.value = err?.message || 'Не удалось загрузить отзывы.';
+    ownerReviews.value = [];
+  } finally {
+    reviewsLoading.value = false;
+  }
+};
+
+const closeReviewsModal = () => {
+  isReviewsOpen.value = false;
+};
+
+const openReportModal = (type, id) => {
+  if (!isLoggedIn.value) {
+    showToast('Сначала войдите, чтобы пожаловаться', 'error');
+    router.push('/login');
+    return;
+  }
+  reportModal.open = true;
+  reportModal.targetType = type;
+  reportModal.targetId = id;
+  reportModal.reason = '';
+  reportModal.note = '';
+  reportError.value = '';
+};
+
+const closeReportModal = () => {
+  reportModal.open = false;
+};
+
+const submitReport = async () => {
+  if (!reportModal.targetId || !userId.value) return;
+  if (!reportModal.reason) {
+    reportError.value = 'Выберите причину';
+    return;
+  }
+  const reason = reportModal.note
+    ? `${reportModal.reason}: ${reportModal.note}`
+    : reportModal.reason;
+  reportSubmitting.value = true;
+  reportError.value = '';
+  try {
+    const endpoint =
+      reportModal.targetType === 'review'
+        ? `${USER_API_BASE}/moderation/reviews/${reportModal.targetId}/flag`
+        : `${USER_API_BASE}/moderation/listings/${reportModal.targetId}/flag`;
+    await fetchJson(endpoint, {
+      method: 'POST',
+      body: JSON.stringify({ reporterId: userId.value, reason }),
+    });
+    showToast('Жалоба отправлена', 'success');
+    closeReportModal();
+  } catch (err) {
+    reportError.value = err?.message || 'Не удалось отправить жалобу.';
+  } finally {
+    reportSubmitting.value = false;
+  }
+};
+
 const archiveListing = async () => {
   if (!isLoggedIn.value || !userId.value || !listing.id) return;
   if (ownerActionLoading.value) return;
@@ -543,6 +687,16 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
           </button>
           <p class="helper small">Аренда считается посуточно.</p>
 
+          <div class="listing-question">
+            <label class="listing-question__label">
+              Вопрос владельцу
+              <textarea v-model="questionText" rows="3" placeholder="Уточните детали по аренде"></textarea>
+            </label>
+            <button class="landing-btn ghost" type="button" :disabled="questionLoading" @click="askQuestion">
+              {{ questionLoading ? 'Отправляем...' : 'Задать вопрос' }}
+            </button>
+          </div>
+
           <div v-if="toast.visible" class="toast" :class="toast.type">{{ toast.message }}</div>
         </aside>
         <aside class="landing-card listing-book" v-else>
@@ -590,7 +744,25 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
           <div class="meta-row">
             <span class="chip ghost">{{ formatDeposit(listing.depositAmount) }}</span>
             <span class="chip ghost" v-if="locationLabel">Локация: {{ locationLabel }}</span>
-            <span class="chip ghost" v-if="listing.ownerId">Владелец: {{ listing.ownerId }}</span>
+            <span class="chip ghost" v-if="ownerLabel">
+              Владелец: {{ ownerLabel }}
+            </span>
+            <button
+              v-if="listing.ownerId"
+              type="button"
+              class="chip ghost chip-action"
+              @click="openReviewsModal"
+            >
+              Рейтинг: {{ formattedOwnerRating }} · отзывов: {{ listing.ownerReviewCount || 0 }}
+            </button>
+            <button
+              v-if="listing.id"
+              type="button"
+              class="chip ghost chip-action"
+              @click="openReportModal('listing', listing.id)"
+            >
+              Пожаловаться
+            </button>
           </div>
           <div class="tag-row">
             <span v-if="!listing.categories?.length" class="muted">Категории не указаны</span>
@@ -629,6 +801,76 @@ watch(() => route.params.id, (newId) => newId && fetchListing(newId));
             Вперед ›
           </button>
         </div>
+      </div>
+    </div>
+
+    <div v-if="isReviewsOpen" class="photo-modal" @click.self="closeReviewsModal">
+      <div class="photo-modal__window reviews-modal">
+        <button class="photo-modal__close" type="button" aria-label="Закрыть" @click="closeReviewsModal">×</button>
+        <div class="reviews-modal__head">
+          <h3>Отзывы об арендодателе</h3>
+          <div class="muted small">Рейтинг: {{ formattedOwnerRating }} · всего: {{ listing.ownerReviewCount || 0 }}</div>
+        </div>
+        <p v-if="reviewsLoading" class="helper">Загружаем отзывы...</p>
+        <p v-else-if="reviewsError" class="helper error">{{ reviewsError }}</p>
+        <div v-else class="reviews-list">
+          <article v-for="review in ownerReviews" :key="review.id" class="review-card">
+            <div class="review-card__head">
+              <div class="review-card__title">{{ review.listingTitle || 'Объявление' }}</div>
+              <div class="review-card__rating">
+                <span class="stars">
+                  <span
+                    v-for="(active, index) in renderStars(review.rating)"
+                    :key="index"
+                    class="star"
+                    :class="{ active }"
+                  >
+                    ★
+                  </span>
+                </span>
+                <span class="rating-value">{{ review.rating }}</span>
+              </div>
+            </div>
+            <div class="review-card__meta">
+              {{ review.rentalStatus === 'COMPLETED' ? 'Аренда состоялась' : 'Аренда не состоялась' }}
+            </div>
+            <p class="review-card__text">{{ review.text }}</p>
+            <div class="review-card__date">{{ review.createdAt ? new Date(review.createdAt).toLocaleDateString('ru-RU') : '' }}</div>
+            <div class="review-card__actions">
+              <button type="button" class="report-btn" @click="openReportModal('review', review.id)">
+                Пожаловаться
+              </button>
+            </div>
+          </article>
+          <p v-if="!ownerReviews.length" class="helper">Отзывов пока нет.</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="reportModal.open" class="photo-modal" @click.self="closeReportModal">
+      <div class="photo-modal__window report-modal">
+        <button class="photo-modal__close" type="button" aria-label="Закрыть" @click="closeReportModal">×</button>
+        <h3>Жалоба</h3>
+        <form class="report-modal__form" @submit.prevent="submitReport">
+          <label>
+            Причина
+            <select v-model="reportModal.reason">
+              <option value="" disabled>Выберите причину</option>
+              <option v-for="reason in reportReasons" :key="reason" :value="reason">{{ reason }}</option>
+            </select>
+          </label>
+          <label>
+            Детали (необязательно)
+            <textarea v-model="reportModal.note" rows="3" placeholder="Опишите, что не так"></textarea>
+          </label>
+          <div v-if="reportError" class="helper error">{{ reportError }}</div>
+          <div class="report-modal__actions">
+            <button type="button" class="photo-modal__button" @click="closeReportModal">Отмена</button>
+            <button type="submit" class="photo-modal__button" :disabled="reportSubmitting">
+              {{ reportSubmitting ? 'Отправляем...' : 'Отправить' }}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

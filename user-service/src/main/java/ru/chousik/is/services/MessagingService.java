@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.chousik.is.dto.message.MessageDto;
 import ru.chousik.is.dto.message.MessageRequest;
+import ru.chousik.is.entity.Conversation;
 import ru.chousik.is.entity.Message;
 import ru.chousik.is.entity.Rental;
 import ru.chousik.is.entity.User;
 import ru.chousik.is.exceptions.BusinessValidationException;
 import ru.chousik.is.repository.MessageRepository;
+import ru.chousik.is.repository.UserRepository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -23,6 +25,7 @@ public class MessagingService {
     private final RentalService rentalService;
     private final ConversationService conversationService;
     private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public MessageDto sendMessage(UUID rentalId, MessageRequest request) {
@@ -50,6 +53,28 @@ public class MessagingService {
                 .toList();
     }
 
+    @Transactional
+    public MessageDto sendConversationMessage(UUID conversationId, MessageRequest request) {
+        Conversation conversation = conversationService.getConversationForUser(conversationId, request.senderId());
+        Message message = new Message();
+        message.setConversation(conversation);
+        message.setSender(resolveParticipant(conversation, request.senderId()));
+        message.setBody(request.body());
+        message.setSentAt(OffsetDateTime.now());
+        message.setIsRead(Boolean.FALSE);
+        Message saved = messageRepository.save(message);
+        return map(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MessageDto> getConversationMessages(UUID conversationId, UUID requesterId) {
+        conversationService.getConversationForUser(conversationId, requesterId);
+        return messageRepository.findAllByConversation_IdOrderBySentAtAsc(conversationId)
+                .stream()
+                .map(this::map)
+                .toList();
+    }
+
     private void validateParticipant(Rental rental, UUID actorId) {
         UUID lessorId = rental.getLessor() != null ? rental.getLessor().getId() : null;
         UUID lesseeId = rental.getLessee() != null ? rental.getLessee().getId() : null;
@@ -66,6 +91,14 @@ public class MessagingService {
             return rental.getLessee();
         }
         throw new BusinessValidationException("User is not a participant of rental");
+    }
+
+    private User resolveParticipant(Conversation conversation, UUID userId) {
+        if (conversation.getRental() != null) {
+            return resolveUser(conversation.getRental(), userId);
+        }
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessValidationException("User not found"));
     }
 
     private MessageDto map(Message message) {

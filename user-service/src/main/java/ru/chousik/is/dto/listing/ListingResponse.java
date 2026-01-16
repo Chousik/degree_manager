@@ -10,6 +10,10 @@ import java.util.UUID;
 public record ListingResponse(
         UUID id,
         UUID ownerId,
+        String ownerName,
+        String ownerUsername,
+        BigDecimal ownerRating,
+        long ownerReviewCount,
         String title,
         String description,
         BigDecimal pricePerHour,

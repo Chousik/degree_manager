@@ -1,9 +1,10 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import MainHeader from '../components/MainHeader.vue';
 import { USER_API_BASE, fetchJson } from '../api/client';
 import { useSession } from '../state/session';
+import { getConversationMessages, getConversations, sendConversationMessage } from '../api/conversations';
 
 const router = useRouter();
 const route = useRoute();
@@ -18,6 +19,18 @@ const rentals = ref([]);
 const rentalsLoading = ref(false);
 const rentalsError = ref('');
 const rentalsTab = ref('pending');
+const reviewDrafts = ref({});
+const reviewErrors = ref({});
+const reviewSuccess = ref({});
+const chatSectionRef = ref(null);
+const conversations = ref([]);
+const conversationsLoading = ref(false);
+const conversationsError = ref('');
+const activeConversationId = ref(route.query.conversation || '');
+const conversationMessages = ref([]);
+const messagesLoading = ref(false);
+const messageDraft = ref('');
+const messageError = ref('');
 
 async function loadAccount() {
   if (!isLoggedIn.value) {
@@ -60,6 +73,71 @@ async function loadRentals() {
   }
 }
 
+async function loadConversations() {
+  if (!isLoggedIn.value || !profile.value?.id) {
+    conversations.value = [];
+    return;
+  }
+  conversationsLoading.value = true;
+  conversationsError.value = '';
+  try {
+    const data = await getConversations(profile.value.id);
+    conversations.value = Array.isArray(data) ? data : [];
+  } catch (err) {
+    conversationsError.value = 'Не удалось загрузить чаты.';
+    conversations.value = [];
+  } finally {
+    conversationsLoading.value = false;
+  }
+}
+
+async function loadMessages(conversationId) {
+  if (!conversationId || !profile.value?.id) {
+    conversationMessages.value = [];
+    return;
+  }
+  messagesLoading.value = true;
+  messageError.value = '';
+  try {
+    const data = await getConversationMessages(conversationId, profile.value.id);
+    conversationMessages.value = Array.isArray(data) ? data : [];
+  } catch (err) {
+    messageError.value = err?.message || 'Не удалось загрузить сообщения.';
+    conversationMessages.value = [];
+  } finally {
+    messagesLoading.value = false;
+  }
+}
+
+async function openConversation(conversationId) {
+  if (!conversationId) return;
+  activeConversationId.value = conversationId;
+  await loadMessages(conversationId);
+  router.replace({
+    query: { ...route.query, tab: 'chats', conversation: conversationId },
+  });
+}
+
+async function sendChatMessage() {
+  if (!activeConversationId.value || !profile.value?.id) return;
+  if (!messageDraft.value.trim()) {
+    messageError.value = 'Введите сообщение.';
+    return;
+  }
+  messageError.value = '';
+  try {
+    await sendConversationMessage(activeConversationId.value, {
+      senderId: profile.value.id,
+      body: messageDraft.value.trim(),
+    });
+    messageDraft.value = '';
+    await loadMessages(activeConversationId.value);
+    await loadConversations();
+  } catch (err) {
+    messageError.value = err?.message || 'Не удалось отправить сообщение.';
+  }
+}
+
 onMounted(() => {
   loadAccount();
 });
@@ -75,6 +153,7 @@ watch(
   () => profile.value?.id,
   () => {
     loadRentals();
+    loadConversations();
   }
 );
 
@@ -83,6 +162,22 @@ watch(
   (value) => {
     if (value === 'pending' || value === 'active' || value === 'completed') {
       rentalsTab.value = value;
+    }
+    if (value === 'chats') {
+      nextTick(() => {
+        chatSectionRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  () => route.query.conversation,
+  (value) => {
+    if (value) {
+      activeConversationId.value = value;
+      loadMessages(value);
     }
   },
   { immediate: true }
@@ -149,7 +244,7 @@ const filteredRentals = computed(() => {
   const tab = rentalsTab.value;
   return rentals.value.filter((rental) => {
     if (tab === 'pending') return rental.status === 'PENDING';
-    if (tab === 'active') return rental.status === 'ACTIVE';
+    if (tab === 'active') return rental.status === 'ACTIVE' || rental.status === 'COMPLETION_PENDING';
     if (tab === 'completed') return rental.status === 'COMPLETED';
     return false;
   });
@@ -158,6 +253,7 @@ const filteredRentals = computed(() => {
 const rentalStatusLabels = {
   PENDING: 'Ожидает подтверждения',
   ACTIVE: 'Подтверждена',
+  COMPLETION_PENDING: 'Ожидает завершения',
   COMPLETED: 'Завершена',
   CANCELLED: 'Отменена',
 };
@@ -168,12 +264,65 @@ const paymentStatusLabels = {
   refunded: 'Возвращено',
 };
 
+const ensureReviewDraft = (rentalId) => {
+  if (!reviewDrafts.value[rentalId]) {
+    reviewDrafts.value = {
+      ...reviewDrafts.value,
+      [rentalId]: { rating: 5, text: '', open: false },
+    };
+  }
+  return reviewDrafts.value[rentalId];
+};
+
+const toggleReviewForm = (rentalId) => {
+  const draft = ensureReviewDraft(rentalId);
+  reviewDrafts.value = {
+    ...reviewDrafts.value,
+    [rentalId]: { ...draft, open: !draft.open },
+  };
+};
+
+const submitReview = async (rentalId) => {
+  if (!profile.value?.id) return;
+  const draft = ensureReviewDraft(rentalId);
+  reviewErrors.value = { ...reviewErrors.value, [rentalId]: '' };
+  reviewSuccess.value = { ...reviewSuccess.value, [rentalId]: '' };
+  try {
+    await fetchJson(`${USER_API_BASE}/rentals/${rentalId}/reviews`, {
+      method: 'POST',
+      body: JSON.stringify({
+        authorId: profile.value.id,
+        rating: Number(draft.rating),
+        text: draft.text || '',
+      }),
+    });
+    reviewSuccess.value = { ...reviewSuccess.value, [rentalId]: 'Отзыв отправлен' };
+    reviewDrafts.value = {
+      ...reviewDrafts.value,
+      [rentalId]: { ...draft, text: '', open: false },
+    };
+  } catch (err) {
+    reviewErrors.value = { ...reviewErrors.value, [rentalId]: err?.message || 'Не удалось отправить отзыв.' };
+  }
+};
+
 const formatDate = (value) => {
   if (!value) return '—';
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '—';
   return date.toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' });
 };
+
+const formatTime = (value) => {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' });
+};
+
+const activeConversation = computed(() =>
+  conversations.value.find((conversation) => conversation.conversationId === activeConversationId.value)
+);
 
 const confirmRental = async (rentalId) => {
   if (!profile.value?.id) return;
@@ -217,6 +366,32 @@ const payRental = async (rentalId) => {
     rentalsError.value = err?.message || 'Не удалось оплатить аренду.';
   }
 };
+
+const requestCompletion = async (rentalId) => {
+  if (!profile.value?.id) return;
+  try {
+    await fetchJson(`${USER_API_BASE}/rentals/${rentalId}/complete`, {
+      method: 'POST',
+      body: JSON.stringify({ actorId: profile.value.id }),
+    });
+    await loadRentals();
+  } catch (err) {
+    rentalsError.value = err?.message || 'Не удалось завершить аренду.';
+  }
+};
+
+const cancelRental = async (rentalId) => {
+  if (!profile.value?.id) return;
+  try {
+    await fetchJson(`${USER_API_BASE}/rentals/${rentalId}/cancel`, {
+      method: 'POST',
+      body: JSON.stringify({ actorId: profile.value.id }),
+    });
+    await loadRentals();
+  } catch (err) {
+    rentalsError.value = err?.message || 'Не удалось отменить аренду.';
+  }
+};
 </script>
 
 <template>
@@ -257,7 +432,7 @@ const payRental = async (rentalId) => {
       </template>
     </section>
 
-    <section class="dashboard-section">
+    <section ref="chatSectionRef" class="dashboard-section">
       <h2>Настройки уведомлений</h2>
       <p v-if="!isLoggedIn" class="dashboard-note">После входа вы сможете увидеть свои настройки уведомлений.</p>
       <p v-else-if="error && !notifications" class="dashboard-note error">{{ error }}</p>
@@ -348,6 +523,30 @@ const payRental = async (rentalId) => {
                 Подтвердить
               </button>
               <button
+                v-if="rental.status === 'ACTIVE'"
+                type="button"
+                class="btn secondary"
+                @click="requestCompletion(rental.rentalId)"
+              >
+                Запросить завершение
+              </button>
+              <button
+                v-if="rental.status === 'COMPLETION_PENDING' && rental.completionRequestedBy !== profile?.id"
+                type="button"
+                class="btn secondary"
+                @click="requestCompletion(rental.rentalId)"
+              >
+                Подтвердить завершение
+              </button>
+              <button
+                v-if="rental.status === 'COMPLETION_PENDING' && rental.completionRequestedBy === profile?.id"
+                type="button"
+                class="btn secondary"
+                disabled
+              >
+                Ожидаем подтверждения
+              </button>
+              <button
                 v-if="rental.role === 'LESSEE' && rental.status === 'ACTIVE' && rental.totalAmount && rental.rentalStatus !== 'succeeded'"
                 type="button"
                 class="btn secondary"
@@ -363,10 +562,120 @@ const payRental = async (rentalId) => {
               >
                 Оплатить залог
               </button>
+              <button
+                v-if="rental.status === 'PENDING' || rental.status === 'ACTIVE' || rental.status === 'COMPLETION_PENDING'"
+                type="button"
+                class="btn secondary"
+                @click="cancelRental(rental.rentalId)"
+              >
+                Отменить
+              </button>
+              <button
+                v-if="rental.status === 'COMPLETED' || rental.status === 'CANCELLED'"
+                type="button"
+                class="btn secondary"
+                @click="toggleReviewForm(rental.rentalId)"
+              >
+                Оставить отзыв
+              </button>
+            </div>
+            <div v-if="reviewSuccess[rental.rentalId]" class="dashboard-note success">
+              {{ reviewSuccess[rental.rentalId] }}
+            </div>
+            <div v-if="ensureReviewDraft(rental.rentalId).open" class="review-form">
+              <label>
+                Оценка
+                <select v-model="ensureReviewDraft(rental.rentalId).rating">
+                  <option v-for="star in 5" :key="star" :value="star">{{ star }}</option>
+                </select>
+              </label>
+              <label>
+                Отзыв
+                <textarea v-model="ensureReviewDraft(rental.rentalId).text" rows="3" placeholder="Напишите кратко..."></textarea>
+              </label>
+              <button type="button" class="btn secondary" @click="submitReview(rental.rentalId)">
+                Отправить отзыв
+              </button>
+              <p v-if="reviewErrors[rental.rentalId]" class="dashboard-note error">
+                {{ reviewErrors[rental.rentalId] }}
+              </p>
             </div>
           </article>
         </div>
         <p v-else class="dashboard-note">В этом разделе пока пусто.</p>
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <h2>Чаты</h2>
+      <p v-if="!isLoggedIn" class="dashboard-note">Войдите, чтобы увидеть переписки.</p>
+      <p v-else-if="conversationsLoading" class="dashboard-note">Загружаем переписки...</p>
+      <p v-else-if="conversationsError" class="dashboard-note error">{{ conversationsError }}</p>
+      <div v-else class="chat-grid">
+        <div class="chat-list">
+          <button
+            v-for="conversation in conversations"
+            :key="conversation.conversationId"
+            type="button"
+            class="chat-list__item"
+            :class="{ active: conversation.conversationId === activeConversationId }"
+            @click="openConversation(conversation.conversationId)"
+          >
+            <div class="chat-list__thumb">
+              <img v-if="conversation.listingPhotoUrl" :src="conversation.listingPhotoUrl" alt="" />
+              <span v-else>📷</span>
+            </div>
+            <div class="chat-list__body">
+              <div class="chat-list__title">{{ conversation.listingTitle || 'Объявление' }}</div>
+              <div class="chat-list__meta">
+                {{ conversation.counterpartyName || 'Пользователь' }}
+                <span v-if="conversation.counterpartyUsername">(@{{ conversation.counterpartyUsername }})</span>
+              </div>
+              <div class="chat-list__preview">
+                {{ conversation.lastMessagePreview || 'Нет сообщений' }}
+              </div>
+            </div>
+            <div class="chat-list__time">{{ formatTime(conversation.lastMessageAt) }}</div>
+          </button>
+          <p v-if="!conversations.length" class="dashboard-note">Пока нет переписок.</p>
+        </div>
+
+        <div class="chat-panel">
+          <div v-if="!activeConversationId" class="chat-empty">
+            Выберите чат слева, чтобы открыть переписку.
+          </div>
+          <template v-else>
+            <div class="chat-panel__head">
+              <div>
+                <div class="chat-panel__title">{{ activeConversation?.listingTitle || 'Объявление' }}</div>
+                <div class="chat-panel__subtitle">
+                  {{ activeConversation?.counterpartyName || 'Пользователь' }}
+                  <span v-if="activeConversation?.counterpartyUsername">(@{{ activeConversation.counterpartyUsername }})</span>
+                </div>
+              </div>
+            </div>
+            <div v-if="messagesLoading" class="dashboard-note">Загружаем сообщения...</div>
+            <p v-else-if="messageError" class="dashboard-note error">{{ messageError }}</p>
+            <div v-else class="chat-messages">
+              <div
+                v-for="message in conversationMessages"
+                :key="message.id"
+                class="chat-message"
+                :class="{ outgoing: message.senderId === profile?.id }"
+              >
+                <div class="chat-message__bubble">{{ message.body }}</div>
+                <div class="chat-message__time">{{ formatTime(message.sentAt) }}</div>
+              </div>
+              <div v-if="!conversationMessages.length" class="chat-empty">
+                Сообщений пока нет.
+              </div>
+            </div>
+            <div class="chat-input">
+              <textarea v-model="messageDraft" rows="2" placeholder="Введите сообщение"></textarea>
+              <button type="button" class="btn secondary" @click="sendChatMessage">Отправить</button>
+            </div>
+          </template>
+        </div>
       </div>
     </section>
   </div>

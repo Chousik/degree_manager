@@ -55,6 +55,34 @@ async function loadOwnerRentals() {
   }
 }
 
+async function requestCompletion(rentalId, event) {
+  event?.stopPropagation();
+  if (!rentalId || !userId.value) return;
+  try {
+    await fetchJson(`${USER_API_BASE}/rentals/${rentalId}/complete`, {
+      method: 'POST',
+      body: JSON.stringify({ actorId: userId.value }),
+    });
+    await loadOwnerRentals();
+  } catch (err) {
+    rentalsError.value = err?.message || 'Не удалось завершить аренду.';
+  }
+}
+
+async function cancelRental(rentalId, event) {
+  event?.stopPropagation();
+  if (!rentalId || !userId.value) return;
+  try {
+    await fetchJson(`${USER_API_BASE}/rentals/${rentalId}/cancel`, {
+      method: 'POST',
+      body: JSON.stringify({ actorId: userId.value }),
+    });
+    await loadOwnerRentals();
+  } catch (err) {
+    rentalsError.value = err?.message || 'Не удалось отменить аренду.';
+  }
+}
+
 onMounted(() => {
   loadMyListings();
   loadOwnerRentals();
@@ -256,6 +284,38 @@ async function confirmRental(id, event) {
               @click="confirmRental(rental.rentalId, $event)"
             >
               Подтвердить
+            </button>
+            <button
+              v-if="rental.status === 'ACTIVE'"
+              class="btn secondary"
+              type="button"
+              @click="requestCompletion(rental.rentalId, $event)"
+            >
+              Запросить завершение
+            </button>
+            <button
+              v-if="rental.status === 'COMPLETION_PENDING' && rental.completionRequestedBy !== userId"
+              class="btn secondary"
+              type="button"
+              @click="requestCompletion(rental.rentalId, $event)"
+            >
+              Подтвердить завершение
+            </button>
+            <button
+              v-if="rental.status === 'COMPLETION_PENDING' && rental.completionRequestedBy === userId"
+              class="btn secondary"
+              type="button"
+              disabled
+            >
+              Ожидаем подтверждения
+            </button>
+            <button
+              v-if="rental.status === 'PENDING' || rental.status === 'ACTIVE' || rental.status === 'COMPLETION_PENDING'"
+              class="btn secondary"
+              type="button"
+              @click="cancelRental(rental.rentalId, $event)"
+            >
+              Отменить
             </button>
           </div>
         </details>

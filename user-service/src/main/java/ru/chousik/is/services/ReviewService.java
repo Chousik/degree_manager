@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.chousik.is.dto.review.ReviewRequest;
 import ru.chousik.is.dto.review.ReviewResponse;
+import ru.chousik.is.dto.review.ReviewSummaryResponse;
 import ru.chousik.is.entity.Rental;
 import ru.chousik.is.entity.RentalStatus;
 import ru.chousik.is.entity.Review;
@@ -13,6 +14,7 @@ import ru.chousik.is.exceptions.BusinessValidationException;
 import ru.chousik.is.repository.ReviewRepository;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,8 +29,8 @@ public class ReviewService {
     @Transactional
     public ReviewResponse leaveReview(UUID rentalId, ReviewRequest request) {
         Rental rental = rentalService.findRental(rentalId);
-        if (rental.getStatus() != RentalStatus.COMPLETED) {
-            throw new BusinessValidationException("Reviews available only after rental completion");
+        if (rental.getStatus() != RentalStatus.COMPLETED && rental.getStatus() != RentalStatus.CANCELLED) {
+            throw new BusinessValidationException("Reviews available only after rental completion or cancellation");
         }
         ReviewAuthorRole role = resolveAuthorRole(rental, request.authorId());
         if (reviewRepository.existsByRental_IdAndAuthorRole(rentalId, role)) {
@@ -48,6 +50,20 @@ public class ReviewService {
         return map(saved);
     }
 
+    @Transactional(readOnly = true)
+    public List<ReviewSummaryResponse> getLessorReviews(UUID lessorId) {
+        if (lessorId == null) {
+            return List.of();
+        }
+        return reviewRepository.findAllByLessor_IdAndHiddenFalseAndAuthorRoleOrderByCreatedAtDesc(
+                        lessorId,
+                        ReviewAuthorRole.LESSEE
+                )
+                .stream()
+                .map(this::mapSummary)
+                .toList();
+    }
+
     private ReviewAuthorRole resolveAuthorRole(Rental rental, UUID authorId) {
         if (rental.getLessor() != null && Objects.equals(rental.getLessor().getId(), authorId)) {
             return ReviewAuthorRole.LESSOR;
@@ -65,6 +81,20 @@ public class ReviewService {
                 review.getAuthorRole(),
                 review.getRating(),
                 review.getText(),
+                review.getCreatedAt()
+        );
+    }
+
+    private ReviewSummaryResponse mapSummary(Review review) {
+        return new ReviewSummaryResponse(
+                review.getId(),
+                review.getRental() != null ? review.getRental().getId() : null,
+                review.getListing() != null ? review.getListing().getId() : null,
+                review.getListing() != null ? review.getListing().getTitle() : null,
+                review.getAuthorRole(),
+                review.getRating(),
+                review.getText(),
+                review.getRental() != null ? review.getRental().getStatus() : null,
                 review.getCreatedAt()
         );
     }

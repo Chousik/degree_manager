@@ -157,6 +157,9 @@ public class PaymentService {
         if (deposit == null || deposit.getExternalId() == null) {
             return deposit;
         }
+        if ("refunded".equalsIgnoreCase(deposit.getStatus())) {
+            return deposit;
+        }
         if (!Objects.equals(deposit.getStatus(), "succeeded")) {
             deposit = refreshStatus(deposit.getId());
         }
@@ -168,6 +171,7 @@ public class PaymentService {
         String auth = properties.getShopId() + ":" + properties.getSecretKey();
 
         var body = Map.of(
+                "payment_id", deposit.getExternalId(),
                 "amount", Map.of(
                         "value", formatAmount(deposit.getAmount()),
                         "currency", deposit.getCurrency() == null ? CURRENCY_RUB : deposit.getCurrency()
@@ -175,14 +179,21 @@ public class PaymentService {
                 "description", "Возврат депозита по аренде " + rental.getId()
         );
 
-        webClient.post()
-                .uri("/payments/{id}/refunds", deposit.getExternalId())
-                .header(HttpHeaders.AUTHORIZATION, "Basic " + java.util.Base64.getEncoder().encodeToString(auth.getBytes()))
-                .header("Idempotence-Key", UUID.randomUUID().toString())
-                .bodyValue(body)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        try {
+            webClient.post()
+                    .uri("/refunds")
+                    .header(HttpHeaders.AUTHORIZATION, "Basic " + java.util.Base64.getEncoder().encodeToString(auth.getBytes()))
+                    .header("Idempotence-Key", UUID.randomUUID().toString())
+                    .bodyValue(body)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (org.springframework.web.reactive.function.client.WebClientResponseException ex) {
+            String responseBody = ex.getResponseBodyAsString();
+            throw new BusinessValidationException(
+                    "Ошибка возврата депозита: " + (responseBody == null || responseBody.isBlank() ? ex.getMessage() : responseBody)
+            );
+        }
 
         deposit.setStatus("refunded");
         deposit.setRefundedAt(OffsetDateTime.now());

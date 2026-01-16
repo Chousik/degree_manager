@@ -20,11 +20,15 @@ public class Conversation {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "rental_id", nullable = false)
+    @JoinColumn(name = "rental_id")
     private Rental rental;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
     @NotNull
     @Column(name = "created_at", nullable = false)
