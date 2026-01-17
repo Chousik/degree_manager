@@ -1,10 +1,12 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import MainHeader from '../components/MainHeader.vue';
 import { getFavorites } from '../api/favorites';
 import { useSession } from '../state/session';
 
 const { isLoggedIn, userId } = useSession();
+const router = useRouter();
 
 const favorites = ref([]);
 const loading = ref(false);
@@ -20,6 +22,11 @@ const favoriteCards = computed(() =>
     status: item.status || '',
   }))
 );
+
+const openFavorite = (id) => {
+  if (!id) return;
+  router.push(`/catalog/${id}`);
+};
 
 async function loadFavorites() {
   if (!isLoggedIn.value || !userId.value) {
@@ -79,6 +86,7 @@ watch(
             <span v-if="item.status"> · Статус: {{ item.status }}</span>
           </p>
           <p>{{ item.description }}</p>
+          <button type="button" class="link" @click="openFavorite(item.id)">Открыть объявление</button>
         </article>
       </div>
       <div v-else class="favorites-empty">
