@@ -28,7 +28,7 @@ spec:
               value: jdbc:postgresql://postgres:5432/task_app
             - name: SPRING_DATASOURCE_USERNAME
               value: postgres
-          image: fixly-meow.ru:443/degree_manager-eureka-server:latest
+          image: fixly-meow.ru:5000/degree_manager-eureka-server:latest
           name: eureka-server
           ports:
             - containerPort: 8070

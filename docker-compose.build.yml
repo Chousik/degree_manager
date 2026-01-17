@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  my_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    image: my_image:latest
