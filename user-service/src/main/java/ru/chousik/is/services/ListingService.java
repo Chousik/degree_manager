@@ -284,7 +284,7 @@ public class ListingService {
 
         long ownerReviewCount = 0;
         if (listing.getOwner() != null) {
-            ownerReviewCount = reviewRepository.countByLessor_IdAndHiddenFalseAndAuthorRole(
+            ownerReviewCount = reviewRepository.countVisibleByLessorAndAuthorRole(
                     listing.getOwner().getId(),
                     ReviewAuthorRole.LESSEE
             );

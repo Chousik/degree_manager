@@ -33,6 +33,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final RentalRepository rentalRepository;
     private final PaymentProviderProperties properties;
+    private final NotificationService notificationService;
     private final WebClient webClient = WebClient.builder()
             .baseUrl(PROVIDER_URL)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -118,13 +119,16 @@ public class PaymentService {
         if ("succeeded".equalsIgnoreCase(response.status())) {
             payment.setPaidAt(OffsetDateTime.now());
         }
-        return paymentRepository.save(payment);
+        Payment saved = paymentRepository.save(payment);
+        notifyPaymentStatusChange(saved, null);
+        return saved;
     }
 
     @Transactional
     public Payment refreshStatus(UUID paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Payment %s not found".formatted(paymentId)));
+        String previousStatus = payment.getStatus();
         if (payment.getExternalId() == null) {
             throw new BusinessValidationException("Payment was not initiated in provider");
         }
@@ -148,7 +152,9 @@ public class PaymentService {
                 payment.setConfirmationUrl(response.confirmation().confirmation_url());
             }
         }
-        return paymentRepository.save(payment);
+        Payment saved = paymentRepository.save(payment);
+        notifyPaymentStatusChange(saved, previousStatus);
+        return saved;
     }
 
     @Transactional
@@ -197,7 +203,9 @@ public class PaymentService {
 
         deposit.setStatus("refunded");
         deposit.setRefundedAt(OffsetDateTime.now());
-        return paymentRepository.save(deposit);
+        Payment saved = paymentRepository.save(deposit);
+        notifyDepositRefunded(saved);
+        return saved;
     }
 
     private BigDecimal resolveAmount(Rental rental, PaymentPurpose purpose) {
@@ -232,5 +240,44 @@ public class PaymentService {
     }
 
     private record Confirmation(String type, String confirmation_url) {
+    }
+
+    private void notifyPaymentStatusChange(Payment payment, String previousStatus) {
+        if (payment == null || payment.getRental() == null) {
+            return;
+        }
+        String status = payment.getStatus();
+        if (status == null || status.equalsIgnoreCase(previousStatus)) {
+            return;
+        }
+        String purposeLabel = payment.getPurpose() == PaymentPurpose.DEPOSIT ? "депозит" : "аренду";
+        String message;
+        if ("succeeded".equalsIgnoreCase(status)) {
+            message = "Платеж за " + purposeLabel + " подтвержден.";
+        } else if ("canceled".equalsIgnoreCase(status)) {
+            message = "Платеж за " + purposeLabel + " отменен.";
+        } else if ("refunded".equalsIgnoreCase(status)) {
+            message = "Платеж за " + purposeLabel + " возвращен.";
+        } else {
+            return;
+        }
+        notifyPaymentParticipants(payment, message);
+    }
+
+    private void notifyDepositRefunded(Payment payment) {
+        if (payment == null || payment.getRental() == null) {
+            return;
+        }
+        notifyPaymentParticipants(payment, "Депозит возвращен.");
+    }
+
+    private void notifyPaymentParticipants(Payment payment, String message) {
+        Rental rental = payment.getRental();
+        if (rental.getLessee() != null) {
+            notificationService.createPaymentNotification(rental.getLessee(), message);
+        }
+        if (rental.getLessor() != null) {
+            notificationService.createPaymentNotification(rental.getLessor(), message);
+        }
     }
 }

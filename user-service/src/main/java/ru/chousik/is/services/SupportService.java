@@ -7,6 +7,7 @@ import ru.chousik.is.dto.support.SupportTicketRequest;
 import ru.chousik.is.dto.support.SupportTicketResolutionRequest;
 import ru.chousik.is.dto.support.SupportTicketResponse;
 import ru.chousik.is.dto.support.SupportTicketStatusRequest;
+import ru.chousik.is.dto.moderation.FlagRequest;
 import ru.chousik.is.entity.Rental;
 import ru.chousik.is.entity.SupportTicket;
 import ru.chousik.is.entity.SupportTicketStatus;
@@ -28,6 +29,8 @@ public class SupportService {
     private final SupportTicketRepository supportTicketRepository;
     private final UserRepository userRepository;
     private final RentalRepository rentalRepository;
+    private final NotificationService notificationService;
+    private final ModerationService moderationService;
 
     @Transactional
     public SupportTicketResponse createTicket(SupportTicketRequest request) {
@@ -46,6 +49,11 @@ public class SupportService {
         ticket.setMessage(request.message());
         ticket.setCreatedAt(OffsetDateTime.now());
         SupportTicket saved = supportTicketRepository.save(ticket);
+        notificationService.createSystemNotification(requester, "Обращение в поддержку создано: " + request.subject());
+        if (rental != null) {
+            String reason = buildReason(request.subject(), request.message());
+            moderationService.flagRental(rental.getId(), new FlagRequest(request.requesterId(), reason));
+        }
         return map(saved);
     }
 
@@ -80,6 +88,9 @@ public class SupportService {
         }
         ticket.setStatus(SupportTicketStatus.IN_PROGRESS);
         SupportTicket saved = supportTicketRepository.save(ticket);
+        if (ticket.getRequester() != null) {
+            notificationService.createSystemNotification(ticket.getRequester(), "Обращение в поддержку взято в работу.");
+        }
         return map(saved);
     }
 
@@ -91,6 +102,9 @@ public class SupportService {
         ticket.setResolvedAt(OffsetDateTime.now());
         ticket.setResolutionNotes(request.resolutionNotes());
         SupportTicket saved = supportTicketRepository.save(ticket);
+        if (ticket.getRequester() != null) {
+            notificationService.createSystemNotification(ticket.getRequester(), "Обращение в поддержку решено.");
+        }
         return map(saved);
     }
 
@@ -106,5 +120,17 @@ public class SupportService {
                 ticket.getResolvedAt(),
                 ticket.getResolutionNotes()
         );
+    }
+
+    private String buildReason(String subject, String message) {
+        String safeSubject = subject == null ? "" : subject.trim();
+        String safeMessage = message == null ? "" : message.trim();
+        if (safeSubject.isBlank()) {
+            return safeMessage;
+        }
+        if (safeMessage.isBlank()) {
+            return safeSubject;
+        }
+        return safeSubject + ": " + safeMessage;
     }
 }

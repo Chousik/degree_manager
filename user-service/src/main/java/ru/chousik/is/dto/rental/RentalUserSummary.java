@@ -16,6 +16,7 @@ public record RentalUserSummary(
         String counterpartyUsername,
         RentalStatus status,
         UUID completionRequestedBy,
+        String contractFileUrl,
         OffsetDateTime startAt,
         OffsetDateTime endAt,
         OffsetDateTime createdAt,

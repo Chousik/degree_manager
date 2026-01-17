@@ -1843,6 +1843,48 @@ pre {
   font-family: var(--font);
   background: rgba(255,255,255,0.95);
 }
+.report-form {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(217,165,32,0.2);
+  background: rgba(255,255,255,0.7);
+}
+.report-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: #3a2200;
+}
+.report-form textarea,
+.report-form select {
+  border-radius: 12px;
+  border: 1px solid rgba(217,165,32,0.28);
+  padding: 10px 12px;
+  font-family: var(--font);
+  background: rgba(255,255,255,0.95);
+}
+.support-form {
+  display: grid;
+  gap: 10px;
+}
+.support-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: #3a2200;
+}
+.support-form input,
+.support-form textarea,
+.support-form select {
+  border-radius: 12px;
+  border: 1px solid rgba(217,165,32,0.28);
+  padding: 10px 12px;
+  font-family: var(--font);
+  background: rgba(255,255,255,0.95);
+}
 .dashboard .btn.primary {
   border: none;
   border-radius: 999px;
@@ -2807,15 +2849,49 @@ pre {
 .map-frame {
   position: relative;
   min-height: 360px;
+  height: 420px;
   border-radius: 20px;
   border: 1px solid rgba(217,165,32,0.25);
   background: radial-gradient(circle at top, rgba(255,231,175,0.45), rgba(255,255,255,0.8));
   overflow: hidden;
 }
+.map-yandex {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
 .map-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 80px 0;
+  padding: 24px;
+  background: rgba(255,255,255,0.8);
   color: #8a6a1b;
+}
+.map-empty.error {
+  color: #b33935;
+}
+.map-price-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(17,24,39,0.2);
+  background: rgba(17,24,39,0.9);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(17,24,39,0.2);
+  white-space: nowrap;
+}
+.map-price-marker:hover {
+  background: rgba(17,24,39,0.98);
 }
 .map-marker {
   position: absolute;
@@ -2970,6 +3046,24 @@ pre {
 .favorites-card p {
   margin: 0;
   color: #4b3b17;
+}
+.favorites-card .link {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(217,165,32,0.45);
+  background: rgba(255,231,175,0.6);
+  color: #4c3200;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.favorites-card .link:hover {
+  background: rgba(255,231,175,0.85);
+  box-shadow: 0 10px 20px rgba(184,134,11,0.18);
+  transform: translateY(-1px);
 }
 
 .favorites-empty {

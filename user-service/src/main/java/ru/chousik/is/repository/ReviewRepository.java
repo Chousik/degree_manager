@@ -1,6 +1,8 @@
 package ru.chousik.is.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ru.chousik.is.entity.Review;
 import ru.chousik.is.entity.ReviewAuthorRole;
 
@@ -14,13 +16,36 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
     List<Review> findAllByLessee_Id(UUID lesseeId);
 
-    List<Review> findAllByLessor_IdAndHiddenFalse(UUID lessorId);
+    @Query("""
+        select r from Review r
+        where r.lessor.id = :lessorId and (r.hidden = false or r.hidden is null)
+        """)
+    List<Review> findAllVisibleByLessor(@Param("lessorId") UUID lessorId);
 
-    List<Review> findAllByLessee_IdAndHiddenFalse(UUID lesseeId);
+    @Query("""
+        select r from Review r
+        where r.lessee.id = :lesseeId and (r.hidden = false or r.hidden is null)
+        """)
+    List<Review> findAllVisibleByLessee(@Param("lesseeId") UUID lesseeId);
 
-    List<Review> findAllByLessor_IdAndHiddenFalseAndAuthorRoleOrderByCreatedAtDesc(UUID lessorId, ReviewAuthorRole authorRole);
+    @Query("""
+        select r from Review r
+        where r.lessor.id = :lessorId
+          and r.authorRole = :authorRole
+          and (r.hidden = false or r.hidden is null)
+        order by r.createdAt desc
+        """)
+    List<Review> findAllVisibleByLessorAndAuthorRole(@Param("lessorId") UUID lessorId,
+                                                     @Param("authorRole") ReviewAuthorRole authorRole);
 
-    long countByLessor_IdAndHiddenFalseAndAuthorRole(UUID lessorId, ReviewAuthorRole authorRole);
+    @Query("""
+        select count(r) from Review r
+        where r.lessor.id = :lessorId
+          and r.authorRole = :authorRole
+          and (r.hidden = false or r.hidden is null)
+        """)
+    long countVisibleByLessorAndAuthorRole(@Param("lessorId") UUID lessorId,
+                                           @Param("authorRole") ReviewAuthorRole authorRole);
 
     List<Review> findAllByFlaggedTrue();
 }

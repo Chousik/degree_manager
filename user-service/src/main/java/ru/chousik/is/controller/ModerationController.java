@@ -34,6 +34,13 @@ public class ModerationController {
         return ResponseEntity.accepted().build();
     }
 
+    @PostMapping("/rentals/{rentalId}/flag")
+    public ResponseEntity<Void> flagRental(@PathVariable UUID rentalId,
+                                           @Valid @RequestBody FlagRequest request) {
+        moderationService.flagRental(rentalId, request);
+        return ResponseEntity.accepted().build();
+    }
+
     @PostMapping("/listings/{listingId}/resolve")
     public ResponseEntity<Void> resolveListing(@PathVariable UUID listingId,
                                                @Valid @RequestBody ModerationResolutionRequest request) {

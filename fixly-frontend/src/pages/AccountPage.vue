@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import MainHeader from '../components/MainHeader.vue';
 import { USER_API_BASE, fetchJson } from '../api/client';
@@ -8,7 +8,7 @@ import { getConversationMessages, getConversations, sendConversationMessage } fr
 
 const router = useRouter();
 const route = useRoute();
-const { isLoggedIn } = useSession();
+const { isLoggedIn, accessToken } = useSession();
 const profile = ref(null);
 const notifications = ref(null);
 const loading = ref(false);
@@ -22,6 +22,8 @@ const rentalsTab = ref('pending');
 const reviewDrafts = ref({});
 const reviewErrors = ref({});
 const reviewSuccess = ref({});
+const reportDrafts = ref({});
+const reportErrors = ref({});
 const chatSectionRef = ref(null);
 const conversations = ref([]);
 const conversationsLoading = ref(false);
@@ -264,6 +266,55 @@ const paymentStatusLabels = {
   refunded: 'Возвращено',
 };
 
+const reportReasons = [
+  'Мошенничество',
+  'Не соблюдены условия',
+  'Спор по оплате',
+  'Оскорбления/спам',
+  'Другое',
+];
+
+const ensureReportDraft = (rentalId) => {
+  if (!reportDrafts.value[rentalId]) {
+    reportDrafts.value = {
+      ...reportDrafts.value,
+      [rentalId]: { reason: '', note: '', open: false },
+    };
+  }
+  return reportDrafts.value[rentalId];
+};
+
+const toggleReportForm = (rentalId) => {
+  const draft = ensureReportDraft(rentalId);
+  reportDrafts.value = {
+    ...reportDrafts.value,
+    [rentalId]: { ...draft, open: !draft.open },
+  };
+};
+
+const submitReport = async (rentalId) => {
+  if (!profile.value?.id) return;
+  const draft = ensureReportDraft(rentalId);
+  reportErrors.value = { ...reportErrors.value, [rentalId]: '' };
+  if (!draft.reason) {
+    reportErrors.value = { ...reportErrors.value, [rentalId]: 'Выберите причину' };
+    return;
+  }
+  const reason = draft.note ? `${draft.reason}: ${draft.note}` : draft.reason;
+  try {
+    await fetchJson(`${USER_API_BASE}/moderation/rentals/${rentalId}/flag`, {
+      method: 'POST',
+      body: JSON.stringify({ reporterId: profile.value.id, reason }),
+    });
+    reportDrafts.value = {
+      ...reportDrafts.value,
+      [rentalId]: { reason: '', note: '', open: false },
+    };
+  } catch (err) {
+    reportErrors.value = { ...reportErrors.value, [rentalId]: err?.message || 'Не удалось отправить жалобу.' };
+  }
+};
+
 const ensureReviewDraft = (rentalId) => {
   if (!reviewDrafts.value[rentalId]) {
     reviewDrafts.value = {
@@ -390,6 +441,71 @@ const cancelRental = async (rentalId) => {
     await loadRentals();
   } catch (err) {
     rentalsError.value = err?.message || 'Не удалось отменить аренду.';
+  }
+};
+
+const supportForm = reactive({
+  subject: '',
+  message: '',
+  rentalId: '',
+});
+const supportSending = ref(false);
+const supportError = ref('');
+const supportSuccess = ref('');
+
+const submitSupport = async () => {
+  if (!profile.value?.id) return;
+  if (!supportForm.subject.trim() || !supportForm.message.trim()) {
+    supportError.value = 'Заполните тему и сообщение';
+    return;
+  }
+  supportSending.value = true;
+  supportError.value = '';
+  supportSuccess.value = '';
+  try {
+    await fetchJson(`${USER_API_BASE}/support/tickets`, {
+      method: 'POST',
+      body: JSON.stringify({
+        requesterId: profile.value.id,
+        rentalId: supportForm.rentalId || null,
+        subject: supportForm.subject.trim(),
+        message: supportForm.message.trim(),
+      }),
+    });
+    supportSuccess.value = 'Обращение отправлено';
+    supportForm.subject = '';
+    supportForm.message = '';
+    supportForm.rentalId = '';
+  } catch (err) {
+    supportError.value = err?.message || 'Не удалось отправить обращение.';
+  } finally {
+    supportSending.value = false;
+  }
+};
+
+const downloadContract = async (rentalId) => {
+  if (!profile.value?.id || !accessToken.value) return;
+  try {
+    const response = await fetch(
+      `${USER_API_BASE}/contracts/rentals/${rentalId}/file?userId=${profile.value.id}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken.value}` },
+      },
+    );
+    if (!response.ok) {
+      throw new Error('Не удалось получить договор');
+    }
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `contract-${rentalId}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    rentalsError.value = err?.message || 'Не удалось скачать договор.';
   }
 };
 </script>
@@ -578,6 +694,41 @@ const cancelRental = async (rentalId) => {
               >
                 Оставить отзыв
               </button>
+              <button
+                v-if="rental.status !== 'COMPLETED'"
+                type="button"
+                class="btn secondary"
+                @click="toggleReportForm(rental.rentalId)"
+              >
+                Пожаловаться на сделку
+              </button>
+              <button
+                v-if="rental.status === 'ACTIVE' || rental.status === 'COMPLETION_PENDING' || rental.status === 'COMPLETED'"
+                type="button"
+                class="btn secondary"
+                @click="downloadContract(rental.rentalId)"
+              >
+                Скачать договор
+              </button>
+            </div>
+            <div v-if="ensureReportDraft(rental.rentalId).open" class="report-form">
+              <label>
+                Причина
+                <select v-model="ensureReportDraft(rental.rentalId).reason">
+                  <option value="" disabled>Выберите причину</option>
+                  <option v-for="reason in reportReasons" :key="reason" :value="reason">{{ reason }}</option>
+                </select>
+              </label>
+              <label>
+                Детали (необязательно)
+                <textarea v-model="ensureReportDraft(rental.rentalId).note" rows="3" placeholder="Опишите проблему"></textarea>
+              </label>
+              <button type="button" class="btn secondary" @click="submitReport(rental.rentalId)">
+                Отправить жалобу
+              </button>
+              <p v-if="reportErrors[rental.rentalId]" class="dashboard-note error">
+                {{ reportErrors[rental.rentalId] }}
+              </p>
             </div>
             <div v-if="reviewSuccess[rental.rentalId]" class="dashboard-note success">
               {{ reviewSuccess[rental.rentalId] }}
@@ -677,6 +828,35 @@ const cancelRental = async (rentalId) => {
           </template>
         </div>
       </div>
+    </section>
+
+    <section class="dashboard-section">
+      <h2>Поддержка</h2>
+      <p v-if="!isLoggedIn" class="dashboard-note">Войдите, чтобы написать в поддержку.</p>
+      <form v-else class="support-form" @submit.prevent="submitSupport">
+        <label>
+          Тема
+          <input v-model="supportForm.subject" type="text" placeholder="Кратко опишите проблему" />
+        </label>
+        <label>
+          Связать с арендой (необязательно)
+          <select v-model="supportForm.rentalId">
+            <option value="">Без аренды</option>
+            <option v-for="rental in rentals" :key="rental.rentalId" :value="rental.rentalId">
+              {{ rental.listingTitle || 'Объявление' }} · {{ formatDate(rental.startAt) }}
+            </option>
+          </select>
+        </label>
+        <label>
+          Сообщение
+          <textarea v-model="supportForm.message" rows="4" placeholder="Опишите ситуацию"></textarea>
+        </label>
+        <button type="submit" class="btn secondary" :disabled="supportSending">
+          {{ supportSending ? 'Отправляем...' : 'Отправить в поддержку' }}
+        </button>
+        <p v-if="supportError" class="dashboard-note error">{{ supportError }}</p>
+        <p v-if="supportSuccess" class="dashboard-note success">{{ supportSuccess }}</p>
+      </form>
     </section>
   </div>
 </template>

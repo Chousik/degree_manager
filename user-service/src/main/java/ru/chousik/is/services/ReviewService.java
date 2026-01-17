@@ -45,6 +45,7 @@ public class ReviewService {
         review.setRating(request.rating());
         review.setText(request.text());
         review.setCreatedAt(OffsetDateTime.now());
+        review.setHidden(Boolean.FALSE);
         Review saved = reviewRepository.save(review);
         updateReputation(saved);
         return map(saved);
@@ -55,7 +56,7 @@ public class ReviewService {
         if (lessorId == null) {
             return List.of();
         }
-        return reviewRepository.findAllByLessor_IdAndHiddenFalseAndAuthorRoleOrderByCreatedAtDesc(
+        return reviewRepository.findAllVisibleByLessorAndAuthorRole(
                         lessorId,
                         ReviewAuthorRole.LESSEE
                 )

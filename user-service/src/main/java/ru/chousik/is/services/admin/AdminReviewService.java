@@ -15,6 +15,7 @@ import ru.chousik.is.repository.ModerationActionRepository;
 import ru.chousik.is.repository.ReportRepository;
 import ru.chousik.is.repository.ReviewRepository;
 import ru.chousik.is.repository.UserRepository;
+import ru.chousik.is.services.ReputationService;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class AdminReviewService {
     private final UserRepository userRepository;
     private final ModerationActionRepository moderationActionRepository;
     private final ReportRepository reportRepository;
+    private final ReputationService reputationService;
 
     @Transactional(readOnly = true)
     public ReviewDetailDto getReview(UUID reviewId) {
@@ -73,6 +75,12 @@ public class AdminReviewService {
             moderationAction.setReport(report);
         }
         moderationActionRepository.save(moderationAction);
+
+        if (review.getAuthorRole() == ReviewAuthorRole.LESSEE && review.getLessor() != null) {
+            reputationService.updateReputationForLessor(review.getLessor().getId());
+        } else if (review.getAuthorRole() == ReviewAuthorRole.LESSOR && review.getLessee() != null) {
+            reputationService.updateReputationForLessee(review.getLessee().getId());
+        }
     }
 
     private User resolveReviewAuthor(Review review) {

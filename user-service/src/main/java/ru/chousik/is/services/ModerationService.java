@@ -10,9 +10,12 @@ import ru.chousik.is.dto.moderation.ModerationResolutionRequest;
 import ru.chousik.is.entity.Listing;
 import ru.chousik.is.entity.ModerationAction;
 import ru.chousik.is.entity.Report;
+import ru.chousik.is.entity.Rental;
 import ru.chousik.is.entity.Review;
+import ru.chousik.is.entity.ReviewAuthorRole;
 import ru.chousik.is.entity.User;
 import ru.chousik.is.repository.ListingRepository;
+import ru.chousik.is.repository.RentalRepository;
 import ru.chousik.is.repository.ModerationActionRepository;
 import ru.chousik.is.repository.ReportRepository;
 import ru.chousik.is.repository.ReviewRepository;
@@ -29,9 +32,11 @@ public class ModerationService {
 
     private final ListingRepository listingRepository;
     private final ReviewRepository reviewRepository;
+    private final RentalRepository rentalRepository;
     private final ModerationActionRepository moderationActionRepository;
     private final UserRepository userRepository;
     private final ReportRepository reportRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public void flagListing(UUID listingId, FlagRequest request) {
@@ -56,6 +61,14 @@ public class ModerationService {
     }
 
     @Transactional
+    public void flagRental(UUID rentalId, FlagRequest request) {
+        Rental rental = rentalRepository.findById(rentalId)
+                .orElseThrow(() -> new ResourceNotFoundException("Rental %s not found".formatted(rentalId)));
+        createReportForRental(rental, request.reporterId(), request.reason());
+        saveModerationAction(rental.getLessor(), request.reporterId(), rental.getListing(), request.reason(), "flag_rental");
+    }
+
+    @Transactional
     public void resolveListingFlag(UUID listingId, ModerationResolutionRequest request) {
         Listing listing = listingRepository.findById(listingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Listing %s not found".formatted(listingId)));
@@ -64,6 +77,7 @@ public class ModerationService {
         listingRepository.save(listing);
         resolveReportsForListing(listingId, request);
         saveModerationAction(listing.getOwner(), request.adminId(), listing, request.comment(), request.action());
+        notifyListingResolution(listing, request);
     }
 
     @Transactional
@@ -75,6 +89,7 @@ public class ModerationService {
         reviewRepository.save(review);
         resolveReportsForReview(reviewId, request);
         saveModerationAction(review.getLessee(), request.adminId(), review.getListing(), request.comment(), request.action());
+        notifyReviewResolution(review, request);
     }
 
     @Transactional(readOnly = true)
@@ -146,6 +161,19 @@ public class ModerationService {
         reportRepository.save(report);
     }
 
+    private void createReportForRental(Rental rental, UUID reporterId, String reason) {
+        Report report = new Report();
+        report.setStatus("OPEN");
+        report.setTargetType("RENTAL");
+        report.setTargetId(rental.getId());
+        report.setReasonBody(reason);
+        report.setCreatedAt(OffsetDateTime.now());
+        if (reporterId != null) {
+            userRepository.findById(reporterId).ifPresent(report::setReporter);
+        }
+        reportRepository.save(report);
+    }
+
     private void resolveReportsForListing(UUID listingId, ModerationResolutionRequest request) {
         List<Report> reports = reportRepository.findAllByTargetTypeIgnoreCaseAndTargetIdAndStatusIgnoreCase(
                 "LISTING",
@@ -178,5 +206,40 @@ public class ModerationService {
             report.setResolvedBy(admin);
         }
         reportRepository.saveAll(reports);
+    }
+
+    private void notifyListingResolution(Listing listing, ModerationResolutionRequest request) {
+        if (listing == null || listing.getOwner() == null) {
+            return;
+        }
+        String title = listing.getTitle() != null ? listing.getTitle() : "ваше объявление";
+        String message = request.comment() != null && !request.comment().isBlank()
+                ? String.format("Модерация по \"%s\": %s. Комментарий: %s.", title, request.action(), request.comment())
+                : String.format("Модерация по \"%s\": %s.", title, request.action());
+        notificationService.createSystemNotification(listing.getOwner(), message);
+    }
+
+    private void notifyReviewResolution(Review review, ModerationResolutionRequest request) {
+        if (review == null) {
+            return;
+        }
+        User author = resolveReviewAuthor(review);
+        if (author == null) {
+            return;
+        }
+        String message = request.comment() != null && !request.comment().isBlank()
+                ? String.format("Модерация по вашему отзыву: %s. Комментарий: %s.", request.action(), request.comment())
+                : String.format("Модерация по вашему отзыву: %s.", request.action());
+        notificationService.createSystemNotification(author, message);
+    }
+
+    private User resolveReviewAuthor(Review review) {
+        if (review.getAuthorRole() == ReviewAuthorRole.LESSOR) {
+            return review.getLessor();
+        }
+        if (review.getAuthorRole() == ReviewAuthorRole.LESSEE) {
+            return review.getLessee();
+        }
+        return null;
     }
 }

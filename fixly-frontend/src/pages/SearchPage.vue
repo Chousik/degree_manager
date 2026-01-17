@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import MainHeader from '../components/MainHeader.vue';
 import { getCategories } from '../api/categories';
@@ -34,42 +34,122 @@ const mapView = ref(route.query.view === 'map');
 const mapPoints = ref([]);
 const favorites = ref(new Set());
 const favoritesLoading = ref(false);
+const mapContainer = ref(null);
+const mapLoading = ref(false);
+const mapError = ref('');
+let mapInstance = null;
+let yandexLoaderPromise = null;
+let mapMarkers = [];
 
-const mapCenter = computed(() => {
-  if (!mapPoints.value.length) return null;
-  const coords = mapPoints.value.filter((p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude));
-  if (!coords.length) return null;
-  const lats = coords.map((p) => p.latitude);
-  const lons = coords.map((p) => p.longitude);
-  return {
-    minLat: Math.min(...lats),
-    maxLat: Math.max(...lats),
-    minLon: Math.min(...lons),
-    maxLon: Math.max(...lons),
-  };
-});
-
-const normalizedMapPoints = computed(() => {
-  if (!mapCenter.value) return [];
-  const { minLat, maxLat, minLon, maxLon } = mapCenter.value;
-  const latRange = maxLat - minLat || 1;
-  const lonRange = maxLon - minLon || 1;
-  return mapPoints.value
-    .filter((p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude))
-    .map((p) => {
-      const x = ((p.longitude - minLon) / lonRange) * 100;
-      const y = (1 - (p.latitude - minLat) / latRange) * 100;
-      return {
-        ...p,
-        x,
-        y,
-      };
-    });
-});
+const yandexApiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY || '995b7ac5-4b58-4894-953c-3e8531a4e52c';
 
 const mapFallbackList = computed(() =>
   mapPoints.value.filter((p) => !Number.isFinite(p.latitude) || !Number.isFinite(p.longitude))
 );
+
+const loadYandexMaps = () => {
+  if (window.ymaps3 && window.ymaps3.ready) {
+    return window.ymaps3.ready;
+  }
+  if (yandexLoaderPromise) {
+    return yandexLoaderPromise;
+  }
+  yandexLoaderPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    const params = new URLSearchParams({
+      apikey: yandexApiKey,
+      lang: 'ru_RU',
+    });
+    script.src = `https://api-maps.yandex.ru/v3/?${params.toString()}`;
+    script.async = true;
+    script.onload = () => {
+      if (window.ymaps3 && window.ymaps3.ready) {
+        window.ymaps3.ready.then(resolve).catch(reject);
+      } else {
+        reject(new Error('Yandex Maps API недоступна'));
+      }
+    };
+    script.onerror = () => reject(new Error('Не удалось загрузить Яндекс Карты'));
+    document.head.appendChild(script);
+  });
+  return yandexLoaderPromise;
+};
+
+const preloadYandexMaps = async () => {
+  try {
+    await loadYandexMaps();
+  } catch (err) {
+    mapError.value = err?.message || 'Не удалось загрузить Яндекс Карты.';
+  }
+};
+
+const ensureMap = async () => {
+  if (!mapView.value) {
+    return;
+  }
+  if (!mapContainer.value) {
+    await nextTick();
+  }
+  if (!mapContainer.value || mapInstance) {
+    return;
+  }
+  mapLoading.value = true;
+  mapError.value = '';
+  try {
+    await loadYandexMaps();
+    mapContainer.value.style.width = '100%';
+    mapContainer.value.style.height = '100%';
+    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer } = window.ymaps3;
+    mapInstance = new YMap(mapContainer.value, {
+      location: {
+        center: [55.751244, 37.618423],
+        zoom: 10,
+      },
+    });
+    mapInstance.addChild(new YMapDefaultSchemeLayer());
+    mapInstance.addChild(new YMapDefaultFeaturesLayer());
+  } catch (err) {
+    mapError.value = err?.message || 'Не удалось инициализировать карту.';
+  } finally {
+    mapLoading.value = false;
+  }
+};
+
+const updateMapMarkers = () => {
+  if (!mapInstance || !window.ymaps3) {
+    return;
+  }
+  if (mapMarkers.length) {
+    mapMarkers.forEach((marker) => mapInstance.removeChild(marker));
+    mapMarkers = [];
+  }
+  const points = mapPoints.value.filter((p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude));
+  if (!points.length) {
+    return;
+  }
+  const { YMapMarker } = window.ymaps3;
+  points.forEach((point, index) => {
+    const id = point.listingId || point.id;
+    if (!id) return;
+    const markerEl = document.createElement('button');
+    markerEl.type = 'button';
+    markerEl.className = 'map-price-marker';
+    markerEl.textContent = formatPrice(point.pricePerHour);
+    markerEl.addEventListener('click', () => router.push(`/catalog/${id}`));
+    const marker = new YMapMarker(
+      { coordinates: [Number(point.longitude), Number(point.latitude)] },
+      markerEl
+    );
+    mapInstance.addChild(marker);
+    mapMarkers.push(marker);
+    if (index === 0) {
+      mapInstance.setLocation?.({
+        center: [Number(point.longitude), Number(point.latitude)],
+        zoom: 11,
+      });
+    }
+  });
+};
 
 function formatPrice(value) {
   if (!value && value !== 0) {
@@ -133,6 +213,24 @@ const geocodeLocation = async () => {
     locationError.value = 'Не удалось определить местоположение';
     locationCoords.value = null;
   }
+};
+
+const buildSearchParams = () => {
+  const params = new URLSearchParams({ size: '12' });
+  if (searchQuery.value) params.set('text', searchQuery.value);
+  if (activeCategory.value) params.set('categoryId', activeCategory.value);
+  if (minPrice.value) params.set('minPrice', minPrice.value);
+  if (maxPrice.value) params.set('maxPrice', maxPrice.value);
+  if (availableFrom.value) params.set('availableFrom', buildIsoDate(availableFrom.value));
+  if (availableTo.value) params.set('availableTo', buildIsoDate(availableTo.value));
+  const bounds = buildLocationBounds();
+  if (bounds.minLatitude) {
+    params.set('minLatitude', bounds.minLatitude);
+    params.set('maxLatitude', bounds.maxLatitude);
+    params.set('minLongitude', bounds.minLongitude);
+    params.set('maxLongitude', bounds.maxLongitude);
+  }
+  return params;
 };
 
 const buildLocationBounds = () => {
@@ -216,20 +314,7 @@ async function performSearch() {
   searchLoading.value = true;
   searchError.value = '';
   try {
-    const params = new URLSearchParams({ size: '12' });
-    if (searchQuery.value) params.set('text', searchQuery.value);
-    if (activeCategory.value) params.set('categoryId', activeCategory.value);
-    if (minPrice.value) params.set('minPrice', minPrice.value);
-    if (maxPrice.value) params.set('maxPrice', maxPrice.value);
-    if (availableFrom.value) params.set('availableFrom', buildIsoDate(availableFrom.value));
-    if (availableTo.value) params.set('availableTo', buildIsoDate(availableTo.value));
-    const bounds = buildLocationBounds();
-    if (bounds.minLatitude) {
-      params.set('minLatitude', bounds.minLatitude);
-      params.set('maxLatitude', bounds.maxLatitude);
-      params.set('minLongitude', bounds.minLongitude);
-      params.set('maxLongitude', bounds.maxLongitude);
-    }
+    const params = buildSearchParams();
     const data = await fetchJson(`${USER_API_BASE}/listings?${params.toString()}`, { auth: false });
     searchResults.value = Array.isArray(data?.content) ? data.content : [];
     totalResults.value = Number.isFinite(data?.totalElements)
@@ -237,6 +322,7 @@ async function performSearch() {
       : searchResults.value.length;
     if (mapView.value) {
       await fetchMapPoints(params);
+      await ensureMap();
     }
   } catch (err) {
     searchError.value = err?.message || 'Не удалось загрузить объявления';
@@ -251,7 +337,13 @@ async function performSearch() {
 async function fetchMapPoints(params) {
   try {
     const mapData = await fetchJson(`${USER_API_BASE}/listings/map?${params.toString()}`, { auth: false });
-    mapPoints.value = Array.isArray(mapData) ? mapData : [];
+    mapPoints.value = Array.isArray(mapData)
+      ? mapData.map((point) => ({
+        ...point,
+        latitude: Number(point.latitude),
+        longitude: Number(point.longitude),
+      }))
+      : [];
   } catch (err) {
     mapPoints.value = [];
   }
@@ -261,6 +353,10 @@ onMounted(() => {
   loadCategories();
   loadFavorites();
   performSearch();
+  preloadYandexMaps();
+  if (mapView.value) {
+    ensureMap();
+  }
 });
 
 watch(
@@ -278,6 +374,24 @@ watch(
     performSearch();
   }
 );
+
+watch(mapView, (next) => {
+  if (next) {
+    const params = buildSearchParams();
+    fetchMapPoints(params);
+    ensureMap();
+  } else if (mapInstance) {
+    mapInstance.destroy?.();
+    mapInstance = null;
+    mapMarkers = [];
+  }
+});
+
+watch(mapPoints, () => {
+  if (mapView.value) {
+    updateMapMarkers();
+  }
+});
 </script>
 
 <template>
@@ -391,15 +505,9 @@ watch(
 
         <div v-else class="map-view">
           <div class="map-frame">
-            <div v-if="!normalizedMapPoints.length" class="map-empty">Нет точек для отображения</div>
-            <div
-              v-for="point in normalizedMapPoints"
-              :key="point.id || point.listingId"
-              class="map-marker"
-              :style="{ left: `${point.x}%`, top: `${point.y}%` }"
-            >
-              <span class="map-label">{{ formatPrice(point.pricePerHour) }}</span>
-            </div>
+            <div ref="mapContainer" class="map-yandex"></div>
+            <div v-if="mapLoading" class="map-empty">Загружаем карту...</div>
+            <div v-else-if="mapError" class="map-empty error">{{ mapError }}</div>
           </div>
           <div v-if="mapFallbackList.length" class="map-fallback">
             <p class="muted small">Без координат:</p>

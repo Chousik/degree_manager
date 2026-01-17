@@ -22,6 +22,8 @@ import ru.chousik.is.repository.ListingRepository;
 import ru.chousik.is.repository.PaymentRepository;
 import ru.chousik.is.repository.RentalRepository;
 import ru.chousik.is.repository.UserRepository;
+import ru.chousik.is.dto.realtime.RentalRealtimePayload;
+import ru.chousik.is.websocket.RealtimeStreamService;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -54,6 +56,7 @@ public class RentalService {
     private final PaymentService paymentService;
     private final PaymentRepository paymentRepository;
     private final NotificationService notificationService;
+    private final RealtimeStreamService realtimeStreamService;
 
     public RentalResponse createRental(RentalCreateRequest request) {
         Listing listing = listingRepository.findById(request.listingId())
@@ -95,6 +98,7 @@ public class RentalService {
         boolean autoConfirmation = Boolean.TRUE.equals(listing.getAutoConfirmation());
         rental.setStatus(autoConfirmation ? RentalStatus.ACTIVE : RentalStatus.PENDING);
         Rental saved = rentalRepository.save(rental);
+        broadcastRentalUpdate(saved, "created");
         paymentService.preparePaymentRecord(saved, PaymentPurpose.RENTAL, rental.getTotalAmount());
         if (rental.getDepositAmount() != null && rental.getDepositAmount().compareTo(BigDecimal.ZERO) > 0) {
             paymentService.preparePaymentRecord(saved, PaymentPurpose.DEPOSIT, rental.getDepositAmount());
@@ -115,9 +119,12 @@ public class RentalService {
         ensureStatus(rental, RentalStatus.PENDING);
         if (isExpired(rental)) {
             rental.setStatus(RentalStatus.CANCELLED);
+            notifyExpired(rental);
+            broadcastRentalUpdate(rental, "expired");
             return mapToResponse(rental);
         }
         activateRental(rental);
+        broadcastRentalUpdate(rental, "confirmed");
         return mapToResponse(rental);
     }
 
@@ -130,6 +137,8 @@ public class RentalService {
         rental.setCancellationRequestedBy(actorId);
         rental.setCancellationRequestedAt(OffsetDateTime.now());
         rental.setStatus(RentalStatus.CANCELLED);
+        notifyCancelled(rental, actorId);
+        broadcastRentalUpdate(rental, "cancelled");
         return mapToResponse(rental);
     }
 
@@ -146,6 +155,8 @@ public class RentalService {
             rental.setCompletionRequestedBy(actorId);
             rental.setCompletionRequestedAt(OffsetDateTime.now());
             rental.setStatus(RentalStatus.COMPLETION_PENDING);
+            notifyCompletionRequested(rental, actorId);
+            broadcastRentalUpdate(rental, "completion_requested");
             return mapToResponse(rental);
         }
         if (rental.getStatus() == RentalStatus.COMPLETION_PENDING) {
@@ -153,6 +164,8 @@ public class RentalService {
             if (requester == null) {
                 rental.setCompletionRequestedBy(actorId);
                 rental.setCompletionRequestedAt(OffsetDateTime.now());
+                notifyCompletionRequested(rental, actorId);
+                broadcastRentalUpdate(rental, "completion_requested");
                 return mapToResponse(rental);
             }
             if (Objects.equals(requester, actorId)) {
@@ -162,6 +175,8 @@ public class RentalService {
             rental.setCompletionConfirmedAt(OffsetDateTime.now());
             rental.setStatus(RentalStatus.COMPLETED);
             paymentService.refundDepositIfCompleted(rental);
+            notifyCompleted(rental);
+            broadcastRentalUpdate(rental, "completed");
             return mapToResponse(rental);
         }
         throw new BusinessValidationException("Rental status must be ACTIVE");
@@ -218,6 +233,8 @@ public class RentalService {
         if (rental.getDepositAmount() != null && rental.getDepositAmount().compareTo(BigDecimal.ZERO) > 0) {
             paymentService.preparePaymentRecord(rental, PaymentPurpose.DEPOSIT, rental.getDepositAmount());
         }
+        notifyActivated(rental);
+        broadcastRentalUpdate(rental, "activated");
     }
 
     private void createContract(Rental rental) {
@@ -225,7 +242,7 @@ public class RentalService {
         contract.setRental(rental);
         contract.setStatus("signed");
         contract.setSignedAt(OffsetDateTime.now());
-        contract.setFileUrl("/contracts/" + rental.getId() + ".pdf");
+        contract.setFileUrl("/api/contracts/rentals/" + rental.getId() + "/file");
         contract.setSignatureHash(generateSignature(rental));
         contractRepository.save(contract);
     }
@@ -349,6 +366,9 @@ public class RentalService {
                 ? String.format("%s %s", rental.getLessee().getName(), rental.getLessee().getSurname()).trim()
                 : "Пользователь";
         String lesseeUsername = rental.getLessee() != null ? rental.getLessee().getUsername() : null;
+        String contractFileUrl = contractRepository.findFirstByRental_IdOrderBySignedAtDesc(rental.getId())
+                .map(Contract::getFileUrl)
+                .orElse(null);
         return new RentalOwnerSummary(
                 rental.getId(),
                 rental.getListing() != null ? rental.getListing().getId() : null,
@@ -358,6 +378,7 @@ public class RentalService {
                 lesseeUsername,
                 rental.getStatus(),
                 rental.getCompletionRequestedBy(),
+                contractFileUrl,
                 rental.getStartAt(),
                 rental.getEndAt(),
                 rental.getCreatedAt()
@@ -394,12 +415,150 @@ public class RentalService {
         notificationService.createRentalNotification(owner, body);
     }
 
+    private void broadcastRentalUpdate(Rental rental, String event) {
+        if (rental == null) {
+            return;
+        }
+        String title = rental.getListing() != null ? rental.getListing().getTitle() : null;
+        RentalRealtimePayload payload = new RentalRealtimePayload(
+                event,
+                rental.getId(),
+                rental.getListing() != null ? rental.getListing().getId() : null,
+                title,
+                rental.getStatus(),
+                rental.getStartAt(),
+                rental.getEndAt(),
+                OffsetDateTime.now()
+        );
+        if (rental.getLessor() != null) {
+            realtimeStreamService.send(rental.getLessor().getId(), "rental", payload);
+        }
+        if (rental.getLessee() != null) {
+            realtimeStreamService.send(rental.getLessee().getId(), "rental", payload);
+        }
+    }
+
+    private void notifyActivated(Rental rental) {
+        if (rental == null) {
+            return;
+        }
+        User lessee = rental.getLessee();
+        if (lessee == null) {
+            return;
+        }
+        String body = buildRentalNotificationBody(rental, "Аренда подтверждена.");
+        notificationService.createRentalNotification(lessee, body);
+    }
+
+    private void notifyCancelled(Rental rental, UUID actorId) {
+        if (rental == null) {
+            return;
+        }
+        User actor = resolveActor(rental, actorId);
+        User recipient = resolveOtherParticipant(rental, actorId);
+        if (recipient == null) {
+            return;
+        }
+        String actorLabel = formatName(actor);
+        String body = buildRentalNotificationBody(rental, String.format("%s отменил(а) аренду.", actorLabel));
+        notificationService.createRentalNotification(recipient, body);
+    }
+
+    private void notifyCompletionRequested(Rental rental, UUID actorId) {
+        if (rental == null) {
+            return;
+        }
+        User recipient = resolveOtherParticipant(rental, actorId);
+        if (recipient == null) {
+            return;
+        }
+        User actor = resolveActor(rental, actorId);
+        String actorLabel = formatName(actor);
+        String body = buildRentalNotificationBody(rental, String.format("%s запросил(а) завершение аренды.", actorLabel));
+        notificationService.createRentalNotification(recipient, body);
+    }
+
+    private void notifyCompleted(Rental rental) {
+        if (rental == null) {
+            return;
+        }
+        String body = buildRentalNotificationBody(rental, "Аренда завершена.");
+        if (rental.getLessor() != null) {
+            notificationService.createRentalNotification(rental.getLessor(), body);
+        }
+        if (rental.getLessee() != null && !Objects.equals(rental.getLessee().getId(), rental.getLessor() != null ? rental.getLessor().getId() : null)) {
+            notificationService.createRentalNotification(rental.getLessee(), body);
+        }
+    }
+
+    private void notifyExpired(Rental rental) {
+        if (rental == null) {
+            return;
+        }
+        User lessee = rental.getLessee();
+        if (lessee == null) {
+            return;
+        }
+        String body = buildRentalNotificationBody(rental, "Запрос истек и был отменен.");
+        notificationService.createRentalNotification(lessee, body);
+    }
+
+    private String buildRentalNotificationBody(Rental rental, String message) {
+        String listingTitle = rental.getListing() != null && rental.getListing().getTitle() != null
+                ? rental.getListing().getTitle()
+                : "объявление";
+        String start = rental.getStartAt() != null ? rental.getStartAt().format(DATE_TIME_FORMATTER) : "—";
+        String end = rental.getEndAt() != null ? rental.getEndAt().format(DATE_TIME_FORMATTER) : "—";
+        return String.format("Аренда \"%s\" (%s — %s): %s", listingTitle, start, end, message);
+    }
+
+    private User resolveActor(Rental rental, UUID actorId) {
+        if (rental.getLessor() != null && Objects.equals(rental.getLessor().getId(), actorId)) {
+            return rental.getLessor();
+        }
+        if (rental.getLessee() != null && Objects.equals(rental.getLessee().getId(), actorId)) {
+            return rental.getLessee();
+        }
+        return null;
+    }
+
+    private User resolveOtherParticipant(Rental rental, UUID actorId) {
+        if (rental.getLessor() != null && Objects.equals(rental.getLessor().getId(), actorId)) {
+            return rental.getLessee();
+        }
+        if (rental.getLessee() != null && Objects.equals(rental.getLessee().getId(), actorId)) {
+            return rental.getLessor();
+        }
+        return null;
+    }
+
+    private String formatName(User user) {
+        if (user == null) {
+            return "Пользователь";
+        }
+        String first = user.getName();
+        String last = user.getSurname();
+        if (first != null && !first.isBlank() && last != null && !last.isBlank()) {
+            return first + " " + last;
+        }
+        if (first != null && !first.isBlank()) {
+            return first;
+        }
+        if (last != null && !last.isBlank()) {
+            return last;
+        }
+        return user.getUsername() != null ? user.getUsername() : "Пользователь";
+    }
+
     private RentalUserSummary mapToUserSummary(Rental rental, String role) {
         User counterparty = "LESSOR".equals(role) ? rental.getLessee() : rental.getLessor();
         String counterpartyName = counterparty != null
                 ? String.format("%s %s", counterparty.getName(), counterparty.getSurname()).trim()
                 : "Пользователь";
         String counterpartyUsername = counterparty != null ? counterparty.getUsername() : null;
+        String contractFileUrl = contractRepository.findFirstByRental_IdOrderBySignedAtDesc(rental.getId())
+                .map(Contract::getFileUrl)
+                .orElse(null);
         Payment deposit = paymentRepository.findFirstByRental_IdAndPurpose(rental.getId(), PaymentPurpose.DEPOSIT);
         Payment rentalPayment = paymentRepository.findFirstByRental_IdAndPurpose(rental.getId(), PaymentPurpose.RENTAL);
         String depositStatus = deposit != null ? deposit.getStatus() : null;
@@ -414,6 +573,7 @@ public class RentalService {
                 counterpartyUsername,
                 rental.getStatus(),
                 rental.getCompletionRequestedBy(),
+                contractFileUrl,
                 rental.getStartAt(),
                 rental.getEndAt(),
                 rental.getCreatedAt(),

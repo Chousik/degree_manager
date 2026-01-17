@@ -102,13 +102,19 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSession } from '../state/session';
+import { useNotifications } from '../state/notifications';
+import { useRealtime } from '../state/realtime';
+import { openRealtimeStream } from '../api/stream';
 import { updateCity } from '../api/account';
 
 const router = useRouter();
 const { city, isLoggedIn, userId, setCity, loadCityFromServer } = useSession();
+const { upsertNotification, clearNotifications } = useNotifications();
+const { addMessageEvent, addRentalEvent, clearEvents } = useRealtime();
+let streamCleanup = null;
 
 const showCityModal = ref(false);
 const selectedCity = ref('Москва');
@@ -289,17 +295,62 @@ onMounted(() => {
   if (isLoggedIn.value) {
     loadCityFromServer();
   }
+  startStream();
 });
 
 watch(() => isLoggedIn.value, (loggedIn) => {
   if (loggedIn) {
     loadCityFromServer(true);
+    startStream();
+  } else {
+    clearNotifications();
+    clearEvents();
+    stopStream();
   }
 });
 
 watch(() => userId.value, (value) => {
   if (isLoggedIn.value && value) {
     loadCityFromServer(true);
+    startStream();
   }
 });
+
+onUnmounted(() => {
+  stopStream();
+});
+
+function handleStreamMessage(envelope) {
+  if (!envelope || !envelope.type) {
+    return;
+  }
+  if (envelope.type === 'notification') {
+    upsertNotification(envelope.payload);
+    return;
+  }
+  if (envelope.type === 'message') {
+    addMessageEvent(envelope.payload);
+    return;
+  }
+  if (envelope.type === 'rental') {
+    addRentalEvent(envelope.payload);
+  }
+}
+
+function startStream() {
+  stopStream();
+  if (!isLoggedIn.value || !userId.value) {
+    return;
+  }
+  streamCleanup = openRealtimeStream(userId.value, {
+    onMessage: handleStreamMessage,
+  });
+}
+
+function stopStream() {
+  if (streamCleanup) {
+    streamCleanup();
+    streamCleanup = null;
+  }
+}
 </script>

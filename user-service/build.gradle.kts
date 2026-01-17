@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("io.netty:netty-resolver-dns-native-macos:4.1.119.Final:osx-aarch_64")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")

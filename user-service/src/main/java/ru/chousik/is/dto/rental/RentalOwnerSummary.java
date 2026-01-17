@@ -14,6 +14,7 @@ public record RentalOwnerSummary(
         String lesseeUsername,
         RentalStatus status,
         UUID completionRequestedBy,
+        String contractFileUrl,
         OffsetDateTime startAt,
         OffsetDateTime endAt,
         OffsetDateTime createdAt

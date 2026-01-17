@@ -3,10 +3,11 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import MainHeader from '../components/MainHeader.vue';
 import { getUserNotifications } from '../api/notifications';
 import { useSession } from '../state/session';
+import { useNotifications } from '../state/notifications';
 
 const { isLoggedIn, userId } = useSession();
+const { notifications, setNotifications } = useNotifications();
 
-const notifications = ref([]);
 const loading = ref(false);
 const error = ref('');
 let pollTimer = null;
@@ -31,7 +32,7 @@ const displayedNotifications = computed(() =>
 
 async function loadNotifications() {
   if (!isLoggedIn.value || !userId.value) {
-    notifications.value = [];
+    setNotifications([]);
     stopPolling();
     return;
   }
@@ -39,11 +40,11 @@ async function loadNotifications() {
   error.value = '';
   try {
     const data = await getUserNotifications(userId.value);
-    notifications.value = Array.isArray(data) ? data : [];
+    setNotifications(Array.isArray(data) ? data : []);
     startPolling();
   } catch (err) {
     error.value = 'Не удалось загрузить уведомления. Попробуйте обновить страницу.';
-    notifications.value = [];
+    setNotifications([]);
     stopPolling();
   } finally {
     loading.value = false;
@@ -61,7 +62,7 @@ function startPolling() {
     getUserNotifications(userId.value)
       .then((data) => {
         if (Array.isArray(data)) {
-          notifications.value = data;
+          setNotifications(data);
         }
       })
       .catch(() => {});
