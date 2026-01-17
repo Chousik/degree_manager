@@ -48,7 +48,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.4.4")
-	implementation("io.micrometer:micrometer-registry-prometheus")
+//	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0")

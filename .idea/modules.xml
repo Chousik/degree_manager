@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/admin-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/admin-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/event-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/event-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-server.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/multi-microservice-app.iml" filepath="$PROJECT_DIR$/multi-microservice-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.is.admin-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.is.admin-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ru.chousik.is.user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ru.chousik.is.user-service.main.iml" />

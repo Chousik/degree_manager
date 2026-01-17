@@ -1,5 +1,7 @@
+version: '3.9'
+
 services:
-  db:
+  postgres:
     build: .
     restart: always
     expose:
@@ -11,25 +13,115 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./p gdata:/var/lib/postgresql/data
-    command: postgres -c shared_preload_libraries=pg_cron -c cron.database_name=task_app
-  prometheus:
-    image: prom/prometheus:v2.53.0
-    container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+      - ./pgdata:/var/lib/postgresql/data
 
-  grafana:
-    image: grafana/grafana:11.5.3
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
+  eureka-server:
+    build:
+      context: ./eureka-server
+    depends_on:
+      - postgres
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task_app
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8070:8070"
+
+  auth-service:
+    build:
+      context: ./auth-service
+    depends_on:
+      - postgres
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task_app
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka/
+      APP_OAUTH2_ALLOWED_ORIGINS: http://localhost:5173,http://localhost:5174,http://localhost:5175
+      APP_OAUTH2_SUCCESS_REDIRECT: http://localhost:5173/auth-callback
+      APP_OAUTH2_FAILURE_REDIRECT: http://localhost:5173/login?error=oauth
+    ports:
+      - "8071:8071"
+
+  user-service:
+    build:
+      context: ./user-service
+    depends_on:
+      - postgres
+      - auth-service
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task_app
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      KEY_SET_URI: http://auth-service:8071/oauth2/jwks
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka/
+    ports:
+      - "8085:8085"
+
+  admin-service:
+    build:
+      context: ./admin-service
+    depends_on:
+      - auth-service
+      - user-service
+      - eureka-server
+    environment:
+      KEYSETURI: http://auth-service:8071/oauth2/jwks
+      ADMIN_USER_SERVICE_BASE_URL: http://user-service:8085
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka/
+    ports:
+      - "8086:8086"
+
+  event-service:
+    build:
+      context: ./event-service
+    depends_on:
+      - postgres
+      - auth-service
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task_app
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      keySetURI: http://auth-service:8071/oauth2/jwks
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka/
+    ports:
+      - "8087:8087"
+
+  gateway-server:
+    build:
+      context: ./gateway-server
+    depends_on:
+      - auth-service
+      - user-service
+      - admin-service
+      - eureka-server
+    environment:
+      KEYSETURI: http://auth-service:8071/oauth2/jwks
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka/
+    ports:
+      - "8075:8075"
+
+#  prometheus:
+#    image: prom/prometheus:v2.53.0
+#    container_name: prometheus
+#    volumes:
+#      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#    ports:
+#      - "9090:9090"
+
+#  grafana:
+#    image: grafana/grafana:11.5.3
+#    container_name: grafana
+#    environment:
+#      GF_SECURITY_ADMIN_PASSWORD: admin
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - grafana_data:/var/lib/grafana
+
   minio:
     image: minio/minio:RELEASE.2024-10-02T17-50-41Z
     environment:
@@ -41,6 +133,7 @@ services:
       - "9001:9001"
     volumes:
       - minio-data:/data
+
 volumes:
   pgdata:
   grafana_data:

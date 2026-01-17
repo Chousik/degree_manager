@@ -27,7 +27,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
-	implementation("io.micrometer:micrometer-registry-prometheus")
+	/*implementation("io.micrometer:micrometer-registry-prometheus")*/
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
