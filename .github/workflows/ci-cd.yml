@@ -91,6 +91,7 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           source: deployment/server-package/*
           target: ${{ env.DEPLOY_PATH }}
+          strip_components: 2
 
       - name: Run apply.sh on remote host
         uses: appleboy/ssh-action@v1.1.0
@@ -98,6 +99,7 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          envs: DEPLOY_PATH,REGISTRY
           script: |
             set -euo pipefail
             mkdir -p ${{ env.DEPLOY_PATH }}
