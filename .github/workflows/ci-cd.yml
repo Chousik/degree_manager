@@ -35,6 +35,12 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v4
 
+      - name: Trust registry CA
+        if: secrets.REGISTRY_CA_CERT != ''
+        run: |
+          echo "${{ secrets.REGISTRY_CA_CERT }}" | base64 --decode | sudo tee /etc/docker/certs.d/fixly-meow.ru:5000/ca.crt >/dev/null
+          sudo chmod 644 /etc/docker/certs.d/fixly-meow.ru:5000/ca.crt
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 

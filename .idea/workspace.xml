@@ -6,23 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-service-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-service-service.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service-service.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server-service.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-server-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-server-service.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minio-data-persistentvolumeclaim.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minio-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minio-service.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/postgres-cm0-configmap.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/postgres-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/postgres-service.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service-deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service-service.yaml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
