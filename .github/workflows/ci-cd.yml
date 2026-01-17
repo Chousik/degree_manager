@@ -103,5 +103,6 @@ jobs:
           script: |
             set -euo pipefail
             mkdir -p ${{ env.DEPLOY_PATH }}
+            export PATH="/usr/local/bin:$PATH"
             cd ${{ env.DEPLOY_PATH }}
             bash apply.sh default ${REGISTRY} latest
