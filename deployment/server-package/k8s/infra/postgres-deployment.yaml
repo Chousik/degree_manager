@@ -30,16 +30,16 @@ spec:
               value: postgres
             - name: POSTGRES_USER
               value: postgres
-          image: fixly-meow.ru:443/degree_manager-postgres:latest
+          image: fixly-meow.ru:5000/degree_manager-postgres:latest
           name: postgres
           ports:
             - containerPort: 5432
               protocol: TCP
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgres-cm0
+              name: postgres-data
       restartPolicy: Always
       volumes:
-        - configMap:
-            name: postgres-cm0
-          name: postgres-cm0
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc

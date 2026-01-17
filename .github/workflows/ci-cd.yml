@@ -1,0 +1,108 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [course-work]
+  
+env:
+  REGISTRY: fixly-meow.ru:5000
+  IMAGE_PREFIX: degree_manager
+  DOCKER_BUILDKIT: 1
+  DEPLOY_PATH: /home/fixly/server-package
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: admin-service
+            context: ./admin-service
+            image: admin-service
+          - service: auth-service
+            context: ./auth-service
+            image: auth-service
+          - service: user-service
+            context: ./user-service
+            image: user-service
+          - service: gateway-server
+            context: ./gateway-server
+            image: gateway-server
+          - service: eureka-server
+            context: ./eureka-server
+            image: eureka-server
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Trust registry CA
+        run: |
+          sudo mkdir -p /etc/docker/certs.d/fixly-meow.ru:5000
+          echo "${{ secrets.REGISTRY_CA_CERT }}" | base64 --decode | \
+            sudo tee /etc/docker/certs.d/fixly-meow.ru:5000/ca.crt >/dev/null
+          sudo chmod 644 /etc/docker/certs.d/fixly-meow.ru:5000/ca.crt
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker
+
+      - name: Log in to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push ${{ matrix.service }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.context }}/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          provenance: false
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.image }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.image }}:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Prepare remote directory
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            mkdir -p ${{ env.DEPLOY_PATH }}
+
+      - name: Copy server package to host
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: deployment/server-package/*
+          target: ${{ env.DEPLOY_PATH }}
+          strip_components: 2
+
+      - name: Run apply.sh on remote host
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          envs: DEPLOY_PATH,REGISTRY
+          script: |
+            set -euo pipefail
+            mkdir -p ${{ env.DEPLOY_PATH }}
+            export PATH="/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/snap/bin:$PATH"
+            cd ${{ env.DEPLOY_PATH }}
+            bash apply.sh default ${REGISTRY} latest

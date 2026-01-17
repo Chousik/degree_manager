@@ -5,32 +5,36 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.38.0 (HEAD)
   labels:
-    io.kompose.service: admin-service
-  name: admin-service
+    io.kompose.service: user-service
+  name: user-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: admin-service
+      io.kompose.service: user-service
   template:
     metadata:
       annotations:
         kompose.cmd: kompose convert
         kompose.version: 1.38.0 (HEAD)
       labels:
-        io.kompose.service: admin-service
+        io.kompose.service: user-service
     spec:
       containers:
         - env:
-            - name: ADMIN_USER_SERVICE_BASE_URL
-              value: http://user-service:8085
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: http://eureka-server:8070/eureka/
-            - name: KEYSETURI
+            - name: KEY_SET_URI
               value: http://auth-service:8071/oauth2/jwks
-          image: degree_manager-admin-service:latest
-          name: admin-service
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: postgres
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/task_app
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+          image: fixly-meow.ru:5000/degree_manager-user-service:latest
+          name: user-service
           ports:
-            - containerPort: 8086
+            - containerPort: 8085
               protocol: TCP
       restartPolicy: Always
