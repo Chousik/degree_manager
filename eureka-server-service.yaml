@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.38.0 (HEAD)
+  labels:
+    io.kompose.service: eureka-server
+  name: eureka-server
+spec:
+  ports:
+    - name: "8070"
+      port: 8070
+      targetPort: 8070
+  selector:
+    io.kompose.service: eureka-server

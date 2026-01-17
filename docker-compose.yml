@@ -74,22 +74,6 @@ services:
     ports:
       - "8086:8086"
 
-  event-service:
-    build:
-      context: ./event-service
-    depends_on:
-      - postgres
-      - auth-service
-      - eureka-server
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task_app
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      keySetURI: http://auth-service:8071/oauth2/jwks
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka/
-    ports:
-      - "8087:8087"
-
   gateway-server:
     build:
       context: ./gateway-server

@@ -5,11 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
+      <change afterPath="$PROJECT_DIR$/admin-service-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-service-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eureka-server-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eureka-server-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-service-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-service-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway-server-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway-server-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/minio-data-persistentvolumeclaim.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/minio-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/minio-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgres-cm0-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgres-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postgres-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service-service.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/EditListingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/EditListingPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/NewListingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/NewListingPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,11 +118,11 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Chousik/degree_manager.git&quot;,
-    &quot;accountId&quot;: &quot;265850aa-5b4e-47a0-bb3e-9b09f5e12346&quot;
+    &quot;url&quot;: &quot;git@github.com:Chousik/degree_manager.git&quot;,
+    &quot;accountId&quot;: &quot;edc806ca-cd20-4583-8d4b-68146b100625&quot;
   }
 }</component>
-  <component name="GradleModuleStateConfig">
+  <component name="GradleModuleStateConfig" initialized="true">
     <option name="configPaths">
       <map>
         <entry key="$PROJECT_DIR$/admin-service" value="$PROJECT_DIR$/admin-service/build.gradle.kts" />
@@ -145,9 +160,14 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Docker.docker-compose.yml.auth-service: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.eureka-server: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.gateway-server: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.postgres: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml.prometheus: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.user-service: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
     &quot;Gradle.AuthServiceApplicationTests.executor&quot;: &quot;Run&quot;,
@@ -267,38 +287,8 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
-    <option name="configurationStatuses">
-      <map>
-        <entry key="SpringBootApplicationConfigurationType">
-          <value>
-            <map>
-              <entry key="AdminServiceApplication (1)" value="STOPPED" />
-              <entry key="AuthServiceApplication" value="STOPPED" />
-              <entry key="EurekaServerApplication (1)" value="STOPPED" />
-              <entry key="GatewayServerApplication (1)" value="STOPPED" />
-              <entry key="TaskServiceApplication (1)" value="STOPPED" />
-              <entry key="UserServiceApplication (1)" value="STOPPED" />
-            </map>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
-  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
-    <configuration name="AdminServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="admin-service.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.admin.AdminServiceApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.chousik.is.admin.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Docker.docker-compose.yml.gateway-server: Compose Deployment">
     <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" singleton="true" nameIsGenerated="true">
       <module name="ru.chousik.web.auth-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.authservice.AuthServiceApplication" />
@@ -314,34 +304,15 @@
       </method>
     </configuration>
     <configuration name="GatewayServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="ru.chousik.web.gateway-server.main" />
+      <module name="gateway-server.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.gatewayserver.GatewayServerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="degree_manager.event-service.main" />
+    <configuration name="TaskServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="event-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.event.TaskServiceApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.chousik.is.event.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TaskServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="degree_manager.workload-service.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.event.TaskServiceApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.chousik.is.event.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -360,20 +331,69 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yml.auth-service: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
+          <option name="commandLineOptions" value="--build" />
+          <option name="services">
+            <list>
+              <option value="auth-service" />
+            </list>
+          </option>
           <option name="sourceFilePath" value="docker-compose.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml.minio: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yml.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
+          <option name="commandLineOptions" value="--build" />
           <option name="services">
             <list>
-              <option value="minio" />
+              <option value="db" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.gateway-server: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="commandLineOptions" value="--build" />
+          <option name="services">
+            <list>
+              <option value="gateway-server" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="commandLineOptions" value="--build" />
+          <option name="services">
+            <list>
+              <option value="postgres" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.user-service: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="commandLineOptions" value="--build" />
+          <option name="services">
+            <list>
+              <option value="user-service" />
             </list>
           </option>
           <option name="sourceFilePath" value="docker-compose.yml" />
@@ -382,29 +402,32 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml.minio: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.auth-service: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.gateway-server: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.user-service: Compose Deployment" />
+      <item itemvalue="Spring Boot.TaskServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication (1)" />
       <item itemvalue="Spring Boot.GatewayServerApplication (1)" />
       <item itemvalue="Spring Boot.UserServiceApplication (1)" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
-      <item itemvalue="Spring Boot.AdminServiceApplication (1)" />
-      <item itemvalue="Spring Boot.TaskServiceApplication (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-        <item itemvalue="Spring Boot.TaskServiceApplication (1)" />
-        <item itemvalue="Spring Boot.AdminServiceApplication (1)" />
-        <item itemvalue="Spring Boot.TaskServiceApplication" />
+        <item itemvalue="Docker.docker-compose.yml.gateway-server: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.auth-service: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.user-service: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
@@ -454,6 +477,8 @@
       <workItem from="1749898575423" duration="604000" />
       <workItem from="1750014590490" duration="5324000" />
       <workItem from="1768373002880" duration="20227000" />
+      <workItem from="1768642348559" duration="9748000" />
+      <workItem from="1768666498268" duration="3742000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />

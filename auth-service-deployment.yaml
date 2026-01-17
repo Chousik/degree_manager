@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.38.0 (HEAD)
+  labels:
+    io.kompose.service: auth-service
+  name: auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: auth-service
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.38.0 (HEAD)
+      labels:
+        io.kompose.service: auth-service
+    spec:
+      containers:
+        - env:
+            - name: APP_OAUTH2_ALLOWED_ORIGINS
+              value: http://localhost:5173,http://localhost:5174,http://localhost:5175
+            - name: APP_OAUTH2_FAILURE_REDIRECT
+              value: http://localhost:5173/login?error=oauth
+            - name: APP_OAUTH2_SUCCESS_REDIRECT
+              value: http://localhost:5173/auth-callback
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8070/eureka/
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: postgres
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/task_app
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+          image: fixly-meow.ru:443/degree_manager-auth-service:latest
+          name: auth-service
+          ports:
+            - containerPort: 8071
+              protocol: TCP
+      restartPolicy: Always

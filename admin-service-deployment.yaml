@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.38.0 (HEAD)
+  labels:
+    io.kompose.service: admin-service
+  name: admin-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: admin-service
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.38.0 (HEAD)
+      labels:
+        io.kompose.service: admin-service
+    spec:
+      containers:
+        - env:
+            - name: ADMIN_USER_SERVICE_BASE_URL
+              value: http://user-service:8085
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8070/eureka/
+            - name: KEYSETURI
+              value: http://auth-service:8071/oauth2/jwks
+          image: degree_manager-admin-service:latest
+          name: admin-service
+          ports:
+            - containerPort: 8086
+              protocol: TCP
+      restartPolicy: Always
