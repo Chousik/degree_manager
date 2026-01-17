@@ -208,6 +208,44 @@ const fetchAddressSuggestions = async (query, requestId) => {
   }
 };
 
+const normalizeCoord = (value, min, max) => {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return null;
+  if (num < min || num > max) return null;
+  return Number(num.toFixed(6));
+};
+
+const resolveAddressCoordinates = async (address, fallback) => {
+  const trimmed = address.trim();
+  if (!trimmed) {
+    return { lat: null, lon: null };
+  }
+  if (selectedAddress.value?.lat != null && selectedAddress.value?.lon != null) {
+    const lat = normalizeCoord(selectedAddress.value.lat, -90, 90);
+    const lon = normalizeCoord(selectedAddress.value.lon, -180, 180);
+    return { lat, lon };
+  }
+  if (fallback?.lat != null && fallback?.lon != null && trimmed === originalLocation.value.address) {
+    return {
+      lat: normalizeCoord(fallback.lat, -90, 90),
+      lon: normalizeCoord(fallback.lon, -180, 180),
+    };
+  }
+  const url = `${geocodeBase}/search?format=json&addressdetails=1&limit=1&accept-language=ru&q=${encodeURIComponent(trimmed)}`;
+  const response = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (!response.ok) {
+    throw new Error('Не удалось определить координаты по адресу');
+  }
+  const data = await response.json();
+  const first = Array.isArray(data) ? data[0] : null;
+  const lat = normalizeCoord(first?.lat, -90, 90);
+  const lon = normalizeCoord(first?.lon, -180, 180);
+  if (lat == null || lon == null) {
+    throw new Error('Не удалось определить координаты по адресу');
+  }
+  return { lat, lon };
+};
+
 watch(addressQuery, (value) => {
   if (addressTimer) clearTimeout(addressTimer);
   if (!value || value.trim().length < 3) {
@@ -285,6 +323,10 @@ async function updateListing() {
       ...uploaded,
     ].map((photo, index) => ({ url: photo.url, sortOrder: index + 1 }));
     const trimmedAddress = form.address.trim();
+    const coords = trimmedAddress ? await resolveAddressCoordinates(trimmedAddress, {
+      lat: originalLocation.value.latitude,
+      lon: originalLocation.value.longitude,
+    }) : { lat: null, lon: null };
     const payload = {
       ownerId: userId.value,
       title: form.title,
@@ -292,8 +334,8 @@ async function updateListing() {
       pricePerHour: form.pricePerDay ? Number(form.pricePerDay) : null,
       depositAmount: form.depositAmount ? Number(form.depositAmount) : 0,
       autoConfirmation: form.autoConfirmation,
-      latitude: trimmedAddress ? (selectedAddress.value?.lat ?? originalLocation.value.latitude) : null,
-      longitude: trimmedAddress ? (selectedAddress.value?.lon ?? originalLocation.value.longitude) : null,
+      latitude: coords.lat,
+      longitude: coords.lon,
       address: trimmedAddress || null,
       availabilitySlots: [],
       photos: combined,
@@ -433,7 +475,7 @@ watch(
                 :key="cat.id"
                 type="button"
                 class="category-suggestion"
-                @click="addCategory(cat)"
+                @mousedown.prevent="addCategory(cat)"
               >
                 {{ cat.name }}
               </button>
