@@ -1,8 +1,8 @@
 import { useSession } from '../state/session';
 import { refreshTokens } from './auth';
 
-const API_BASE = (import.meta.env.VITE_AUTH_BASE || 'http://localhost:8075/auth-service').replace(/\/$/, '');
-const ADMIN_API_BASE = (import.meta.env.VITE_ADMIN_API_BASE || 'http://localhost:8075/admin-service/api/admin').replace(/\/$/, '');
+const API_BASE = (import.meta.env.VITE_AUTH_BASE || 'https://fixly-meow.ru:8092/auth-service').replace(/\/$/, '');
+const ADMIN_API_BASE = (import.meta.env.VITE_ADMIN_API_BASE || 'https://fixly-meow.ru:8092/admin-service/api/admin').replace(/\/$/, '');
 const OAUTH_BASE = (import.meta.env.VITE_OAUTH_BASE || API_BASE).replace(/\/$/, '');
 const OAUTH_REDIRECT = import.meta.env.VITE_OAUTH_REDIRECT || 'http://localhost:5174/auth-callback';
 const OAUTH_CLIENT_ID = import.meta.env.VITE_OAUTH_CLIENT_ID || 'client';

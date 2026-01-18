@@ -25,6 +25,8 @@ NAMESPACE=${1:-default}
 IMAGE_REGISTRY=${2:-fixly-meow.ru:5000}
 IMAGE_TAG=${3:-latest}
 
+run_kubectl delete deployments --all
+
 run_kubectl get namespace "$NAMESPACE" >/dev/null 2>&1 || run_kubectl create namespace "$NAMESPACE"
 
 run_kubectl apply -n "$NAMESPACE" -f "$ROOT_DIR/k8s/infra"
