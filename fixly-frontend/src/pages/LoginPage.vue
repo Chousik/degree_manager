@@ -53,6 +53,7 @@ const handleLogin = async () => {
       credentials: 'include',
       headers: { Accept: 'application/json' },
       body: formData,
+      mode: 'cors',
     });
 
     if (!res.ok) {

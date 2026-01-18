@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
     String fromEmail;
     @Value("${app.frontend-base-url:http://localhost:5173}")
     String frontendBaseUrl;
-    @Value("${app.backend-base-url:http://localhost:8071}")
+    @Value("${app.backend-base-url:https://fixly-meow.ru:8092/auth-service}")
     String backendBaseUrl;
 
     @Override
@@ -32,9 +32,10 @@ public class EmailServiceImpl implements EmailService {
             return;
         }
 
-        String verificationLink = backendBaseUrl.endsWith("/")
-                ? backendBaseUrl + "api/users/verify-email?token=" + token
-                : backendBaseUrl + "/api/users/verify-email?token=" + token;
+        String base = backendBaseUrl.endsWith("/")
+                ? backendBaseUrl.substring(0, backendBaseUrl.length() - 1)
+                : backendBaseUrl;
+        String verificationLink = base + "/api/users/verify-email?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
         if (StringUtils.hasText(fromEmail)) {
