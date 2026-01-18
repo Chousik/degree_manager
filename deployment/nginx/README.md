@@ -2,8 +2,8 @@
 
 File `frontends.conf` contains two server blocks:
 
-- `fixly-meow.ru` on port **443** (HTTPS) serving the user frontend from `/var/www/fixly-frontend`.
-- `fixly-meow.ru:5050` serving the admin frontend from `/var/www/fixly-admin`.
+- `fixly-meow.ru` on port **443** (HTTPS) serving the user frontend from `/home/fixly/web/fixly-frontend`.
+- `fixly-meow.ru:5050` serving the admin frontend from `/home/fixly/web/fixly-admin`.
 
 Both sites reuse the TLS certificate that already lives on the server at `/opt/registry/certs/`.
 
@@ -12,7 +12,7 @@ Both sites reuse the TLS certificate that already lives on the server at `/opt/r
 1. Copy `deployment/nginx/frontends.conf` to the server (e.g. `/etc/nginx/sites-available/frontends.conf`).
 2. Ensure the target directories exist:
    ```bash
-   sudo mkdir -p /var/www/fixly-frontend /var/www/fixly-admin
+   sudo mkdir -p /home/fixly/web/fixly-frontend /home/fixly/web/fixly-admin
    ```
 3. Enable the site and reload nginx:
    ```bash

@@ -9,8 +9,8 @@ env:
   IMAGE_PREFIX: degree_manager
   DOCKER_BUILDKIT: 1
   DEPLOY_PATH: /home/fixly/server-package
-  FRONTEND_TARGET: /var/www/fixly-frontend
-  ADMIN_FRONTEND_TARGET: /var/www/fixly-admin
+  FRONTEND_TARGET: /home/fixly/web/fixly-frontend
+  ADMIN_FRONTEND_TARGET: /home/fixly/web/fixly-admin
 
 jobs:
   build-and-push:
