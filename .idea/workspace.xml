@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci-cd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci-cd.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/NewListingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/NewListingPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -582,6 +581,11 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="e2e02344-a772-4e88-b1fc-d9ac77d8994a" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
@@ -605,6 +609,11 @@
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="e2e02344-a772-4e88-b1fc-d9ac77d8994a">
           <value>
             <State />
           </value>

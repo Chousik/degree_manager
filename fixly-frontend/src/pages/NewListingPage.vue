@@ -51,7 +51,7 @@ const mediaBase = computed(() => {
     const url = new URL('/media', USER_API_BASE);
     return url.toString().replace(/\/$/, '');
   } catch (err) {
-    return 'https://fixly-meow.ru:8092/media';
+    return 'https://fixly-meow.ru:8092/user-service/media';
   }
 });
 const geocodeBase = (import.meta.env.VITE_GEOCODING_BASE || 'https://nominatim.openstreetmap.org').replace(/\/$/, '');
