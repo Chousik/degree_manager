@@ -50,7 +50,6 @@ jobs:
       - name: Build web frontend
         working-directory: fixly-frontend
         env:
-          NODE_ENV: production
           VITE_API_BASE: https://fixly-meow.ru:8092/auth-service
           VITE_USER_API_BASE: https://fixly-meow.ru:8092/user-service/api
           VITE_EMAIL_VERIFY_ENDPOINT: /api/users/verify-email
@@ -66,7 +65,6 @@ jobs:
       - name: Build admin frontend
         working-directory: fixly-admin-frontend
         env:
-          NODE_ENV: production
           VITE_AUTH_BASE: https://fixly-meow.ru:8092/auth-service
           VITE_ADMIN_API_BASE: https://fixly-meow.ru:8092/admin-service/api/admin
           VITE_OAUTH_BASE: https://fixly-meow.ru:8092/auth-service
