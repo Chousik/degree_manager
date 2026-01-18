@@ -4,28 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/assets/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/components/MainHeader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/AccountPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/NotificationsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/NotificationsPage.vue" afterDir="false" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="add map reps">
+      <change afterPath="$PROJECT_DIR$/fixly-frontend/src/api/stream.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fixly-frontend/src/state/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fixly-frontend/src/state/realtime.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/config/WebSocketConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/ContractController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/contract/ContractResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/realtime/MessageRealtimePayload.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/realtime/RealtimeEnvelope.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/realtime/RentalRealtimePayload.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ContractService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/websocket/RealtimeSocketRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/websocket/RealtimeStreamService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/websocket/RealtimeWebSocketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fixly-frontend/src/pages/SearchPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/pages/SearchPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/ModerationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/ModerationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/rental/RentalOwnerSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/rental/RentalOwnerSummary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/rental/RentalUserSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/dto/rental/RentalUserSummary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/ReviewRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/ListingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/controller/ListingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/AvailabilitySlotRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/repository/AvailabilitySlotRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ListingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ListingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/MessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/MessagingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ModerationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ModerationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/NotificationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/PaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/RentalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/RentalService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReputationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReputationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/ReviewService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/SupportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/SupportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/admin/AdminReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/ru/chousik/is/services/admin/AdminReviewService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,93 +154,93 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Docker.docker-compose.yml.db: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml.minio: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml.postgres: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml.prometheus: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Gradle.AuthServiceApplicationTests.executor": "Run",
-    "Gradle.Build admin-service.executor": "Run",
-    "Gradle.Build auth-service.executor": "Run",
-    "Gradle.Build eureka-server.executor": "Run",
-    "Gradle.Build event-service.executor": "Run",
-    "Gradle.Build gateway-server.executor": "Run",
-    "Gradle.Build task-service.executor": "Run",
-    "Gradle.Build user-service.executor": "Run",
-    "Gradle.Building Gradle Dependencies.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.Load Gradle Dependencies.executor": "Run",
-    "Gradle.auth-service [build].executor": "Run",
-    "Gradle.auth-service [clean].executor": "Run",
-    "Gradle.auth-service [dependencies].executor": "Run",
-    "Gradle.auth-service [dependencyInsight].executor": "Run",
-    "Gradle.auth-service [dependencyManagement].executor": "Run",
-    "Gradle.gateway-server [build].executor": "Run",
-    "Gradle.gateway-server [clean].executor": "Run",
-    "HTTP Request.AuthServiceApplication | #2.executor": "Run",
-    "HTTP Request.GatewayServerApplication | #1.executor": "Run",
-    "HTTP Request.TaskServiceApplication | #1.executor": "Run",
-    "HTTP Request.TaskServiceApplication | Hello with Bearer.executor": "Run",
-    "JUnit.All in auth-service (1).executor": "Run",
-    "JUnit.All in auth-service (2).executor": "Run",
-    "JUnit.All in auth-service (3).executor": "Run",
-    "JUnit.All in auth-service.executor": "Run",
-    "JavaScript Debug.index.html.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.AdminServiceApplication (1).executor": "Run",
-    "Spring Boot.AdminServiceApplication.executor": "Run",
-    "Spring Boot.AuthServiceApplication.executor": "Run",
-    "Spring Boot.EurekaServerApplication (1).executor": "Run",
-    "Spring Boot.EurekaServerApplication.executor": "Run",
-    "Spring Boot.GatewayServerApplication (1).executor": "Run",
-    "Spring Boot.GatewayServerApplication.executor": "Run",
-    "Spring Boot.TaskServiceApplication (1).executor": "Run",
-    "Spring Boot.TaskServiceApplication (2).executor": "Run",
-    "Spring Boot.TaskServiceApplication.executor": "Run",
-    "Spring Boot.UserServiceApplication (1).executor": "Run",
-    "Spring Boot.UserServiceApplication.executor": "Run",
-    "git-widget-placeholder": "course-work",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/chousik/IdeaProjects/degree_manager",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.09891197",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.postgres: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.prometheus: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Gradle.AuthServiceApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build admin-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build auth-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build eureka-server.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build event-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build gateway-server.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build task-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build user-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Building Gradle Dependencies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Load Gradle Dependencies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth-service [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth-service [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth-service [dependencies].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth-service [dependencyInsight].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth-service [dependencyManagement].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.gateway-server [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.gateway-server [clean].executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.AuthServiceApplication | #2.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.GatewayServerApplication | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.TaskServiceApplication | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.TaskServiceApplication | Hello with Bearer.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in auth-service (1).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in auth-service (2).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in auth-service (3).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in auth-service.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.AdminServiceApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.AdminServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.EurekaServerApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.GatewayServerApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.GatewayServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.TaskServiceApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.TaskServiceApplication (2).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.TaskServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.UserServiceApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;course-work&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/chousik/IdeaProjects/degree_manager&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.09891197&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TEXT"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;
     ],
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -591,7 +587,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768404000765</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add map reps">
+      <option name="closed" value="true" />
+      <created>1768693479457</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1768693479457</updated>
+    </task>
+    <task id="LOCAL-00015" summary="add map reps">
+      <option name="closed" value="true" />
+      <created>1768693493417</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1768693493417</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -622,7 +634,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -640,7 +664,8 @@
     <MESSAGE value="some shit" />
     <MESSAGE value="add photos and some for minio" />
     <MESSAGE value="start of adding listings" />
-    <option name="LAST_COMMIT_MESSAGE" value="start of adding listings" />
+    <MESSAGE value="add map reps" />
+    <option name="LAST_COMMIT_MESSAGE" value="add map reps" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

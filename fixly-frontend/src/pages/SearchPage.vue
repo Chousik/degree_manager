@@ -26,10 +26,6 @@ const minPrice = ref(route.query.minPrice || '');
 const maxPrice = ref(route.query.maxPrice || '');
 const availableFrom = ref(route.query.availableFrom ? route.query.availableFrom.slice(0, 10) : '');
 const availableTo = ref(route.query.availableTo ? route.query.availableTo.slice(0, 10) : '');
-const locationQuery = ref(route.query.location || '');
-const radiusKm = ref(route.query.radius ? Number(route.query.radius) : 10);
-const locationCoords = ref(null);
-const locationError = ref('');
 const mapView = ref(route.query.view === 'map');
 const mapPoints = ref([]);
 const favorites = ref(new Set());
@@ -185,73 +181,33 @@ const buildIsoDate = (value) => {
   if (!value) return '';
   const date = new Date(`${value}T00:00:00`);
   if (Number.isNaN(date.getTime())) return '';
-  return date.toISOString();
-};
-
-const geocodeLocation = async () => {
-  locationError.value = '';
-  if (!locationQuery.value) {
-    locationCoords.value = null;
-    return;
-  }
-  try {
-    const base = (import.meta.env.VITE_GEOCODING_BASE || 'https://nominatim.openstreetmap.org').replace(/\/$/, '');
-    const url = `${base}/search?format=json&limit=1&accept-language=ru&q=${encodeURIComponent(locationQuery.value)}`;
-    const response = await fetch(url, { headers: { Accept: 'application/json' } });
-    const data = await response.json();
-    const first = Array.isArray(data) ? data[0] : null;
-    if (!first?.lat || !first?.lon) {
-      locationError.value = 'Не удалось определить местоположение';
-      locationCoords.value = null;
-      return;
-    }
-    locationCoords.value = {
-      lat: Number(first.lat),
-      lon: Number(first.lon),
-    };
-  } catch (err) {
-    locationError.value = 'Не удалось определить местоположение';
-    locationCoords.value = null;
-  }
+  const pad = (num) => String(num).padStart(2, '0');
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+  const offsetMinutes = -date.getTimezoneOffset();
+  const sign = offsetMinutes >= 0 ? '+' : '-';
+  const absOffset = Math.abs(offsetMinutes);
+  const offsetHours = pad(Math.floor(absOffset / 60));
+  const offsetMins = pad(absOffset % 60);
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMins}`;
 };
 
 const buildSearchParams = () => {
   const params = new URLSearchParams({ size: '12' });
   if (searchQuery.value) params.set('text', searchQuery.value);
   if (activeCategory.value) params.set('categoryId', activeCategory.value);
-  if (minPrice.value) params.set('minPrice', minPrice.value);
-  if (maxPrice.value) params.set('maxPrice', maxPrice.value);
+  if (minPrice.value && Number.isFinite(Number(minPrice.value))) params.set('minPrice', Number(minPrice.value));
+  if (maxPrice.value && Number.isFinite(Number(maxPrice.value))) params.set('maxPrice', Number(maxPrice.value));
   if (availableFrom.value) params.set('availableFrom', buildIsoDate(availableFrom.value));
   if (availableTo.value) params.set('availableTo', buildIsoDate(availableTo.value));
-  const bounds = buildLocationBounds();
-  if (bounds.minLatitude) {
-    params.set('minLatitude', bounds.minLatitude);
-    params.set('maxLatitude', bounds.maxLatitude);
-    params.set('minLongitude', bounds.minLongitude);
-    params.set('maxLongitude', bounds.maxLongitude);
-  }
   return params;
 };
 
-const buildLocationBounds = () => {
-  if (!locationCoords.value) return {};
-  const radius = Math.max(1, Number(radiusKm.value || 10));
-  const latDelta = radius / 111;
-  const lonDelta = radius / (111 * Math.cos((locationCoords.value.lat * Math.PI) / 180));
-  return {
-    minLatitude: (locationCoords.value.lat - latDelta).toFixed(6),
-    maxLatitude: (locationCoords.value.lat + latDelta).toFixed(6),
-    minLongitude: (locationCoords.value.lon - lonDelta).toFixed(6),
-    maxLongitude: (locationCoords.value.lon + lonDelta).toFixed(6),
-  };
-};
-
 const submitSearch = async () => {
-  if (locationQuery.value) {
-    await geocodeLocation();
-  } else {
-    locationCoords.value = null;
-  }
   router.push({
     path: '/search',
     query: {
@@ -261,8 +217,6 @@ const submitSearch = async () => {
       ...(maxPrice.value ? { maxPrice: maxPrice.value } : {}),
       ...(availableFrom.value ? { availableFrom: availableFrom.value } : {}),
       ...(availableTo.value ? { availableTo: availableTo.value } : {}),
-      ...(locationQuery.value ? { location: locationQuery.value } : {}),
-      ...(radiusKm.value ? { radius: radiusKm.value } : {}),
       ...(mapView.value ? { view: 'map' } : {}),
     },
   });
@@ -274,9 +228,6 @@ const clearFilters = () => {
   maxPrice.value = '';
   availableFrom.value = '';
   availableTo.value = '';
-  locationQuery.value = '';
-  locationCoords.value = null;
-  locationError.value = '';
   submitSearch();
 };
 
@@ -368,8 +319,6 @@ watch(
     maxPrice.value = route.query.maxPrice || '';
     availableFrom.value = route.query.availableFrom ? String(route.query.availableFrom).slice(0, 10) : '';
     availableTo.value = route.query.availableTo ? String(route.query.availableTo).slice(0, 10) : '';
-    locationQuery.value = route.query.location || '';
-    radiusKm.value = route.query.radius ? Number(route.query.radius) : 10;
     mapView.value = route.query.view === 'map';
     performSearch();
   }
@@ -453,18 +402,6 @@ watch(mapPoints, () => {
               <input v-model="availableTo" type="date">
             </label>
           </div>
-        </div>
-        <div class="filter-section">
-          <div class="filter-section__title">Местоположение</div>
-          <label>
-            Адрес или город
-            <input v-model="locationQuery" type="text" placeholder="Город или адрес">
-          </label>
-          <label>
-            Радиус, км
-            <input v-model="radiusKm" type="number" min="1" max="100" step="1">
-          </label>
-          <p v-if="locationError" class="landing-note error">{{ locationError }}</p>
         </div>
         <div class="filter-actions">
           <button type="button" class="btn primary" @click="submitSearch">Искать</button>

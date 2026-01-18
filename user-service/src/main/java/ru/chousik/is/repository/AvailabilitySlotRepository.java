@@ -11,4 +11,6 @@ public interface AvailabilitySlotRepository extends JpaRepository<AvailabilitySl
     void deleteByListing_Id(UUID listingId);
 
     List<AvailabilitySlot> findByListing_Id(UUID listingId);
+
+    List<AvailabilitySlot> findAllByListing_IdIn(List<UUID> listingIds);
 }

@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +21,11 @@ import ru.chousik.is.dto.listing.*;
 import ru.chousik.is.services.ListingService;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,10 +41,10 @@ public class ListingController {
     public ResponseEntity<Page<ListingSummaryDto>> searchListings(
             @RequestParam(required = false) String text,
             @RequestParam(required = false) UUID categoryId,
-            @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime availableFrom,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime availableTo,
+            @RequestParam(required = false) String minPrice,
+            @RequestParam(required = false) String maxPrice,
+            @RequestParam(required = false) String availableFrom,
+            @RequestParam(required = false) String availableTo,
             @RequestParam(required = false) BigDecimal minLatitude,
             @RequestParam(required = false) BigDecimal maxLatitude,
             @RequestParam(required = false) BigDecimal minLongitude,
@@ -51,10 +54,10 @@ public class ListingController {
         ListingSearchRequest request = new ListingSearchRequest(
                 text,
                 categoryId,
-                minPrice,
-                maxPrice,
-                availableFrom,
-                availableTo,
+                parseDecimal(minPrice),
+                parseDecimal(maxPrice),
+                parseDateTime(availableFrom),
+                parseDateTime(availableTo),
                 minLatitude,
                 maxLatitude,
                 minLongitude,
@@ -74,10 +77,10 @@ public class ListingController {
     public ResponseEntity<List<ListingMapPoint>> getListingsForMap(
             @RequestParam(required = false) String text,
             @RequestParam(required = false) UUID categoryId,
-            @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime availableFrom,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime availableTo,
+            @RequestParam(required = false) String minPrice,
+            @RequestParam(required = false) String maxPrice,
+            @RequestParam(required = false) String availableFrom,
+            @RequestParam(required = false) String availableTo,
             @RequestParam(required = false) BigDecimal minLatitude,
             @RequestParam(required = false) BigDecimal maxLatitude,
             @RequestParam(required = false) BigDecimal minLongitude,
@@ -86,10 +89,10 @@ public class ListingController {
         ListingSearchRequest request = new ListingSearchRequest(
                 text,
                 categoryId,
-                minPrice,
-                maxPrice,
-                availableFrom,
-                availableTo,
+                parseDecimal(minPrice),
+                parseDecimal(maxPrice),
+                parseDateTime(availableFrom),
+                parseDateTime(availableTo),
                 minLatitude,
                 maxLatitude,
                 minLongitude,
@@ -97,6 +100,34 @@ public class ListingController {
         );
         List<ListingMapPoint> points = listingService.getListingsForMap(request);
         return ResponseEntity.ok(points);
+    }
+
+    private BigDecimal parseDecimal(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        String normalized = value.trim().replace(" ", "").replace(",", ".");
+        try {
+            return new BigDecimal(normalized).setScale(10, RoundingMode.HALF_UP);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
+    private OffsetDateTime parseDateTime(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        try {
+            return OffsetDateTime.parse(value.trim());
+        } catch (DateTimeParseException ex) {
+            try {
+                LocalDate date = LocalDate.parse(value.trim());
+                return date.atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+            } catch (DateTimeParseException ignored) {
+                return null;
+            }
+        }
     }
 
     @PostMapping

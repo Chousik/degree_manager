@@ -32,12 +32,14 @@ import ru.chousik.is.repository.UserRepository;
 import ru.chousik.is.services.mappers.ListingSummaryMapper;
 import ru.chousik.is.services.specifications.ListingSpecifications;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 
 @Service
@@ -165,6 +167,13 @@ public class ListingService {
     @Transactional(readOnly = true)
     public Page<ListingSummaryDto> searchListings(ListingSearchRequest request, Pageable pageable) {
         Specification<Listing> specification = ListingSpecifications.fromRequest(request);
+        if (hasPostFilters(request)) {
+            List<Listing> listings = listingRepository.findAll(specification);
+            List<Listing> filtered = applyPostFilters(listings, request);
+            List<Listing> paged = paginate(filtered, pageable);
+            List<ListingSummaryDto> summaries = listingSummaryMapper.toSummaryList(paged);
+            return new PageImpl<>(summaries, pageable, filtered.size());
+        }
         Page<Listing> listings = listingRepository.findAll(specification, pageable);
         List<ListingSummaryDto> summaries = listingSummaryMapper.toSummaryList(listings.getContent());
         return new PageImpl<>(summaries, pageable, listings.getTotalElements());
@@ -173,7 +182,11 @@ public class ListingService {
     @Transactional(readOnly = true)
     public List<ListingMapPoint> getListingsForMap(ListingSearchRequest request) {
         Specification<Listing> specification = ListingSpecifications.fromRequest(request);
-        return listingRepository.findAll(specification).stream()
+        List<Listing> listings = listingRepository.findAll(specification);
+        if (hasPostFilters(request)) {
+            listings = applyPostFilters(listings, request);
+        }
+        return listings.stream()
                 .filter(listing -> listing.getLatitude() != null && listing.getLongitude() != null)
                 .map(listing -> new ListingMapPoint(
                         listing.getId(),
@@ -183,6 +196,93 @@ public class ListingService {
                         listing.getLongitude()
                 ))
                 .toList();
+    }
+
+    private boolean hasPostFilters(ListingSearchRequest request) {
+        if (request == null) {
+            return false;
+        }
+        return request.minPrice() != null
+                || request.maxPrice() != null
+                || request.availableFrom() != null
+                || request.availableTo() != null;
+    }
+
+    private List<Listing> applyPostFilters(List<Listing> listings, ListingSearchRequest request) {
+        if (request == null || listings == null || listings.isEmpty()) {
+            return listings;
+        }
+        List<Listing> filtered = filterByPrice(listings, request.minPrice(), request.maxPrice());
+        if (request.availableFrom() != null || request.availableTo() != null) {
+            filtered = filterByAvailability(filtered, request.availableFrom(), request.availableTo());
+        }
+        return filtered;
+    }
+
+    private List<Listing> filterByPrice(List<Listing> listings, BigDecimal minPrice, BigDecimal maxPrice) {
+        if (minPrice == null && maxPrice == null) {
+            return listings;
+        }
+        return listings.stream()
+                .filter(listing -> {
+                    BigDecimal price = listing.getPricePerHour();
+                    if (price == null) {
+                        return false;
+                    }
+                    if (minPrice != null && price.compareTo(minPrice) < 0) {
+                        return false;
+                    }
+                    if (maxPrice != null && price.compareTo(maxPrice) > 0) {
+                        return false;
+                    }
+                    return true;
+                })
+                .toList();
+    }
+
+    private List<Listing> filterByAvailability(List<Listing> listings, OffsetDateTime from, OffsetDateTime to) {
+        if (from == null && to == null) {
+            return listings;
+        }
+        List<UUID> listingIds = listings.stream().map(Listing::getId).toList();
+        var slots = availabilitySlotRepository.findAllByListing_IdIn(listingIds);
+        var slotMap = slots.stream().collect(Collectors.groupingBy(slot -> slot.getListing().getId()));
+        return listings.stream()
+                .filter(listing -> {
+                    var listingSlots = slotMap.get(listing.getId());
+                    if (listingSlots == null || listingSlots.isEmpty()) {
+                        return false;
+                    }
+                    for (AvailabilitySlot slot : listingSlots) {
+                        if (from != null && to != null) {
+                            if (!slot.getStartsAt().isAfter(from) && !slot.getEndsAt().isBefore(to)) {
+                                return true;
+                            }
+                        } else if (from != null) {
+                            if (!slot.getEndsAt().isBefore(from)) {
+                                return true;
+                            }
+                        } else {
+                            if (!slot.getStartsAt().isAfter(to)) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                })
+                .toList();
+    }
+
+    private List<Listing> paginate(List<Listing> listings, Pageable pageable) {
+        if (listings == null || listings.isEmpty()) {
+            return List.of();
+        }
+        int start = (int) pageable.getOffset();
+        if (start >= listings.size()) {
+            return List.of();
+        }
+        int end = Math.min(start + pageable.getPageSize(), listings.size());
+        return listings.subList(start, end);
     }
 
     private void validateAvailabilitySlots(List<AvailabilitySlotRequest> slots) {
