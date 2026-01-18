@@ -36,6 +36,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,14 +55,22 @@ public class Oauth2Config {
         JdbcRegisteredClientRepository jdbcRegisteredClientRepository =
                 new JdbcRegisteredClientRepository(jdbcTemplate);
         RegisteredClient existing = jdbcRegisteredClientRepository.findByClientId("client");
+        List<String> redirectUris = List.of(
+                "http://localhost:5173/auth-callback",
+                "http://localhost:5174/auth-callback",
+                "https://fixly-meow.ru/auth-callback",
+                "https://fixly-meow.ru:8092/auth-callback"
+        );
         if (Objects.isNull(existing)) {
             RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
                     .clientId("client")
                     .clientSecret(passwordEncoder.encode("secret"))
                     .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                     .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                    .redirectUri("http://localhost:5173/auth-callback")
-                    .redirectUri("http://localhost:5174/auth-callback")
+                    .redirectUris(uris -> {
+                        uris.clear();
+                        uris.addAll(redirectUris);
+                    })
                     .scope(OidcScopes.OPENID)
                     .scope("offline_access")
                     .tokenSettings(TokenSettings.builder()
@@ -73,8 +82,10 @@ public class Oauth2Config {
             jdbcRegisteredClientRepository.save(client);
         } else {
             var builder = RegisteredClient.from(existing);
-            builder.redirectUri("http://localhost:5173/auth-callback");
-            builder.redirectUri("http://localhost:5174/auth-callback");
+            builder.redirectUris(uris -> {
+                uris.clear();
+                uris.addAll(redirectUris);
+            });
             jdbcRegisteredClientRepository.save(builder.build());
         }
         return jdbcRegisteredClientRepository;

@@ -11,15 +11,26 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-    server: {
-        host: true,
-        port: 5173,
-        allowedHosts: true,
-        proxy: {
-            "/api": {
-                target: "http://localhost:8075/user-service",
-                changeOrigin: true
-            }
-        }
+  server: {
+    host: true,
+    port,
+    allowedHosts: true,
+    proxy: {
+      '/auth-service': {
+        target: 'https://fixly-meow.ru:8092',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/user-service': {
+        target: 'https://fixly-meow.ru:8092',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/admin-service': {
+        target: 'https://fixly-meow.ru:8092',
+        changeOrigin: true,
+        secure: false,
+      },
     },
+  },
 });
