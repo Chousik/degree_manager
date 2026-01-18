@@ -36,13 +36,13 @@ import ru.chousik.web.authservice.services.TwoFactorService;
 @Configuration
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
-    @Value("${app.oauth2.success-redirect:http://localhost:5175}")
+    @Value("${app.oauth2.success-redirect:https://fixly-meow.ru}")
     private String oauthSuccessRedirect;
 
-    @Value("${app.oauth2.failure-redirect:http://localhost:5175/auth?error=oauth}")
+    @Value("${app.oauth2.failure-redirect:https://fixly-meow.ru/login?error=oauth}")
     private String oauthFailureRedirect;
 
-    @Value("${app.oauth2.allowed-origins:http://localhost:5175}")
+    @Value("${app.oauth2.allowed-origins:http://localhost:5173,http://localhost:5174,https://fixly-meow.ru,https://fixly-meow.ru:8092,https://api.fixly-meow.ru}")
     private String allowedOrigins;
 
     private final TwoFactorService twoFactorService;
@@ -51,8 +51,8 @@ public class AuthorizationServerConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.stream(allowedOrigins.split(",")).map(String::trim).toList());
-        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "DELETE"));
-        config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+        config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
         var source = new UrlBasedCorsConfigurationSource();
