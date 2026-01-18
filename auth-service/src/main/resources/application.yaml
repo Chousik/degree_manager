@@ -54,12 +54,15 @@ server:
   servlet:
     session:
       timeout: 1m
+      cookie:
+        same-site: none
+        secure: true
 jwk:
   name: "master"
 
 app:
   frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
-  backend-base-url: ${BACKEND_BASE_URL:http://localhost:8071}
+  backend-base-url: ${BACKEND_BASE_URL:https://fixly-meow.ru:8092/auth-service}
   email-verification:
     expiration-hours: ${EMAIL_VERIFICATION_EXPIRATION_HOURS:24}
   oauth2:
