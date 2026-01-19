@@ -39,7 +39,7 @@ spring:
             - StripPrefix=1
             - StripPrefix=1
         - id: minio-media
-          uri: http://localhost:9000
+          uri: http://minio:9000
           predicates:
             - Path=/media/**
           filters:
