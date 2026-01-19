@@ -43,7 +43,7 @@ public class AuthorizationServerConfig {
     @Value("${app.oauth2.failure-redirect:https://fixly-meow.ru/login?error=oauth}")
     private String oauthFailureRedirect;
 
-    @Value("${app.oauth2.allowed-origins:http://localhost:5173,http://localhost:5174,https://fixly-meow.ru,https://fixly-meow.ru:8092,https://api.fixly-meow.ru}")
+    @Value("${app.oauth2.allowed-origins:http://localhost:5173,http://localhost:5174,https://fixly-meow.ru,https://fixly-meow.ru:5050,https://fixly-meow.ru:8092,https://api.fixly-meow.ru}")
     private String allowedOrigins;
 
     private final TwoFactorService twoFactorService;
