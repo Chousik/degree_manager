@@ -38,6 +38,9 @@
       <module name="auth-service" options="-parameters" />
       <module name="auth-service.main" options="-parameters" />
       <module name="auth-service.test" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+      <module name="eureka-server.main" options="-parameters" />
+      <module name="eureka-server.test" options="-parameters" />
       <module name="event-service" options="-parameters" />
       <module name="event-service.test" options="-parameters" />
       <module name="gateway-server" options="-parameters" />

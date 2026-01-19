@@ -11,8 +11,49 @@ env:
   DEPLOY_PATH: /home/fixly/server-package
 
 jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: admin-service
+            context: ./admin-service
+          - service: auth-service
+            context: ./auth-service
+          - service: user-service
+            context: ./user-service
+          - service: gateway-server
+            context: ./gateway-server
+          - service: eureka-server
+            context: ./eureka-server
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run tests for ${{ matrix.service }}
+        run: |
+          chmod +x ${{ matrix.context }}/gradlew
+          cd ${{ matrix.context }}
+          ./gradlew test jacocoTestReport jacocoTestCoverageVerification
+
+      - name: Upload JaCoCo report for ${{ matrix.service }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-${{ matrix.service }}
+          path: |
+            ${{ matrix.context }}/build/reports/jacoco/test/html
+            ${{ matrix.context }}/build/reports/jacoco/test/jacocoTestReport.xml
+
   build-and-push:
     runs-on: ubuntu-latest
+    needs: tests
     strategy:
       fail-fast: false
       matrix:

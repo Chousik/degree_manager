@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="minio">
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="контракт">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/admin-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/controller/AccountControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/controller/AccountControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +123,7 @@
       </map>
     </option>
   </component>
-  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$/auth-service" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/corretto-17.0.16/Contents/Home" gradleVersion="8.13" />
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$/user-service" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/corretto-17.0.16/Contents/Home" gradleVersion="8.13" />
   <component name="KotlinScriptingSettings">
     <option name="suppressDefinitionsCheck" value="true" />
     <scriptDefinition className="io.amplicode.connekt.Connekt" definitionName="Connekt">
@@ -279,6 +285,14 @@
     </option>
   </component>
   <component name="RunManager" selected="Docker.docker-compose.yml.gateway-server: Compose Deployment">
+    <configuration name="AdminServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="admin-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.admin.AdminServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" singleton="true" nameIsGenerated="true">
       <module name="ru.chousik.web.auth-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.web.authservice.AuthServiceApplication" />
@@ -397,6 +411,7 @@
       <item itemvalue="Docker.docker-compose.yml.gateway-server: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yml.user-service: Compose Deployment" />
+      <item itemvalue="Spring Boot.AdminServiceApplication" />
       <item itemvalue="Spring Boot.TaskServiceApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication (1)" />
       <item itemvalue="Spring Boot.GatewayServerApplication (1)" />
@@ -583,7 +598,39 @@
       <option name="project" value="LOCAL" />
       <updated>1768854081336</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="minio">
+      <option name="closed" value="true" />
+      <created>1768856718086</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1768856718086</updated>
+    </task>
+    <task id="LOCAL-00016" summary="minio">
+      <option name="closed" value="true" />
+      <created>1768858037735</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1768858037735</updated>
+    </task>
+    <task id="LOCAL-00017" summary="payment return">
+      <option name="closed" value="true" />
+      <created>1768859267771</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1768859267771</updated>
+    </task>
+    <task id="LOCAL-00018" summary="контракт">
+      <option name="closed" value="true" />
+      <created>1768860763952</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1768860763952</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -643,7 +690,9 @@
     <MESSAGE value="add photos and some for minio" />
     <MESSAGE value="start of adding listings" />
     <MESSAGE value="minio" />
-    <option name="LAST_COMMIT_MESSAGE" value="minio" />
+    <MESSAGE value="payment return" />
+    <MESSAGE value="контракт" />
+    <option name="LAST_COMMIT_MESSAGE" value="контракт" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
