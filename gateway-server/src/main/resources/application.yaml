@@ -33,11 +33,10 @@ spring:
         - id: auth-service-login
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth-service/**
-            - Path=/api/auth-service/**
+            - Path=/auth-service/**,/api/auth-service/**
           filters:
-            - StripPrefix=1
-            - StripPrefix=1
+            - RewritePath=/auth-service/(?<segment>.*),/api/$\{segment}
+            - RewritePath=/api/auth-service/(?<segment>.*),/api/$\{segment}
         - id: minio-media
           uri: http://minio:9000
           predicates:
