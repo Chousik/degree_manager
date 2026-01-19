@@ -27,11 +27,11 @@ jobs:
       - name: Build web frontend
         working-directory: fixly-frontend
         env:
-          VITE_API_BASE: https://fixly-meow.ru:8092/auth-service
-          VITE_USER_API_BASE: https://fixly-meow.ru:8092/user-service/api
+          VITE_API_BASE: /api/auth-service
+          VITE_USER_API_BASE: /api/user-service/api
           VITE_EMAIL_VERIFY_ENDPOINT: /api/users/verify-email
           VITE_EMAIL_VERIFY_PARAM: token
-          VITE_OAUTH_BASE: https://fixly-meow.ru:8092/auth-service
+          VITE_OAUTH_BASE: /api/auth-service
           VITE_OAUTH_REDIRECT: https://fixly-meow.ru/auth-callback
           VITE_OAUTH_CLIENT_ID: client
           VITE_OAUTH_SCOPE: "openid offline_access"
@@ -46,9 +46,9 @@ jobs:
       - name: Build admin frontend
         working-directory: fixly-admin-frontend
         env:
-          VITE_AUTH_BASE: https://fixly-meow.ru:8092/auth-service
-          VITE_ADMIN_API_BASE: https://fixly-meow.ru:8092/admin-service/api/admin
-          VITE_OAUTH_BASE: https://fixly-meow.ru:8092/auth-service
+          VITE_AUTH_BASE: /api/auth-service
+          VITE_ADMIN_API_BASE: /api/admin-service/api/admin
+          VITE_OAUTH_BASE: /api/auth-service
           VITE_OAUTH_REDIRECT: https://fixly-meow.ru:5050/auth-callback
           VITE_OAUTH_CLIENT_ID: client
           VITE_OAUTH_SCOPE: "openid offline_access"
