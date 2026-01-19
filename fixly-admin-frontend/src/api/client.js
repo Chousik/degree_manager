@@ -1,7 +1,7 @@
 import { useSession } from '../state/session';
 import { refreshTokens } from './auth';
 
-const DEFAULT_ADMIN_ORIGIN = 'https://fixly-meow.ru:5050';
+const DEFAULT_ADMIN_ORIGIN = 'https://fixly-meow.ru';
 const API_BASE = (import.meta.env.VITE_AUTH_BASE || `${DEFAULT_ADMIN_ORIGIN}/api/auth-service`).replace(/\/$/, '');
 const ADMIN_API_BASE = (import.meta.env.VITE_ADMIN_API_BASE || `${DEFAULT_ADMIN_ORIGIN}/api/admin-service`).replace(/\/$/, '');
 const OAUTH_BASE = (import.meta.env.VITE_OAUTH_BASE || API_BASE).replace(/\/$/, '');

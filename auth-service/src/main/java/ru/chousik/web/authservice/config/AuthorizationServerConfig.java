@@ -28,7 +28,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
 
 import ru.chousik.web.authservice.security.DegreeUserDetails;
@@ -43,7 +42,7 @@ public class AuthorizationServerConfig {
     @Value("${app.oauth2.failure-redirect:https://fixly-meow.ru/login?error=oauth}")
     private String oauthFailureRedirect;
 
-    @Value("${app.oauth2.allowed-origins:http://localhost:5173,http://localhost:5174,https://fixly-meow.ru,https://fixly-meow.ru:5050,https://fixly-meow.ru:8092,https://api.fixly-meow.ru}")
+    @Value("${app.oauth2.allowed-origins:*}")
     private String allowedOrigins;
 
     private final TwoFactorService twoFactorService;
@@ -51,11 +50,7 @@ public class AuthorizationServerConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        List<String> originPatterns = Arrays.stream(allowedOrigins.split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .toList();
-        config.setAllowedOriginPatterns(originPatterns);
+        config.addAllowedOriginPattern("*");
         config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

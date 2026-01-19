@@ -34,7 +34,9 @@ spring:
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/auth-service/**
+            - Path=/api/auth-service/**
           filters:
+            - StripPrefix=1
             - StripPrefix=1
         - id: minio-media
           uri: http://localhost:9000
