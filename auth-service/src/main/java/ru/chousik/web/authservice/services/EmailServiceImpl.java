@@ -24,6 +24,8 @@ public class EmailServiceImpl implements EmailService {
     String frontendBaseUrl;
     @Value("${app.backend-base-url:https://fixly-meow.ru:8092/auth-service}")
     String backendBaseUrl;
+    @Value("${app.verification-link-base:https://fixly-meow.ru/api/auth-service}")
+    String verificationLinkBase;
 
     @Override
     public void sendVerificationEmail(String to, String token) {
@@ -32,9 +34,9 @@ public class EmailServiceImpl implements EmailService {
             return;
         }
 
-        String base = backendBaseUrl.endsWith("/")
-                ? backendBaseUrl.substring(0, backendBaseUrl.length() - 1)
-                : backendBaseUrl;
+        String base = verificationLinkBase.endsWith("/")
+                ? verificationLinkBase.substring(0, verificationLinkBase.length() - 1)
+                : verificationLinkBase;
         String verificationLink = base + "/api/users/verify-email?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();

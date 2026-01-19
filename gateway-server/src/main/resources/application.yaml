@@ -39,6 +39,11 @@ spring:
           uri: http://localhost:9000
           predicates:
             - Path=/media/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=Access-Control-Allow-Origin, *
+            - AddResponseHeader=Access-Control-Allow-Headers, *
+            - AddResponseHeader=Access-Control-Allow-Methods, GET,PUT,POST,DELETE,OPTIONS
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 management:
