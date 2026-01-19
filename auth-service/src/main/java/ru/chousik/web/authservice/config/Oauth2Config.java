@@ -59,6 +59,7 @@ public class Oauth2Config {
                 "http://localhost:5173/auth-callback",
                 "http://localhost:5174/auth-callback",
                 "https://fixly-meow.ru/auth-callback",
+                "https://fixly-meow.ru:5050/auth-callback",
                 "https://fixly-meow.ru:8092/auth-callback"
         );
         if (Objects.isNull(existing)) {

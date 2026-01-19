@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -640,7 +638,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/AuthorizationServerConfig.java</url>
-          <line>177</line>
+          <line>172</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
