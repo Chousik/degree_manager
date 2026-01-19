@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployment/nginx/frontends.conf" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/nginx/frontends.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -467,6 +468,7 @@
       <workItem from="1768373002880" duration="20227000" />
       <workItem from="1768642348559" duration="9748000" />
       <workItem from="1768666498268" duration="3742000" />
+      <workItem from="1768847254818" duration="4201000" />
     </task>
     <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />

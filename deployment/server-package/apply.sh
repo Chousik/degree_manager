@@ -39,3 +39,5 @@ for svc in "${services[@]}"; do
   run_kubectl set image -n "$NAMESPACE" deployment/"$svc" "$svc"="$image" --record
   run_kubectl rollout status -n "$NAMESPACE" deployment/"$svc"
 done
+
+run_kubectl patch svc gateway-server -p '{"spec":{"type":"NodePort","ports":[{"name":"http","port":8075,"targetPort":8075,"protocol":"TCP","nodePort":30075}]}}'
