@@ -12,6 +12,7 @@ spring:
               - http://localhost:5173
               - http://localhost:5174
               - https://fixly-meow.ru
+              - https://fixly-meow.ru:5050
               - https://fixly-meow.ru:8092
               - https://api.fixly-meow.ru
             allowedMethods:
