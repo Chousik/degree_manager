@@ -12,16 +12,24 @@ import ru.chousik.web.authservice.entity.AuthoritiesEntity;
 import ru.chousik.web.authservice.entity.EmailVerificationToken;
 import ru.chousik.web.authservice.entity.UserEntity;
 import ru.chousik.web.authservice.entity.UserProfileEntity;
+import ru.chousik.web.authservice.exception.AdminRoleAlreadyAssignedException;
+import ru.chousik.web.authservice.exception.AdminRoleNotAssignedException;
 import ru.chousik.web.authservice.exception.EmailExistsException;
 import ru.chousik.web.authservice.exception.ExpiredVerificationTokenException;
 import ru.chousik.web.authservice.exception.InvalidVerificationTokenException;
+import ru.chousik.web.authservice.exception.IncorrectOldPasswordException;
+import ru.chousik.web.authservice.exception.PasswordReuseException;
+import ru.chousik.web.authservice.exception.UserNotFoundException;
 import ru.chousik.web.authservice.exception.UsernameExistsException;
 import ru.chousik.web.authservice.repository.AuthoritiesRepository;
 import ru.chousik.web.authservice.repository.EmailVerificationTokenRepository;
 import ru.chousik.web.authservice.repository.UserProfileRepository;
 import ru.chousik.web.authservice.repository.UserRepository;
+import ru.chousik.web.authservice.dto.ChangePasswordDTO;
+import ru.chousik.web.authservice.dto.AdminChangePasswordDTO;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -153,5 +161,133 @@ class AccountServiceImplTest {
 
         assertThatThrownBy(() -> accountService.verifyEmail("token"))
                 .isInstanceOf(InvalidVerificationTokenException.class);
+    }
+
+    @Test
+    void ensureOAuthUser_createsUserWhenMissing() {
+        when(userRepository.getUserEntitiesByUsername("user@example.com")).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(any(String.class))).thenReturn("hashed");
+
+        accountService.ensureOAuthUser("user@example.com", "User");
+
+        verify(userRepository).saveAndFlush(any(UserEntity.class));
+        verify(authoritiesRepository).save(any(AuthoritiesEntity.class));
+        verify(userProfileRepository).save(any(UserProfileEntity.class));
+        verify(emailVerificationTokenRepository).deleteByUsername("user@example.com");
+    }
+
+    @Test
+    void ensureOAuthUser_enablesExistingUser() {
+        UserEntity user = new UserEntity();
+        user.setUsername("user@example.com");
+        user.setEnabled(false);
+        when(userRepository.getUserEntitiesByUsername("user@example.com")).thenReturn(Optional.of(user));
+
+        accountService.ensureOAuthUser("user@example.com", null);
+
+        assertThat(user.getEnabled()).isTrue();
+        verify(userRepository).saveAndFlush(user);
+        verify(emailVerificationTokenRepository).deleteByUsername("user@example.com");
+    }
+
+    @Test
+    void changeOwnPassword_throwsWhenOldPasswordInvalid() {
+        UserEntity user = new UserEntity();
+        user.setUsername("alice");
+        user.setPassword("hashed");
+        when(userRepository.getUserEntitiesByUsername("alice")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("old", "hashed")).thenReturn(false);
+
+        ChangePasswordDTO dto = new ChangePasswordDTO();
+        dto.setOldPassword("old");
+        dto.setNewPassword("newpassword");
+
+        assertThatThrownBy(() -> accountService.changeOwnPassword("alice", dto))
+                .isInstanceOf(IncorrectOldPasswordException.class);
+    }
+
+    @Test
+    void changeOwnPassword_updatesPassword() {
+        UserEntity user = new UserEntity();
+        user.setUsername("alice");
+        user.setPassword("hashed");
+        when(userRepository.getUserEntitiesByUsername("alice")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("old", "hashed")).thenReturn(true);
+        when(userRepository.getPasswordByUsername("alice")).thenReturn("hashed");
+        when(passwordEncoder.matches("newpass", "hashed")).thenReturn(false);
+        when(passwordEncoder.encode("newpass")).thenReturn("new-hash");
+
+        ChangePasswordDTO dto = new ChangePasswordDTO();
+        dto.setOldPassword("old");
+        dto.setNewPassword("newpass");
+        dto.setOtp("123456");
+
+        accountService.changeOwnPassword("alice", dto);
+
+        verify(twoFactorService).requireValidCodeForAction(user, "123456");
+        verify(userRepository).updatePasswordByUsername("new-hash", "alice");
+    }
+
+    @Test
+    void changeUserPassword_throwsWhenUserMissing() {
+        when(userRepository.existsByUsername("missing")).thenReturn(false);
+
+        AdminChangePasswordDTO dto = new AdminChangePasswordDTO();
+        dto.setPassword("newpass");
+
+        assertThatThrownBy(() -> accountService.changeUserPassword("missing", dto))
+                .isInstanceOf(UserNotFoundException.class);
+    }
+
+    @Test
+    void changeUserPassword_throwsWhenPasswordReused() {
+        when(userRepository.existsByUsername("user")).thenReturn(true);
+        when(userRepository.getPasswordByUsername("user")).thenReturn("hash");
+        when(passwordEncoder.matches("newpass", "hash")).thenReturn(true);
+
+        AdminChangePasswordDTO dto = new AdminChangePasswordDTO();
+        dto.setPassword("newpass");
+
+        assertThatThrownBy(() -> accountService.changeUserPassword("user", dto))
+                .isInstanceOf(PasswordReuseException.class);
+    }
+
+    @Test
+    void addAdminRole_throwsWhenAlreadyAssigned() {
+        UserEntity user = new UserEntity();
+        user.setUsername("admin");
+        when(userRepository.getUserEntitiesByUsername("admin")).thenReturn(Optional.of(user));
+        when(authoritiesRepository.getAuthoritiesEntityByUser(user))
+                .thenReturn(List.of(new AuthoritiesEntity(user, "ROLE_ADMIN")));
+
+        assertThatThrownBy(() -> accountService.addAdminRole("admin"))
+                .isInstanceOf(AdminRoleAlreadyAssignedException.class);
+    }
+
+    @Test
+    void removeAdminRole_throwsWhenMissing() {
+        UserEntity user = new UserEntity();
+        user.setUsername("user");
+        when(userRepository.getUserEntitiesByUsername("user")).thenReturn(Optional.of(user));
+        when(authoritiesRepository.getAuthoritiesEntityByUser(user))
+                .thenReturn(List.of(new AuthoritiesEntity(user, "ROLE_USER")));
+
+        assertThatThrownBy(() -> accountService.removeAdminRole("user"))
+                .isInstanceOf(AdminRoleNotAssignedException.class);
+    }
+
+    @Test
+    void getUsers_mapsAuthorities() {
+        UserEntity user = new UserEntity();
+        user.setUsername("bob");
+        when(userRepository.findAll()).thenReturn(List.of(user));
+        when(authoritiesRepository.getAuthoritiesEntityByUser(user))
+                .thenReturn(List.of(new AuthoritiesEntity(user, "ROLE_USER")));
+
+        var result = accountService.getUsers();
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getUserId()).isEqualTo("bob");
+        assertThat(result.get(0).getRoles()).contains("ROLE_USER");
     }
 }

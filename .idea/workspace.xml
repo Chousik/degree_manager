@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="контракт">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/admin-service/build.gradle.kts" afterDir="false" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="ci tests">
+      <change beforePath="$PROJECT_DIR$/admin-service/src/test/java/ru/chousik/is/admin/AdminServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-service/src/test/java/ru/chousik/is/admin/AdminServiceApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/controller/AccountControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/controller/AccountControllerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/AuthServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/AuthServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/services/AccountServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/services/AccountServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/src/test/java/ru/chousik/is/eurekaserver/EurekaServerApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/src/test/java/ru/chousik/is/eurekaserver/EurekaServerApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gateway-server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-server/src/test/java/ru/chousik/is/gatewayserver/GatewayServerApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/src/test/java/ru/chousik/is/gatewayserver/GatewayServerApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/UserServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/UserServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/services/ListingServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/services/ListingServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +124,7 @@
       </map>
     </option>
   </component>
-  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$/user-service" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/corretto-17.0.16/Contents/Home" gradleVersion="8.13" />
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$/gateway-server" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/corretto-17.0.16/Contents/Home" gradleVersion="8.13" />
   <component name="KotlinScriptingSettings">
     <option name="suppressDefinitionsCheck" value="true" />
     <scriptDefinition className="io.amplicode.connekt.Connekt" definitionName="Connekt">
@@ -308,7 +309,7 @@
       </method>
     </configuration>
     <configuration name="GatewayServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="gateway-server.main" />
+      <module name="ru.chousik.web.gateway-server.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.gatewayserver.GatewayServerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -630,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768860763952</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="ci tests">
+      <option name="closed" value="true" />
+      <created>1768863505383</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1768863505383</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -692,7 +701,8 @@
     <MESSAGE value="minio" />
     <MESSAGE value="payment return" />
     <MESSAGE value="контракт" />
-    <option name="LAST_COMMIT_MESSAGE" value="контракт" />
+    <MESSAGE value="ci tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="ci tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

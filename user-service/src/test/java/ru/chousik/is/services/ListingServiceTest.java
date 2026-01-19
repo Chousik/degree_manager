@@ -12,6 +12,7 @@ import ru.chousik.is.dto.listing.ListingUpdateRequest;
 import ru.chousik.is.entity.Category;
 import ru.chousik.is.entity.Listing;
 import ru.chousik.is.entity.ListingStatus;
+import ru.chousik.is.entity.ReviewAuthorRole;
 import ru.chousik.is.entity.User;
 import ru.chousik.is.exceptions.BusinessValidationException;
 import ru.chousik.is.exceptions.ResourceNotFoundException;
@@ -20,6 +21,8 @@ import ru.chousik.is.repository.CategoryRepository;
 import ru.chousik.is.repository.ListingCategoryRepository;
 import ru.chousik.is.repository.ListingPhotoRepository;
 import ru.chousik.is.repository.ListingRepository;
+import ru.chousik.is.repository.RentalRepository;
+import ru.chousik.is.repository.ReviewRepository;
 import ru.chousik.is.repository.UserRepository;
 import ru.chousik.is.services.mappers.ListingSummaryMapper;
 
@@ -32,6 +35,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +56,10 @@ class ListingServiceTest {
     private ListingCategoryRepository listingCategoryRepository;
     @Mock
     private ListingSummaryMapper listingSummaryMapper;
+    @Mock
+    private RentalRepository rentalRepository;
+    @Mock
+    private ReviewRepository reviewRepository;
 
     @InjectMocks
     private ListingService listingService;
@@ -80,6 +88,7 @@ class ListingServiceTest {
         category.setName("Power tools");
         when(categoryRepository.findAllById(any())).thenReturn(List.of(category));
         when(listingCategoryRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        lenient().when(reviewRepository.countVisibleByLessorAndAuthorRole(ownerId, ReviewAuthorRole.LESSEE)).thenReturn(0L);
 
         ListingCreateRequest request = new ListingCreateRequest(
                 ownerId,
@@ -90,6 +99,7 @@ class ListingServiceTest {
                 true,
                 new BigDecimal("55.7558"),
                 new BigDecimal("37.6173"),
+                "Москва, ул. Тверская, 1",
                 List.of(new AvailabilitySlotRequest(
                         OffsetDateTime.now().plusDays(1),
                         OffsetDateTime.now().plusDays(1).plusHours(2),
@@ -128,6 +138,7 @@ class ListingServiceTest {
         when(listingRepository.save(any(Listing.class))).thenAnswer(inv -> inv.getArgument(0));
         when(availabilitySlotRepository.saveAll(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(listingPhotoRepository.saveAll(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        lenient().when(reviewRepository.countVisibleByLessorAndAuthorRole(ownerId, ReviewAuthorRole.LESSEE)).thenReturn(0L);
 
         Category category = new Category();
         category.setId(categoryId);
@@ -143,6 +154,7 @@ class ListingServiceTest {
                 false,
                 null,
                 null,
+                "Москва, ул. Тверская, 2",
                 List.of(new AvailabilitySlotRequest(
                         OffsetDateTime.now().plusDays(2),
                         OffsetDateTime.now().plusDays(2).plusHours(1),
@@ -186,6 +198,7 @@ class ListingServiceTest {
                 null,
                 null,
                 null,
+                null,
                 null
         );
 
@@ -221,6 +234,7 @@ class ListingServiceTest {
                 new BigDecimal("10.00"),
                 null,
                 false,
+                null,
                 null,
                 null,
                 null,

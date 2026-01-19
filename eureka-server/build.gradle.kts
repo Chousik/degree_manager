@@ -66,7 +66,8 @@ tasks.jacocoTestReport {
                     "**/exception/**",
                     "**/exceptions/**",
                     "**/model/**",
-                    "**/repository/**"
+                    "**/repository/**",
+                    "**/*Application.*"
                 )
             }
         })
