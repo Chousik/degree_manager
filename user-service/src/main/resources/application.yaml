@@ -21,7 +21,7 @@ payment:
   yookassa:
     shop-id: 1232637
     secret-key: test_1ICJ7-3M3zk5gGv7s1tPDCK45DfV0nHlbJ6V1eksem8
-    return-base-url: ${PAYMENT_RETURN_BASE_URL:http://localhost:5173/payment-return}
+    return-base-url: ${PAYMENT_RETURN_BASE_URL:https://fixly-meow.ru/payment-return}
 server:
   port: 8085
 eureka:
