@@ -48,10 +48,10 @@ const filteredCategorySuggestions = computed(() => {
 
 const mediaBase = computed(() => {
   try {
-    const url = new URL('/media', USER_API_BASE);
+    const url = new URL('/media', window.location.origin);
     return url.toString().replace(/\/$/, '');
   } catch (err) {
-    return 'https://fixly-meow.ru:8092/user-service/media';
+    return '/media';
   }
 });
 const geocodeBase = (import.meta.env.VITE_GEOCODING_BASE || 'https://nominatim.openstreetmap.org').replace(/\/$/, '');
