@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
-      <change beforePath="$PROJECT_DIR$/deployment/nginx/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/nginx/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/frontend-deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/frontend-deploy.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
