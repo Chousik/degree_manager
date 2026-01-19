@@ -2,14 +2,10 @@ import { useSession } from '../state/session';
 import { refreshTokens } from './auth';
 
 const DEFAULT_ADMIN_ORIGIN = 'https://fixly-meow.ru:5050';
-const API_BASE = (
-  import.meta.env.VITE_AUTH_BASE || `${DEFAULT_ADMIN_ORIGIN}/api/auth-service`
-).replace(/\/$/, '');
-const ADMIN_API_BASE = (
-  import.meta.env.VITE_ADMIN_API_BASE || `${DEFAULT_ADMIN_ORIGIN}/api/admin-service`
-).replace(/\/$/, '');
+const API_BASE = (import.meta.env.VITE_AUTH_BASE || `${DEFAULT_ADMIN_ORIGIN}/api/auth-service`).replace(/\/$/, '');
+const ADMIN_API_BASE = (import.meta.env.VITE_ADMIN_API_BASE || `${DEFAULT_ADMIN_ORIGIN}/api/admin-service`).replace(/\/$/, '');
 const OAUTH_BASE = (import.meta.env.VITE_OAUTH_BASE || API_BASE).replace(/\/$/, '');
-const OAUTH_REDIRECT = import.meta.env.VITE_OAUTH_REDIRECT || 'http://localhost:5174/auth-callback';
+const OAUTH_REDIRECT = import.meta.env.VITE_OAUTH_REDIRECT || `${DEFAULT_ADMIN_ORIGIN}/auth-callback`;
 const OAUTH_CLIENT_ID = import.meta.env.VITE_OAUTH_CLIENT_ID || 'client';
 const OAUTH_CLIENT_SECRET = import.meta.env.VITE_OAUTH_CLIENT_SECRET || 'secret';
 const OAUTH_SCOPE = import.meta.env.VITE_OAUTH_SCOPE || 'openid offline_access';
