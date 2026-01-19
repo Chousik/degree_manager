@@ -78,7 +78,6 @@ jobs:
           source: fixly-frontend/dist/*
           target: ${{ env.FRONTEND_TARGET }}
           strip_components: 2
-          rm: true
 
       - name: Upload admin frontend bundle
         uses: appleboy/scp-action@v0.1.7
@@ -89,7 +88,6 @@ jobs:
           source: fixly-admin-frontend/dist/*
           target: ${{ env.ADMIN_FRONTEND_TARGET }}
           strip_components: 2
-          rm: true
 
       - name: Reload nginx
         uses: appleboy/ssh-action@v1.1.0
