@@ -1,0 +1,98 @@
+name: Frontend Deploy
+
+on:
+  push:
+    branches: [course-work]
+
+env:
+  FRONTEND_TARGET: /home/fixly/web/fixly-frontend
+  ADMIN_FRONTEND_TARGET: /home/fixly/web/fixly-admin
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            fixly-frontend/package-lock.json
+            fixly-admin-frontend/package-lock.json
+
+      - name: Build web frontend
+        working-directory: fixly-frontend
+        env:
+          VITE_API_BASE: https://fixly-meow.ru:8092/auth-service
+          VITE_USER_API_BASE: https://fixly-meow.ru:8092/user-service/api
+          VITE_EMAIL_VERIFY_ENDPOINT: /api/users/verify-email
+          VITE_EMAIL_VERIFY_PARAM: token
+          VITE_OAUTH_BASE: https://fixly-meow.ru:8092/auth-service
+          VITE_OAUTH_REDIRECT: https://fixly-meow.ru/auth-callback
+          VITE_OAUTH_CLIENT_ID: client
+          VITE_OAUTH_SCOPE: "openid offline_access"
+        run: |
+          npm ci
+          npm run build
+          if [ ! -d dist ] || [ -z "$(ls -A dist)" ]; then
+            echo "Frontend build produced empty dist directory" >&2
+            exit 1
+          fi
+
+      - name: Build admin frontend
+        working-directory: fixly-admin-frontend
+        env:
+          VITE_AUTH_BASE: https://fixly-meow.ru:8092/auth-service
+          VITE_ADMIN_API_BASE: https://fixly-meow.ru:8092/admin-service/api/admin
+          VITE_OAUTH_BASE: https://fixly-meow.ru:8092/auth-service
+          VITE_OAUTH_REDIRECT: https://fixly-meow.ru:5050/auth-callback
+          VITE_OAUTH_CLIENT_ID: client
+          VITE_OAUTH_SCOPE: "openid offline_access"
+        run: |
+          npm ci
+          npm run build
+          if [ ! -d dist ] || [ -z "$(ls -A dist)" ]; then
+            echo "Admin frontend build produced empty dist directory" >&2
+            exit 1
+          fi
+
+      - name: Prepare remote directories
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            mkdir -p ${{ env.FRONTEND_TARGET }} ${{ env.ADMIN_FRONTEND_TARGET }}
+
+      - name: Upload web frontend bundle
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: fixly-frontend/dist/*
+          target: ${{ env.FRONTEND_TARGET }}
+          strip_components: 2
+
+      - name: Upload admin frontend bundle
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: fixly-admin-frontend/dist/*
+          target: ${{ env.ADMIN_FRONTEND_TARGET }}
+          strip_components: 2
+
+      - name: Reload nginx
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: sudo systemctl reload nginx

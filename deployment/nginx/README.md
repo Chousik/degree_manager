@@ -1,4 +1,4 @@
-не,# Nginx configuration for frontends
+# Nginx configuration for frontends
 
 File `frontends.conf` contains two server blocks:
 
@@ -21,4 +21,4 @@ Both sites reuse the TLS certificate that already lives on the server at `/opt/r
    sudo systemctl reload nginx
    ```
 
-The GitHub Actions workflow copies the built bundles into `/var/www/fixly-frontend` and `/var/www/fixly-admin` and reloads nginx automatically after deployment.
+The GitHub Actions workflow copies the built bundles into `/home/fixly/web/fixly-frontend` and `/home/fixly/web/fixly-admin` and reloads nginx automatically after deployment.

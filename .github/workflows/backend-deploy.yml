@@ -1,16 +1,14 @@
-name: CI/CD
+name: Backend Deploy
 
 on:
   push:
     branches: [course-work]
-  
+
 env:
   REGISTRY: fixly-meow.ru:5000
   IMAGE_PREFIX: degree_manager
   DOCKER_BUILDKIT: 1
   DEPLOY_PATH: /home/fixly/server-package
-  FRONTEND_TARGET: /home/fixly/web/fixly-frontend
-  ADMIN_FRONTEND_TARGET: /home/fixly/web/fixly-admin
 
 jobs:
   build-and-push:
@@ -37,43 +35,6 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: |
-            fixly-frontend/package-lock.json
-            fixly-admin-frontend/package-lock.json
-
-      - name: Build web frontend
-        working-directory: fixly-frontend
-        env:
-          VITE_API_BASE: https://fixly-meow.ru:8092/auth-service
-          VITE_USER_API_BASE: https://fixly-meow.ru:8092/user-service/api
-          VITE_EMAIL_VERIFY_ENDPOINT: /api/users/verify-email
-          VITE_EMAIL_VERIFY_PARAM: token
-          VITE_OAUTH_BASE: https://fixly-meow.ru:8092/auth-service
-          VITE_OAUTH_REDIRECT: https://fixly-meow.ru/auth-callback
-          VITE_OAUTH_CLIENT_ID: client
-          VITE_OAUTH_SCOPE: "openid offline_access"
-        run: |
-          npm ci
-          npm run build
-
-      - name: Build admin frontend
-        working-directory: fixly-admin-frontend
-        env:
-          VITE_AUTH_BASE: https://fixly-meow.ru:8092/auth-service
-          VITE_ADMIN_API_BASE: https://fixly-meow.ru:8092/admin-service/api/admin
-          VITE_OAUTH_BASE: https://fixly-meow.ru:8092/auth-service
-          VITE_OAUTH_REDIRECT: https://fixly-meow.ru:5050/auth-callback
-          VITE_OAUTH_CLIENT_ID: client
-          VITE_OAUTH_SCOPE: "openid offline_access"
-        run: |
-          npm ci
-          npm run build
 
       - name: Trust registry CA
         run: |
@@ -120,7 +81,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            mkdir -p ${{ env.DEPLOY_PATH }} ${{ env.FRONTEND_TARGET }} ${{ env.ADMIN_FRONTEND_TARGET }}
+            mkdir -p ${{ env.DEPLOY_PATH }}
 
       - name: Copy server package to host
         uses: appleboy/scp-action@v0.1.7
@@ -130,27 +91,6 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           source: deployment/server-package/*
           target: ${{ env.DEPLOY_PATH }}
-          strip_components: 2
-
-
-      - name: Upload web frontend bundle
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          source: fixly-frontend/dist/*
-          target: ${{ env.FRONTEND_TARGET }}
-          strip_components: 2
-
-      - name: Upload admin frontend bundle
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          source: fixly-admin-frontend/dist/*
-          target: ${{ env.ADMIN_FRONTEND_TARGET }}
           strip_components: 2
 
       - name: Run apply.sh on remote host
@@ -166,11 +106,3 @@ jobs:
             export PATH="/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/snap/bin:$PATH"
             cd ${{ env.DEPLOY_PATH }}
             bash apply.sh default ${REGISTRY} latest
-
-      - name: Reload nginx
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: sudo systemctl reload nginx
