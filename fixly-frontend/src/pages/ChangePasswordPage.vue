@@ -58,7 +58,7 @@ async function handleSubmit() {
     if (twoFactorEnabled.value) {
       payload.otp = otp;
     }
-    await fetchJson(`${API_BASE}/api/users/password`, {
+    await fetchJson(`${API_BASE}/users/password`, {
       method: 'POST',
       body: JSON.stringify(payload),
     });

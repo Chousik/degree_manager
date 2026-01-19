@@ -1,8 +1,8 @@
 // Seed 10-15 listings into user-service.
-// Usage: USER_API_BASE=http://localhost:8075/user-service/api OWNER_ID=<uuid существующего пользователя из таблицы user> node scripts/seed-listings.js
+// Usage: USER_API_BASE=http://localhost:8075/api/user-service OWNER_ID=<uuid существующего пользователя из таблицы user> node scripts/seed-listings.js
 // Node 18+ required (fetch built-in).
 
-const USER_API_BASE = (process.env.USER_API_BASE || 'https://fixly-meow.ru/api/user-service/api').replace(/\/$/, '');
+const USER_API_BASE = (process.env.USER_API_BASE || 'https://fixly-meow.ru/api/user-service').replace(/\/$/, '');
 const OWNER_ID = process.env.OWNER_ID;
 
 if (!OWNER_ID) {

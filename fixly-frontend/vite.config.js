@@ -16,18 +16,8 @@ export default defineConfig({
     port,
     allowedHosts: true,
     proxy: {
-      '/auth-service': {
-        target: 'https://fixly-meow.ru:8092',
-        changeOrigin: true,
-        secure: false,
-      },
-      '/user-service': {
-        target: 'https://fixly-meow.ru:8092',
-        changeOrigin: true,
-        secure: false,
-      },
-      '/admin-service': {
-        target: 'https://fixly-meow.ru:8092',
+      '/api': {
+        target: 'https://fixly-meow.ru',
         changeOrigin: true,
         secure: false,
       },

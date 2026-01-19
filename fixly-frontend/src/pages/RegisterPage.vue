@@ -52,7 +52,7 @@ const handleRegister = async () => {
       phone: registerForm.phone.trim(),
     };
 
-    const res = await fetch(`${API_BASE}/api/users/register`, {
+    const res = await fetch(`${API_BASE}/users/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
