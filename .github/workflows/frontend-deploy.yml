@@ -69,26 +69,16 @@ jobs:
           script: |
             mkdir -p ${{ env.FRONTEND_TARGET }} ${{ env.ADMIN_FRONTEND_TARGET }}
 
-      - name: Clean target directories
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: |
-            rm -rf ${{ env.FRONTEND_TARGET }}/*
-            rm -rf ${{ env.ADMIN_FRONTEND_TARGET }}/*
-
       - name: Upload web frontend bundle
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          source: fixly-frontend/dist/
+          source: fixly-frontend/dist/*
           target: ${{ env.FRONTEND_TARGET }}
+          strip_components: 2
           rm: true
-          overwrite: true
 
       - name: Upload admin frontend bundle
         uses: appleboy/scp-action@v0.1.7
@@ -96,10 +86,10 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          source: fixly-admin-frontend/dist/
+          source: fixly-admin-frontend/dist/*
           target: ${{ env.ADMIN_FRONTEND_TARGET }}
+          strip_components: 2
           rm: true
-          overwrite: true
 
       - name: Reload nginx
         uses: appleboy/ssh-action@v1.1.0
