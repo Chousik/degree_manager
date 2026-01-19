@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings" />
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="start of adding listings">
+      <change beforePath="$PROJECT_DIR$/deployment/nginx/frontends.conf" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/nginx/frontends.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-admin-frontend/src/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/fixly-frontend/src/api/client.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

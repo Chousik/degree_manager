@@ -8,7 +8,7 @@ spring:
         add-to-simple-url-handler-mapping: true
         corsConfigurations:
           '[/**]':
-            allowedOrigins:
+            allowedOriginPatterns:
               - http://localhost:5173
               - http://localhost:5174
               - https://fixly-meow.ru

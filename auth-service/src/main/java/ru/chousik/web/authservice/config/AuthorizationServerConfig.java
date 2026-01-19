@@ -27,6 +27,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,10 +51,15 @@ public class AuthorizationServerConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.stream(allowedOrigins.split(",")).map(String::trim).toList());
+        List<String> originPatterns = Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+        config.setAllowedOriginPatterns(originPatterns);
         config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
+        config.setMaxAge(Duration.ofHours(1));
 
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

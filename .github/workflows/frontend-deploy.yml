@@ -88,11 +88,3 @@ jobs:
           source: fixly-admin-frontend/dist/*
           target: ${{ env.ADMIN_FRONTEND_TARGET }}
           strip_components: 2
-
-      - name: Reload nginx
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: sudo systemctl reload nginx
