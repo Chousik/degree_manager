@@ -2,7 +2,7 @@ import { useSession } from '../state/session';
 import { refreshTokens } from './auth';
 
 const API_BASE = (import.meta.env.VITE_API_BASE || '/api/auth-service').replace(/\/$/, '');
-const USER_API_BASE = (import.meta.env.VITE_USER_API_BASE || '/api/user-service/api').replace(/\/$/, '');
+const USER_API_BASE = (import.meta.env.VITE_USER_API_BASE || '/api/user-service').replace(/\/$/, '');
 const EMAIL_VERIFY_ENDPOINT = import.meta.env.VITE_EMAIL_VERIFY_ENDPOINT || '/api/users/verify-email';
 const EMAIL_VERIFY_PARAM = import.meta.env.VITE_EMAIL_VERIFY_PARAM || 'token';
 const OAUTH_BASE = (import.meta.env.VITE_OAUTH_BASE || API_BASE).replace(/\/$/, '');
