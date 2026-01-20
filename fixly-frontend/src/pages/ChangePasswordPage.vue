@@ -5,6 +5,7 @@ import MainHeader from '../components/MainHeader.vue';
 import { API_BASE, fetchJson } from '../api/client';
 import { useSession } from '../state/session';
 import { getTwoFactorStatus } from '../api/twoFactor';
+import { hasEmoji, isValidOtp } from '../utils/validation';
 
 const router = useRouter();
 const { isLoggedIn } = useSession();
@@ -44,12 +45,16 @@ async function handleSubmit() {
     error.value = 'Новый пароль должен содержать минимум 8 символов';
     return;
   }
+  if (hasEmoji(current) || hasEmoji(nextPassword) || hasEmoji(confirm)) {
+    error.value = 'Пароль не должен содержать эмоджи';
+    return;
+  }
   if (nextPassword !== confirm) {
     error.value = 'Новый пароль и подтверждение не совпадают';
     return;
   }
-  if (twoFactorEnabled.value && !otp) {
-    error.value = 'Введите код из приложения Google Authenticator';
+  if (twoFactorEnabled.value && !isValidOtp(otp || '')) {
+    error.value = 'Введите 6-значный код из приложения Google Authenticator';
     return;
   }
   loading.value = true;
@@ -129,6 +134,8 @@ function goBack() {
                 inputmode="numeric"
                 autocomplete="one-time-code"
                 placeholder="123456"
+                maxlength="6"
+                pattern="\\d{6}"
                 required
               >
             </label>

@@ -12,6 +12,7 @@ import {
 } from '../api/client';
 import { useSession } from '../state/session';
 import AuthShell from '../components/AuthShell.vue';
+import { hasEmoji, isValidEmail, isValidOtp, isValidUsername } from '../utils/validation';
 
 const { state } = useSession();
 const route = useRoute();
@@ -41,8 +42,26 @@ const handleLogin = async () => {
   toast.visible = false;
 
   try {
+    const username = loginForm.username.trim();
+    if (!username) {
+      throw new Error('Введите логин или email.');
+    }
+    if (hasEmoji(username)) {
+      throw new Error('Логин не должен содержать эмоджи.');
+    }
+    if (username.includes('@')) {
+      if (!isValidEmail(username)) {
+        throw new Error('Введите корректный email.');
+      }
+    } else if (!isValidUsername(username)) {
+      throw new Error('Логин должен быть 3-30 символов (латиница, цифры, ._-).');
+    }
+    if (needsOtp.value && !isValidOtp(loginForm.otp || '')) {
+      throw new Error('Введите 6-значный код из Google Authenticator.');
+    }
+
     const formData = new FormData();
-    formData.append('username', loginForm.username.trim());
+    formData.append('username', username);
     formData.append('password', loginForm.password);
     if (needsOtp.value) {
       formData.append('otp', loginForm.otp || '');
@@ -161,6 +180,8 @@ watch(
           inputmode="numeric"
           autocomplete="one-time-code"
           placeholder="123456"
+          maxlength="6"
+          pattern="\\d{6}"
           required
         >
       </div>
