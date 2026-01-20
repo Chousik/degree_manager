@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(AccountController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@TestPropertySource(properties = "app.frontend-base-url=http://frontend")
+@TestPropertySource(properties = "app.frontend-base-url=https://fixly-meow.ru")
 class AccountControllerTests {
 
     @Autowired
@@ -60,7 +60,7 @@ class AccountControllerTests {
         mockMvc.perform(get("/api/users/verify-email")
                         .param("token", "token"))
                 .andExpect(status().isFound())
-                .andExpect(header().string("Location", "http://frontend/login?verified=true"));
+                .andExpect(header().string("Location", "https://fixly-meow.ru/login?verified=true"));
 
         verify(accountServiceImpl).verifyEmail("token");
     }

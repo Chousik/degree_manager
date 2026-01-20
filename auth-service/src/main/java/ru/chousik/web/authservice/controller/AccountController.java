@@ -31,7 +31,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class AccountController {
     final AccountService accountServiceImpl;
-    @Value("${app.frontend-base-url:http://localhost:5173}")
+    @Value("${app.frontend-base-url:https://fixly-meow.ru}")
     String frontendBaseUrl;
     
     @PostMapping("/register")

@@ -20,7 +20,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Value("${spring.mail.username:}")
     String fromEmail;
-    @Value("${app.frontend-base-url:http://localhost:5173}")
+    @Value("${app.frontend-base-url:https://fixly-meow.ru}")
     String frontendBaseUrl;
     @Value("${app.backend-base-url:https://fixly-meow.ru:8092/auth-service}")
     String backendBaseUrl;

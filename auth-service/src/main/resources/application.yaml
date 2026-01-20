@@ -61,7 +61,7 @@ jwk:
   name: "master"
 
 app:
-  frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
+  frontend-base-url: ${FRONTEND_BASE_URL:https://fixly-meow.ru}
   backend-base-url: ${BACKEND_BASE_URL:https://fixly-meow.ru:8092/auth-service}
   email-verification:
     expiration-hours: ${EMAIL_VERIFICATION_EXPIRATION_HOURS:24}
