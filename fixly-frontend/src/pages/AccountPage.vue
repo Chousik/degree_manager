@@ -8,7 +8,7 @@ import { getConversationMessages, getConversations, sendConversationMessage } fr
 
 const router = useRouter();
 const route = useRoute();
-const { isLoggedIn, accessToken } = useSession();
+const { isLoggedIn, accessToken, logout } = useSession();
 const profile = ref(null);
 const notifications = ref(null);
 const loading = ref(false);
@@ -139,6 +139,11 @@ async function sendChatMessage() {
     messageError.value = err?.message || 'Не удалось отправить сообщение.';
   }
 }
+
+const logoutAndGoHome = () => {
+  logout();
+  router.push('/login');
+};
 
 onMounted(() => {
   loadAccount();
@@ -537,6 +542,7 @@ const downloadContract = async (rentalId) => {
               <div class="profile-actions">
                 <button type="button" class="landing-btn ghost" @click="goToPasswordChange">Сменить пароль</button>
                 <button type="button" class="landing-btn ghost" @click="goToTwoFactor">Настроить 2FA</button>
+                <button type="button" class="landing-btn logout" @click="logoutAndGoHome">Выйти</button>
               </div>
             </div>
             <div class="profile-stat">
