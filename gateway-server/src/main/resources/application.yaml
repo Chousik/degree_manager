@@ -30,13 +30,20 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: auth-service-login
+        - id: auth-service-direct
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth-service/**,/api/auth-service/**
+            - Path=/auth-service/**
           filters:
-            - RewritePath=/auth-service/(?<segment>.*),/api/$\{segment}
-            - RewritePath=/api/auth-service/(?<segment>.*),/api/$\{segment}
+            - StripPrefix=1
+            - PrefixPath=/api
+        - id: auth-service-api
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/auth-service/**
+          filters:
+            - StripPrefix=2
+            - PrefixPath=/api
         - id: minio-media
           uri: http://minio:9000
           predicates:
