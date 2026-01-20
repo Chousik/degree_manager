@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class AccountController {
     final AccountService accountServiceImpl;
     @Value("${app.frontend-base-url:http://localhost:5173}")
