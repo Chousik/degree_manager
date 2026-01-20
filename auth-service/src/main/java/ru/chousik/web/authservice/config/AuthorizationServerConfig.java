@@ -85,14 +85,19 @@ public class AuthorizationServerConfig {
                                                 JwtDecoder jwtDecoder) throws Exception {
         http
                 .cors(c -> c.configurationSource(corsConfigurationSource()))
-                .securityMatcher("/api/users/**")
+                .securityMatcher("/api/users/**", "/users/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess ->
                         sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/users/register", "/api/users/verify-email").permitAll()
+                                .requestMatchers(
+                                        "/api/users/register",
+                                        "/api/users/verify-email",
+                                        "/users/register",
+                                        "/users/verify-email"
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
