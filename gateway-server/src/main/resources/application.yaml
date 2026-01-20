@@ -27,7 +27,7 @@ spring:
             allowCredentials: true
       discovery:
         locator:
-          enabled: true
+          enabled: false
           lower-case-service-id: true
       routes:
         - id: auth-service-direct
