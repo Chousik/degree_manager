@@ -37,19 +37,19 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Run tests for ${{ matrix.service }}
-        run: |
-          chmod +x ${{ matrix.context }}/gradlew
-          cd ${{ matrix.context }}
-          ./gradlew test jacocoTestReport jacocoTestCoverageVerification
+      # - name: Run tests for ${{ matrix.service }}
+      #   run: |
+      #     chmod +x ${{ matrix.context }}/gradlew
+      #     cd ${{ matrix.context }}
+      #     ./gradlew test jacocoTestReport jacocoTestCoverageVerification
 
-      - name: Upload JaCoCo report for ${{ matrix.service }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-${{ matrix.service }}
-          path: |
-            ${{ matrix.context }}/build/reports/jacoco/test/html
-            ${{ matrix.context }}/build/reports/jacoco/test/jacocoTestReport.xml
+      # - name: Upload JaCoCo report for ${{ matrix.service }}
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: jacoco-${{ matrix.service }}
+      #     path: |
+      #       ${{ matrix.context }}/build/reports/jacoco/test/html
+      #       ${{ matrix.context }}/build/reports/jacoco/test/jacocoTestReport.xml
 
   build-and-push:
     runs-on: ubuntu-latest

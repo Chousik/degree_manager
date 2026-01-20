@@ -16,7 +16,7 @@ import ru.chousik.web.authservice.dto.TwoFactorStatusResponse;
 import ru.chousik.web.authservice.services.TwoFactorService;
 
 @RestController
-@RequestMapping("/api/users/2fa")
+@RequestMapping("/users/2fa")
 @RequiredArgsConstructor
 public class TwoFactorController {
 

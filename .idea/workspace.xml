@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="ci tests">
-      <change beforePath="$PROJECT_DIR$/admin-service/src/test/java/ru/chousik/is/admin/AdminServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin-service/src/test/java/ru/chousik/is/admin/AdminServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/AuthServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/AuthServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/services/AccountServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/ru/chousik/web/authservice/services/AccountServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/src/test/java/ru/chousik/is/eurekaserver/EurekaServerApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/src/test/java/ru/chousik/is/eurekaserver/EurekaServerApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-server/src/test/java/ru/chousik/is/gatewayserver/GatewayServerApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-server/src/test/java/ru/chousik/is/gatewayserver/GatewayServerApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/UserServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/UserServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/services/ListingServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/test/java/ru/chousik/is/services/ListingServiceTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="faffbf80-581a-4038-b20c-f5f4e263e51d" name="Changes" comment="ci tests" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -288,7 +278,7 @@
   <component name="RunManager" selected="Docker.docker-compose.yml.gateway-server: Compose Deployment">
     <configuration name="AdminServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="admin-service.main" />
+      <module name="ru.chousik.is.admin-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.admin.AdminServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -309,7 +299,7 @@
       </method>
     </configuration>
     <configuration name="GatewayServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="ru.chousik.web.gateway-server.main" />
+      <module name="gateway-server.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.chousik.is.gatewayserver.GatewayServerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -709,7 +699,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/src/main/java/ru/chousik/web/authservice/config/AuthorizationServerConfig.java</url>
-          <line>172</line>
+          <line>177</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
