@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
         String base = verificationLinkBase.endsWith("/")
                 ? verificationLinkBase.substring(0, verificationLinkBase.length() - 1)
                 : verificationLinkBase;
-        String verificationLink = base + "/api/users/verify-email?token=" + token;
+        String verificationLink = buildVerificationLink(base, token);
 
         SimpleMailMessage message = new SimpleMailMessage();
         if (StringUtils.hasText(fromEmail)) {
@@ -53,5 +53,17 @@ public class EmailServiceImpl implements EmailService {
         } catch (MailException ex) {
             log.error("Failed to send verification email to {}: {}", to, ex.getMessage());
         }
+    }
+
+    private String buildVerificationLink(String base, String token) {
+        String suffix;
+        if (base.endsWith("/api")
+                || base.endsWith("/auth-service")
+                || base.endsWith("/api/auth-service")) {
+            suffix = "/users/verify-email?token=";
+        } else {
+            suffix = "/api/users/verify-email?token=";
+        }
+        return base + suffix + token;
     }
 }
