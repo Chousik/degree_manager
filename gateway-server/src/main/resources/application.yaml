@@ -27,7 +27,7 @@ spring:
             allowCredentials: true
       discovery:
         locator:
-          enabled: false
+          enabled: true
           lower-case-service-id: true
       routes:
         - id: minio-media
